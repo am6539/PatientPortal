@@ -1,0 +1,43 @@
+﻿using AutoMapper;
+using PatientPortal.API.SPA.ViewModels;
+using PatientPortal.IRepository.SPA;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Http;
+
+namespace PatientPortal.API.SPA.Controllers
+{
+    public class SPAGalleryController : ApiController
+    {
+        private readonly IGalleryRepo _iGalleryRepo;
+        public SPAGalleryController(IGalleryRepo iGalleryRepo)
+        {
+            this._iGalleryRepo = iGalleryRepo;
+        }
+
+        [HttpGet]
+        public async Task<List<GalleryViewModel>> Query(byte departmentId = 0)
+        {
+            IList<string> list = new List<string> { "Id", "DepartmentId" };
+            var para = APIProvider.APIDefaultParameter(list, 0, departmentId);
+            var source = await _iGalleryRepo.Query(para);
+            List<GalleryViewModel> dest = Mapper.Map<List<GalleryViewModel>>(source);
+            return dest;
+        }
+
+        [HttpGet]
+        public async Task<GalleryViewModel> Get(string id)
+        {
+            IList<string> list = new List<string> { "Id", "DepartmentId" };
+            var para = APIProvider.APIDefaultParameter(list, id, 0);
+            var source = await _iGalleryRepo.Get(para);
+            GalleryViewModel dest = Mapper.Map<GalleryViewModel>(source);
+            return dest;
+        }
+    }
+}

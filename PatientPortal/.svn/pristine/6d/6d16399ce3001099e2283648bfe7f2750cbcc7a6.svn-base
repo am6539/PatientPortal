@@ -1,0 +1,92 @@
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PatientPortal.DataAccess.Repo.CMS;
+using PatientPortal.DataAccess.CMS;
+using PatientPortal.Domain.Utilities;
+using PatientPortal.Domain.Models.CMS;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace PatientPortal.UnitTest.CMS
+{
+    [TestClass]
+    public class LanguageUnitTest
+    {
+        public ILanguage _language;
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            //_language = new LanguageImpl();
+        }
+
+        [TestMethod]
+        public void GetAllLanguageTest()
+        {
+            //var count = _language.GetAll().Count;
+            //Assert.IsTrue(count >= 0);
+        }
+
+        [TestMethod]
+        public void LanguageTransactionInsertTest()
+        {
+            //var list = new List<Language>();
+            //var language = new Language { Id = 1, Name = "a", Code = "b"};
+
+            //list.Add(language);
+            //var flag = _language.Transaction(list, 'I');
+            //Assert.IsTrue(flag);
+        }   
+
+        [TestMethod]
+        public void LanguageTransactionUpdateTest()
+        {
+            //var list = _language.GetAll();
+            //var listUpdate = new List<Language>();
+            //var language = new Language();
+            //if(list.Count == 0)
+            //{
+            //    var listInsert = new List<Language>()
+            //    {
+            //        new Language { Id = 1, Name = "b", Code = "b" }
+            //    };
+            //    _language.Transaction(listInsert, 'I');
+            //    language = _language.GetAll().LastOrDefault();
+
+            //}
+            //else
+            //{
+            //    language = list.LastOrDefault();
+            //}
+
+            //listUpdate.Add(language);
+            //var flag = _language.Transaction(listUpdate, 'U');
+            //Assert.IsTrue(flag);
+        }
+
+        [TestMethod]
+        public void LanguageTransactionDeleteTest()
+        {
+            //var list = _language.GetAll();
+            //var listUpdate = new List<Language>();
+            //var language = new Language();
+            //if(list.Count==0)
+            //{
+            //    var listInsert = new List<Language>()
+            //    {
+            //        new Language { Id = 1 , Name = "b", Code = "b"}
+            //    };
+            //    _language.Transaction(listInsert, 'I');
+            //    language = _language.GetAll().LastOrDefault();
+            //}
+            //else
+            //{
+            //    language = list.LastOrDefault();
+            //}
+
+            //listUpdate.Add(language);
+            //var flag = _language.Transaction(listUpdate, 'D');
+            //Assert.IsTrue(flag);
+        }
+    }
+}

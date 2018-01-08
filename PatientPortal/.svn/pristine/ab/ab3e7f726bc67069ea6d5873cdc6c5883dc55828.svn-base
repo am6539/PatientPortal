@@ -1,0 +1,37 @@
+﻿'use strict';
+
+angular.
+module('spaApp')
+    .config(['$routeProvider', '$locationProvider', '$logProvider', '$compileProvider', '$stateProvider',
+    function ($routeProvider, $locationProvider, $logProvider, $compileProvider, $stateProvider) {
+    $logProvider.debugEnabled(true);
+    $locationProvider.html5Mode(true).hashPrefix('!'); //the hashPrefix is for SEO
+    $compileProvider.debugInfoEnabled(false);
+    $routeProvider
+        .when('/', {
+            templateUrl: "app/components/home-page/home-page.template.html",
+            controller: "HomePageController"
+        })
+        .when('/posts', {
+            templateUrl: "app/components/posts/posts.template.html",
+            controller: "PostsController"
+        })
+        .when('/posts/:id', {
+            templateUrl: "app/components/posts/posts.template.html",
+            controller: "PostsController"
+        })
+        .when('/post/:id', {
+            templateUrl: "app/components/post-detail/post-detail.template.html",
+            controller: "PostDetailController"
+        })
+        //.when('/post/:id', {
+        //    templateUrl: "app/components/posts/post-detail.template.html",
+        //    controller: "PostDetailController"
+        //})
+        .when('/about', {
+            template: '<about></about>'
+        })
+        .otherwise('/');
+
+    
+}]);

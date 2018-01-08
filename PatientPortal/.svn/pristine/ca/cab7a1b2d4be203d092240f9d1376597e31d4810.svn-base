@@ -1,0 +1,96 @@
+﻿
+
+<ul class="nav nav-tabs" role="tablist">
+    <li role="presentation">
+        <a href="#infoUserTab" aria-controls="infoUserTab" role="tab" data-toggle="tab">
+            <i class="fa fa-file-text-o" aria-hidden="true"></i> Thông tin cá nhân
+        </a>
+    </li>
+    <li role="presentation">
+        <a href="#resourceTab" aria-controls="resourceTab" role="tab" data-toggle="tab">
+            <i class="fa fa-picture-o" aria-hidden="true"></i> Tư liệu bệnh nhân
+        </a>
+    </li>
+</ul>
+
+<div class="tab-content">
+
+    <div role="tabpanel" class="tab-pane active" id="infoUserTab">
+        <div class="form_main col-md-4 col-sm-5 col-xs-7">
+            <div>
+                <h4><strong>BÁC SĨ: Trịnh Xuân Thạch </strong></h4>
+                <p>Bác sĩ đa khoa, trưởng khoa chuẩn đoán hình ảnh</p>
+                <h5>Bệnh viện Phạm Ngọc Thạch</h5>
+
+                <div class="col col-md-3">
+                    <h5 class="heading tab-title">Tiểu sử</h5>
+
+                    <p>Tốt nghiệp Đại Học Y TP.HCM</p>
+                    <p>Du học tại Anh</p>
+                </div>
+
+                <div class="col col-md-4">
+                    <h5 class="heading tab-title">Trình độ chuyên môn</h5>
+
+                    <p>Bằng Đại Học Y TP.HCM</p>
+                    <p>Bằng Thạc sĩ tại Anh</p>
+                </div>
+
+                <div class="col col-md-3">
+                    <h5 class="heading tab-title">Kinh nghiệm</h5>
+
+                    <p>Kinh nghiệm 3 năm tại bệnh viện ở Pháp</p>
+                    <p>Kinh nghiệm 10 năm tại bệnh viện Đại Học Y Dược</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div role="tabpanel" class="tab-pane" id="resourceTab">
+        <div class="form_main col-md-4 col-sm-5 col-xs-7">
+            <h4><strong>Danh sách bệnh nhân chờ tái khám </strong></h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Firstname</th>
+                        <th>Lastname</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Default</td>
+                        <td>Defaultson</td>
+                        <td>def@somemail.com</td>
+                    </tr>
+                    <tr class="success">
+                        <td>Success</td>
+                        <td>Doe</td>
+                        <td>john@example.com</td>
+                    </tr>
+                    <tr class="danger">
+                        <td>Danger</td>
+                        <td>Moe</td>
+                        <td>mary@example.com</td>
+                    </tr>
+                    <tr class="info">
+                        <td>Info</td>
+                        <td>Dooley</td>
+                        <td>july@example.com</td>
+                    </tr>
+                    <tr class="warning">
+                        <td>Warning</td>
+                        <td>Refs</td>
+                        <td>bo@example.com</td>
+                    </tr>
+                    <tr class="active">
+                        <td>Active</td>
+                        <td>Activeson</td>
+                        <td>act@example.com</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

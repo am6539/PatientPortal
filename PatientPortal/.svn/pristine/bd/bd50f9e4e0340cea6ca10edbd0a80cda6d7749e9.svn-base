@@ -1,0 +1,215 @@
+﻿<!DOCTYPE html>
+<html ng-app="spaPHCN">
+<head>
+    <title>
+        Bệnh viện
+    </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="benh vien, y khoa, suc khoe, kham chua benh, cap cuu" />
+    <meta name="viewport" content="initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no, width = device-width" />
+    <base href="/">
+
+    <link href="assets/css/jquery-ui.css" rel="stylesheet" />
+    <link href="assets/css/theme.css" rel="stylesheet" />
+    <link href="assets/css/cb_gb.css" rel="stylesheet" />
+    <link href="assets/css/default.css" rel="stylesheet" />
+    <link href="assets/css/site/framework.css" rel="stylesheet" />
+    <link href="assets/css/site/default.css" rel="stylesheet" />
+    <link href="assets/css/modal.min.css" rel="stylesheet" /> 
+
+    <link rel='shortcut icon' href='favicon.ico' />
+</head>
+<body class="fpt homepage vi-VN site5" ng-controller="AppController">
+    <div class="ie6">
+        <header class="clearfix">
+            <div class="container">
+                <div class="row">
+                    <div class="pull-left logo">
+                        <div class='Module Module-468'>
+                            <a href="/">
+                                <img src="assets/images/logo.png" />
+                            </a>
+                            <!--<img alt="" src="assets/images/media/5/Asset 4.png" />-->
+                        </div>
+                    </div>
+                    <div class="pull-right header-right">
+                        <div class="search right">
+                            <input type="text" title="Tìm kiếm" placeholder="Tìm kiếm..." class="searchinput" ng-model="searchText" />
+                            <input type="submit" value="Tìm kiếm" class="searchbutton" ng-click="search()" />
+                        </div>
+                        <div class="lang-box">
+                            <!--<a class="lang" href="#" title="English">English</a>
+                            <a class="active lang" href="#" title="Tiếng Việt">Tiếng Việt</a>-->
+                            <strong><span style="color: #ff0000; padding-right: 10px;">Hotline: <span ng-show="contact.Hotline != null">{{contact.Hotline}}</span></span></strong>
+                        </div>
+                        <!--<div class='Module Module-469'>
+                            <span style="color: #ff0000;"><strong></strong></span>
+                            <strong><span style="color: #ff0000;"></span></strong>
+                            <strong><span style="color: #ff0000;"></span></strong>
+                            <span style="color: #ff0000;"><strong></strong></span>
+                            <strong><span style="color: #ff0000;">Hotline: <span ng-show="contact.Hotline != null">{{contact.Hotline}}</span></span></strong>
+                        </div>-->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="mainnav-wrap">
+                        <div class='main-nav Module Module-252'>
+                            <ul class="nav">
+                                <li>
+                                    <a class="active" href="/">Trang chủ</a>
+                                </li>
+                                <li>
+                                    <a href="/about">Giới thiệu</a>
+                                </li>
+                                <li>
+                                    <a href="/department">Chuyên Khoa</a>
+                                </li>
+                                <li>
+                                    <a href="/feature">Dịch vụ</a>
+                                </li>
+                                <li>
+                                    <a href="/posts">Tin tức</a>
+                                </li>
+                                <li>
+                                    <a href="/career">Tuyển dụng</a>
+                                </li>
+                                <li>
+                                    <a href="/contact">Liên hệ</a>
+                                </li>
+                            </ul>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <ng-view></ng-view>
+
+        <div class="content container">
+            <div class="row">
+                <div class="content-bg">
+                    <div id="ctl00_divCenter" class="middle-fullwidth">
+                        <div class="content-bg2"></div>
+                    </div>
+                    <div class="clear">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="container">
+                <div class="row1">
+                    <div class='footer_info_wrap Module Module-669'>
+                        <div class="row">
+                            <div class="col-sm-4 footer_info">
+                                <h3>{{contact.Name}}</h3>
+                                <p>
+                                    313 Âu Dương Lân<br /> Phường 2, Quận 8<br /> TP. Hồ Chí Minh
+                                    <br /> Điện thoại: {{contact.Phone}} - Hotline: {{contact.Hotline}}
+                                </p>
+                                <p>Fax: {{contact.Fax}}</p>
+                                <p>Email: {{contact.Email}}</p>
+                            </div>
+                            <div class="col-sm-4 footer_info">
+                                <h3>LIÊN KẾT</h3>
+                                <ul class="noli">
+                                    <li><a href="#" style="text-decoration: none; color: #666666;">Chính sách bảo mật</a></li>
+                                    <li><a href="#" style="text-decoration: none; color: #666666;">Điều khoản sử dụng</a></li>
+                                    <!--<li><a href="#" style="text-decoration: none; color: #666666;">Sơ đồ website</a></li>-->
+                                </ul>
+                            </div>
+                            <div class="col-sm-4 footer_info"  ng-show="contact != null">
+                                <h3>KẾT NỐI VỚI CHÚNG TÔI</h3>
+                                <img alt="" usemap="#rade_img_map_1390222630456" src="assets/images/media/3/social.jpg" style="width: 151px; height: 25px; border-width: 0px; border-style: solid; margin-left: -10px;" />
+                                <p>&nbsp;</p>
+                                <map name="rade_img_map_1390222630456" id="rade_img_map_1390222630456">
+                                    <area target="_blank" href="{{contact.Facebook}}" coords="0,1,23,22" shape="RECT" />
+                                    <area target="_blank" href="{{contact.Twitter}}" coords="31,2,64,22" shape="RECT" />
+                                    <area href="#" coords="67,0,98,25" shape="RECT" />
+                                    <area target="_blank" href="{{contact.Youtube}}" coords="102,0,151,26" shape="RECT" />
+                                </map>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="col-sm-12 img_footer">
+                                <img alt="" src="assets/images/media/3/bottom_logo.png" style="width: 27px; height: 27px;" />
+                                <span>Copyright © 2017 - Bản quyền thuộc về FIS</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-f hidden">
+                    <a class="" rel="nofollow" href="#">Đăng nhập</a>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </footer>
+    </div>
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery-migrate1-0-0.js"></script>
+    <script src="assets/js/jquery-ui.min.js"></script>
+    <script src="assets/js/skin/plugins.js"></script>
+    <!--<script src="assets/js/skin/fpt-crd.js"></script>-->
+    <script src="assets/js/skin/flexpaper.js"></script>
+    <script src="assets/js/underscore-min.js"></script>
+    <script src="assets/js/moment.js"></script>
+    <!--global script-->
+
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-aria/angular-aria.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+
+    <!--app config-->
+    <script src="app/app.module.js"></script>
+    <script src="app/app.config.js"></script>
+    <script src="app/app.controller.js"></script>
+
+    <!--modules script-->
+    <script src="app/shared/services/params.service.js"></script>
+    <script src="app/shared/services/alert.service.js"></script>
+    <script src="app/shared/services/pager.service.js"></script>
+    <script src="app/shared/directive/modal.directive.js"></script>
+    <script src="app/shared/services/modal.service.js"></script>
+    <script src="app/shared/filter/time.filter.js"></script>
+    <script src="app/shared/services/loadjs.service.js"></script>
+    <script src="app/shared/directive/loading.directive.js"></script>
+
+    <script src="app/components/categories/category.service.js"></script>
+    <script src="app/components/home-page/home-page.service.js"></script>
+    <script src="app/components/about/about.service.js"></script>
+    <script src="app/components/career/career.service.js"></script>
+    <script src="app/components/department/department.service.js"></script>
+    <script src="app/components/department-detail/department-detail.service.js"></script>
+    <script src="app/components/posts/posts.service.js"></script>
+    <script src="app/components/post-detail/post-detail.service.js"></script>
+    <script src="app/components/post-list/post-list.service.js"></script>
+    <script src="app/components/feature/feature.service.js"></script>
+    <script src="app/components/feature-detail/feature-detail.service.js"></script>
+    <script src="app/components/answer-question/answer-question.service.js"></script>
+    <script src="app/components/appointment/appointment.service.js"></script>
+    <script src="app/components/contact/contact.service.js"></script>
+    <script src="app/components/doctor-list/doctor-list.service.js"></script>
+    <script src="app/components/search/search.service.js"></script>
+
+    <script src="app/components/home-page/home-page.controller.js"></script>
+    <script src="app/components/about/about.controller.js"></script>
+    <script src="app/components/career/career.controller.js"></script>
+    <script src="app/components/department/department.controller.js"></script>
+    <script src="app/components/department-detail/department-detail.controller.js"></script>
+    <script src="app/components/posts/posts.controller.js"></script>
+    <script src="app/components/post-detail/post-detail.controller.js"></script>
+    <script src="app/components/post-list/post-list.controller.js"></script>
+    <script src="app/components/feature/feature.controller.js"></script>
+    <script src="app/components/feature-detail/feature-detail.controller.js"></script>
+    <script src="app/components/answer-question/answer-question.controller.js"></script>
+    <script src="app/components/appointment/appointment.controller.js"></script>
+    <script src="app/components/contact/contact.controller.js"></script>
+    <script src="app/components/doctor-list/doctor-list.controller.js"></script>
+    <script src="app/components/search/search.controller.js"></script>
+</body>
+</html>

@@ -1,0 +1,351 @@
+﻿<style>
+                .tab-content>.active {
+                display: block;
+            }
+            .tab-content>.tab-pane {
+                display: none;
+            }
+            .fade.in {
+                opacity: 1;
+            }
+            .fade {
+                opacity: 0;
+                -webkit-transition: opacity .15s linear;
+                -o-transition: opacity .15s linear;
+                transition: opacity .15s linear;
+            }
+            .tab-content>.active {
+            display: block;
+        }
+    select{
+    padding: 11px 18px; color: #000; margin: 0; background: #F0F0F0; border: none; border-top: 1px solid #E0E0E0; font-family: arial; font-size: 13px;
+    }
+</style>
+<div class="page relative">
+    <div class="page_layout page_margin_top clearfix">
+        <div class="page_header clearfix">
+            <div class="page_header_left">
+                <h1 class="page_title">Đặt hẹn khám bệnh</h1>
+                <ul class="bread_crumb">
+                    <li>
+                        <a href="/" title="Trang chủ">
+                            Trang chủ
+                        </a>
+                    </li>
+                    <li class="separator icon_small_arrow right_gray">
+                        &nbsp;
+                    </li>
+                    <li>
+                        Đặt hẹn khám bệnh
+                    </li>
+                </ul>
+            </div>
+            <!--<div class="page_header_right">
+                <form class="search">
+                    <input class="search_input" type="text" value="To search type and hit enter..." placeholder="To search type and hit enter..." />
+                </form>
+            </div>-->
+        </div>
+        <div class="clearfix">
+            <div class="page_margin_top clearfix">
+                <div class="page_left">
+                    <!--<h3 class="box_header">
+                        Đăng ký đặt hẹn
+                    </h3>-->
+                    <!--<form class="contact_form" id="contact_form" method="post" action="contact_form/contact_form.php">
+                        <ul class="clearfix tabs_box_navigation sf-menu">
+                            <li class="tabs_box_navigation_selected submenu wide" aria-haspopup="true">
+                                <input type="hidden" name="department" value="" />
+                                <span>Select department</span>
+                                <ul>
+                                    <li>
+                                        <a href="#laryngological-clinic" title="Laryngological Clinic">
+                                            Laryngological Clinic
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#primary-health-care" title="Primary Health Care">
+                                            Primary Health Care
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#ophthalmology-clinic" title="Ophthalmology Clinic">
+                                            Ophthalmology Clinic
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#pediatric-clinic" title="Pediatric Clinic">
+                                            Pediatric Clinic
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#dental-clinic" title="Dental Clinic">
+                                            Dental Clinic
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#outpatient-surgery" title="Outpatient Surgery">
+                                            Outpatient Surgery
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#outpatient-rehabilitation" title="Outpatient Rehabilitation">
+                                            Outpatient Rehabilitation
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#gynaecological-clinic" title="Gynaecological Clinic">
+                                            Gynaecological Clinic
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#cardiac-clinic" title="Cardiac Clinic">
+                                            Cardiac Clinic
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <fieldset class="left">
+                            <label>First Name</label>
+                            <div class="block">
+                                <input class="text_input" name="first_name" type="text" value="" />
+                            </div>
+                            <label>Date of Birth (mm/dd/yyyy)</label>
+                            <div class="block">
+                                <input class="text_input" type="text" name="date_of_birth" value="" />
+                            </div>
+                            <label>Phone Number</label>
+                            <div class="block">
+                                <input class="text_input" name="phone_number" type="text" value="" />
+                            </div>
+                        </fieldset>
+                        <fieldset class="right">
+                            <label>Last Name</label>
+                            <div class="block">
+                                <input class="text_input" type="text" name="last_name" value="" />
+                            </div>
+                            <label>Social Security Number</label>
+                            <div class="block">
+                                <input class="text_input" type="text" name="social_security_number" value="" />
+                            </div>
+                            <label>E-mail</label>
+                            <div class="block">
+                                <input class="text_input" type="text" name="email" value="" />
+                            </div>
+                        </fieldset>
+                        <fieldset style="clear:both;">
+                            <label>Reason of Appointment</label>
+                            <div class="block">
+                                <textarea name="message"></textarea>
+                            </div>
+                            <input type="hidden" name="action" value="contact_form" />
+                            <input type="submit" name="submit" value="Send" class="more blue" />
+                        </fieldset>
+                    </form>-->
+                    <ul class="nav nav-tabs tabs_navigation clearfix">
+                        <li class="active"><a class="selected" showtab="" data-toggle="tab" href="#appointment"><i class="fa fa-calendar" aria-hidden="true"></i> Thông tin cuộc hẹn</a></li>
+                        <li class=""><a showtab="" data-toggle="tab" href="#infoOrderer"><i class="fa fa-id-card" aria-hidden="true"></i> Thông tin cá nhân</a></li>
+                        <li class=""><a showtab="" data-toggle="tab" href="#checkandConfirm"><i class="fa fa-calendar-check-o" aria-hidden="true"></i> Kiểm tra và xác nhận</a></li>
+                    </ul>
+                    <div class="tab-content contact_form">
+                        <div id="appointment" class="tab-pane fade in active" style="width: 100%">
+
+                                <form name="appointmentInfoForm" class="form-horizontal" ng-submit="transToInforOrderer()">
+                                    <fieldset class="left">
+                                        <label>Chọn bác sĩ:</label>
+                                        <div class="block">
+                                            <select class="text_input" ng-model="typeDoctor" ng-change="changeType()">
+                                                <option value="0">Chọn bác sĩ của bạn</option>
+                                                <option value="1">Tư vấn một bác sĩ cho tôi</option>
+                                                <option value="2">Tìm bác sĩ mà bạn biết</option>
+                                            </select>
+                                        </div>
+                                        <div class="block" id="choosedoctor">
+                                            <select id="selectPhysician" data-placeholder="Chọn một bác sĩ..." class="form-control" tabindex="2"
+                                                    ng-model="appointment.PhysicianId" ng-options="doctor.Id as doctor.Name for doctor in doctors"
+                                                    ng-change="changeDoctor(appointment.PhysicianId)"></select>
+                                            <!--<a href="#cancel" id="cancel_comment" title="Thông tin chi tiết">Thông tin chi tiết</a>-->
+                                            <a href="#" ng-click="viewDoctorProfile(doctor.Id)" style="width: 100%">Thông tin chi tiết</a>
+                                        </div>
+                                        <div class="form-group" style="display: none" id="searchDoctor">
+                                            <label class="col-md-3 col-sm-3 col-xs-4"></label>
+                                            <div class="col-md-9 col-sm-9 col-xs-8">
+                                                <div class="input-group">
+                                                    <input type="text" class="text_input" placeholder="Nhập tên ..." ng-model="searchdoctorText">
+                                                    <!--<span class="input-group-btn">
+                                                        <button class="button" type="button" ng-click="showDoctorList(searchText)" style="margin-right: 0px"><i class="fa fa-search"></i></button>
+                                                    </span>-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <label for="dateOrder">Thời gian đặt hẹn: </label>
+                                        <div class="block">
+                                            <input class="text_input hasDatepicker" type="text" name="date_of_birth" value="" id="dateAppointment">
+                                        </div>
+                                        <label>giờ: </label>
+                                        <div class="block">
+                                            <select name="timeOrder" class="form-control" ng-init="appointment.Time = giohens[0]" ng-model="appointment.Time" id="timeAppointment" ng-options="gio for gio in giohens" required></select>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset style="clear:both;">
+
+                                        <label for="symptom" required>Lý do/ Triệu chứng: </label>
+                                            <!--<div class="col-md-9 col-sm-9 col-xs-8">
+                                                <textarea name="symptom" class="form-control" ng-change="searchDoctorByTag(appointment.Symptom)" ng-model="appointment.Symptom" required></textarea>
+                                            </div>-->
+                                        <div class="block">
+                                            <textarea name="message"></textarea>
+                                        </div>
+                                        <input type="submit" name="submit" value="Đặt lịch hẹn" class="more blue" />
+                                        <a href="#cancel" id="cancel_comment" title="Trở về trang chủ" style="display: block;">Trở về trang chủ</a>
+                                    </fieldset>
+                                </form>
+                            <div class="col-md-4 collapse" id="quickviewProfile">
+                                <div class="col-md-3 col-sm-3 col-xs-3" ng-hide="{{doctor.Image == null}}">
+                                    <div class="profile">
+                                        <div class="profile_pic">
+                                            <img src="../../../../images/picture.jpg" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-9 col-sm-9 col-xs-9">
+                                    <b>{{doctor.Name}}</b>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="clearfix"></div>
+
+                        </div>
+                        <div id="infoOrderer" class="tab-pane fade">
+                            <ng-form name="infoOrdererForm" class="form-horizontal">
+                                <fieldset class="left">
+                                    <label for="patientName">Họ tên: <span class="red">*</span></label>
+                                    <div class="block">
+                                        <input class="text_input" type="text" name="last_name" value="" placeholder="Nhập họ tên" />
+                                    </div>
+                                    <label for="patientDoB">Ngày sinh: </label>
+                                    <div class="block">
+                                        <input class="text_input hasDatepicker" type="text" name="date_of_birth" value="" id="dateAppointment">
+                                    </div>
+                                   
+                                    <div class="block">
+                                        <label style="float:left">Giới tính: </label>
+                                        <label class="radio-inline"  style="float:left; padding-left: 10px;">
+                                            <input type="radio" name="genderOptRadio" ng-model="appointment.PatientGender" ng-value="1">Nam
+                                        </label>
+                                        <label class="radio-inline"  style="float:left; padding-left: 10px;">
+                                            <input type="radio" name="genderOptRadio" ng-model="appointment.PatientGender" ng-value="2">Nữ
+                                        </label>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="right">
+                                    <label for="patientEmail">Email: </label>
+                                    <div class="block">
+                                        <input class="text_input hasDatepicker" type="text" name="date_of_birth" value="" id="dateAppointment">
+                                    </div>
+                                    <label for="patientPhone">Số điện thoại: </label>
+                                    <div class="block">
+                                        <input class="text_input hasDatepicker" type="text" name="date_of_birth" value="" id="dateAppointment">
+                                    </div>
+                                </fieldset>
+                                <fieldset style="clear:both;">
+                                    <input type="submit" name="submit" value="Đăng ký và tiếp tục" class="more blue" />
+                                </fieldset>
+                            </ng-form>
+                        </div>
+                        <div id="checkandConfirm" class="tab-pane fade">
+                            <fieldset class="left">
+                                <h4><label><i class="fa fa-bookmark" aria-hidden="true" style="color:#26B99A"></i> THÔNG TIN CÁ NHÂN ĐẶT HẸN</label> </h4>
+                                <label>Họ tên: {{appointment.PatientName}}</label>
+                                <label>Địa chỉ email: {{appointment.patientEmail}}</label>
+                                <label>Ngày sinh: {{DoBReview}}</label>
+                                <label>Giới tính: <span ng-show="appointment.PatientGender == 1">Nam</span><span ng-show="appointment.PatientGender == 2">Nữ</span><br /></label>
+                                <label>Số điện thoại: {{appointment.PatientPhone}}</label>
+                                <hr />
+                                <h4><label><i class="fa fa-bookmark" aria-hidden="true" style="color: #26B99A"></i> THÔNG TIN ĐẶT HẸN KHÁM</label></h4>
+
+                                <label>Bác sĩ: {{doctor.Name}}</label>
+                                <label>Ngày: {{DateOrder}}. Giờ: {{ TimeOrder }}</label>
+                                <label>Lý do: {{appointment.Symptom}}</label>
+                                <!--<div class="form-group">
+                                    <button ng-disabled="!infoOrdererForm.$dirty || (infoOrdererForm.$dirty && infoOrdererForm.$invalid)" class="btn btn-success" ng-click="makeAppointment(appointment)">Xác nhận đặt hẹn</button>
+                                    <button class="btn btn-warning" ng-click="cancelAppointment()">Thoát</button>
+                                </div>-->
+                                <input type="submit" name="submit" value="Xác nhận đặt hẹn" class="more blue" />
+                                <a href="#cancel" id="cancel_comment" title="Trở về trang chủ" style="display: block;">Trở về trang chủ</a>
+                            </fieldset>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="page_right">
+                    <h3 class="box_header">
+                        Thông tin phòng khám
+                    </h3>
+                    <h3 class="sentence">
+                        One of the most sublime experiences we can ever have is to wake up feeling healthy after we have been sick.
+                    </h3>
+                    <ul class="columns no_padding page_margin_top clearfix">
+                        <li class="column_left">
+                            Medicenter Clinic<br />
+                            33 Farlane Street<br />
+                            Keilor East<br />
+                            VIC 3033, Australia
+                        </li>
+                        <li class="column_right">
+                            Phone: +123 655 655<br />
+                            Fax: +123 755 755<br />
+                            ABN: 32040030725
+                        </li>
+                    </ul>
+                    <ul class="contact_data page_margin_top">
+                        <li class="clearfix">
+                            <span class="social_icon phone"></span>
+                            <p class="value">
+                                Phone: <strong>1-800-643-4300</strong>
+                            </p>
+                        </li>
+                        <li class="clearfix">
+                            <span class="social_icon mail"></span>
+                            <p class="value">
+                                E-mail: <a href="mailto:medicenter@mail.com">medicenter@mail.com</a>
+                            </p>
+                        </li>
+                        <li class="clearfix">
+                            <span class="social_icon facebook"></span>
+                            <p class="value">
+                                <a href="http://facebook.com/QuanticaLabs" title="Facebook" target="_blank">facebook.com/medicenter</a>
+                            </p>
+                        </li>
+                        <li class="clearfix">
+                            <span class="social_icon twitter"></span>
+                            <p class="value">
+                                <a href="http://twitter.com/QuanticaLabs" title="Twitter" target="_blank">twitter.com/medicenter</a>
+                            </p>
+                        </li>
+                        <li class="clearfix">
+                            <span class="social_icon googleplus"></span>
+                            <p class="value">
+                                <a href="http://quanticalabs.com" title="Google +" target="_blank">google.com/medicenter</a>
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>	
+
+<modal id="custom-modal-1">
+    <div class="modal">
+        <div class="modal-body" style="width: 50%">
+            <h1>A Custom Modal!</h1>
+            <p>
+                Home page text: <input type="text" ng-model="vm.bodyText" />
+            </p>
+            <button ng-click="closeModal('custom-modal-1');">Close</button>
+        </div>
+    </div>
+    <div class="modal-background"></div>
+</modal>

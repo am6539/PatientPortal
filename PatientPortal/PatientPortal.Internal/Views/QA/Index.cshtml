@@ -1,0 +1,76 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.Internal.Models.QAViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    @using (Html.BeginForm("Answer", "QA", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+
+        <div class="card-title">@Html.ITitle("Hỏi đáp Y tế cộng đồng", "comments-o")</div>
+        <div class="card-content">
+            <div>
+                @Html.ISubmitButton("Thêm hỏi đáp")
+            </div>
+            <div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.Title, null, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tiêu đề câu hỏi" } })
+                        @Html.ValidationMessageFor(model => model.Title, null, new { @class = "field-validation-error" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.Name, null, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tên người hỏi" } })
+                        @Html.ValidationMessageFor(model => model.Name, null, new { @class = "field-validation-error" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.Email, null, new { htmlAttributes = new { @class = "form-control", @placeholder = "Email" } })
+                        @Html.ValidationMessageFor(model => model.Email, null, new { @class = "field-validation-error" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.ITextAreaFor(model => model.Question, 4, "Nội dung câu hỏi")
+                        @Html.ValidationMessageFor(model => model.Question, null, new { @class = "field-validation-error" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.ITextAreaFor(model => model.Answer, 8, "Trả lời")
+                        @Html.ValidationMessageFor(model => model.Answer, null, new { @class = "field-validation-error" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section scripts{
+
+<script>
+    $(document).ready(function () {
+        var d = new Date();
+
+        var month = d.getMonth() + 1;
+        var day = d.getDate();
+
+        var output = (day < 10 ? '0' : '') + day + '/'
+            + (month < 10 ? '0' : '') + month + '/' +
+            +d.getFullYear();
+
+        $("#Date").datetimepicker({
+            format: 'DD/MM/YYYY',
+            locale: 'vi',
+            minDate: Date.now(),
+            //maxDate: moment().add(7, 'days')
+        });
+        $("#Date").val(output);
+    });
+</script>
+
+}

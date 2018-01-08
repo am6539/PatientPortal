@@ -1,0 +1,96 @@
+﻿CREATE PROC [dbo].[usp_AppointmentLog_Confirm]
+(
+	@Action CHAR(1) = 'I',
+	@Id UNIQUEIDENTIFIER,
+	@Date DATE = '',
+	@Time int = 480,
+	@PhysicianId NVARCHAR(128) = '',
+	@PatientId NVARCHAR(128) = '',
+	@Symptom NVARCHAR(300) = '',
+	@PatientName NVARCHAR(50) = '',
+	@PatientAddress NVARCHAR(150) = '',
+	@PatientEmail VARCHAR(256) = '',
+	@PatientPhone VARCHAR(20) = '',
+	@PatientGender TINYINT = 1,
+	@PatientDoB DATE = NULL,
+	@Status TINYINT = 1
+)
+AS BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+	DECLARE @return BIT = 1
+	DECLARE @CreatedDate VARCHAR(20)
+	DECLARE @ModifiedDate VARCHAR(20)
+
+	BEGIN TRY
+		BEGIN TRAN;
+
+			IF @Status = 2
+			BEGIN
+				SET @ModifiedDate = [dbo].[ufnGetDate]()
+				SET @CreatedDate = @ModifiedDate
+
+				SELECT * INTO #AppointmentLogById
+				FROM [dbo].[AppointmentLog] l
+				WHERE l.Id = @Id
+
+				--Post data to Appointment
+				DECLARE @ColectionId INT
+				INSERT [dbo].[Appointment]([PhysicianId], [PatientId], [Symptom], [CreatedDate], [ModifiedDate], [ModifedUser])
+				SELECT item.PhysicianId, item.PatientId, item.Symptom, @CreatedDate, @ModifiedDate, N'Patient Test' FROM #AppointmentLogById item
+				SET @ColectionId = (SELECT SCOPE_IDENTITY())
+
+				--Generation Number
+				SELECT TOP 1 s.AppointmentIntervalTime, s.AppointmentStartTime INTO #GenerationTime
+				FROM [dbo].[Setting] s
+				--
+				DECLARE @AppointmentNo INT
+				DECLARE @IntervalTime INT
+				DECLARE @StartTime INT
+				SET @IntervalTime = (SELECT t.AppointmentIntervalTime FROM #GenerationTime t)
+				SET @StartTime = (SELECT t.AppointmentStartTime FROM #GenerationTime t)
+				SET @AppointmentNo = [dbo].[ufnGenerationNumber](@Time, @IntervalTime, @StartTime)
+
+				--Post data to AppointmentCollection
+				INSERT [dbo].[AppointmentCollection]([Id], [Date], [Time], [AppointmentNo], [PatientName], [PatientAddress], [PatientEmail], [PatientPhone], [PatientGender], [PatientDoB], [Status])
+				SELECT @ColectionId, item.[Date], item.[Time], @AppointmentNo, item.PatientName, item.PatientAddress, item.PatientEmail, item.PatientPhone, item.PatientGender, item.PatientDoB, 2 FROM #AppointmentLogById item
+
+				UPDATE [dbo].[AppointmentLog] SET [Status] = 2 WHERE [Id] = @Id
+
+				-- DROP Temp Table
+				DROP TABLE #AppointmentLogById
+				DROP TABLE #GenerationTime
+
+				SET @return = 1
+			END
+
+			IF @Status = 3
+			BEGIN
+				DECLARE @isCheck BIT
+				SET @isCheck = (SELECT TOP 1 s.IsSaveCanceledAppointment FROM [dbo].[Setting] s)
+				IF @isCheck = 1
+				BEGIN
+					UPDATE [dbo].[AppointmentLog]
+					SET [Status] = 3
+					WHERE [Id] = @Id
+
+					SET @return = 1
+				END
+				ELSE
+				BEGIN
+					DELETE FROM [dbo].[AppointmentLog] WHERE [Id] = @Id
+
+					SET @return = 1
+				END
+			END
+		COMMIT TRAN;
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0 
+		BEGIN
+			ROLLBACK TRAN;
+			SET  @return = 0
+		END
+	END CATCH
+	SELECT @return;
+END

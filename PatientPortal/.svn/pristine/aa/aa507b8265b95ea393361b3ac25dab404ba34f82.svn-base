@@ -1,0 +1,29 @@
+﻿CREATE PROCEDURE [dbo].[usp_LinkBuilding_CheckExistTitle]
+	@Title  NVARCHAR(150),
+	@Id SMALLINT
+AS
+BEGIN
+	DECLARE @flag BIT = 0;
+	DECLARE @count TINYINT = 0;
+	IF(@Id > 0)
+	BEGIN
+		SET @count = (SELECT	TOP 1 1
+					  FROM		[dbo].[LinkBuilding]
+					  WHERE		[Title] = @Title and Id != @Id)
+		IF(@count > 0)
+		BEGIN
+			SET @flag =1
+		END
+	END
+	ELSE
+	BEGIN
+		SET @count = (SELECT	TOP 1 1
+					  FROM		[dbo].[LinkBuilding]
+					  WHERE		[Title] = @Title)
+		IF(@count > 0)
+		BEGIN
+			SET @flag =1
+		END
+	END
+RETURN @flag
+END

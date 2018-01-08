@@ -1,0 +1,119 @@
+﻿appManagement.controller('appointmentController', ['$scope', 'AppointmentService', function ($scope, AppointmentService) {
+    $scope.model = new Object();
+    $scope.doctor = null;
+    $scope.initAppointment = function () {
+        $scope.renderTimeDefault();
+    }
+
+    //get doctor
+    $scope.getDoctor = function () {
+        AppointmentService.queryDoctors({ search: ""}, function (data) {
+            $scope.doctors = data;
+        });
+    }
+
+    //change doctor select option
+    $scope.changeDoctor = function (value) {
+        if (value != null) {
+            AppointmentService.getDoctor({ id: value }, function (data) {
+                $scope.doctor = data;
+                $("#quickviewProfile").show(500);
+                $("#PhysicianIdMessage").hide(500);
+            });
+        } else {
+            $("#quickviewProfile").hide(500);
+        }
+    }
+
+    $scope.transToInforOrderer = function () {
+        activeShowTab();
+    }
+    //get time in schedule of a doctor
+    $('#dateAppointment').on('dp.change', function (e) {
+        //alert(e.date.format('lll'))
+        var doctorId = $("#selectPhysician option:selected").val().split(':')[1];
+        if (doctorId == undefined) {
+            $("#PhysicianIdMessage").show(500);
+        }
+        else {
+            var startTime = Date.parse(e.date);
+            $scope.model.Date = startTime;
+            AppointmentService.getScheduleExamine({ userId: doctorId, startTime: startTime }, function (data) {
+                $scope.schedules = data;
+            });
+        }
+    })
+
+    //active tab
+    function activeShowTab() {
+        $("#infoOrderer").tab('show');
+        $('a[href="#infoOrderer"]').parent('li').addClass('active');
+        $('a[href="#appointment"]').parent('li').removeClass('active');
+
+        $("#infoOrderer").addClass("active in");
+        $("#appointment").removeClass("active in");
+    }
+
+    $('#dateNgaySinh').on('dp.change', function (e) {
+        var startTime = Date.parse(e.date);
+        $scope.model.PatientDoB = startTime;
+    });
+
+    $scope.registerInfo = function (model) {
+        var infor = model;
+    }
+
+    //show doctor detail
+    $scope.viewDoctorProfile = function (id) {
+        var startTime = Date.parse(new Date());
+        AppointmentService.queryScheduleExamine({ userId: id, startTime: startTime }, function (data) {
+            $scope.schedules = data;
+            $('#collapseThongTinModal').modal('toggle');
+        });
+    }
+
+    $("#selectDoctor").on('change', 'select', function (e) {
+        var optionSelected = $("option:selected", this);
+        var valueSelected = this.value;
+        //hideControlselectDoctor();
+        if (valueSelected == 0) {
+            $("#doctorSelected").show(500);
+            $("#searchDoctor").hide(500);
+            $("#quickviewProfile").hide(500);
+        }
+        if (valueSelected == 2) {
+            $("#searchDoctor").show(500);
+            $("#doctorSelected").hide(500);
+            $("#quickviewProfile").hide(500);
+        }
+        if(valueSelected == 1)
+        {
+            $("#searchDoctor").hide(500);
+            $("#doctorSelected").hide(500);
+        }
+    });
+
+    function hideControlselectDoctor() {
+        $("#doctorSelected").hide(500);
+        $("#searchDoctor").hide(500);
+        $("#quickviewProfile").hide(500);
+    }
+
+    //Init time 
+    $scope.renderTimeDefault = function () {
+        $scope.giohens = getGioKham();
+        $scope.getDoctor();
+    }
+    function getGioKham() {
+        var now = moment().hours(8).minutes(0).seconds(0).milliseconds(0);
+        var max = moment().hours(19).minutes(0).seconds(0).milliseconds(0);
+        var gio = [];
+        var duration = moment.duration({ 'minutes': 15 });
+        now = now.add(duration);
+        while (now < max) {
+            gio.push(now.format('hh:mm'));
+            now = now.add(duration);
+        }
+        return gio;
+    }
+}]);

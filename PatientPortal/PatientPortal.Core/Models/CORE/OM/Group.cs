@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.Domain.Models.CORE
+{
+    public class Group
+    {
+        public byte Id { get; set; }
+        public string Name { get; set; }
+        public bool IsReadOnly { get; set; }
+    }
+}

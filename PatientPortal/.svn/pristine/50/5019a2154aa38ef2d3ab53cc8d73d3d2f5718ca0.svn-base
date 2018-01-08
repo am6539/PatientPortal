@@ -1,0 +1,17 @@
+﻿'use strict';
+
+angular.
+module('spaApp').
+config(['$routeProvider', '$locationProvider', '$logProvider', '$compileProvider', function ($routeProvider, $locationProvider, $logProvider, $compileProvider) {
+    $logProvider.debugEnabled(true);
+    $locationProvider.html5Mode(true).hashPrefix('!'); //the hashPrefix is for SEO
+    $compileProvider.debugInfoEnabled(false);
+    $routeProvider
+        .when('/', {
+            template: '<home-page></home-page>'
+        })
+        .when('/about', {
+            template: '<about></about>'
+        })
+        .otherwise('/');
+}]);

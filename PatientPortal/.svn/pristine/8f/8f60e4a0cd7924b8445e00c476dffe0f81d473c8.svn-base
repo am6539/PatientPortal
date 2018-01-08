@@ -1,0 +1,96 @@
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using PatientPortal.API.Identity.Common;
+using PatientPortal.Provider.Common;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Http;
+using System.Web.Http.Controllers;
+
+namespace PatientPortal.API.Identity.Models
+{
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
+    public class AuthorizeRolesAttribute : AuthorizeAttribute
+    {
+        //Custom named parameters for annotation
+        public string ResourceKey { get; set; }
+        public string OperationKey { get; set; }
+
+        protected override bool IsAuthorized(HttpActionContext actionContext)
+        {
+
+            ApplicationRoleManager _roleManager = HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
+            PermissionManager _permissionManager = new PermissionManager();
+            ApplicationUserManager _userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
+
+            var identity = Thread.CurrentPrincipal.Identity;
+            if (identity == null && HttpContext.Current != null)
+            {
+                identity = HttpContext.Current.User.Identity;
+            }
+            if (identity == null || !identity.IsAuthenticated) return false;
+
+            //Check Role SystemDefault
+            //var isAdminRole = System.Web.Security.Roles.IsUserInRole(identity.Name ,ValueConstant.DefaultRoleInitial);
+            var userId = identity.GetUserId();
+            var isAdminRole = _userManager.IsInRole(userId, ValueConstant.DefaultRoleInitial);
+            if (isAdminRole) return true;
+
+            //Check user admin option
+            var user = _userManager.FindById(userId);
+            if (user == null) return false;
+            if (user.IsAdmin) return true;
+
+            //Check data Permission
+            bool authorize = false;
+
+
+            if (actionContext.Request.Headers.Contains(APIConstant.XAuthorizeHeaderARS)) OperationKey = actionContext.Request.Headers.GetValues(APIConstant.XAuthorizeHeaderARS).FirstOrDefault();
+
+            if (OperationKey == ARS.IgnoredARS) return authorize;
+
+            if (OperationKey == null || OperationKey.Length < 1) OperationKey = actionContext.ActionDescriptor.ActionName;
+            ResourceKey = actionContext.ControllerContext.ControllerDescriptor.ControllerName;
+
+            string permissionName = ResourceKey + "." + OperationKey;
+
+            //Check exist permisson
+            var permission = _permissionManager.FindByName(permissionName);
+
+            if (permission != null)
+            {
+                //Get Role By User
+                //Example: Admin, Mod, Editor, Doctor, Patient, IT, Support, Nurse...
+                string[] roles = System.Web.Security.Roles.GetRolesForUser(identity.Name);
+
+                foreach (var role in roles)
+                {
+                    var data = _roleManager.FindByName(role);
+                    if (_permissionManager.GetPermissionRoles(data.Id, permission.Id))
+                    {
+                        authorize = true;
+                        break;
+                    }
+                }
+            }
+
+            return authorize;
+        }
+
+        public override void OnAuthorization(HttpActionContext actionContext)
+        {
+            if(actionContext.Request.Headers.Authorization == null)
+            {
+                actionContext.Response = new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.Unauthorized);
+            }
+            else
+                base.OnAuthorization(actionContext);
+        }
+    }
+}

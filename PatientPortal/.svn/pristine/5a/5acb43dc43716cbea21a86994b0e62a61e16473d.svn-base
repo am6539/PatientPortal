@@ -1,0 +1,60 @@
+﻿using PatientPortal.IRepository.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CMS;
+using PatientPortal.DataAccess.Repo.CMS;
+
+namespace PatientPortal.Repositoty.CMS
+{
+    public class WorkflowStateRepoImpl : IWorkflowStateRepo
+    {
+        /// <summary>
+        /// declare variables
+        /// </summary>
+        IWorkflowState _workflowState;
+
+        /// <summary>
+        /// Constructor 
+        /// </summary>
+        /// <param name="workflowState"></param>
+        public WorkflowStateRepoImpl(IWorkflowState workflowState)
+        {
+            this._workflowState = workflowState;
+        }
+
+        #region Functions
+        /// <summary>
+        /// Get all workflowState
+        /// </summary>
+        /// <returns>list of WorkflowState</returns>
+        public List<WorkflowState> GetAll()
+        {
+            return _workflowState.GetAll();
+        }
+
+        /// <summary>
+        /// Get all workflowstate by workflowId
+        /// </summary>
+        /// <param name="workflowId">workflowId</param>
+        /// <returns>list of WorkflowState</returns>
+        public List<WorkflowState> GetByWorkflowId(byte workflowId)
+        {
+            return _workflowState.GetByWorkflowId(workflowId);
+        }
+
+        /// <summary>
+        /// Action: Insert/Update/Delete WorkflowState
+        /// </summary>
+        /// <param name="data">WorkflowStateEdit</param>
+        /// <param name="action">Action: 'I' - Insert; 'U'- Update; 'D'- Delete</param>
+        /// <returns>Result: Success- true; Fail- false</returns>
+        public bool WorkflowStateTransaction(List<WorkflowStateEdit> data, char action)
+        {
+            return _workflowState.WorkflowStateTransaction(data, action);
+        }
+        #endregion
+    }
+}

@@ -1,0 +1,87 @@
+﻿using PatientPortal.CMS.Common;
+using PatientPortal.CMS.Models;
+using PatientPortal.Domain.Models.AUTHEN;
+using PatientPortal.Domain.Utilities;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using PatientPortal.Utility.Application;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+
+namespace PatientPortal.CMS.Controllers
+{
+    [Authorize]
+    public class ConfigurationController : Controller
+    {
+        private static string controllerName = string.Empty;
+        private readonly IUserSession _userSession;
+
+        public ConfigurationController(IUserSession userSession)
+        {
+            _userSession = userSession;
+        }
+
+        // GET: Configuration
+        public async Task<ActionResult> Index()
+        {
+            //Call API Provider
+            controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+            var model = await APIProvider.Authorize_Get<ConfigurationViewModel>(_userSession.BearerToken, controllerName + "/" + GlobalVariables.Id_Configuration, APIConstant.API_Resource_CMS, ARS.Get);
+            if (model == null)
+            {
+                model = new ConfigurationViewModel
+                {
+                    Id = 1,
+                    IsSendEmailWF = true
+                };
+                TempData["Action"] = ValueConstant.ACTION_INSERT;
+            }
+            else
+            {
+                TempData["Action"] = ValueConstant.ACTION_UPDATE;
+            }
+
+            return View(model);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Edit(ConfigurationViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                string strUrl = null;
+                var action = TempData["Action"].ToString();
+                if (action == ValueConstant.ACTION_INSERT)
+                {
+                    strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_INSERT);
+                }
+                else
+                {
+                    strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_UPDATE);
+                }
+
+                //Call API Provider
+                var result = await APIProvider.Authorize_DynamicTransaction<ConfigurationViewModel, bool>(model, _userSession.BearerToken, strUrl, APIConstant.API_Resource_CMS, ARS.Edit);
+                if (result)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.FAIL));
+                }
+            }
+            else
+            {
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ERROR, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.ERROR));
+            }
+            return RedirectToAction("Index");
+        }
+    }
+}

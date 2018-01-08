@@ -1,0 +1,48 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.Internal.Models.ModuleViewModel
+@{
+    ViewBag.Title = "Chức năng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <link href="~/Content/checkbox.css" rel="stylesheet" />
+    <link href="~/Libs/Chosen/css/chosen.css" rel="stylesheet" />
+}
+<div class="card">
+    @Html.Raw(TempData["Alert"])
+    <div class="card-title">@Html.ITitle("Chức năng", TitleBar.Edit)</div>
+    <div class="card-content">
+        @using (Html.IBeginForm("Edit", "Module"))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            @Html.IGroupSubmitButton("Cập nhật thông tin", true, true, null, null, 12, Url.Action("Index"))
+            @Html.HiddenFor(m => m.Id)
+            @Html.IGroupTextBoxFor(m => m.Title, true, "Tên chức năng", null, 12)
+            @Html.IGroupTextBoxFor(m => m.Handler, true, "Url", null, 12)
+            @Html.IGroupTextBoxFor(m => m.Sort, true, null, new { @type = "number", @min = "0" }, 12)
+            @Html.IGroupDropDownListFor(m => m.ParentId, new SelectList(ViewBag.Modules, "Id", "Title"), true, "Chọn chức năng", null, 12)
+            @Html.IGroupDropDownListFor(m => m.Group, new SelectList(new[] {
+                new SelectListItem { Text = "CMS", Value = "1" },
+                new SelectListItem { Text = "Patient Services", Value = "2" },
+                new SelectListItem { Text = "Internal", Value = "3" }
+            }, "Value", "Text"), true, "Thuộc cổng thông tin", null, 12)
+        }
+
+    </div>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <!--Chosen-->
+    <script src="~/Libs/Chosen/js/chosen.jquery.min.js"></script>
+    <script type="text/javascript">
+        var config = {
+            '.chosen-select': {}
+        }
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
+    </script>
+}

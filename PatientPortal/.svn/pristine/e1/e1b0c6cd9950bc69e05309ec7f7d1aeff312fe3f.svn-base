@@ -1,0 +1,241 @@
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using PatientPortal.Domain.Caching.MemCache;
+using PatientPortal.Domain.Common;
+using PatientPortal.Domain.LogManager;
+using PatientPortal.Domain.Models.AUTHEN;
+using PatientPortal.PatientServices.Models;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using PatientPortal.Utility.Application;
+using PatientPortal.Utility.Files;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using WebMarkupMin.AspNet4.Mvc;
+using WebMatrix.WebData;
+using ConstantDomain = PatientPortal.Domain.Common.ValueConstant;
+using ConstValPatientService = PatientPortal.PatientServices.Common.ValueConstant;
+
+namespace PatientPortal.PatientServices.Controllers
+{
+    [AppHandleError]
+    //[CompressContent]
+    //[MinifyHtml]
+    public class AccountController : Controller
+    {
+        private static string controllerName = string.Empty;
+        private readonly IUserSession _userSession;
+        private UserCache userCache;
+
+        private IAuthenticationManager AuthenticationManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().Authentication;
+            }
+        }
+        public AccountController(IUserSession userSession)
+        {
+            _userSession = userSession;
+            userCache = (UserCache)MemoryCacheObject.GetCacheObject(ObjectCacheProfile.CACHE_PROFILE_USER);
+        }
+        // GET: /Account/Login
+        [AllowAnonymous]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
+        public ActionResult Login()
+        {
+            controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+            if (WebSecurity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                Session.Abandon();
+            }
+            Session["SessionId"] = HttpContext.Session.SessionID;
+            return View();
+        }
+
+        public PartialViewResult _NavAccount()
+        {
+            return PartialView(userCache);
+        }
+        public PartialViewResult _NavSideAccount()
+        {
+            return PartialView(userCache);
+        }
+
+        // POST: /Account/Login
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Login(LoginModel model, string returnUrl)
+        {
+            //Check Captcha
+            var response = Request["g-recaptcha-response"];
+            var client = new WebClient();
+            var result = client.DownloadString(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", ValueConstant.GooglereCAPTCHA_SecretKey, response));
+            var obj = JObject.Parse(result);
+            var status = (bool)obj.SelectToken("success");
+            if (!status)
+            {
+                ModelState.AddModelError(string.Empty, "");
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ERROR,
+                    ApplicationGenerator.GeneralActionMessage(null, ApplicationGenerator.TypeResult.reCAPTCHA));
+                return View(model);
+            }
+
+            var token = AuthenAPIHelper.GetToken(model.UserName, model.Password);
+            if (string.IsNullOrEmpty(token.AccessToken))
+            {
+                var error = JsonConvert.DeserializeObject<dynamic>(token.Json.ToString());
+                ModelState.AddModelError(string.Empty, error.error_description.ToString());
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ERROR, 
+                    ApplicationGenerator.GeneralActionMessage(null, ApplicationGenerator.TypeResult.LOGINERROR));
+
+                return View(model);
+            }
+            var tokenDynamic = JsonConvert.DeserializeObject<dynamic>(token.Json.ToString());
+            string username = tokenDynamic.userName;
+            string access_token = tokenDynamic.access_token;
+
+            //Get Secret User Info
+            UserSecretInfoViewModel info = await APIProvider.Authorize_Get<UserSecretInfoViewModel>(access_token, controllerName, "GetSecretInfo",null, APIConstant.API_Resource_Authorize);
+            if(info == null)
+            {
+                ModelState.AddModelError(string.Empty, "Không tìm thấy thông tin tài khoản");
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ERROR,
+                    ApplicationGenerator.GeneralActionMessage(null, ApplicationGenerator.TypeResult.USER_NOT_EXIST));
+
+                return View(model);
+            }
+
+
+            var claims = new List<Claim> {
+                new Claim(ClaimTypes.NameIdentifier,info.NameIdentifier , ClaimValueTypes.String),
+                new Claim(ClaimTypes.Email,info.Email , ClaimValueTypes.String),
+                new Claim(ClaimTypes.Name,info.Name , ClaimValueTypes.String),
+                new Claim(ValueConstant.AccountName, username, ClaimValueTypes.String),
+                //new Claim(ValueConstant.AccountImage, info.Image, ClaimValueTypes.),
+                new Claim(ValueConstant.AccountPatient, (info.PatientId == null ? string.Empty : info.PatientId), ClaimValueTypes.String),
+                new Claim(ValueConstant.TOKEN, string.Format("{0}", access_token), ClaimValueTypes.String)
+            };
+            var claimsIdentity = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
+
+            AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = false }, claimsIdentity);
+
+            HttpContext.User = AuthenticationManager.AuthenticationResponseGrant.Principal;
+            return RedirectToAction(returnUrl);
+        }
+
+        // GET: /Account/LogOff
+        public ActionResult LogOff()
+        {
+            AuthenticationManager.SignOut();
+            Session.Abandon();
+            return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<ActionResult> Profile()
+        {
+            var model = new UserInfoBindingModel();
+            try
+            {
+                var token = _userSession.BearerToken;
+                controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                var id = HttpContext.User.Identity.GetUserId();
+
+                string strUrl = controllerName + "/GetInfoEdit?userId=" + id;
+                model = await APIProvider.Authorize_Get<UserInfoBindingModel>(token, strUrl, APIConstant.API_Resource_Authorize, ARS.IgnoredARS);
+                model.Id = HttpContext.User.Identity.GetUserId();
+                model.Image = AppConfig.HostAddress_Internal + model.Image;
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(UserInfoBindingModel model, HttpPostedFileBase fileUpload)
+        {
+            controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+            string strUrl = controllerName + ConstantDomain.UPDATE_USER;
+            var token = _userSession.BearerToken;
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    string name = string.Empty;
+                    if (fileUpload != null)
+                    {
+                        name = FileManagement.ImageBase64(fileUpload.FileName);
+                    }
+                    else
+                    {
+                        name = ConstValPatientService.PATH_IMAGE_DEFAULT;
+                    }
+
+                    model.Image = name;
+                    var result = await APIProvider.Authorize_DynamicTransaction<UserInfoBindingModel, string>(model, token, strUrl, APIConstant.API_Resource_Authorize, ARS.IgnoredARS);
+
+                    if (Response.StatusCode == 200)
+                    {
+                        TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.SUCCESS));
+                        return RedirectToAction("Profile");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Profile");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogError(ex);
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ERROR, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.ERROR));
+                    throw ex;
+                }
+            }
+            else
+            {
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.SUCCESS));
+                return RedirectToAction("Profile");
+            }
+        }
+
+        private string CreateFolder()
+        {
+            try
+            {
+                string absolutePath = @"D:\TAM\PROJECT\Patient_Project_2017_28_06\PatientPortal.Internal" + Server.MapPath(ConstValPatientService.PATH_AVATAR);
+                if (!System.IO.Directory.Exists(absolutePath))
+                {
+                    Directory.CreateDirectory(absolutePath);
+                    return absolutePath;
+                }
+                else
+                    return absolutePath;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+    }
+}

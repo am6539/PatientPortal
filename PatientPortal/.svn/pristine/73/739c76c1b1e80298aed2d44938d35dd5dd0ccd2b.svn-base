@@ -1,0 +1,44 @@
+﻿@model PatientPortal.CMS.Models.WorkflowStatesModel
+
+@{
+    ViewBag.Title = "Workflow State";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <link href="~/Content/checkbox.css" rel="stylesheet" />
+    <link href="~/Libs/Chosen/css/chosen.css" rel="stylesheet" />
+}
+<div class="card">
+    @Html.Raw(TempData["Alert"])
+    <div class="card-title">@ViewBag.Title</div>
+    <div class="card-content">
+        @Html.DropDownListFor(m => m.WorkflowId, new SelectList(ViewBag.WorkflowId, "Id", "Name"), "--Chọn Workflow--", new { @class = "chosen-select", @data_placeholder = "--Chọn Workflow--", onchange = "CallChangefunc(this.value)" })
+        <div class="col-md-5">
+            <div id="panelAddLanguage">
+                @Html.Partial("_Create", Model.WorkflowStateViewModel)
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div id="pnlList">
+                @Html.Partial("_List", Model.lstWorkflowStateViewModel)
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <!--Chosen-->
+    <script src="~/Libs/Chosen/js/chosen.jquery.min.js"></script>
+    <script type="text/javascript">
+    var config = {
+      '.chosen-select'           : {}
+    }
+    for (var selector in config) {
+        $(selector).chosen(config[selector]);
+    }
+    </script>
+}
+

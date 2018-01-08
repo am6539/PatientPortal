@@ -1,0 +1,18 @@
+﻿CREATE PROC [dbo].[usp_Module]
+( 
+	@GroupId TINYINT = 1 --DEFAULT: 1 - CMS, 2 - Patient Services, 3 - Internal Services
+)
+AS BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+
+	BEGIN TRY
+		SELECT * FROM [dbo].[Module] WITH(INDEX(idxModuleGroup)) WHERE [GroupId] = @GroupId
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0 
+		BEGIN
+			RETURN NULL
+		END
+	END CATCH
+END

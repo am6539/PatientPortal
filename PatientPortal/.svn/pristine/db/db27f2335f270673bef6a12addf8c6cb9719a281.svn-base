@@ -1,0 +1,3 @@
+﻿appManagement.factory("Params", {
+    rootUrl: 'http://localhost:18892/'
+});

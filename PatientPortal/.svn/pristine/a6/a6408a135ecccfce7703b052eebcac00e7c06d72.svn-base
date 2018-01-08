@@ -1,0 +1,201 @@
+﻿
+<link href="assets/css/site/menuPage.css" rel="stylesheet" />
+<div class="brd-wrap" ng-include="'app/shared/template-include/submenu.template.html'">
+</div>
+
+<div class="top-content">
+</div>
+
+<div class="content container">
+    <div class="row">
+        <div class="content-bg">
+            <div id="ctl00_divCenter" class="middle-fullwidth">
+                <div class="content-bg2">
+                    <div class='map-container Module Module-292'>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.5197948079926!2d106.6784752145293!3d10.771443762231709!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f210ad406ff%3A0xdb40a8bbaf895c88!2sFPT+Information+System+HCM!5e0!3m2!1sen!2s!4v1495449317974" frameborder="0" style="border:0; width:100%; height:100%" allowfullscreen></iframe>
+                    </div>
+                    <div class='subcontact-left Module Module-293'>
+                        <p> </p>
+                        <p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p> </p>
+                    </div>
+                    <div class='contact-sub-info Module Module-294'>
+                        <p><span style="border: 0px; margin: 0px; padding: 0px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; line-height: normal; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; display: inline !important; font-family: Arial, sans-serif; font-size: 13px; color: #000000;"></span></p>
+                        <p>
+                            <strong style="border: 0px; margin: 0px; padding: 0px; font-size: 13px;">
+                        </p>
+                        <p><span style="font-family: Arial;">Để được tư vấn về lịch khám chữa bệnh, chích ngừa vaccin, khám sức khỏe cá nhân và các dịch vụ... vui lòng gọi đến số 08 3990 2468 gặp bộ phận Chăm sóc khách hàng.</span></p>
+                        <p>
+                            </strong>
+                            <strong style="border: 0px; margin: 0px; padding: 0px; font-size: 13px;">
+                        </p>
+                        <p><span style="font-family: Arial;"><span class="Apple-tab-span" style="border: 0px; margin: 0px; padding: 0px; white-space: pre; font-size: 13px;">	</span>Để được tư vấn về khám sức khỏe cơ quan doanh nghiệp&nbsp;<span style="border: 0px; margin: 0px; padding: 0px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; display: inline !important; font-size: 13px; color: #000000;">vui lòng gọi đến số 08 3995 9868 gặp bộ phận Kinh doanh.</span></span></p>
+                        <p>
+                            </strong>
+                        </p>
+                        <p style="border: 0px; margin: 0px 0px 0.8em; padding: 0px; font-size: 13px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; line-height: 18.2px; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: #ffffff; text-align: start;">
+                            <span style="border: 0px; margin: 0px; padding: 0px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; display: inline !important; font-family: Arial; font-size: 13px; color: #000000;">
+                                <strong style="border: 0px; margin: 0px; padding: 0px; font-size: 13px;">
+                                    <span style="border: 0px; margin: 0px; padding: 0px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; display: inline !important; font-size: 13px; color: #000000;">
+                                        <span class="Apple-tab-span" style="border: 0px; margin: 0px; padding: 0px; white-space: pre; font-size: 13px;">	</span>Để
+                                        được tư vấn về chương trình hội thảo sức khỏe, chương trình chăm sóc sức khỏe cộng đồng...&nbsp;
+                                    </span>
+                                    <span style="border: 0px; margin: 0px; padding: 0px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; display: inline !important; font-size: 13px; color: #000000;">vui lòng gọi đến số 08 3990 2468 gặp phòng Marketing.</span><br />
+                                </strong>
+                            </span>
+                        </p>
+                        <p style="border: 0px; margin: 0px 0px 0.8em; padding: 0px; font-size: 13px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; line-height: 18.2px; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: #ffffff; text-align: start;">
+                            <span class="Apple-tab-span" style="border: 0px; margin: 0px; padding: 0px; white-space: pre; font-family: Arial; font-size: 13px;">
+                                <strong style="border: 0px; margin: 0px; padding: 0px; font-size: 13px;">
+                                    <span style="border: 0px; margin: 0px; padding: 0px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; display: inline !important; font-size: 13px; color: #000000;">Để được liên hệ bộ phận khác<span class="Apple-converted-space" style="border: 0px; margin: 0px; padding: 0px; font-size: 13px;">&nbsp;</span></span>
+                                    <span style="border: 0px; margin: 0px; padding: 0px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; display: inline !important; font-size: 13px; color: #000000;">vui lòng gọi đến số 08 3990 2468</span>
+                                </strong>
+                            </span>
+                        </p>
+                        <p>
+                            <strong style="border: 0px; margin: 0px; padding: 0px; font-size: 13px;">
+                        </p>
+                        <p><span style="border: 0px; margin: 0px; padding: 0px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; display: inline !important; font-family: Arial; font-size: 13px;"><span class="Apple-tab-span" style="border: 0px; margin: 0px; padding: 0px; white-space: pre; font-size: 13px;">	</span>Để được tư vấn dịch vụ, thắc mắc offline vui lòng inbox vào Facebook bệnh viện:&nbsp;https://www.facebook.com/hoanmysaigon.</span></p>
+                        <p>
+                            </strong>
+                            <strong>
+                        </p>
+                        <p>
+                            <span style="font-family: Arial;">
+                                <span style="font-size: 13px;"><span style="float: none; display: inline !important; font-size: 13px;">Nếu quý bệnh nhân và khách hàng có bất kỳ thắc mắc liên quan đến các dịch vụ chăm sóc sức khỏe, xin vui lòng liên hệ với chúng tôi qua địa chỉ email:&nbsp;</span><span style="outline: 0px; font-size: 13px;"><a href="mailto:contactus.saigon@hoanmy.com">contactus.saigon@hoanmy.com</a></span><span style="float: none; display: inline !important; font-size: 13px;">&nbsp;hoặc gửi thông tin cho chúng tôi theo mẫu bên dưới:</span></span><br />
+                            </span>
+                        </p>
+                        <p>
+                            </strong>
+                            <strong>
+                        </p>
+                        <p><span style="font-family: Arial;">Bệnh Viện Hoàn Mỹ Sài Gòn làm việc:</span></p>
+                        <p>
+                            </strong>
+                            <strong>
+                        </p>
+                        <p><span style="font-family: Arial;">Thứ 2 đến Thứ 7, sáng từ 07:00 đến 11:30 chiều từ 12:30 đến 16:00</span></p>
+                        <p>
+                            </strong>
+                            <strong>
+                        </p>
+                        <p><span style="font-family: Arial;">Ngoài giờ từ Thứ 2 đến Thứ 7 - 16:00 đến 18:00</span></p>
+                        <p>
+                            </strong>
+                        </p>
+                        <strong>
+                            <p>
+                            </p>
+                            <p><span style="font-family: Arial;">Chủ Nhật khám từ 07:00 đến 12:00</span></p>
+                        </strong>
+                    </div>
+                    <div class='contact-frm contact-sub Module Module-295'>
+                        <div class="wrap-contact">
+                            <div id="ctl00_mainContent_ctl03_upContact">
+                                <div id="ctl00_mainContent_ctl03_pnlSend" onkeypress="javascript:return WebForm_FireDefaultButton(event, &#39;ctl00_mainContent_ctl03_btnSend&#39;)">
+                                    <div class="frm-row ct-name">
+                                        <label class="label">
+                                            Họ tên
+                                            (<span class="required">*</span>)
+                                        </label>
+                                        <input name="ctl00$mainContent$ctl03$txtName" type="text" maxlength="100" id="ctl00_mainContent_ctl03_txtName" />
+                                        <span id="ctl00_mainContent_ctl03_reqName" title="Vui lòng nhập họ tên." class="txt-error" style="display:none;"></span>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="frm-row ct-address">
+                                        <label class="label">Địa chỉ</label>
+                                        <input name="ctl00$mainContent$ctl03$txtAddress" type="text" maxlength="255" id="ctl00_mainContent_ctl03_txtAddress" />
+
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="frm-row ct-email">
+                                        <label class="label">
+                                            Email
+                                            (<span class="required">*</span>)
+                                        </label>
+                                        <input name="ctl00$mainContent$ctl03$txtEmail" type="text" maxlength="255" id="ctl00_mainContent_ctl03_txtEmail" />
+                                        <span id="ctl00_mainContent_ctl03_reqEmail" title="Vui lòng nhập email." class="txt-error" style="display:none;"></span>
+                                        <span id="ctl00_mainContent_ctl03_regexEmail" title="Email không hợp lệ." class="txt-error" style="display:none;"></span>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="frm-row ct-phone">
+                                        <label class="label">Điện thoại</label>
+                                        <input name="ctl00$mainContent$ctl03$txtPhone" type="text" maxlength="255" id="ctl00_mainContent_ctl03_txtPhone" />
+
+                                        <div class="clear"></div>
+                                    </div>
+
+                                    <div class="frm-row ct-subject">
+                                        <label class="label">
+                                            Tiêu đề
+                                        </label>
+                                        <input name="ctl00$mainContent$ctl03$txtSubject" type="text" maxlength="255" id="ctl00_mainContent_ctl03_txtSubject" />
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="frm-row ct-message">
+                                        <label class="label">
+                                            Nội dung
+                                            (<span class="required">*</span>)
+                                        </label>
+                                        <textarea name="ctl00$mainContent$ctl03$txtMessage" rows="2" cols="20" id="ctl00_mainContent_ctl03_txtMessage"></textarea>
+                                        <span id="ctl00_mainContent_ctl03_reqMessage" title="Vui lòng nhập nội dung liên hệ." class="txt-error" style="display:none;"></span>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div id="ctl00_mainContent_ctl03_divCaptcha" class="frm-row ct-captcha">
+                                        <label class="label">
+                                            Nhập mã hiển thị
+                                            (<span class="required">*</span>)
+                                        </label>
+                                        <div class="left">
+                                            <div id="ctl00_mainContent_ctl03_captcha" class="RadCaptcha RadCaptcha_Default">
+                                                <!-- 2013.1.417.40 --><span id="ctl00_mainContent_ctl03_captcha_ctl00" style="visibility:hidden;">Mã không đúng.</span>
+                                                <div id="ctl00_mainContent_ctl03_captcha_SpamProtectorPanel">
+                                                    <div id="ctl00_mainContent_ctl03_captcha_ctl01">
+                                                        <img id="ctl00_mainContent_ctl03_captcha_CaptchaImageUP" alt="" src="../Telerik.Web.UI.WebResource.axd?type=rca&amp;guid=d6e37007-be36-4e58-83e2-d1fe5edeeaa4"
+                                                             style="height:50px;width:180px;display:block;" />
+                                                        <a id="ctl00_mainContent_ctl03_captcha_CaptchaLinkButton" class="rcRefreshImage"
+                                                           title="Hình ảnh mới" href="javascript:__doPostBack(&#39;ctl00$mainContent$ctl03$captcha$CaptchaLinkButton&#39;,&#39;&#39;)"
+                                                           style="display:block;">Hình ảnh mới</a>
+                                                    </div>
+                                                    <p>
+                                                        <input name="ctl00$mainContent$ctl03$captcha$CaptchaTextBox"
+                                                               type="text" maxlength="5" id="ctl00_mainContent_ctl03_captcha_CaptchaTextBox"
+                                                               title="Nhập mã hiển thị" /><label for="ctl00_mainContent_ctl03_captcha_CaptchaTextBox"
+                                                                                                 id="ctl00_mainContent_ctl03_captcha_CaptchaTextBoxLabel"></label>
+                                                    </p>
+                                                </div><input id="ctl00_mainContent_ctl03_captcha_ClientState" name="ctl00_mainContent_ctl03_captcha_ClientState"
+                                                             type="hidden" />
+                                            </div>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="clear"></div>
+                                    <div class="frm-row ct-button">
+                                        <div class="frm-btnwrap">
+                                            <div class="frm-btn">
+                                                <input type="submit" name="ctl00$mainContent$ctl03$btnSend" value="Gửi" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;ctl00$mainContent$ctl03$btnSend&quot;, &quot;&quot;, true, &quot;Contact295&quot;, &quot;&quot;, false, false))"
+                                                       id="ctl00_mainContent_ctl03_btnSend" class="ct-button" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+    </div>
+</div>

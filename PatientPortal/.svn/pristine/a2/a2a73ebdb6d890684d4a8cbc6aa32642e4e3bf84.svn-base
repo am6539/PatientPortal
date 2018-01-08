@@ -1,0 +1,438 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    <link href="~/Libs/jstree/dist/themes/default/style.min.css" rel="stylesheet" />
+}
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div id="content_show">
+            <!-- START HTML -->
+            <div class="row">
+                <div class="col-md-3 col-sm-12">
+                    <h3 class="site_map_title">Cây thư mục</h3>
+                    <div id="container">
+                        <div id="MainTree">
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-9 col-sm-12">
+                    <h3>Quản lý file</h3>
+
+                    <nav class="navbar navbar-default" role="navigation">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-2">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+                        <!-- Menu file manager -->
+                        @Html.Partial("MenuFileManagerPartial")
+                        <!-- /.navbar-collapse -->
+                    </nav>
+
+                    <!--Partial nội dung files-->
+                    <div id="contentmanager">
+                        @Html.Partial("GalleryPartial")
+                    </div>
+
+                </div>
+            </div>
+            <!-- END HTML -->
+            <!-- START MODALS -->
+            <!-- New folder modal -->
+            <div class="modal fade" id="newFolder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title" id="myModalLabel_folder">Tạo mới thư mục</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="new_folder" placeholder="Tên thư mục">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-default" data-dismiss="modal">Hủy</button>
+                            <button class="btn btn-success" type="button">Tạo mới</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Config Modal -->
+            <div class="modal fade" id="showConf" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title" id="confLable"></h4>
+                        </div>
+
+                        <div class="modal-body" id="container_id_tree">
+
+                        </div>
+
+                        <div class="modal-footer" id="confButton" style="text-align: left;">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copy Selected Modal -->
+            <div class="modal fade" id="copySelected" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title" id="myModalLabel_copy">Sao chép file và thư mục đã chọn</h4>
+                        </div>
+                        <div class="modal-body" id="container_id_tree3">
+
+                        </div>
+                        <div class="modal-footer">
+                            <div class="form-group col-md-4">
+                                <input type="text" class="form-control" id="selected_copy" placeholder="New Folder Path" style="float: left; margin-top: 0px;" onchange="set_new_name(this.value);">
+                            </div>
+                            <button class="btn btn-default" data-dismiss="modal">Hủy</button>
+                            <button class="btn btn-info" type="button">Duyệt</button>
+                            <button class="btn btn-primary" type="button">Sao chép</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Remove selected modal -->
+            <div class="modal fade" id="removeSelected" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title" id="myModalLabel_folders">Xóa file và thư mục đã chọn</h4>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có chắc chắn muốn xóa file và thư mục đã chọn không?
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Hủy</button>
+                            <button class="btn btn-danger" type="button">Xóa</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Move selected modal -->
+            <div class="modal fade" id="moveSelected" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title" id="myModalLabel_move">Di chuyển file và thưc mục đã chọn</h4>
+                        </div>
+                        <div class="modal-body" id="container_id_tree2">
+
+                        </div>
+                        <div class="modal-footer">
+                            <div class="form-group col-md-4">
+                                <input type="text" class="form-control" id="selected_move" placeholder="New Folder Path" style="float: left; margin-top: 0px;" onchange="set_new_name(this.value);">
+                            </div>
+                            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Hủy</button>
+                            <button class="btn btn-info" type="button">Duyệt</button>
+                            <button class="btn btn-primary" type="button">Di chuyển</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Zip File Model -->
+            <div class="modal fade" id="newzipFile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title" id="myModalLabel_zip">Tạo file zip</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="alert alert-info" style="text-align: center; font-weight: bold;">Vui lòng nhập tên file.</div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="form-group col-md-4">
+                                <input type="text" class="form-control" id="new_zip" placeholder="Zip File Name" style="float: left; margin-top: 0px;">
+                            </div>
+                            <button class="btn btn-default" data-dismiss="modal">Hủy</button>
+                            <button class="btn btn-success" type="button">Tạo</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upload modal -->
+            @Html.BeginForm("UploadFile","Gallery", FormMethod.Post, new { @enctype = "multipart/form-data" })
+            {
+                <div class="modal fade" id="uploader" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title" id="myModalLabel_upload">Upload File</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+                                            <h6>Chọn file hình cần upload...</h6>
+                                            <input type="file" name="fileUpload" class="form-control">
+                                            <hr />
+                                            <button type="submit" class="btn btn-success"><i class="fa fa-cloud-upload" aria-hidden="true">Tải lên</i></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-long-arrow-right"> Hủy</i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            
+
+            <!-- Download Modal -->
+            <div class="modal fade" id="download_files" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title" id="myModalLabel_download">Tải xuống</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Bạn có muốn tải xuống file đã chọn</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                            <button type="button" class="btn btn-primary">Tải xuống</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Share Modal -->
+            <div class="modal fade" id="share_files" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title" id="myModalLabel_share">Chia sẻ</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <label for="send_to" class="col-sm-2 control-label">Gửi:</label>
+                                    <div class="col-sm-9">
+                                        <input type="email" class="form-control" id="send_to" placeholder="email@example.com">
+                                    </div>
+                                    <div class="col-sm-1" style="margin-top: 7px;">
+                                        <span class="glyphicon glyphicon-plus-sign" style="cursor: pointer;"></span>
+                                    </div>
+                                </div>
+                                <div id="send_to_place">
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="send_to" class="col-sm-2 control-label">Gửi:</label>
+                                    <div class="col-sm-10">
+                                        <textarea id="extra_send_to" class="form-control" rows="3" placeholder="email@example.com,email2@example.com,email3@example.com,email4@example.com,email5@example.com"></textarea>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="form-group">
+                                    <label for="from" class="col-sm-2 control-label">Đến</label>
+                                    <div class="col-sm-10">
+                                        <input type="email" class="form-control" id="from" value="admin@admin.admin" placeholder="email@example.com">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="from" class="col-sm-2 control-label">Tiêu đề</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="subject" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="message" class="col-sm-2 control-label">Tin nhắn</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" rows="4" id="message"></textarea>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                            <button type="button" class="btn btn-warning">Tải xuống</button>
+                            <button type="button" class="btn btn-primary">Chia sẻ</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Backup modal -->
+            <div class="modal fade" id="newbackupFile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title" id="myModalLabel_backup">Tạo phục hồi</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="alert alert-info" style="text-align: center; font-weight: bold;">Vui lòng nhập tên file.</div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="form-group col-md-4">
+                                <input type="text" class="form-control" id="new_zip_backup" placeholder="Zip File Name" style="float: left; margin-top: 0px;">
+                            </div>
+                            <button class="btn btn-default" data-dismiss="modal">Hủy</button>
+                            <button class="btn btn-success" type="button">Tạo</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit file modal -->
+            <div class="modal fade" id="show_edit_file" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Đóng</span></button>
+                            <h4 class="modal-title" id="show_edit_file_label"></h4>
+                        </div>
+                        <div class="modal-body" style="padding: 0">
+                            <iframe style="width: 100%; height: 400px; border: 0" id="edit_file_iframe"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PDF modal -->
+            <div class="modal fade" id="pdf_file" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Đóng</span></button>
+                            <h4 class="modal-title" id="pdf_file_label"></h4>
+                        </div>
+                        <div class="modal-body" id="pdf_file_body">
+                            <iframe style="width: 100%; height: 400px; border: 0" id="pdf_file_iframe"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="share_system_files" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Chia sẻ Online</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Bạn có muốn chia sẻ file này với những người bạn khác?</p>
+                            <div class="form-group">
+                                <label>Ghi chú:</label>
+                                <textarea class="form-control" rows="3" id="system_share_desc"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                            <button type="button" class="btn btn-primary">Chia sẻ</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @section scripts{
+
+                <script src="~/Libs/jstree/dist/jstree.js"></script>
+
+                <script>
+
+                  $(function () {
+
+                      $.ajax({
+                          type: "POST",
+                          url: "/Gallery/GetTreeData",
+                          contentType: "application/json; charset=utf-8",
+                          success: function (data) {
+                              createJSTrees(data);
+                          },
+                          error: function (xhr, ajaxOptions, thrownError) {
+                              alert(xhr.status);
+                              alert(thrownError);
+                          }
+                      });
+
+                      function createJSTrees(jsonData) {
+                          $('#MainTree').jstree({
+                              'core': {
+                                  'data': jsonData,
+                                  'check_callback': true,
+                                  'themes': { "stripes": true },
+                              },
+                              "plugins": ["themes", "dnd", "contextmenu", "ui", "crrm"]
+                          });
+                      }
+
+                      $('#MainTree')
+                      // listen for event
+                      .on('changed.jstree', function (e, data) {
+                          var i, j, r = [];
+                          for (i = 0, j = data.selected.length; i < j; i++) {
+                              r.push(data.instance.get_node(data.selected[i]).id);
+                          }
+
+                          $("#contentmanager").load("/Gallery/GalleryPartial?fullPath=" + r.join(', '), function (responseTxt, statusTxt, xhr) {
+                              if (statusTxt == "error")
+                                  alert("Lỗi: " + xhr.status + ": " + xhr.statusText);
+                          });
+                      })
+                  });
+
+                  $('#MainTree').on("create_node.jstree", function (e, data) {
+                      $.post(
+                              "/Gallery/CreateFolder",{
+                                  "path": data.parent,
+                                  "newname": data.node.text
+                              },
+                              function (r) {
+                                  
+                              }
+                          );
+                  });
+
+                  $('#MainTree').on("rename_node.jstree", function (e, data) {
+                      $.post(
+                              "/Gallery/RenameFolder",{
+                                  "path": data.node.parent,
+                                  "newname": data.text,
+                                  "oldname": data.old
+                              },
+                              function (r) {
+                                  return window.location.href = "/Gallery/Index/";
+                              }
+                          );
+                  });
+
+                </script>
+            }
+        </div>
+    </div>
+</div>

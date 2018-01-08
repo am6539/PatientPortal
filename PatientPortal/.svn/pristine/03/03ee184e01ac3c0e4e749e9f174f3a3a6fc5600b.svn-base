@@ -1,0 +1,50 @@
+﻿using PatientPortal.Domain.LogManager;
+using PatientPortal.Domain.Models.AUTHEN;
+using PatientPortal.Internal.Models;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.Internal.Controllers
+{
+    [Authorize]
+    public class OfferAdviseController : Controller
+    {
+        private static string controllerName = string.Empty;
+        private readonly IUserSession _userSession;
+
+        public OfferAdviseController(IUserSession userSession)
+        {
+            _userSession = userSession;
+        }
+
+        // GET: OfferAdvise
+        public async Task<ActionResult> Index()
+        {
+            TempData["Alert"] = null;
+            try
+            {
+                //Call API Provider
+                controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                var list = await APIProvider.Get<List<OfferAdviseViewModel>>(controllerName, APIConstant.API_Resource_CORE);
+
+                //Category List
+                TempData["Data"] = list;
+                return View(list);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw ex.GetBaseException();
+            }
+            
+        }
+
+
+    }
+}

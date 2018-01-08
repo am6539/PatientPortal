@@ -1,0 +1,174 @@
+﻿
+<link href="assets/css/site/menuPage.css" rel="stylesheet" />
+<div class="brd-wrap" ng-include="'app/shared/template-include/submenu.template.html'">
+</div>
+<div class="top-content">
+
+</div>
+<div class="content container">
+    <div class="row">
+        <div class="content-bg">
+
+
+            <div id="ctl00_divCenter" class="col-left">
+
+
+
+                <div class="content-bg2">
+
+                    <div class='Module Module-447'>
+                        <div class="banner2 preloadimg">
+                            <img src="assets/images/media/appointment/patientservices_booking.jpg" alt=""/>
+                        </div>
+                        <div class="newsdt-slshadow">
+                        </div>
+                    </div><div class='Module Module-448'>
+                        <p>Cám ơn Quý Khách hàng đã quan tâm đến dịch vụ chăm sóc sức khỏe của Hoàn Mỹ. Vui lòng gửi thông tin chi tiết để chúng tôi có thể sắp xếp cuộc hẹn.</p>
+                        <p>&nbsp;</p>
+                    </div><div class='Module Module-449'>
+                        <div>
+
+                            <div class="col-sm-6 bookfrm bookfrm-left">
+
+                                <h3>
+                                    Thông tin bệnh nhân
+                                </h3>
+                                <div class="bookfrm-itm bookfrm-itm-select bookfrm-itm-select1">
+                                    <span class="bg-select">
+                                        Giới tính
+                                    </span>
+                                    <select>
+                                        <option value="0">Giới t&#237;nh</option>
+                                        <option value="1">Nam</option>
+                                        <option value="2">Nữ</option>
+
+                                    </select>
+                                    <span class="txt-error" style="display:none;"></span>
+                                </div>
+                                <div>
+                                    <div class="bookfrm-itm bookfrm-itm-date">
+                                        <input type="text" id="patientDoB" name="patientDoB" class="text_input" placeholder="Ngày sinh" />
+                                    </div>
+                                </div>
+                                <div class="bookfrm-itm bookfrm-itm-input">
+                                    <input type="text" placeholder="Họ tên " />
+                                    <span class="txt-error" style="display:none;"></span>
+                                </div>
+                                <div class="bookfrm-itm bookfrm-itm-input">
+                                    <input type="text" placeholder="Email " />
+
+                                    <span class="txt-error" style="display:none;"></span>
+                                </div>
+                                <div class="bookfrm-itm bookfrm-itm-input">
+                                    <input type="text" placeholder="Điện thoại" />
+                                    <span class="txt-error" style="display:none;"></span>
+                                    <span class="txt-error" style="display:none;"></span>
+                                </div>
+                                <div class="booking-note">
+                                </div>
+
+                            </div>
+                            <div class="col-sm-6 bookfrm bookfrm-right">
+                                <h3>
+                                    Thông tin đặt hẹn
+                                </h3>
+                                <div>
+
+                                    <div class="bookfrm-itm bookfrm-itm-select">
+                                        <span class="bg-select">
+                                            Chuyên khoa
+                                        </span>
+                                        <select>
+                                            <option selected="selected" value="0">Chuy&#234;n khoa</option>
+                                            <option value="22">Khoa Tim mạch</option>
+                                            <option value="49">Khoa Ti&#234;u h&#243;a – Gan – Mật</option>
+                                            <option value="24">Khoa Sản Phụ</option>
+                                            <option value="26">Khoa Nhi</option>
+                                            <option value="36">Khoa Nội tiết</option>
+                                            <option value="29">Khoa Tai - Mũi - Họng</option>
+                                            <option value="37">Răng - H&#224;m - Mặt</option>
+                                            <option value="30">Khoa Mắt</option>
+                                            <option value="25">Khoa Nội Tổng qu&#225;t</option>
+                                            <option value="23">Khoa Ngoại Tổng qu&#225;t</option>
+                                            <option value="32">Khoa Da liễu</option>
+                                            <option value="59">Khoa H&#244; hấp</option>
+                                            <option value="31">Khoa Chẩn đo&#225;n h&#236;nh ảnh</option>
+                                            <option value="39">Khoa X&#233;t nghiệm</option>
+                                            <option value="54">Khoa Tiết niệu</option>
+                                            <option value="55">Khoa Cấp cứu</option>
+                                            <option value="28">Khoa Cơ Xương Khớp</option>
+                                            <option value="34">Khoa Thần kinh</option>
+
+                                        </select>
+                                        <span class="txt-error" style="display:none;"></span>
+                                    </div>
+                                    <div class="bookfrm-itm bookfrm-itm-select">
+                                        <span class="bg-select">
+                                            Bác sĩ
+                                        </span>
+                                        <select>
+                                            <option selected="selected" value="0">B&#225;c sĩ</option>
+
+                                        </select>
+
+                                    </div>
+                                    <h4>
+                                        Thời gian khám bệnh
+                                    </h4>
+                                    <div class="bookfrm-itm bookfrm-itm-date">
+                                        <input type="text" id="dateOrder" name="dateOrder" class="text_input" />
+                                    </div>
+                                </div>
+                                <input type="submit" value="Đặt lịch khám"/>
+                            </div>
+                            <div class="clear">
+                            </div>
+
+                        </div>
+
+                    </div><div class='frm-note Module Module-585'><em><strong>* Các thắc mắc vui lòng liên hệ hotline 08 3811 9783.</strong></em></div>
+
+
+                </div>
+
+
+            </div>
+            <div id="ctl00_divRight" class="col-right cmszone">
+
+                <div class='Module Module-400'>
+                    <div class="left-menu">
+                        <ul class="noli">
+                            <li class="active"><a class="active" href="/tanbinh/dat-lich-kham" target="_self" title="Đặt lịch khám">Đặt lịch khám</a></li>
+                            <li><a href="/tanbinh/danh-sach-bac-si" target="_self" title="Danh sách bác sĩ">Danh sách bác sĩ</a></li>
+                            <li><a href="/tanbinh/hoi-dap" target="_self" title="Hỏi đáp">Hỏi đáp</a></li>
+                            <li><a href="/tanbinh/hoi-dap-chuyen-khoa" target="_self" title="Hỏi đáp chuyên khoa">Hỏi đáp chuyên khoa</a></li>
+                        </ul>
+                    </div>
+                </div><div class='Module Module-372'>
+                    <div class="fb-page" data-href="https://www.facebook.com/Phòng-Khám-Hoàn-Mỹ-Sài-Gòn-1934658413425374" data-tabs="Facebook" data-width="231" data-small-header="false" data-adapt-container-width="false" data-hide-cover="false" data-show-facepile="true">Phòng Khám Hoàn Mỹ Sài Gòn</div>
+                    <div class="emhotline">
+                        CẤP CỨU <span>(08) 3811 9783</span>
+                    </div>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSemdqrYVGswrTxbQGKUwPzImgqXa6DMt5D_wBdiPKvhbyq2FA/viewform?c=0&amp;w=1" target="_blank"><img src="http://hoanmy.com/Data/Sites/1/userfiles/56/KS-ngoai-tru.png" alt="Khao-sat-ngoai-tru" /></a>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdGUagF2UaZ2U0QkNWDXj46q8fND-aIz46VN_9tZCQCezfSEw/viewform?c=0&amp;w=1" target="_blank"><img src="http://hoanmy.com/Data/Sites/1/userfiles/56/KS-noi-tru.png" alt="Khao-sat-noi-tru" /></a>
+                </div>
+
+            </div>
+            <div class="clear">
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<script>
+    $("#dateOrder").datepicker({
+        //dateFormat: 'dd/mm/yy',
+        minDate: 0,
+        maxDate: "+1D"
+    });
+    $("#patientDoB").datepicker({
+        //dateFormat: 'dd/mm/yy',
+        maxDate: 0
+    });
+</script>

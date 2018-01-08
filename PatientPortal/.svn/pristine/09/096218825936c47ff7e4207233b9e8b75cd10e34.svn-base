@@ -1,0 +1,316 @@
+﻿@using PatientPortal.Utility.Files;
+@model PatientPortal.PatientServices.Models.UserInfoBindingModel
+@{
+    ViewBag.Title = "Thông tin cá nhân";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section styles{
+
+    <link href="~/Libs/fullcalendar-3.3.1/css/fullcalendar.css" rel="stylesheet" />
+<link href="~/Content/checkbox-radio-build.css" rel="stylesheet" />
+    <style>
+        /* Profile container */
+        .profile {
+            margin: 20px 0;
+        }
+
+        /* Profile sidebar */
+        .profile-sidebar {
+            padding: 20px 0 10px 0;
+            background: #f4f3ff;
+        }
+
+        .col-md-3 {
+            padding: 0 0 0 15px;
+        }
+
+        .profile-userpic img {
+            float: none;
+            margin: 0 auto;
+            width: 50%;
+            height: 50%;
+            -webkit-border-radius: 50% !important;
+            -moz-border-radius: 50% !important;
+            border-radius: 1% !important;
+        }
+
+        .profile-usertitle {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .info-user {
+            text-align: center;
+            margin-top: -10px;
+        }
+
+        .profile-usertitle-name {
+            color: #5a7391;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 7px;
+        }
+
+        .profile-usertitle-job {
+            text-transform: uppercase;
+            color: #5b9bd1;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .profile-usermenu {
+            margin-top: 30px;
+            padding: 0px !important;
+        }
+
+        button, .buttons, .btn, .btn + .btn {
+            margin-bottom: 5px;
+            margin-right: 0px;
+        }
+
+        .profile-usermenu ul li a.btn {
+            border-radius: 0px;
+        }
+
+        .order-content {
+            padding: 0px, 0px;
+            background: #fff;
+            min-height: 460px;
+        }
+
+        .form-horizontal .edit-profile .form-group {
+            margin-right: 200px;
+            margin-left: 0px;
+        }
+
+        .form-horizontal .change-pass .form-group {
+            margin-right: 200px;
+            margin-left: 200px;
+        }
+
+        .form_main {
+            width: 100%;
+        }
+
+            .form_main h4 {
+                font-family: roboto;
+                font-size: 20px;
+                font-weight: 300;
+                margin-bottom: 15px;
+                margin-top: 20px;
+                text-transform: uppercase;
+            }
+
+        .heading {
+            border-bottom: 1px solid #337ab7;
+            padding-bottom: 0px;
+            position: relative;
+            margin-right: 30px;
+        }
+
+            .heading span {
+                background: #6D6C6A none repeat scroll 0 0;
+                bottom: -2px;
+                height: 3px;
+                left: 0;
+                position: absolute;
+                width: 75px;
+            }
+
+        .form {
+            border-radius: 7px;
+            padding: 6px;
+        }
+
+        .tab-title {
+            text-transform: uppercase;
+            color: #037306;
+        }
+
+        .tab-pane {
+            padding: 0px 0;
+        }
+    </style>
+}
+<div class="card">
+    <div class="card-title">@ViewBag.Title</div>
+    <div class="card-content">
+        <div class="row profile">
+            <div class="col-md-3">
+                <div class="profile-sidebar">
+                    <!-- SIDEBAR USERPIC -->
+                    <div class="profile-userpic">
+                        @if (Model.Image != null)
+                        {
+                            <img src="@FileManagement.ByteArrayToImageBase64(Model.Image)" class="img-rounded img-responsive" alt="">
+                        }
+                    </div>
+                    <!-- END SIDEBAR USERPIC -->
+                    <!-- SIDEBAR USER TITLE -->
+                    <div class="profile-usertitle">
+                        <div class="profile-usertitle-name">
+
+                            <a href="javascript:void(0)" id="btnViewProfile">
+                                <span class="hidden-xs">@Model.Name</span>
+                            </a>
+
+                        </div>
+                    </div>
+                    <!-- END SIDEBAR USER TITLE -->
+                    <hr />
+                    <!-- SIDEBAR MENU -->
+                    <p class="info-user">
+                        <i class="glyphicon glyphicon-envelope"></i> @Model.Email
+                        <br /> <i class="glyphicon glyphicon-gift"></i>
+                    </p>
+
+                    <div class="profile-usermenu">
+                        <ul class="nav">
+                            @*<li class="active">
+                                    <a href="javascript:void(0)" id="btnEditProfile" class="btn btn-primary btn-flat">
+                                        <i class="glyphicon glyphicon-home"></i>
+                                        <span class="hidden-xs"> cập nhật thông tin<span>
+                                    </a>
+                                </li>*@
+                            <li>
+                                <a href="javascript:void(0)" id="btnChangePass" class="btn btn-success btn-flat">
+                                    <i class="glyphicon glyphicon-user"></i>
+                                    <span class="hidden-xs"> đổi mật khẩu<span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <!-- END MENU -->
+                </div>
+            </div>
+
+            <div class="col-md-9 order-content" id="panelBody">
+
+
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation">
+                        <a href="#infoUserTab" aria-controls="infoUserTab" role="tab" data-toggle="tab">
+                            <i class="fa fa-file-text-o" aria-hidden="true"></i> Thông tin cá nhân
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+
+                    <div role="tabpanel" class="tab-pane active" id="infoUserTab">
+                        <div class="form_main col-md-4 col-sm-5 col-xs-7">
+                            @Html.Raw(TempData["Alert"])
+                            @using (Html.BeginForm("Edit", "Account", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true)
+                                <div class="form-horizontal">
+
+                                    @Html.HiddenFor(m => m.Email)
+                                    @Html.HiddenFor(m => m.Id)
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Name, new { @class = "col-sm-3 control-label" })
+                                        <div class="col-md-9 col-sm-9">
+                                            @Html.EditorFor(m => m.Name, null, new { htmlAttributes = new { @placeholder = "Họ tên", @class = "form-control", @autofocus = "" } })
+                                            <span class="help-block">Điền đầy đủ họ tên người dùng, vd.: Trịnh Xuân Thạch</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.DoB, new { @class = "col-sm-3 control-label" })
+                                        <div class="col-md-9 col-sm-9">
+                                            @Html.TextBoxFor(m => m.DoB, new { @class = "form-control", @placeholder = "Ngày sinh" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-sm-3 control-label" })
+                                        <div class="col-md-9 col-sm-9">
+                                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @placeholder = "Số điện thoại" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Gender, new { @class = "control-label col-sm-3" })
+                                        <div class="col-md-9 col-sm-9">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <label class="radio radio-success radio-inline">
+                                                        @Html.RadioButtonFor(model => model.Gender, 1, new { @aria_label = "Nam", @id = "Nam" })
+                                                        <label for="Nam">Nam</label>
+                                                    </label>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <label class="radio radio-success radio-inline">
+                                                        @Html.RadioButtonFor(model => model.Gender, 0, new { @aria_label = "Nu", @id = "Nu" })
+                                                        <label for="Nu">Nữ</label>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-4 col-md-offset-4">
+                                            <div class="text-center">
+                                                @if (Model.Image != null)
+                                                {
+                                                    <img src="@FileManagement.ByteArrayToImageBase64(Model.Image)" class="avatar img-circle" alt="Hình đại diện" style="width:100%; height:100%; max-width: 200px;">
+                                                }
+                                                <div style="margin-top:10px;">
+                                                    <input type="file" name="fileUpload" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-9 col-sm-offset-3">
+                                            <button type="submit" class="btn btn-primary btn-block">Cập nhật</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+@section scripts{
+
+    <script src="~/Libs/fullcalendar-3.3.1/lib/jquery-ui.min.js"></script>
+    <script src="~/Libs/fullcalendar-3.3.1/js/fullcalendar.js"></script>
+    <script src="~/Libs/fullcalendar-3.3.1/js/locale-all.js"></script>
+    <script type="text/javascript">
+            $(document).ready(function () {
+                var d = new Date();
+
+                var month = d.getMonth() + 1;
+                var day = d.getDate();
+
+                var output = (day < 10 ? '0' : '') + day + '/'
+                    + (month < 10 ? '0' : '') + month + '/' +
+                    +d.getFullYear();
+
+                $("#DoB").datetimepicker({
+                    format: 'DD/MM/YYYY',
+                    locale: 'vi',
+                    maxDate: Date.now(),
+                });
+
+                $("#DoB").val(output);
+            });
+            var urlChangePass = '@Url.Action("ViewChangePassword", "Account")';
+            $('#btnChangePass').click(function () {
+                $("#panelBody").load(urlChangePass, function (responseTxt, statusTxt, xhr) {
+                    if (statusTxt == "success") {
+                    }
+                    if (statusTxt == "error")
+                        alert("Lỗi: " + xhr.status + ": " + xhr.statusText);
+                });
+            });
+    </script>
+}

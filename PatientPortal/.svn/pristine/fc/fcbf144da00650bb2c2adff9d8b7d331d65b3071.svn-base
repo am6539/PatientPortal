@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="5a0e568b-81f0-45cd-b7d4-9212651add5a" ChangeDateTime="04/11/2017 02:55:53">
+    <Property Name="ElementName" Value="[dbo].[Schedule].[Alarm]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Schedule]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IsAlarm" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="97e4ad87-7a6a-436b-bd86-3ec5bb03fda6" ChangeDateTime="04/11/2017 03:03:25">
+    <Property Name="ElementName" Value="[dbo].[Schedule].[Is]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Schedule]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IsExamine" />
+  </Operation>
+</Operations>

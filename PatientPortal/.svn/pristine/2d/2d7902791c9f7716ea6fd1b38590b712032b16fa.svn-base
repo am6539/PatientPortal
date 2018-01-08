@@ -1,0 +1,13 @@
+﻿using PatientPortal.Domain.Models.CORE;
+using System.Collections.Generic;
+
+namespace PatientPortal.DataAccess.Repo.Core
+{
+    public interface IAppointment
+    {
+        List<Appointment> GetAll();
+        bool Transaction(List<Appointment> data, char action);
+        Appointment GetById(int Id);
+        Appointment GetByStatus(byte statusId);
+    }
+}

@@ -1,0 +1,44 @@
+﻿using Dapper;
+using PatientPortal.DataAccess.Dapper;
+using PatientPortal.Domain.Models.SPA;
+using PatientPortal.Domain.Utilities;
+using PatientPortal.DataAccess.Repo.SPA;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Transactions;
+using PatientPortal.Domain.LogManager;
+using System.Threading.Tasks;
+using System.Data;
+
+namespace PatientPortal.DataAccess.SPA
+{
+    public class FeatureImpl : IFeature
+    {
+        public async Task<List<Feature>> GetAll()
+        {
+            using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                try
+                {
+                    using (IDbConnection dapper = DapperConfiguration.Open(1))
+                    {
+
+                        var data = await dapper.QueryAsync<Feature>("usp_spa_Feature",
+                            new { Id = GlobalVariables.IsTransParameter },
+                            commandType: System.Data.CommandType.StoredProcedure);
+
+                        dapper.Close();
+                        return data.ToList();
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogError(ex);
+                    return null;
+                }
+            }
+        }
+    }
+}

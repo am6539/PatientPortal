@@ -1,0 +1,50 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.IRepository.CMS;
+using PatientPortal.Domain.Models.CMS;
+using PatientPortal.DataAccess.Repo.CMS;
+
+namespace PatientPortal.Repositoty.CMS
+{
+    public class CategoryRepoImpl: ICategoryRepo
+    {
+        ICategory _Category;
+        public CategoryRepoImpl(ICategory category)
+        {
+            this._Category = category;
+        }
+
+        /// <summary>
+        /// Get all
+        /// </summary>
+        /// <returns>List category</returns>
+        public List<Category> GetAll(int Id)
+        {
+            return _Category.GetAll(Id);
+        } 
+
+        public Category GetById(int Id)
+        {
+            return _Category.GetById(Id);
+        }
+
+        /// <summary>
+        /// Transaction
+        /// </summary>
+        /// <param name="data">List category</param>
+        /// <param name="action">I: Insert, U: Update, D: Delete</param>
+        /// <returns>true/false</returns>
+        public bool CategoryTransaction(List<Category> data, char action)
+        {
+            return _Category.CategoryTransaction(data, action);
+        }
+
+        public List<Category> GetAllByParentId(int parentId)
+        {
+            return _Category.GetAllByParentId(parentId);
+        }
+    }
+}

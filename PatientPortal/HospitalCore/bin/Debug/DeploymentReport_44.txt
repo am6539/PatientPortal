@@ -1,0 +1,57 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       The column [dbo].[Appointment].[Date] is being dropped, data loss could occur.
+       The column [dbo].[Appointment].[Status] is being dropped, data loss could occur.
+       The column [dbo].[Appointment].[Time] is being dropped, data loss could occur.
+       The type for column Email in table [dbo].[Users] is currently  NVARCHAR (256) NOT NULL but is being changed to  VARCHAR
+         (256) NOT NULL. Data loss could occur.
+
+** User actions
+     Drop
+       [dbo].[Appointment].[idxAppointmentDate] (Index)
+     Alter
+       [dbo].[Appointment] (Table)
+       [dbo].[Users] (Table)
+       [dbo].[usp_Appointment] (Procedure)
+       [dbo].[usp_Appointment_Transaction] (Procedure)
+       [dbo].[usp_User] (Procedure)
+       [dbo].[usp_Article] (Procedure)
+       [dbo].[usp_Article_Transaction] (Procedure)
+       [dbo].[usp_ArticleComment] (Procedure)
+       [dbo].[usp_ArticleComment_Transaction] (Procedure)
+       [dbo].[usp_Setting] (Procedure)
+       [dbo].[usp_Setting_Transaction] (Procedure)
+     Create
+       [dbo].[AppointmentCollection] (Table)
+       [dbo].[AppointmentCollection].[idxAppointmentCollectionNo] (Index)
+       [dbo].[AppointmentLog] (Table)
+       [dbo].[AppointmentLog].[idxAppointmentLogDate] (Index)
+       [dbo].[AppointmentLog].[idxAppointmentLogPatient] (Index)
+       [dbo].[AppointmentLog].[idxAppointmentLogPhysician] (Index)
+       [dbo].[usp_AppointmentLog] (Procedure)
+       [dbo].[usp_AppointmentLog_Transaction] (Procedure)
+
+** Supporting actions
+     Drop
+       [dbo].[Users].[idxUserAccess] (Index)
+       [dbo].[UQ__USERS__A9D1053429B4C0C0] (Unique Constraint)
+     Create
+       [dbo].[UQ__USERS__A9D1053429B4C0C0] (Unique Constraint)
+       [dbo].[Users].[idxUserAccess] (Index)
+     Refresh
+       [dbo].[usp_Login] (Procedure)
+       [dbo].[usp_Organization_Transaction] (Procedure)
+       [dbo].[usp_User_ChangePassword] (Procedure)
+       [dbo].[usp_Users_Transaction] (Procedure)
+
+The column [dbo].[Appointment].[Date] is being dropped, data loss could occur.
+The column [dbo].[Appointment].[Status] is being dropped, data loss could occur.
+The column [dbo].[Appointment].[Time] is being dropped, data loss could occur.
+The type for column Email in table [dbo].[Users] is currently  NVARCHAR (256) NOT NULL but is being changed to  VARCHAR (256) NOT NULL. Data loss could occur.
+

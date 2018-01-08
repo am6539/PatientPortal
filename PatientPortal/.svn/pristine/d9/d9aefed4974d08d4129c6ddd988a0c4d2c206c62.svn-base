@@ -1,0 +1,31 @@
+﻿using PatientPortal.DataAccess.Repo.SPA;
+using PatientPortal.DataAccess.Repo.Wrapper;
+using PatientPortal.Domain.Common;
+using PatientPortal.Domain.Models.SPA;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.DataAccess.SPA
+{
+    public class QAImpl: IQA
+    {
+        private readonly IAdapterPattern _adapterPattern;
+
+        /// <summary>
+        /// Init
+        /// </summary>
+        /// <param name="adapterPattern"></param>
+        public QAImpl(IAdapterPattern adapterPattern)
+        {
+            this._adapterPattern = adapterPattern;
+        }
+
+        public async Task<IEnumerable<QA>> Query(Dictionary<string, dynamic> para)
+        {
+            return await _adapterPattern.ExecuteQuery<QA>(para, "usp_QA", DataConfiguration.instanceCore);
+        }
+    }
+}

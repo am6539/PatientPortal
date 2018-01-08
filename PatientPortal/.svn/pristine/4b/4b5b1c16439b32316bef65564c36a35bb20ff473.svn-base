@@ -1,0 +1,40 @@
+﻿<div class="modal fade" tabindex="-1" role="dialog" style="display: none">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Thông tin bác sĩ</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3 col-sm-3 col-xs-3" ng-hide="{{doctor.Image == null}}">
+                        <div class="profile_pic">
+                            <img src="../../../../images/picture.jpg" style="width: 100%" />
+                        </div>
+                    </div>
+                    <div class="col-md-9 col-sm-9 col-xs-9">
+                        <b>{{doctor.Name}}</b>
+                    </div>
+                </div>
+                <div class="row">
+                    <table style="width: 90%; margin-top: 20px; margin-left: 20px; margin-right: 20px" class="table table-bordered table-hover">
+                        <thead>
+                            <tr style="background-color: #c7c7c7; height: 20px">
+                                <td>Ngày</td>
+                                <td>Thời gian</td>
+                                <td>Ghi chú</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="schedule in schedules">
+                                <td>{{schedule.Start | dateFilter | date:'dd-MM-yyyy'}}</td>
+                                <td>{{schedule.Start | date:'HH:mm'}} - {{schedule.End | date:'HH:mm'}}</td>
+                                <td>{{schedule.Detail}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

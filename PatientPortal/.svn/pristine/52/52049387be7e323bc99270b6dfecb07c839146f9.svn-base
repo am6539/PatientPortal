@@ -1,0 +1,12 @@
+﻿'use strict';
+
+angular.
+module('spaApp').
+config(['$routeProvider', '$logProvider', function ($routeProvider, $logProvider) {
+    $logProvider.debugEnabled(true);
+    $routeProvider
+        .when('/', {
+            template: '<home-page></home-page>'
+        })
+        .otherwise('/');
+}]);

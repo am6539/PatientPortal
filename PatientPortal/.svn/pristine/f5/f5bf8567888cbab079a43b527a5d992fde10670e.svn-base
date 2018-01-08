@@ -1,0 +1,375 @@
+﻿/*
+------------------------------------------------------------
+    ARTICLE CSS
+------------------------------------------------------------
+*/
+
+
+/*
+------------------------------
+    HEADER ROW
+------------------------------
+*/
+.qa-heder {
+    /*border-bottom: 1px solid #dadfea;*/
+    height: 50px;
+}
+
+.qa-title {
+    min-height: 55px;
+    padding: 10px 20px;
+}
+
+    .qa-title span {
+        font-size: 24px;
+    }
+
+.ask-question {
+    float: right;
+    margin-top: 10px;
+}
+
+/*
+------------------------------
+    SORT QUESTION ROW
+------------------------------
+*/
+#qa-question-group {
+    border-bottom: 1px solid #dadfea;
+}
+
+.sort-questions {
+    min-height: 44px;
+}
+
+    .sort-questions ul {
+        display: block;
+        padding-left: 5px;
+        margin-bottom: 0px !important;
+    }
+
+        .sort-questions ul li {
+            display: inline-block;
+            margin-right: 40px;
+        }
+
+            .sort-questions ul li:last-child {
+                margin-right: 0;
+            }
+
+            .sort-questions ul li a {
+                font-size: 14px;
+                color: #8c97b2;
+                text-decoration: none;
+                display: block;
+                line-height: 40px;
+                border-bottom: 4px solid transparent;
+                /*TRANSISTIONS*/
+                -webkit-transition: all 0.3s ease;
+                -moz-transition: all 0.3s ease;
+                -o-transition: all 0.3s ease;
+                -ms-transition: all 0.3s ease;
+                transition: all 0.3s ease;
+            }
+
+                .sort-questions ul li a.active,
+                .sort-questions ul li a:hover,
+                ul.q-f-sort li a.active,
+                ul.q-f-sort li a:hover {
+                    border-bottom: 4px solid #f39c12;
+                }
+
+/*
+------------------------------
+    NUMBER OF QUESTION COMBOBOX
+------------------------------
+*/
+.number-of-questions-wrapper {
+    text-align: right;
+    /*margin-right: 5px;*/
+    margin-top: 7px;
+    position: relative;
+}
+
+.number-of-questions-text {
+    color: #8b97b1;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.number-of-questions-wrapper .number-of-questions {
+    display: inline-block;
+    width: 100px;
+    text-align: left;
+}
+/*.number-of-questions-wrapper 
+.number-of-questions 
+.chosen-container-single 
+.chosen-single {
+	height: 33px;
+	padding-left: 22px;
+}
+.number-of-questions-wrapper 
+.number-of-questions 
+.chosen-container 
+.chosen-results li {
+	padding-left: 18px;
+}
+.number-of-questions-wrapper 
+.number-of-questions 
+.chosen-container-single 
+.chosen-single span {
+	line-height: 28px;
+}*/
+
+
+/*
+------------------------------
+    QUESTION ROW
+------------------------------
+*/
+
+#qa-question-list li.question-item {
+    display: block;
+    /*min-height: 130px;*/
+    border-bottom: 1px solid #dadfea;
+    /*overflow: hidden;*/
+    padding: 20px 35px;
+    padding-right: 0;
+    position: relative;
+}
+
+#qa-question-list > li:nth-child(even) {
+    background: #f2ffce;
+}
+
+/*
+------------------------------
+    QUESTION ITEM
+------------------------------
+*/
+.q-left-content .q-ltop-content > h2 {
+    width: 100%;
+    margin: 0 0 10px !important;
+    word-wrap: break-word;
+}
+
+.q-ltop-content a.question-title {
+    color: #444c63;
+    font-size: 18px;
+    font-weight: 700;
+    word-break: break-word;
+}
+
+.q-lbtm-content .question-excerpt {
+    color: #6f7d95;
+    font-size: 14px;
+    font-style: italic;
+}
+
+.question-cat span {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/*
+------------------------------
+    EDIT INLINE 
+------------------------------
+*/
+.qa-edit-inline {
+    float: right;
+    margin-top: -18px;
+    margin-right: 10px;
+}
+
+.qa-detail-edit-inline {
+    float: right;
+     margin-top: -68px;
+    margin-right: 10px;
+}
+
+.qa-comment-edit-inline {
+    float: right;
+   margin-top: 15px;
+}
+
+
+.qa-edit-inline .edit-icon,
+.qa-edit-inline .delete-icon,
+.qa-comment-edit-inline .edit-icon,
+.qa-comment-edit-inline .delete-icon {
+    padding: 10px 5px;
+    cursor: pointer;
+}
+
+.qa-edit-inline,
+.qa-comment-edit-inline
+ {
+    display: none; /*Ẩn icon edit*/
+}
+
+.question-item:hover .q-right-content .qa-edit-inline {
+    display: block; /*Hiện icon edit in Article page*/
+}
+
+.question-detail:hover .qa-edit-inline {
+    display: block; /*Hiện icon edit in Article detail page*/
+}
+.qa-comment-item:hover .qa-comment-edit-inline {
+    display: block; /*Hiện icon edit in Article detail page*/
+}
+/*
+------------------------------
+   END EDIT INLINE 
+------------------------------
+*/
+
+/*
+------------------------------
+    QUESTION STATISTIC
+------------------------------
+*/
+.q-right-content ul.question-statistic {
+    text-align: right;
+}
+
+.q-right-content ul.question-statistic li {
+    display: inline-block;
+    text-align: center;
+    margin-left: 35px;
+}
+
+.q-right-content ul.question-statistic li span {
+    width: 46px;
+    height: 46px;
+    display: block;
+    text-align: center;
+    line-height: 3.3;
+    margin-bottom: 15px;
+    border: 1px solid #d9dfe9; /* stroke */
+    -moz-border-radius: 25%;
+    -webkit-border-radius: 25%;
+    border-radius: 25%; /* border radius */
+}
+
+.q-right-content ul.question-statistic li.active span {
+    background-color: #1abc9c;
+    color: #fff;
+    border: none;
+}
+
+/*
+------------------------------------------------------------
+   END ARTICLE CSS
+------------------------------------------------------------
+*/
+
+
+/*
+------------------------------------------------------------
+    ARTICLE DETAIL CSS
+------------------------------------------------------------
+*/
+.qa-bottom-line {
+    border-bottom: 1px solid #dbdbdb;
+}
+
+.single-head {
+    min-height: 69px;
+}
+
+.question-detail {
+    margin-top: -20px;
+    padding-top: 20px;
+}
+
+.question-content {
+    margin-top: 20px;
+    margin-bottom: 0;
+    min-height: 55px;
+}
+
+    .question-content p span {
+        color: #333333;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 15px;
+        font-style: normal;
+        font-variant: normal;
+        font-weight: normal;
+        letter-spacing: normal;
+        line-height: 21px;
+        text-align: start;
+        text-indent: 0px;
+        float: none;
+    }
+
+.qa-content {
+}
+
+.footer-question {
+    vertical-align: bottom;
+}
+
+.question-control {
+    text-align: right;
+}
+
+.author {
+    margin: 10px auto;
+    margin-left: -5px;
+    margin-right: -10px;
+}
+
+.author-avatar {
+    text-align: center;
+}
+
+
+    .author-avatar img {
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        max-width: 100%;
+        height: auto;
+    }
+
+.author-name {
+    text-align: center;
+    padding-top: 5px;
+}
+
+.comment-content {
+    margin: 20px auto;
+    min-height: 34px;
+}
+
+.comment-content p span {
+    color: #333333;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    letter-spacing: normal;
+    line-height: 21px;
+    text-align: start;
+    text-indent: 0px;
+    float: none;
+}
+
+.comment-avatar {
+    text-align: center;
+}
+
+    .comment-avatar img {
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        max-width: 80%;
+        height: auto;
+    }
+/*
+------------------------------------------------------------
+    END ARTICLE DETAIL CSS
+------------------------------------------------------------
+*/

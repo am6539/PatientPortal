@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <connectionStrings>
+    <add name="Hospital.CMS" connectionString="Data Source=.;Initial Catalog=HospitalCMS;Persist Security Info=False;User ID=sa; password=123456;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True" />
+    <add name="Hospital.Core" connectionString="Data Source=.;Initial Catalog=HospitalCore;Persist Security Info=False;User ID=sa; password=123456;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True"  />
+  </connectionStrings>
+</configuration>

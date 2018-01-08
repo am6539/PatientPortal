@@ -1,0 +1,26 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.PatientServices.Models.ArticleViewModel
+
+@{
+    ViewBag.Title = "HỎI ĐÁP Y TẾ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/qamedical.css" rel="stylesheet" />
+
+<div class="card">
+    <div class="card-title">
+        @Html.ITitle("Hỏi đáp y tế", TitleBar.Create)
+    </div>
+    <div class="card-content">
+        @Html.Raw(TempData["Alert"])
+        @using (Html.IBeginForm("Create", "Article"))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            @Html.IGroupSubmitButton("Gửi câu hỏi", true, true, null, null, 12, Url.Action("Index"))
+            @Html.IGroupTextBoxFor(m => m.Title, true, "Tiêu đề", null, 12)
+            @Html.IGroupTextAreaFor(m => m.Detail, true, 5, "Nội dung câu hỏi", null, 12)
+        }
+    </div>
+</div>
+    

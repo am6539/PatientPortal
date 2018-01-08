@@ -1,0 +1,429 @@
+﻿<style>
+    
+    body {
+        margin: 100px 0;
+        padding: 25px;
+    }
+    #footer {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 100px;
+        width: 100%;
+        overflow:hidden;
+    }
+    .disabledTab {
+            pointer-events: none;
+        }
+    .field-validation-error{ color: red }
+</style>
+<link href="../libs/bootstrap-datetimepicker-master/build/css/bootstrap-datetimepicker.css" rel="stylesheet" />
+<link href="../libs/Chosen/css/chosen.css" rel="stylesheet" />
+<div ng-controller="appointmentController" ng-init="initAppointment()">
+    <header id="header">
+        <nav id="main-menu" class="navbar navbar-default navbar-fixed-top" role="banner">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" ng-href="/"><img src="../images/logo.png" alt="logo" style="width:70%;"></a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right">
+                    <ul class="nav navbar-nav">
+                        <li><a ng-href="/">Trang chủ</a></li>
+                        <!--<li class="scroll"><a href="#features">Tin tức</a></li>-->
+                        <li><a ng-href="/index/services">Dịch vụ</a></li>
+                        <li><a ng-href="/index/portfolio">Chuyên khoa</a></li>
+                        <li><a ng-href="/index/about">Giới thiệu</a></li>
+                        <li><a ng-href="/index/blog">Tin tức</a></li>
+                        <li><a ng-href="/index/get-in-touch">Liên hệ</a></li>
+                    </ul>
+                </div>
+            </div><!--/.container-->
+        </nav><!--/nav-->
+    </header><!--/header-->
+    <div class="container">
+
+        <div class="card">
+
+            <ul class="nav nav-tabs">
+                <li class="active"><a showtab="" data-toggle="tab" href="#appointment">Thông tin cuộc hẹn</a></li>
+                <li><a showtab="" data-toggle="tab" href="#infoOrderer">Thông tin cá nhân</a></li>
+                <li><a showtab="" data-toggle="tab" href="#checkandConfirm">Kiểm tra và xác nhận</a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="appointment" class="tab-pane fade in active" style="width: 100%">
+
+                    <div class="col-md-8" style="padding-left: 0px; padding-right: 0px">
+
+                        <ng-form name="appointmentInfoForm" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-md-3 col-sm-3 col-xs-4">Chọn bác sĩ:</label>
+                                <div class="col-md-9 col-sm-9 col-xs-8" id="selectDoctor">
+                                    <select class="form-control">
+                                        <option value="0">Chọn bác sĩ của bạn</option>
+                                        <option value="1">Tư vấn một bác sĩ cho tôi</option>
+                                        <option value="2">Tìm bác sĩ mà bạn biết</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="doctorSelected" class="form-group">
+                                <label class="col-md-3 col-sm-3 col-xs-4"></label>
+                                <div class="col-md-9 col-sm-9 col-xs-8" id="chooseADoctor">
+                                    <select id="selectPhysician" data-placeholder="Chọn một bác sĩ..." class="form-control" tabindex="2" ng-model="model.PhysicianId" ng-options="doctor.Id as doctor.Name for doctor in doctors" ng-change="changeDoctor(model.PhysicianId)">
+                                        <!--<option value=""></option>
+                                        <option value="one">Nguyễn Ngọc Thạch</option>
+                                        <option value="two">Hoàng Anh Vũ</option>
+                                        <option value="three">Lê Thành Dương</option>
+                                        <option value="four">Trịnh Văn Tân</option>
+                                        <option value="five">Trần Quang Huy</option>-->
+                                    </select>
+                                    <label id="PhysicianIdMessage" style="display: none" class="field-validation-error">Vui lòng chọn bác sĩ</label>
+                                </div>
+                            </div>
+                            <div class="form-group" style="display: none" id="searchDoctor">
+                                <label class="col-md-3 col-sm-3 col-xs-4"></label>
+                                <div class="col-md-9 col-sm-9 col-xs-8">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Nhập tên ...">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" onclick="showDoctorList()" style="margin-right: 0px"><i class="fa fa-search"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="dateOrder" class="col-md-3 col-sm-3 col-xs-4">Thời gian đặt hẹn: </label>
+                                <div class="col-md-6 col-sm-6 col-xs-5">
+                                    <input name="dateOrder" type="text" class="form-control" id="dateAppointment" ng-pattern="/^(0?[1-9]|[12][0-9]|3[01])-(0?[1-9]|1[012])-((19[0-9]{2})|(20[0-1]{1}[0-4]{1}))$/">
+                                </div>
+                                <label for="timeOrder" class="col-md-1 col-sm-1 col-xs-1">giờ: </label>
+                                <div class="col-md-2 col-sm-2 col-xs-2">
+                                    <select name="timeOrder" class="form-control" ng-model="model.Time" id="timeAppointment" ng-options="gio for gio in giohens" required></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="symptom" class="col-md-3 col-sm-3 col-xs-4" required>Lý do/ Triệu chứng: </label>
+                                <div class="col-md-9 col-sm-9 col-xs-8">
+                                    <textarea name="symptom" class="form-control" ng-model="model.Symptom" required></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 col-sm-3 col-xs-4"></label>
+                                <div class="col-md-9 col-sm-6 col-xs-8">
+                                    <button ng-disabled="!appointmentInfoForm.$dirty || (appointmentInfoForm.$dirty && appointmentInfoForm.$invalid)" class="btn btn-success" ng-click="transToInforOrderer()">Đặt hẹn</button><button class="btn btn-default">Thoát</button>
+                                </div>
+                            </div>
+                        </ng-form>
+                    </div>
+                    <div class="col-md-4 collapse" id="quickviewProfile">
+                        <div class="col-md-3 col-sm-3 col-xs-3" ng-hide="{{doctor.Image == null}}">
+                            <div class="profile">
+                                <div class="profile_pic">
+                                    <img src="~/img/picture.jpg" style="width: 100%" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-9">
+                            <b>{{doctor.Name}}</b>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-12">
+                            <a ng-click="viewDoctorProfile(doctor.Id)" class="btn btn-success" style="width: 100%">Xem thêm</a>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+
+                </div>
+                <div id="infoOrderer" class="tab-pane fade">
+                    <ng-form name="infoOrdererForm" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-2 col-sm-3 col-xs-4" for="patientName">Họ tên: <span class="red">*</span></label>
+                            <div class="col-md-6 col-sm-9 col-xs-8">
+                                <input type="text" name="patientName" class="form-control" ng-model="model.PatientName" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 col-sm-3 col-xs-4" for="patientDoB">Ngày sinh: </label>
+                            <div class="col-md-6 col-sm-9 col-xs-8">
+                                <input type="text" class="form-control" name="patientDoB" ng-model="model.PatientDoB" id="dateNgaySinh">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 col-sm-3 col-xs-4">Giới tính: </label>
+                            <div class="col-md-6 col-sm-9 col-xs-8">
+                                <label class="radio-inline">
+                                    <input type="radio" name="genderOptRadio">Nam
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="genderOptRadio">Nữ
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 col-sm-3 col-xs-4" for="patientEmail">Email: </label>
+                            <div class="col-md-6 col-sm-9 col-xs-8">
+                                <input type="email" class="form-control" name="patientEmail" ng-model="model.PatientEmail" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 col-sm-3 col-xs-4" for="patientPhone">Số điện thoại: </label>
+                            <div class="col-md-6 col-sm-9 col-xs-8">
+                                <input type="text" class="form-control" name="patientPhone" ng-model="model.PatientPhone" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 col-sm-3 col-xs-4"></label>
+                            <div class="col-md-6 col-sm-9 col-xs-8">
+                                <button ng-disabled="!infoOrdererForm.$dirty || (infoOrdererForm.$dirty && infoOrdererForm.$invalid)" class="btn btn-success" ng-click="registerInfo(model)">Đăng ký và tiếp tục</button>
+                            </div>
+                        </div>
+                    </ng-form>
+                </div>
+                <div id="checkandConfirm" class="tab-pane fade">
+                    <h4><i class="fa fa-bookmark" aria-hidden="true" style="color:#26B99A"></i> THÔNG TIN CÁ NHÂN ĐẶT HẸN</h4>
+                    <p>
+                        Họ tên: <br />
+                        Địa chỉ email: <br />
+                        Ngày sinh: <br />
+                        Quốc tịch: <br />
+                        Giới tính: <br />
+                        Số điện thoại: <br />
+                    </p>
+                    <hr />
+                    <h4><i class="fa fa-bookmark" aria-hidden="true" style="color: #26B99A"></i> THÔNG TIN ĐẶT HẸN KHÁM</h4>
+                    <p>
+                        Đặt hẹn cho: <br />
+                        Chuyên khoa: <br />
+                        Bác sĩ: <br />
+                        Ngày: 07/02/2017. Giờ: 8:00<br />
+                        Lý do: <br />
+                    </p>
+                    <div class="form-group">
+                        <button class="btn btn-success" ng-click="makeAppointment(model)">Xác nhận đặt hẹn</button>
+                        <button class="btn btn-default" onclick="editAppointment()">Điều chỉnh</button>
+                        <button class="btn btn-warning">Thoát</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="myModal" class="modal fade" tabindex="-1" role="dialog" style="display: none">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Danh sách bác sĩ</h4>
+                    </div>
+                    <div class="modal-body" style="margin: auto; padding: 20px">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4 col-xs-4">
+                                <div class="profile">
+                                    <div class="profile_pic">
+                                        <img src="~/img/picture.jpg" style="width: 100%" />
+                                    </div>
+                                </div>
+                                <button class="btn btn-warning" style="width: 100%; margin-top: 5px" onclick="makeAppointmentDoctor()">Chọn bác sĩ</button>
+                            </div>
+                            <div class="col-md-8 col-sm-8 col-xs-8">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <span class="blue"><b>Chuyên khoa:</b></span>
+                                    </div>
+                                    <div class="col-md-9">
+                                        - A <br />
+                                        - B <br />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <span class="blue"><b>Ngôn ngữ:</b></span>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <p>Tiếng Việt - Tiếng mẹ đẻ, Tiếng Anh - Lưu loát</p>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <span class="blue"><b>Chứng nhận:</b></span>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <p><b>Trường y:</b> Đại học y dược TP Hồ Chí Minh</p>
+                                        <p>
+                                            <b>Bằng cấp chuyên môn:</b> <br />
+                                            - Chuyên khoa cấp I, khoa Da liễu, Đại học Y dược, Tp Hồ Chí Minh, Việtnam, 1988<br />
+                                            - Chuyên khoa cấp II, khoa Da liễu, Đại học Y dược, Tp Hồ Chí Minh, Việtnam, 1996<br />
+                                            - Thạc sĩ y khoa, Đại học Y dược, Tp Hồ Chí Minh, Việtnam, 1997<br />
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <table style="width: 100%; margin-top: 10px; border: solid; border-color: #eee; border-width: thin">
+                                <thead>
+                                    <tr style="background-color: #c7c7c7; height: 20px">
+                                        <td>Ngày</td>
+                                        <td>Thời gian</td>
+                                        <td>Địa điểm</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-bottom: 1px dotted #C6B4B4;">
+                                        <td>Thứ 2</td>
+                                        <td>8:00 - 18:00</td>
+                                        <td>Bệnh viện A</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Thứ 3</td>
+                                        <td>8:00 - 18:00</td>
+                                        <td>Bệnh viện A</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="clearfix"></div>
+                            <hr />
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4 col-xs-4">
+                                <div class="profile">
+                                    <div class="profile_pic">
+                                        <img src="~/img/img.jpg" style="width: 100%" />
+                                    </div>
+                                </div>
+                                <button class="btn btn-warning" style="width: 100%; margin-top: 5px" onclick="makeAppointmentDoctor()">Chọn bác sĩ</button>
+                            </div>
+                            <div class="col-md-8 col-sm-8 col-xs-8">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <span class="blue"><b>Chuyên khoa:</b></span>
+                                    </div>
+                                    <div class="col-md-9">
+                                        - A <br />
+                                        - B <br />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <span class="blue"><b>Ngôn ngữ:</b></span>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <p>Tiếng Việt - Tiếng mẹ đẻ, Tiếng Anh - Lưu loát</p>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <span class="blue"><b>Chứng nhận:</b></span>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <p><b>Trường y:</b> Đại học y dược TP Hồ Chí Minh</p>
+                                        <p>
+                                            <b>Bằng cấp chuyên môn:</b> <br />
+                                            - Chuyên khoa cấp I, khoa Da liễu, Đại học Y dược, Tp Hồ Chí Minh, Việtnam, 1988<br />
+                                            - Chuyên khoa cấp II, khoa Da liễu, Đại học Y dược, Tp Hồ Chí Minh, Việtnam, 1996<br />
+                                            - Thạc sĩ y khoa, Đại học Y dược, Tp Hồ Chí Minh, Việtnam, 1997<br />
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <table style="width: 100%; margin-top: 10px; border: solid;border-color: #eee; border-width: thin">
+                                <thead>
+                                    <tr style="background-color: #c7c7c7; height: 20px">
+                                        <td>Ngày</td>
+                                        <td>Thời gian</td>
+                                        <td>Địa điểm</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-bottom: 1px dotted #C6B4B4;">
+                                        <td>Thứ 2</td>
+                                        <td>8:00 - 18:00</td>
+                                        <td>Bệnh viện A</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Thứ 3</td>
+                                        <td>8:00 - 18:00</td>
+                                        <td>Bệnh viện A</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="clearfix"></div>
+                            <hr />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Thoát</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+        <div id="collapseThongTinModal" class="modal fade" tabindex="-1" role="dialog" style="display: none">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Thông tin bác sĩ</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-3 col-xs-3" ng-hide="{{doctor.Image == null}}">
+                                <div class="profile_pic">
+                                    <img src="~/img/picture.jpg" style="width: 100%" />
+                                </div>
+                            </div>
+                            <div class="col-md-9 col-sm-9 col-xs-9">
+                                <b>{{doctor.Name}}</b>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <table style="width: 90%; margin-top: 20px; margin-left: 20px; margin-right: 20px" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr style="background-color: #c7c7c7; height: 20px">
+                                        <td>Thời gian</td>
+                                        <td>Ghi chú</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="schedule in schedules">
+                                        <td>{{schedule.Start}} - {{schedule.End}}</td>
+                                        <td>{{schedule.Detail}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../Scripts/moment.js"></script>
+<script src="../Scripts/moment-with-locales.js"></script>
+<script src="../libs/bootstrap-datetimepicker-master/build/js/bootstrap-datetimepicker.min.js"></script>
+<script src="../libs/Chosen/js/chosen.jquery.js"></script>
+<script src="../libs/Chosen/choosenDefine.js"></script>
+<script>
+    $(document).ready(function () {
+        dateTimeControl();
+    });
+
+    function dateTimeControl() {
+        $("#dateAppointment").datetimepicker({
+            format: 'DD/MM/YYYY',
+            locale: 'vi',
+            minDate: Date.now(),
+            maxDate: moment().add(2, 'days')
+        });
+
+        $("#dateAppointment").datetimepicker({
+            format: 'DD/MM/YYYY',
+            locale: 'vi',
+            minDate: Date.now(),
+            maxDate: moment().add(2, 'days')
+        });
+    }
+</script>

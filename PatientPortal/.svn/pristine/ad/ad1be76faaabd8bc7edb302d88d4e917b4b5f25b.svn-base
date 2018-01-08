@@ -1,0 +1,149 @@
+﻿@model IEnumerable<PatientPortal.PatientServices.Models.Article.ArticleViewModel>
+
+@{
+    ViewBag.Title = "HỎI ĐÁP Y TẾ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var activeTab1 = "";
+    var activeTab2 = "";
+    if (ViewBag.TypePage == 0)
+    {
+        activeTab1 = "active";
+    }
+    else if (ViewBag.TypePage == 1)
+    {
+        activeTab2 = "active";
+    }
+}
+<link href="~/Content/qamedical.css" rel="stylesheet" />
+<link href="~/Libs/Chosen/css/chosen.css" rel="stylesheet" />
+
+@Html.Raw(TempData["Alert"])
+
+<div class="row qa-heder">
+    <div class="col-md-6 col-xs-6 qa-title">
+        <span itemprop="name">@ViewBag.Title</span>
+    </div>
+    <div class="col-md-6 col-xs-6">
+        <a href="http://localhost:14302/Article/Create" class="btn btn-success ask-question" style="float: right">
+            <i class="fa fa-plus"></i> Gửi Câu Hỏi
+        </a>
+
+    </div>
+</div>
+
+<div class="card">
+
+    <div class="row" id="qa-question-group">
+        <div class="col-md-6 col-xs-6 sort-questions">
+            <ul>
+                <li>
+                    <a class="@activeTab1" href="@Url.Action("Index")">
+                        Mới nhất
+                    </a>
+                </li>
+
+                <li>
+                    <a class="@activeTab2" href="@Url.Action("Index", new {type=1})">Chưa trả lời</a>
+                </li>
+            </ul>
+        </div>
+        @*<div class="col-md-6 col-xs-6 number-of-questions-wrapper">
+                <span class="number-of-questions-text">Hiển thị: </span>
+                <div class="number-of-questions">
+                    <select id="filter-numbers" class="select-grey-bg chosen-select" style="display: none;">
+                        <option value="https://qaengine.enginethemes.com/?numbers=20">20</option>
+                        <option value="https://qaengine.enginethemes.com/?numbers=15">15</option>
+                        <option selected="" value="https://qaengine.enginethemes.com/?numbers=10">10</option>
+                        <option value="https://qaengine.enginethemes.com/?numbers=5">5</option>
+                    </select>
+                </div>
+                <span class="number-of-questions-text">kết quả trong một trang </span>
+            </div>*@
+    </div>
+    <div id="qa-question">
+        <ul id="qa-question-list">
+            @foreach (var item in Model)
+            {
+                <li class="question-item">
+                    <div class="row">
+                        <!-- left content -->
+                        <div class="col-md-10 col-xs-10 q-left-content">
+                            <div class="q-ltop-content">
+                                <h2 itemprop="name">
+                                    <a itemprop="url" href="@Url.Action("Detail", "Article", new { id = item.Id })" class="question-title">
+                                        @Html.DisplayFor(modelItem => item.Title)
+                                    </a>
+                                </h2>
+                            </div>
+                            <div class="q-lbtm-content">
+                                <div itemprop="text" class="question-excerpt">
+                                    <p>
+                                        @Html.DisplayFor(modelItem => item.Detail)
+                                    </p>
+                                </div>
+                                <div class="question-cat">
+                                    <span itemprop="dateCreated" datetime="on @Html.DisplayFor(modelItem => item.Date)" class="question-time">
+                                        Ngày tạo @Html.DisplayFor(modelItem => item.Date)
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end left content -->
+                        <!-- right content -->
+                        <div class="col-md-1 col-xs-1 q-right-content">
+
+                            <ul class="question-statistic">
+                                <li>
+                                    <span class="question-views">
+                                        @item.CountComments
+                                    </span>
+                                    trả lời
+                                </li>
+                                @*<li class="active">
+                                        <span itemprop="answerCount" class="question-answers">
+                                            @item.CountComments
+                                        </span>
+                                        answers
+                                    </li>
+                                    <li>
+                                        <span itemprop="upvoteCount" class="question-votes">
+                                            @item.CountComments
+                                        </span>
+                                        votes
+                                    </li>*@
+                            </ul>
+                        </div>
+                        <div class="col-md-1 col-xs-1 q-right-content">
+                            <div class="qa-edit-inline">
+                               
+                                @if (item.CountComments == 0)
+                                {
+                                     <!-- edit link -->
+                                    <a class="modal-link" href="@Url.Action("Edit", new {id = item.Id})">
+                                        <i class="edit-icon glyphicon glyphicon-pencil"></i>
+                                    </a>
+                                    <!-- delete link -->
+                                    <a class="modal-link" href="@Url.Action("Delete", new {id = item.Id})">
+                                        <i class="delete-icon glyphicon glyphicon-remove"></i>
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                        <!-- end right content -->
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/Libs/Chosen/js/chosen.jquery.min.js"></script>
+@*<script src="~/Scripts/choosenDefine.js"></script>*@
+<script>
+    $(".chosen-select")
+        .chosen({
+            disable_search: true
+        });
+</script>

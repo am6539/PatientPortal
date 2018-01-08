@@ -1,0 +1,105 @@
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PatientPortal.DataAccess.Dapper;
+using PatientPortal.DataAccess.Implementation.CMS;
+using System.Collections.Generic;
+using PatientPortal.Domain.Models.CMS;
+using PatientPortal.DataAccess.Repo.CMS;
+using PatientPortal.DataAccess.CMS;
+using System.Linq;
+
+namespace PatientPortal.UnitTest
+{
+    [TestClass]
+    public class CategoryUnitTest
+    {
+        public ICategory _category;
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            _category = new CategoryImpl();
+        }
+
+        [TestMethod]
+        public void GetAllCateGoryTest()
+        {
+            var count = _category.GetAll().Count;
+            Assert.IsTrue(count >= 0);
+        }
+
+        [TestMethod]
+        public void CategoryTransactionInsertTest()
+        {
+            var listAll = _category.GetAll();
+            var list = new List<Category>();
+            var category = new Category();
+            if (listAll.Count == 0)
+            {
+                category = new Category { Name = "Tin sức khỏe", Handler = "ABC", Sort = 1, ParentId = 0 };
+            }
+            else
+            {
+                category = listAll.LastOrDefault();
+            }
+            list.Add(category);
+            if (list.Count > 0)
+            {
+                var flag = _category.CategoryTransaction(list, 'I');
+                Assert.IsTrue(flag);
+            }
+        }
+
+        [TestMethod]
+        public void CategoryTransactionUpdateTest()
+        {
+            var list = _category.GetAll();
+            var listUpdate = new List<Category>();
+            var category = new Category();
+            if (list.Count == 0)
+            {
+                var listInsert = new List<Category>()
+                {
+                    new Category { Name = "Tin sức khỏe", Handler = "ABC", Sort = 1, ParentId = 0 }
+                };
+                _category.CategoryTransaction(listInsert, 'I');
+                category = _category.GetAll().LastOrDefault();
+            }
+            else
+            {
+                category = list.LastOrDefault();
+            }
+
+            listUpdate.Add(category);
+
+            var flag = _category.CategoryTransaction(listUpdate, 'U');
+            Assert.IsTrue(flag);
+        }
+
+        [TestMethod]
+        public void CategoryTransactionDeleteTest()
+        {
+            var list = _category.GetAll();
+            var listUpdate = new List<Category>();
+            var category = new Category();
+            if (list.Count == 0)
+            {
+                var listInsert = new List<Category>()
+                {
+                    new Category { Name = "Tin sức khỏe", Handler = "ABC", Sort = 1, ParentId = 0 }
+                };
+                _category.CategoryTransaction(listInsert, 'I');
+                category = _category.GetAll().LastOrDefault();
+            }
+            else
+            {
+                category = list.LastOrDefault();
+            }
+
+            listUpdate.Add(category);
+
+            var flag = _category.CategoryTransaction(listUpdate, 'D');
+            Assert.IsTrue(flag);
+        }
+    }
+}

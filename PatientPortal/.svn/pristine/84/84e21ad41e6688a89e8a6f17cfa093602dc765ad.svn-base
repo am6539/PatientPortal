@@ -1,0 +1,78 @@
+﻿using AutoMapper;
+using PatientPortal.API.SPA.ViewModels;
+using PatientPortal.IRepository.CORE;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Http;
+
+namespace PatientPortal.API.SPA.Controllers
+{
+    public class DoctorProfileController : ApiController
+    {
+        private readonly IDoctorProfileRepo _doctor;
+        private readonly string PATH_AVATAR = ConfigurationManager.AppSettings["web:internal"];
+
+        public DoctorProfileController(IDoctorProfileRepo doctor)
+        {
+            this._doctor = doctor;
+        }
+
+        /// <summary>
+        /// Get all
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<List<DoctorProfileViewModel>> Get()
+        {
+            List<string> list = new List<string> { "userid" };
+            var para = APIProvider.APIDefaultParameter(list, string.Empty);
+
+            var source = await _doctor.Query(para);
+            var results = new List<DoctorProfileViewModel>();
+            if (source != null)
+            {
+                foreach(var item in source)
+                {
+                    var profile = new DoctorProfileViewModel()
+                    {
+                        UserId = item.UserId,
+                        Speciality = item.Speciality,
+                        Degrees = item.Degrees,
+                        Training = item.Training,
+                        Office = item.Office,
+                        Workdays = item.Workdays,
+                        Name = item.Name,
+                        Image = PATH_AVATAR + item.Image
+                    };
+                    results.Add(profile);
+                }
+            }
+            var dest = Mapper.Map<List<DoctorProfileViewModel>>(source);
+
+            return results;
+        }
+
+        /// <summary>
+        /// Filter by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<DoctorProfileViewModel> Get(string id)
+        {
+            List<string> list = new List<string> { "userid" };
+            var para = APIProvider.APIGeneratorParameter(list, id);
+
+            var source = await _doctor.SingleQuery(para);
+            var dest = Mapper.Map<DoctorProfileViewModel>(source);
+
+            return dest;
+        }
+    }
+}

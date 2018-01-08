@@ -1,0 +1,97 @@
+﻿@using PatientPortal.Provider.Helpers;
+@using PatientPortal.Utility.Files;
+@model PatientPortal.PatientServices.Models.UserInfoBindingModel
+@{
+    ViewBag.Title = "Thông tin cá nhân";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section styles{
+    <link href="~/Libs/fullcalendar-3.3.1/css/fullcalendar.css" rel="stylesheet" />
+    <link href="~/Content/checkbox-radio-build.css" rel="stylesheet" />
+}
+<div class="card">
+    <div class="card-title">@Html.ITitle("Điều chỉnh thông tin cá nhân", "address-card-o")</div>
+    <div class="card-content">
+        <div class="form-horizontal">
+        
+        @using (Html.IBeginForm("Edit", "Account"))
+        {
+            @Html.IGroupSubmitButton("Cập nhật", Url.Action("UserProfile", "Account"))
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+        <div class="col-md-6">
+            @Html.HiddenFor(m => m.Email)
+            @Html.HiddenFor(m => m.Id)
+            @Html.IGroupTextBoxFor(m => m.Name, true, 12, "Tên đầy đủ")
+            @Html.IGroupTextBoxFor(m => m.DoB, true, 12, "Ngày sinh")
+            @Html.IGroupTextBoxFor(m => m.Address, true, 12, "Địa chỉ")
+            <div class="form-group">
+                @Html.LabelFor(m => m.Gender, new { @class = "control-label col-sm-12 text-left" })
+                <div class="col-md-12 col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label class="radio radio-success radio-inline">
+                                @Html.RadioButtonFor(model => model.Gender, 1, new { @aria_label = "Male", @id = "Male" })
+                                <label for="Male">Nam</label>
+                            </label>
+                        </div>
+                        <div class="col-sm-4">
+                            <label class="radio radio-success radio-inline">
+                                @Html.RadioButtonFor(model => model.Gender, 0, new { @aria_label = "Female", @id = "Female" })
+                                <label for="Female">Nữ</label>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            @Html.IGroupTextBoxFor(m => m.PhoneNumber, true, 12, "Điện thoại")
+            @Html.IGroupTextBoxFor(m => m.PersonalId, true, 12, "Số CMND/Passport")
+            @Html.IGroupTextBoxFor(m => m.InsuranceId, true, 12, "Số BHYT")
+            <div class="form-group">
+                <div class="col-md-12">
+                    <div class="text-center">
+                        @*@if (Model.Image != null)
+                    {
+                        <img src="@FileManagement.ByteArrayToImageBase64(Model.Image)" class="avatar img-circle" alt="Hình đại diện" style="width:100%; height:100%; max-width: 100px;">
+                    }*@
+                        <div style="margin-top:10px;">
+                            <input type="file" name="fileUpload" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</div>
+</div>
+@section scripts{
+
+    <script src="~/Libs/fullcalendar-3.3.1/lib/jquery-ui.min.js"></script>
+    <script src="~/Libs/fullcalendar-3.3.1/js/fullcalendar.js"></script>
+    <script src="~/Libs/fullcalendar-3.3.1/js/locale-all.js"></script>
+    <script type="text/javascript">
+            $(document).ready(function () {
+                var d = new Date();
+
+                var month = d.getMonth() + 1;
+                var day = d.getDate();
+
+                var output = (day < 10 ? '0' : '') + day + '/'
+                    + (month < 10 ? '0' : '') + month + '/' +
+                    +d.getFullYear();
+
+                $("#DoB").datetimepicker({
+                    format: 'DD/MM/YYYY',
+                    locale: 'vi',
+                    maxDate: Date.now(),
+                });
+
+                $("#DoB").val(output);
+            });
+    </script>
+}

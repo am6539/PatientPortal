@@ -1,0 +1,103 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Net;
+
+namespace PatientPortal.Utility.Application
+{
+    public static class ApplicationGenerator
+    {
+        public static T GetObject<T>() where T : new()
+        {
+            return new T();
+        }
+
+        public static string GeneralActionMessage(string actionType, TypeResult typeResult)
+        {
+            var strReturn = string.Empty;
+            //Action Type
+            switch(actionType)
+            {
+                case "I": //Insert
+                    strReturn = "Thêm";
+                    break;
+                case "U": //Update
+                    strReturn = "Cập nhật";
+                    break;
+                case "D": //Delete
+                    strReturn = "Xóa";
+                    break;
+                case "R": //Read
+                    strReturn = "Thống kê";
+                    break;
+            }
+
+            switch(typeResult)
+            {
+                case TypeResult.SUCCESS:
+                    strReturn += " dữ liệu thành công";
+                    break;
+                case TypeResult.FAIL:
+                    strReturn += " chưa được thực hiện thành công. Xin kiểm tra lại";
+                    break;
+                case TypeResult.ERROR:
+                    strReturn = "Có lỗi phát sinh khi " + strReturn.ToLower() + " dữ liệu. Xin thử lại hoặc liên hệ Quản trị hệ thống. Xin cảm ơn";
+                    break;
+                case TypeResult.ISUSED:
+                    strReturn = "Có lỗi phát sinh khi " + strReturn.ToLower() + " dữ liệu. Dữ liệu này đã được sử dụng, không thể xóa";
+                    break;
+            }
+
+            return strReturn;
+        }
+
+        public enum TypeResult
+        {
+            SUCCESS,
+            FAIL,
+            ERROR,
+            ISUSED, 
+            INFO
+        }
+
+        public static HtmlString RenderResult(TypeResult typeResult, string strMessage)
+        {
+            var messages = string.Empty;
+            var icon = string.Empty;
+            var cssClass = string.Empty;
+
+            switch (typeResult)
+            {
+                case TypeResult.SUCCESS:
+                    cssClass = @"alert-success";
+                    icon = "check";
+                    messages = "Success";
+                    break;
+                case TypeResult.ISUSED:
+                case TypeResult.FAIL:
+                    cssClass = @"alert-warning";
+                    icon = "warning";
+                    messages = "Warning";
+                    break;
+                case TypeResult.ERROR:
+                    cssClass = @"alert-danger";
+                    icon = "close";
+                    messages = "Error";
+                    break;
+                case TypeResult.INFO:
+                    cssClass = @"alert-info";
+                    icon = "info";
+                    messages = "Info";
+                    break;
+            }
+
+            messages = @"<div class='alert "+ cssClass + @" alert-dismissable alert-view fade in'>
+                                <a href = '#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+                                <strong><i class='fa fa-"+ icon +"'></i> "+ messages  + ":</strong> " + strMessage + @"
+                                </div>";
+
+            return new HtmlString(messages);
+        }
+    }
+}

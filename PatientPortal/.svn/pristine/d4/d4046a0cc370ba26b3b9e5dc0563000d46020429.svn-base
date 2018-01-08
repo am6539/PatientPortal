@@ -1,0 +1,109 @@
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web;
+using WebApiContrib.Formatting;
+
+namespace PatientPortal.CMS.Utility
+{
+    internal static class APIHelper
+    {
+        private static Uri _baseAddress = new Uri(ConfigurationManager.AppSettings["webapi:cms"]);
+
+        /// <summary>
+        /// Get data API by Protobuf
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="urlApi">Uri API</param>
+        /// <returns></returns>
+        public static T Get<T>(string urlApi)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-protobuf"));
+                httpClient.BaseAddress = _baseAddress;
+
+                var response = httpClient.GetAsync(urlApi).Result;
+
+                var data = response.Content.ReadAsAsync<T>(new[] { new ProtoBufFormatter() }).Result;
+
+                return data;
+            }
+        }
+
+        /// <summary>
+        /// Insert/Update/Delete with async
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data">object</param>
+        /// <param name="urlApi">Uri API</param>
+        /// <returns>Object</returns>
+        public static async Task<T> TransactionAsync<T>(T data, string urlApi)
+        {
+            try
+            {
+                var httpClient = new HttpClient();
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-protobuf"));
+
+                StringContent content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+                httpClient.BaseAddress = _baseAddress;
+
+                HttpResponseMessage response = await httpClient.PostAsync(urlApi, content);
+                return response.Content.ReadAsAsync<T>(new[] { new ProtoBufFormatter() }).Result;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(ex.Message);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Insert/Update/Delete with async
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data">object</param>
+        /// <param name="urlApi">Uri API</param>
+        /// <returns>true/false</returns>
+        public static async Task<bool> TransactionAsyncResult<T>(T data, string urlApi)
+        {
+            try
+            {
+                var httpClient = new HttpClient();
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-protobuf"));
+
+                StringContent content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+                httpClient.BaseAddress = _baseAddress;
+
+                HttpResponseMessage response = await httpClient.PostAsync(urlApi, content);
+                if (!response.IsSuccessStatusCode) return false; //Check status code
+                return response.Content.ReadAsAsync<bool>(new[] { new ProtoBufFormatter() }).Result;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(ex.Message);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Bind multiple parameter
+        /// </summary>
+        /// <param name="obj">Model parameter</param>
+        /// <returns>String Uri</returns>
+        public static string GetQueryString(object obj)
+        {
+            var properties = from p in obj.GetType().GetProperties()
+                             where p.GetValue(obj, null) != null
+                             select p.Name + "=" + HttpUtility.UrlEncode(p.GetValue(obj, null).ToString());
+
+            return String.Join("&", properties.ToArray());
+        }
+    }
+}

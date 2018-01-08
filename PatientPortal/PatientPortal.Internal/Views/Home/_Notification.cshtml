@@ -1,0 +1,24 @@
+﻿
+@model List<PatientPortal.Internal.Models.SystemNotificationViewModel>
+@{
+    var countNoti = 0;
+    if (Model != null)
+    {
+        countNoti = Model.FindAll(m => m.IsRead == false).Count;
+    }
+}
+
+<a href="#0" id="notificationLink" onclick="listNoti()">
+    <span class="fa fa-bell"></span>
+    @if (countNoti > 0)
+    {
+        <span class="badge bg-orange" id="numberNoti">@countNoti</span>
+    }
+    else
+    {
+        <span class="badge bg-orange" id="numberNoti">0</span>
+    }
+</a>
+
+
+<div id="notificationContainer"></div>

@@ -1,0 +1,22 @@
+﻿CREATE PROC [dbo].[usp_GalleryStore]
+	@Id VARCHAR(128) = '',
+	@ParentId VARCHAR(128) = ''
+AS BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+
+	BEGIN TRY
+		IF @Id <> ''
+			SELECT * FROM [dbo].[GalleryStore]
+			WHERE [Id] = @Id
+			ORDER BY [Id]
+		ELSE
+			SELECT * FROM [dbo].[GalleryStore] WHERE [ParentId] = @ParentId
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0 
+		BEGIN
+			RETURN NULL
+		END
+	END CATCH
+END

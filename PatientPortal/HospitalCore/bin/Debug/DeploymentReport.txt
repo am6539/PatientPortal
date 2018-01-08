@@ -1,0 +1,56 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Create
+       [dbo].[Appointment] (Table)
+       [dbo].[Appointment].[idxAppointmentDate] (Index)
+       [dbo].[Appointment].[idxAppointmentPatient] (Index)
+       [dbo].[Appointment].[idxAppointmentPhysician] (Index)
+       [dbo].[Article] (Table)
+       [dbo].[ArticleComment] (Table)
+       [dbo].[Group] (Table)
+       [dbo].[MailSetting] (Table)
+       [dbo].[Message] (Table)
+       [dbo].[MessageContent] (Table)
+       [dbo].[MessageFolder] (Table)
+       [dbo].[MessageRecipient] (Table)
+       [dbo].[Module] (Table)
+       [dbo].[OfferAdvise] (Table)
+       [dbo].[Organization] (Table)
+       [dbo].[Permission] (Table)
+       [dbo].[Role] (Table)
+       [dbo].[Setting] (Table)
+       [dbo].[UserGroup] (Table)
+       [dbo].[UserRole] (Table)
+       [dbo].[Users] (Table)
+       [dbo].[Users].[idxUserAccess] (Index)
+       [dbo].[DF__USERS__Gender__108B795B] (Default Constraint)
+       [dbo].[DF__USERS__Status__117F9D94] (Default Constraint)
+       [dbo].[FK_Article_Users] (Foreign Key)
+       [dbo].[FK_ArticleComment_Article] (Foreign Key)
+       [dbo].[FK_Message_MessageFolder] (Foreign Key)
+       [dbo].[FK_MessageContent_Message] (Foreign Key)
+       [dbo].[FK_MessageRecipient_Message] (Foreign Key)
+       [dbo].[FK_MessageRecipient_Users] (Foreign Key)
+       [dbo].[FK_OfferAdvise_Users] (Foreign Key)
+       [dbo].[FK_Permission_Module] (Foreign Key)
+       [dbo].[FK_Permission_Role] (Foreign Key)
+       [dbo].[FK_UserGroup_Group] (Foreign Key)
+       [dbo].[FK_UserGroup_Users] (Foreign Key)
+       [dbo].[FK_UserRole_Role] (Foreign Key)
+       [dbo].[FK_UserRole_Users] (Foreign Key)
+       [dbo].[FK_Users_Organization] (Foreign Key)
+       [dbo].[usp_Appointment] (Procedure)
+       [dbo].[usp_Appointment_Transaction] (Procedure)
+       [dbo].[usp_Article] (Procedure)
+       [dbo].[usp_Article_Transaction] (Procedure)
+
+** Supporting actions

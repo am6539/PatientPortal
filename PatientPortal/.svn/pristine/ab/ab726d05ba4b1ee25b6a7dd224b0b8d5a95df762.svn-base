@@ -1,0 +1,59 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.PatientServices.Models.ChangePasswordBindingModel
+@{
+    ViewBag.Title = "Đổi mật khẩu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-title">@Html.ITitle("Đổi mật khẩu", "address-card-o")</div>
+    <div class="card-content">
+       @using (Html.IBeginForm("ChangePassword", "Account"))
+       {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <div class="main-login main-center">
+            <div class="form-horizontal">
+                @Html.IGroupSubmitButton("Đổi mật khẩu", Url.Action("UserProfile", "Account"))
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.OldPassword, new { @class = "cols-sm-2 control-label", @for = "OldPassword" })
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>
+                                @Html.EditorFor(m => m.OldPassword, new { htmlAttributes = new { @type = "password", @class = "form-control", @placeholder = "Nhập mật khẩu cũ" } })
+                            </div>
+                            @Html.IValidationMessageFor(m => m.OldPassword)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.NewPassword, new { @class = "cols-sm-2 control-label", @for = "NewPassword" })
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>
+                                @Html.EditorFor(m => m.NewPassword, new { htmlAttributes = new { @type = "password", @class = "form-control", @placeholder = "Nhập mật khẩu mới" } })
+                            </div>
+                            @Html.IValidationMessageFor(m => m.NewPassword)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "cols-sm-2 control-label", @for = "ConfirmPassword" })
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>
+                                @Html.EditorFor(m => m.ConfirmPassword, new { htmlAttributes = new { @type = "password", @class = "form-control", @placeholder = "Nhập lại mật khẩu mới" } })
+                            </div>
+                            @Html.IValidationMessageFor(m => m.ConfirmPassword)
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+
+                </div>
+            </div>
+        </div>
+       }
+
+    </div>
+</div>

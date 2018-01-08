@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>
+        Đăng nhập hệ thống @{
+            if (ViewBag.Title != null)
+            {
+                Write(ViewBag.Title);
+            }
+        }
+    </title>
+
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+
+    @Styles.Render("~/Content/loginCss")
+    @RenderSection("styles", required: false)
+
+</head>
+<body>
+    
+    <div class="content-wrapper">
+        @RenderBody()
+    </div>
+</body>
+</html>
+
+

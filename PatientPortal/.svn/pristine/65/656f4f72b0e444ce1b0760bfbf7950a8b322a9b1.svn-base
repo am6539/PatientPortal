@@ -1,0 +1,22 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.CMS.Common
+{
+    public class ValueConstant
+    {
+        // Value action in tracsaction
+        public const string ACTION_INSERT = "I";
+        public const string ACTION_UPDATE = "U";
+        public const string ACTION_DELETE = "D";
+
+        //Value path image Upload
+        public const string IMAGE_PATH = "~\\Assets\\images";
+        public const string LOGS_PATH = "~\\Assets\\Logs";
+
+        // Value default language
+        public const byte LANG_VIETNAM = 1;
+    }
+}

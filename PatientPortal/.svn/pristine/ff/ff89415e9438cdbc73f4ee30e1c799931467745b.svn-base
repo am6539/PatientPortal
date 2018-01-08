@@ -1,0 +1,18 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.CMS.Models.LinkBuildingViewModel
+<div class="card">
+    <div class="card-content">
+        @using (Html.IBeginForm("Create", "LinkBuilding"))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            @Html.IGroupSubmitButton("Thêm liên kết", true, true, null, null, 3)
+            @Html.IGroupTextBoxFor(m => m.Title, true, "Tiêu đề hiển thị", null, 12)
+            @Html.IGroupTextBoxFor(m => m.Url, true, "Địa chỉ URL", null, 12)
+            @Html.IGroupCheckBoxFor(m => m.IsUsed, false, "IsUsed", 12, "Chọn để sử dụng")
+        }
+    </div>
+</div>
+
+

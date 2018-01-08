@@ -1,0 +1,54 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.Internal.Models.DepartmentViewModel
+
+@section styles{
+    <link href="~/Content/checkbox-radio-build.css" rel="stylesheet" />
+}
+
+<div class="card">
+    <div class="card-content">
+        @using (Html.IBeginForm("Create", "Department"))
+            {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            @Html.IGroupSubmitButton("Thêm chuyên khoa", true, true, null, null, 3)
+            @Html.HiddenFor(m => m.Id)
+            @Html.IGroupTextBoxFor(m => m.Name, true, "Tên chuyên khoa", null, 12)
+            @Html.IGroupTextAreaFor(m => m.Description, true, 5, "Nội dung hiển thị", null, 12)
+            @Html.IGroupTextBoxFor(m => m.Handler, true, "Địa chỉ liên kết", null, 12)
+            @*<div class="form-group">
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-sm btn-primary" style="width:100%" id="btnBrowser"><i class="fa fa-folder-open-o"></i> Chọn thư mục</button>
+                    @Html.ITextBoxFor(m => m.Handler)
+                </div>
+            </div>*@
+            @Html.IGroupTextBoxFor(m => m.Sort, true,null,new { @type = "number" }, 12)
+            @Html.IGroupCheckBoxFor(m => m.IsUsed, false, "IsUsed", 12, "Chọn để sử dụng")
+        }
+
+    </div>
+</div>
+
+ @*Modal 
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Chọn thư mục</h4>
+            </div>
+            <div class="modal-body">
+                <div id="container">
+                    <div id="MainTree">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnSelFolder" class="btn btn-success btn-sm"><i class="fa fa-check" aria-hidden="true"></i> Chọn</button>
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><i class="fa fa-long-arrow-right"></i>Hủy</button>
+            </div>
+        </div>
+    </div>
+</div>*@

@@ -1,0 +1,405 @@
+﻿<!DOCTYPE html>
+<html ng-app="spaApp">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<base href="/">
+
+	<!--css-->
+	<!--<link href="assets/libs/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />-->
+	<link href="assets/libs/bower_components/font-awesome-4.6.3/css/font-awesome.css" rel="stylesheet" />
+
+	<link href="assets/css/reset.css" rel="stylesheet" />
+	<link href="assets/css/superfish.css" rel="stylesheet" />
+	<link href="assets/css/fancybox/jquery.fancybox.css" rel="stylesheet" />
+	<link href="assets/css/jquery.qtip.css" rel="stylesheet" />
+	<link href="assets/css/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
+	<link href="assets/css/style.css" rel="stylesheet" />
+	<link href="assets/css/responsive.css" rel="stylesheet" />
+	<link href="assets/css/animations.css" rel="stylesheet" />
+	<link rel="shortcut icon" href="assets/img/favicon.ico" />
+    <link href="assets/layout_picker/layout_picker.css" rel="stylesheet" />
+
+    <link href="assets/css/modal.min.css" rel="stylesheet" /> 
+	<!--end css-->
+
+	<title>Bệnh viện đa khoa Bình Định</title>
+	<meta charset="utf-8" />
+
+	<!--Theme script-->
+	<script src="assets/js/jquery-1.12.4.min.js"></script>
+	<script src="assets/js/jquery-migrate-1.4.1.min.js"></script>
+    <script src="assets/js/jquery.ba-bbq.js"></script>
+	<!--<script src="assets/js/jquery.ba-bbq.min.js"></script>-->
+	<script src="assets/js/jquery-ui-1.9.2.custom.min.js"></script>
+	<script src="assets/js/jquery.easing.1.3.js"></script>
+	<script src="assets/js/jquery.carouFredSel-5.6.4-packed.js"></script>
+	<script src="assets/js/jquery.sliderControl.js"></script>
+	<script src="assets/js/jquery.timeago.js"></script>
+	<script src="assets/js/jquery.hint.js"></script>
+	<script src="assets/js/jquery.isotope.min.js"></script>
+	<script src="assets/js/jquery.isotope.masonry.js"></script>
+	<script src="assets/js/jquery.fancybox-1.3.4.pack.js"></script>
+	<script src="assets/js/jquery.qtip.min.js"></script>
+	<script src="assets/js/jquery.blockUI.js"></script>
+	<script src="assets/js/main.js"></script>
+    <script src="assets/layout_picker/layout_picker.js"></script>
+    <style>
+        .topnav .icon {
+            display: none;
+        }
+        @media screen and (max-width:1000px) {
+            nav{width:100%;}
+            #sf-menu{width:100%; clear: both}
+            #sf-menu ul li{width:100%;border-top:1px solid #444}
+            #sf-menu ul li:hover{background:#363636;}
+            .sf-menu{display: none}
+        .sf-menu .icon {
+            display: block;
+        }
+        .button{width:55px;height:46px;position:absolute;right:0;top:0;cursor:pointer;z-index: 12399994;}
+        .button:after{position:absolute;top:22px;right:20px;display:block;height:4px;width:20px;border-top:2px solid #dddddd;border-bottom:2px solid #dddddd;content:''}
+        .button:before{-webkit-transition:all .3s ease;-ms-transition:all .3s ease;transition:all .3s ease;position:absolute;top:16px;right:20px;display:block;height:2px;width:20px;background:#ddd;content:''}
+        .button.menu-opened:after{-webkit-transition:all .3s ease;-ms-transition:all .3s ease;transition:all .3s ease;top:23px;border:0;height:2px;width:19px;background:#fff;-webkit-transform:rotate(45deg);-moz-transform:rotate(45deg);-ms-transform:rotate(45deg);-o-transform:rotate(45deg);transform:rotate(45deg)}
+        .button.menu-opened:before{top:23px;background:#fff;width:19px;-webkit-transform:rotate(-45deg);-moz-transform:rotate(-45deg);-ms-transform:rotate(-45deg);-o-transform:rotate(-45deg);transform:rotate(-45deg)}
+        }
+
+        .sf-menu.responsive {position: relative; display: block}
+        .sf-menu.responsive .icon {
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+        .sf-menu.responsive a {
+            float: none;
+            display: block;
+            text-align: left;
+        }
+
+    </style>
+	<!--end theme script-->
+</head>
+<body ng-controller="MainController">
+	<div class="site_container">
+		<div class="header_container">
+			<div class="header clearfix">
+				<div class="header_left">
+					<a href="index.html" title="MEDICENTER">
+						<img src="assets/img/header_logo.png" alt="logo" />
+						<span class="logo">medicenter</span>
+					</a>
+				</div>
+                <nav>
+                    <a onclick="menuFunction()" style="border-bottom: none" class="button icon"></a>
+                    <ul class="sf-menu header_right" id="topnav">
+                        <li class="submenu selected">
+                            <a href="#" title="GIỚI THIỆU">
+                                GIỚI THIỆU
+                            </a>
+                            <ul ng-show="abouts.length > 0">
+                                <li ng-repeat="item in abouts">
+                                    <a href="/about/{{item.Id}}">{{item.TitleTran}}</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="submenu">
+                            <a href="#" title="TIN TỨC">
+                                TIN TỨC
+                            </a>
+                            <ul>
+                                <li ng-repeat="child in categories.children" ng-include="'treeCategory'" ng-init="parent = categories"></li>
+                            </ul>
+                        </li>
+                        <li class="submenu wide">
+                            <a href="#" title="CHUYÊN KHOA">
+                                CHUYÊN KHOA
+                            </a>
+                            <ul ng-show="departments.length > 0">
+                                <li ng-repeat="item in departments">
+                                    <a href="/department/{{item.Id}}" title="Primary Health Care">
+                                        {{item.Name}}
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="submenu">
+                            <a href="#" title="BÁC SĨ">
+                                BÁC SĨ
+                            </a>
+                            <ul>
+                                <li>
+                                    <a href="/doctors" title="Đội ngũ bác sĩ">
+                                        Đội ngũ bác sĩ
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" title="Lịch khám">
+                                        Lịch khám
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/contact" title="LIÊN HỆ">
+                                LIÊN HỆ
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/gallery" title="THƯ VIỆN HÌNH ẢNH">
+                                THƯ VIỆN HÌNH ẢNH
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+			</div>
+		</div>
+
+        <div ng-view></div>
+
+		<div class="footer_container">
+			<div class="footer">
+				<ul class="footer_banner_box_container clearfix">
+					<li class="footer_banner_box super_light_blue animated_element animation-fadeIn duration-500">
+						<h2>
+							Bảo hiểm sức khỏe
+						</h2>
+						<p>
+							<a class="icon_small_arrow right_white" href="#">Chọn để xem thông tin chi tiết</a>
+						</p>
+					</li>
+					<li class="footer_banner_box light_blue animated_element animation-slideRight duration-800 delay-250">
+						<h2>
+							Hồ sơ bệnh án
+						</h2>
+						<p>
+							<a class="icon_small_arrow right_white" href="#">Chọn để xem thông tin chi tiết</a>
+						</p>
+					</li>
+					<li class="footer_banner_box blue animated_element animation-slideRight200 duration-800 delay-500">
+						<h2>
+							Hóa đơn điện tử
+						</h2>
+						<p>
+							<a class="icon_small_arrow right_white" href="#">Chọn để xem thông tin chi tiết</a>
+						</p>
+					</li>
+				</ul>
+				<div class="footer_box_container clearfix">
+					<div class="footer_box">
+						<h3 class="box_header">
+							Thông tin liên hệ
+						</h3>
+						<p class="info">
+							Đến với chúng tôi để trải nghiệm dịch vụ khám chữa bệnh tốt nhất
+						</p>
+						<ul class="footer_contact_info_container clearfix">
+							<li class="footer_contact_info_row">
+									{{contact.Name}}
+							</li>
+							<li class="footer_contact_info_row">
+								<div class="footer_contact_info_left">
+                                    {{contact.Address}}
+								</div>
+								<div class="footer_contact_info_right">
+                                    Tel: {{contact.Phone}}<br/>
+                                    Fax: {{contact.Fax}}<br/>
+                                    Email: {{contact.Email}}
+								</div>
+							</li>
+						</ul>
+						<ul class="social_icons clearfix">
+							<li>
+								<a class="social_icon facebook" href="{{contact.Facebook}}" title="" target="_blank">
+									&nbsp;
+								</a>
+							</li>
+							<li>
+								<a class="social_icon twitter" href="{{contact.Twitter}}" title="" target="_blank">
+									&nbsp;
+								</a>
+							</li>
+							<li>
+								<a class="social_icon googleplus" href="{{contact.Google}}" title="">
+									&nbsp;
+								</a>
+							</li>
+							<li>
+								<a class="social_icon mail" href="{{contact.Email}}" title="">
+									&nbsp;
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="footer_box">
+						<div class="clearfix">
+							<div class="header_left">
+								<h3 class="box_header">
+									Tin tức mới nhất
+								</h3>
+							</div>
+							<div class="header_right">
+								<a href="#" id="footer_recent_posts_prev" class="scrolling_list_control_left icon_small_arrow left_white"></a>
+								<a href="#" id="footer_recent_posts_next" class="scrolling_list_control_right icon_small_arrow right_white"></a>
+							</div>
+						</div>
+						<div class="scrolling_list_wrapper">
+							<ul class="scrolling_list footer_recent_posts">
+								<li ng-repeat="post in lstPost" class="icon_small_arrow right_white">
+									<a href="/post/{{ post.Id }}">
+										{{ post.TitleTran }}
+									</a>
+									<abbr title="{{ post.PublishDate|dateEnNiceFilter }}" class="timeago">{{ post.PublishDate | dateEnNiceFilter }}</abbr>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="footer_box last">
+						<div class="clearfix">
+							<div class="header_left">
+								<h3 class="box_header">
+									Sự kiện mới nhất
+								</h3>
+							</div>
+							<div class="header_right">
+								<a href="#" id="latest_tweets_prev" class="scrolling_list_control_left icon_small_arrow left_white"></a>
+								<a href="#" id="latest_tweets_next" class="scrolling_list_control_right icon_small_arrow right_white"></a>
+							</div>
+						</div>
+						<div class="scrolling_list_wrapper">
+							<ul class="scrolling_list latest_tweets">
+								<li class="icon_small_arrow right_white"><p>We've released new version (v3.3) of our Dynamic #Step Process #Panels #WP #Tabs Plugin. Please check at #CodeCanyon <a href="https://t.co/5Lmc0tcJOI" target="_blank">t.co/5Lmc0tcJOI</a><abbr title="2017-05-24T11:10:45+00:00" class="timeago">Wed May 24 11:10:45 +0000 2017</abbr></p></li>
+								<li class="icon_small_arrow right_white"><p>We've released new version (v9.4) of our MediCenter #Medic #Health #WordPress Theme. Please check at #ThemeForest <a href="https://t.co/BIO54EthRz" target="_blank">t.co/BIO54EthRz</a><abbr title="2017-05-11T14:40:45+00:00" class="timeago">Thu May 11 14:40:45 +0000 2017</abbr></p></li>
+								<li class="icon_small_arrow right_white"><p>We've released new version (v3.1.1) of our Pressroom #News #Magazine #WordPress Theme. Please check at #ThemeForest <a href="https://t.co/sNBlrJJ7Ce" target="_blank">t.co/sNBlrJJ7Ce</a><abbr title="2017-05-11T10:59:12+00:00" class="timeago">Thu May 11 10:59:12 +0000 2017</abbr></p></li>
+								<li class="icon_small_arrow right_white"><p>We've released new version(v3.8.1) of our Renovate #Construction #Renovation #WordPress Theme. Check at #ThemeForest <a href="https://t.co/SqpmUycaL2" target="_blank">t.co/SqpmUycaL2</a><abbr title="2017-05-11T10:55:01+00:00" class="timeago">Thu May 11 10:55:01 +0000 2017</abbr></p></li>
+								<li class="icon_small_arrow right_white"><p>We've released new version(v3.6.1) of our #Car Service #Mechanic #Auto #Shop #WordPress Theme. Check at #ThemeForest <a href="https://t.co/uxaMcQBN52" target="_blank">t.co/uxaMcQBN52</a><abbr title="2017-05-11T10:53:50+00:00" class="timeago">Thu May 11 10:53:50 +0000 2017</abbr></p></li>
+								<li class="icon_small_arrow right_white"><p>We've released new version (v11.3) of our GymBase #Gym #Fitness #WordPress Theme. Please check at #ThemeForest <a href="https://t.co/feUKVKecHY" target="_blank">t.co/feUKVKecHY</a><abbr title="2017-05-10T12:44:38+00:00" class="timeago">Wed May 10 12:44:38 +0000 2017</abbr></p></li>
+								<li class="icon_small_arrow right_white"><p>We've released new version (v3.1) of our Pressroom #News #Magazine #WordPress Theme. Please check at #ThemeForest <a href="https://t.co/sNBlrJJ7Ce" target="_blank">t.co/sNBlrJJ7Ce</a><abbr title="2017-05-10T12:43:20+00:00" class="timeago">Wed May 10 12:43:20 +0000 2017</abbr></p></li>
+								<li class="icon_small_arrow right_white"><p>We've released new version(v3.8) of our Renovate #Construction #Renovation #WordPress Theme. Check at #ThemeForest <a href="https://t.co/SqpmUycaL2" target="_blank">t.co/SqpmUycaL2</a><abbr title="2017-05-10T12:41:51+00:00" class="timeago">Wed May 10 12:41:51 +0000 2017</abbr></p></li>
+								<li class="icon_small_arrow right_white"><p>We've released new version (v3.6) of our #Car Service #Mechanic #Auto #Shop #WordPress Theme. Check at #ThemeForest <a href="https://t.co/uxaMcQBN52" target="_blank">t.co/uxaMcQBN52</a><abbr title="2017-05-10T12:39:26+00:00" class="timeago">Wed May 10 12:39:26 +0000 2017</abbr></p></li>
+								<li class="icon_small_arrow right_white"><p>We've released new version (v9.3) of our MediCenter #Medic #Health #WordPress Theme. Please check at #ThemeForest <a href="https://t.co/BIO54EthRz" target="_blank">t.co/BIO54EthRz</a><abbr title="2017-04-14T14:05:55+00:00" class="timeago">Fri Apr 14 14:05:55 +0000 2017</abbr></p></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="copyright_area clearfix">
+					<div class="copyright_left">
+						© Copyright - <a href="http://www.fis.com.vn/" title="MediCenter Template" target="_blank">FIS Template</a> by <a href="http://www.fis.com.vn/" title="QuanticaLabs" target="_blank">CRD Team</a>
+					</div>
+					<div class="copyright_right">
+						<a class="scroll_top icon_small_arrow top_white" href="#top" title="Scroll to top">Đầu trang</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="layout_picker">
+		<div class="layout_picker_icon">
+			&nbsp;
+		</div>
+		<div class="layout_picker_content">
+			<ul>
+				<li class="layout_picker_header">
+					Chế độ xem
+				</li>
+				<li>
+					<a href="#" id="layout_picker_fw" class="selected">
+						Toàn màn hình
+					</a>
+				</li>
+				<li>
+					<a href="#" id="layout_picker_bx">
+						Thu nhỏ
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<!--end body-->
+	<!--global script-->
+
+	<script src="assets/libs/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+	<script src="assets/libs/bower_components/angular/angular.js"></script>
+	<script src="assets/libs/bower_components/angular-resource/angular-resource.js"></script>
+	<script src="assets/libs/bower_components/angular-route/angular-route.js"></script>
+	<script src="assets/libs/bower_components/angular-animate/angular-animate.min.js"></script>
+	<script src="assets/libs/bower_components/angular-aria/angular-aria.min.js"></script>
+	<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.min.js"></script>-->
+    <script src="assets/libs/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/0.10.0/lodash.min.js"></script>
+    <script src="assets/libs/bower_components/oclazyload/dist/ocLazyLoad.require.min.js"></script>
+    <script src="assets/libs/bower_components/oclazyload/dist/ocLazyLoad.min.js"></script>
+    <script src=".bin/node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
+    
+    <!-- underscore -->
+    <script src="assets/js/underscore-min.js"></script>
+    <script src="assets/js/jquery-ui-1.9.2.custom.min.js"></script>
+    <script src="assets/js/moment.js"></script>
+    <!--end global script-->
+	<!--app script-->
+	<!--app config-->
+	<script src="app/app.module.js"></script>
+	<script src="app/app.config.js"></script>
+	<script src="app/app.controller.js"></script>
+	<!--end app config-->
+
+	<!--core script-->
+	
+    <!--modules script-->
+    <script src="app/shared/function.array.js"></script>
+    <script src="app/shared/directive/keyEnter.directive.js"></script>
+    <script src="app/shared/directive/modal.directive.js"></script>
+
+    <script src="app/shared/service/params.service.js"></script>
+    <script src="app/shared/service/modal.service.js"></script>
+    <script src="app/shared/service/loadjs.service.js"></script>
+    <script src="app/shared/filter/time.filter.js"></script>
+    <script src="app/shared/filter/unique.filter.js"></script>
+    <script src="app/shared/service/alert.service.js"></script>
+    <script src="app/shared/service/pager.service.js"></script>
+
+    <script src="app/components/home-page/home-page.service.js"></script>
+    <script src="app/components/posts/posts.service.js"></script>
+    <script src="app/components/categories/category.service.js"></script>
+    <script src="app/components/post-detail/post-detail.service.js"></script>
+    <script src="app/components/appointment/appointment.service.js"></script>
+    <script src="app/components/contact/contact.service.js"></script>
+    <script src="app/components/doctors/doctors.service.js"></script>
+    <script src="app/components/about/about.service.js"></script>
+    <script src="app/components/department/department.service.js"></script>
+    <script src="app/components/gallery/gallery.service.js"></script>
+
+    <script src="app/components/home-page/home-page.controller.js"></script>
+    <script src="app/components/posts/posts.controller.js"></script>
+    <script src="app/components/post-detail/post-detail.controller.js"></script>
+    <script src="app/components/appointment/appointment.controller.js"></script>
+    <script src="app/components/contact/contact.controller.js"></script>
+    <script src="app/components/doctors/doctors.controller.js"></script>
+    <script src="app/components/about/about.controller.js"></script>
+    <script src="app/components/contact-partial/contact-partial.controller.js"></script>
+    <script src="app/components/department/department.controller.js"></script>
+    <script src="app/components/gallery/gallery.controller.js"></script>
+
+    <script type="text/ng-template" id="treeCategory">
+        <a href="/posts/{{child.Id}}">{{ child.Name }}</a>
+        <ul ng-show="child.children.length > 0">
+            <li ng-repeat="child in child.children" ng-include="'treeCategory'" ng-init="parent = $parent.$parent.child">
+            </li>
+        </ul>
+    </script>
+	<!--end modules-->
+	<!--end app script-->
+    <script>
+        function menuFunction() {
+            var x = document.getElementById("topnav");
+            if (x.className === "sf-menu header_right") {
+                x.className += " responsive";
+            } else {
+                x.className = "sf-menu header_right";
+            }
+        }
+    </script>
+</body>
+</html>

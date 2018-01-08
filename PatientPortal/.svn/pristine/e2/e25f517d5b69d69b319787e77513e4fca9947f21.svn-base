@@ -1,0 +1,83 @@
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
+using Newtonsoft.Json;
+using PatientPortal.Domain.Common;
+using PatientPortal.Domain.Models.AUTHEN;
+using PatientPortal.Provider.Models;
+using PatientPortal.Utility.Application;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Web;
+using System.Web.Mvc;
+using WebMatrix.WebData;
+
+namespace PatientPortal.Internal.Controllers
+{
+    public class AccountController : Controller
+    {
+        private IAuthenticationManager AuthenticationManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().Authentication;
+            }
+        }
+
+        // GET: /Account/Login
+        [AllowAnonymous]
+        public ActionResult Login()
+        {
+
+            if (WebSecurity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                Session.Abandon();
+            }
+            //Session["SessionId"] = HttpContext.Session.SessionID;
+            return View();
+        }
+
+        // POST: /Account/Login
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(LoginModel model, string returnUrl)
+        {
+            var token = AuthenAPIHelper.GetToken(model.UserName, model.Password);
+            if (string.IsNullOrEmpty(token.AccessToken))
+            {
+                var error = JsonConvert.DeserializeObject<dynamic>(token.Json.ToString());
+                ModelState.AddModelError(string.Empty, error.error_description.ToString());
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.LOGINERROR,
+                    ApplicationGenerator.GeneralActionMessage(null, ApplicationGenerator.TypeResult.LOGINERROR));
+
+                return View(model);
+            }
+            var tokenDynamic = JsonConvert.DeserializeObject<dynamic>(token.Json.ToString());
+            string username = tokenDynamic.userName;
+            
+            Session[ValueConstant.TOKEN] = tokenDynamic.access_token;
+
+            var claims = new List<Claim> { new Claim(ClaimTypes.Name, username, ClaimValueTypes.String) };
+            var claimsIdentity = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
+
+            AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = false }, claimsIdentity);
+
+            HttpContext.User = AuthenticationManager.AuthenticationResponseGrant.Principal;
+            return RedirectToAction(returnUrl);
+        }
+
+        // GET: /Account/LogOff
+        public ActionResult LogOff()
+        {
+            AuthenticationManager.SignOut();
+            Session.Abandon();
+            return RedirectToAction("Index", "Home");
+        }
+    }
+}

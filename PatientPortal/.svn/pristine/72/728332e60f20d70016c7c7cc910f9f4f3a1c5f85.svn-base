@@ -1,0 +1,53 @@
+﻿CREATE PROCEDURE [dbo].[usp_WorkflowState_Transaction]
+	@Action VARCHAR(1) = 'I',
+	@Id SMALLINT,
+	@Name NVARCHAR(50) = '',
+	@WorkflowId TINYINT = 0,
+	@IsActive BIT = 1
+AS BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+
+	DECLARE @return BIT = 1
+	BEGIN TRY
+		BEGIN TRAN
+			IF @Action = 'I' -- INSERT
+			BEGIN
+				INSERT INTO [dbo].[WorkflowState]
+				VALUES(@Name, @WorkflowId, @IsActive)
+			END
+
+			IF @Action = 'U' -- UPDATE
+			BEGIN
+				IF NOT EXISTS( SELECT TOP 1 1 FROM [dbo].[WorkflowNavigation] WHERE [WorkflowStateId] = @Id)  AND NOT EXISTS( SELECT TOP 1 1 FROM [dbo].[Post] WHERE [WorkflowStateId] = @Id)
+				BEGIN
+					UPDATE [dbo].[WorkflowState]
+					SET [Name] = @Name, [WorkflowId] = @WorkflowId, [IsActive] = @IsActive
+					WHERE [Id] = @Id
+				END
+				ELSE
+					SET @return = 0
+			END
+
+			IF @Action = 'U' -- DELETE
+			BEGIN
+				IF NOT EXISTS( SELECT TOP 1 1 FROM [dbo].[Post] WHERE [WorkflowStateId] = @Id)
+				BEGIN
+					DELETE FROM [dbo].[WorkflowState]
+					WHERE [Id] = @Id
+				END
+				ELSE
+					SET @return = 0
+			END
+
+		COMMIT TRAN
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0
+			BEGIN
+				ROLLBACK TRAN
+				SET @return = 0
+			END
+	END CATCH
+	SELECT @return
+END

@@ -1,0 +1,42 @@
+﻿using ProtoBuf;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.API.CMS.ViewModels
+{
+    [ProtoContract]
+    public class PostTransViewModel
+    {
+        public int Id { get; set; }
+        public string Image { get; set; }
+        public string Author { get; set; }
+        public short WorkflowStateId { get; set; }
+        public byte CategoryId { get; set; }
+        public byte Status { get; set; }
+        public int CreatedBy { get; set; }
+        public int ModifiedBy { get; set; }
+
+        //parameter postSEO
+        public int PostId { get; set; }
+        public string Title_SEO { get; set; }
+        public string Description_SEO { get; set; }
+        public string Canonical { get; set; }
+        public string BreadcrumbsTitle { get; set; }
+        public byte MetaRobotIndex { get; set; }
+        public byte MetaRobotFollow { get; set; }
+        public byte MetaRobotAdvanced { get; set; }
+
+        //parameter PostTrans
+        public byte LanguageId { get; set; }
+        public string Title_Trans { get; set; }
+        public string Decription_Trans { get; set; }
+        public string Detail { get; set; }
+        public string Tag { get; set; }
+
+        //parameter PostStateHistory
+        public int UserId { get; set; }
+        public string Note { get; set; }
+    }
+}

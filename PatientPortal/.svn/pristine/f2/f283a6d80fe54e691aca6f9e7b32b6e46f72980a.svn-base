@@ -1,0 +1,48 @@
+﻿CREATE PROCEDURE [dbo].[usp_SystemNotification_Transaction]
+	@Action CHAR(1) = 'I',
+	@Id INT,
+	@Detail NVARCHAR(300) = '',
+	@Date VARCHAR(10),
+	@Time VARCHAR(8),
+	@SendFrom NVARCHAR(128),
+	@Link NVARCHAR(256) = ''
+AS
+BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+	DECLARE @result INT = 0
+	SET @Date = [dbo].[ufnGetDate]()
+	SET @Time = CONVERT(VARCHAR(8),GETDATE(),108)
+	BEGIN TRY
+		BEGIN TRAN;
+			IF(@Action = 'I')
+				BEGIN
+					INSERT INTO [dbo].[SystemNotification](Detail, [Date], [Time], [SendFrom], [Link]) 
+					VALUES(@Detail, @Date, @Time, @SendFrom, @Link)
+					SET @result = 1
+				END
+			ELSE
+				BEGIN
+					UPDATE [dbo].[SystemNotification]
+					SET		Detail = @Detail, [Date] = @Date,
+					[Time] = @Time, [SendFrom] = @SendFrom, [Link] = @Link
+					WHERE Id = @Id
+					SET @result = 1
+				END
+		COMMIT TRAN;
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0
+		BEGIN
+			ROLLBACK TRAN;
+			SELECT
+			error_message() as errormessage,
+			error_number() as erronumber,
+			error_state() as errorstate,
+			error_procedure() as errorprocedure,
+			error_line() as errorline;
+			SET @result = 0
+		END
+	END CATCH
+	SELECT @result;
+END

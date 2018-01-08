@@ -1,0 +1,21 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Create
+       [dbo].[Feature] (Table)
+       [dbo].[usp_Feature] (Procedure)
+       [dbo].[usp_Feature_CheckExistTitle] (Procedure)
+       [dbo].[usp_Feature_Transaction] (Procedure)
+     Alter
+       [dbo].[usp_Category] (Procedure)
+       [dbo].[usp_Post] (Procedure)
+
+** Supporting actions

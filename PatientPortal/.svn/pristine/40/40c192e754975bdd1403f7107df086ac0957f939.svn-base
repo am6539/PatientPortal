@@ -1,0 +1,41 @@
+﻿using AutoMapper;
+using PatientPortal.API.SPA.ViewModels;
+using PatientPortal.Domain;
+using PatientPortal.IRepository.SPA;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Http;
+using static PatientPortal.Domain.EnumUserConstants;
+
+namespace PatientPortal.API.SPA.Controllers
+{
+    public class UserController : ApiController
+    {
+        private readonly IUserRepo _iUserRepo;
+        public UserController(IUserRepo iUserRepo)
+        {
+            this._iUserRepo = iUserRepo;
+        }
+
+        public async Task<List<UserViewModel>> Get(string search)
+       {
+            IList<string> list = new List<string> { "search"};
+            var para = APIProvider.APIDefaultParameter(list, search);
+            var source = await _iUserRepo.GetUserHaveScheduleExamine(para);
+            List<UserViewModel> dest = Mapper.Map<List<UserViewModel>>(source);
+            return dest;
+        }
+
+        public async Task<UserViewModel> GetById(string id)
+        {
+            IList<string> list = new List<string> { "Id", "Search" };
+            var para = APIProvider.APIDefaultParameter(list, id, "");
+            var source = await _iUserRepo.Get(para);
+            UserViewModel dest = Mapper.Map<UserViewModel>(source);
+
+            return dest;
+        }
+    }
+}

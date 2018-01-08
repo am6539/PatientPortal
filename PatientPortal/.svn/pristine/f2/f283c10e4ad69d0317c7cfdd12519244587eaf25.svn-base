@@ -1,0 +1,6 @@
+﻿angular.module('spaApp')
+    .controller('AppointmentController', ['$scope', 'Params', 'AppointmentService', '$route',
+        function AppointmentController($scope, Params, AppointmentService, $route) {
+
+        }
+    ]);

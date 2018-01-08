@@ -1,0 +1,121 @@
+﻿using PatientPortal.Domain.Enums.OfferAdvise;
+using PatientPortal.Domain.LogManager;
+using PatientPortal.Domain.Models.AUTHEN;
+using PatientPortal.Internal.Common;
+using PatientPortal.Internal.Models;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using PatientPortal.Utility.Application;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using WebMarkupMin.AspNet4.Mvc;
+using static PatientPortal.Utility.Application.ApplicationGenerator;
+
+namespace PatientPortal.Internal.Controllers
+{
+    [Authorize]
+    [AppHandleError]
+    [CompressContent]
+    [MinifyHtml]
+    public class OfferAdviseController : Controller
+    {
+        private static string controllerName = string.Empty;
+        private readonly IUserSession _userSession;
+
+        public OfferAdviseController(IUserSession userSession)
+        {
+            _userSession = userSession;
+        }
+
+        // GET: OfferAdvise
+        public async Task<ActionResult> Index()
+
+        {
+            try
+            {
+                controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                List<string> listPara = new List<string> { "patientId", "Status" };
+                var strUrl = APIProvider.APIGenerator(controllerName, listPara, true, string.Empty, (byte)EnumOfferAdviseStatus.New);
+                var list = await APIProvider.Authorize_Get<List<OfferAdviseViewModel>>(_userSession.BearerToken, strUrl, APIConstant.API_Resource_CORE, ARS.Get);
+
+                return View(list);
+            }
+            catch (HttpException ex)
+            {
+                Logger.LogError(ex);
+                int statusCode = ex.GetHttpCode();
+                if (statusCode == 401)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(FuntionType.Department, APIConstant.ACTION_ACCESS);
+                    return new HttpUnauthorizedResult();
+                }
+
+                throw ex;
+            }
+
+        }
+
+        public async Task<ActionResult> Edit(int id)
+        {
+            if (!await APIProvider.Authorization(_userSession.BearerToken, ARS.Edit))
+            {
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.FuntionType.OfferAdvise, APIConstant.ACTION_UPDATE);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                OfferAdviseViewModel model;
+                try
+                {
+                    //Call API Provider
+                    var strUrl = controllerName + APIProvider.APIGenerator(this, this.RouteData.Values["action"].ToString(), id);
+                    model = await APIProvider.Authorize_Get<OfferAdviseViewModel>(_userSession.BearerToken, strUrl, APIConstant.API_Resource_CORE, ARS.Get);
+                    if (model.Tag != string.Empty)
+                        ViewBag.Tags = model.Tag;
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogError(ex);
+                    throw ex.GetBaseException();
+                }
+                return View(model);
+            }
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Edit(OfferAdviseViewModel model)
+        {
+            model.Date = DateTime.Now;
+            model.PatientId = _userSession.UserId;
+            if (ModelState.IsValid)
+            {
+                //Call API Provider 
+                var strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_UPDATE);
+                var result = await APIProvider.Authorize_DynamicTransaction<OfferAdviseViewModel, int>(model, _userSession.BearerToken, strUrl, APIConstant.API_Resource_CORE, ARS.IgnoredARS);
+
+                if (result > 0)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                if (model.Tag != null)
+                {
+                    ViewBag.Tags = model.Tag;
+                }
+                return View(model);
+            }
+        }
+    }
+}

@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.Domain.Common
+{
+    public class ValueConstant
+    {
+        public const string LOGS_PATH = "~\\Assets\\Logs";
+        public const char INSERT = 'I';
+        public const char UPDATE = 'U';
+        public const char DELETE = 'D';
+
+        // Authentication
+        public const string TOKEN = "Token";
+    }
+}

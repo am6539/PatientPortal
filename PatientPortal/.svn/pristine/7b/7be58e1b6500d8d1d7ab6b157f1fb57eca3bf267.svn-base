@@ -1,0 +1,228 @@
+﻿
+using PatientPortal.Internal.Common;
+using PatientPortal.Internal.Models;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using PatientPortal.Utility.Files;
+using PatientPortal.Utility.Application;
+using PatientPortal.Domain.LogManager;
+
+namespace PatientPortal.Internal.Controllers
+{
+    [Authorize]
+    public class ModuleController : Controller
+    {
+        private static string controllerName = string.Empty;
+
+        #region Get All
+        public async Task<ActionResult> Index(string group = "1")
+        {
+            var model = new ModuleModel();
+            try
+            {
+                //Call API Provider
+                controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                var list = await APIProvider.Get<List<ModuleViewModel>>(controllerName, APIConstant.API_Resource_CORE);
+
+                model.lstModule = (list == null ? new List<ModuleViewModel>() : list.Where( m => m.Group == group).ToList());
+
+                model.module = new ModuleViewModel();
+
+                ///Category List
+                ViewBag.Modules = model.lstModule;
+                ViewBag.Group = group;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw ex;
+            }
+            return View(model);
+        }
+
+        public ActionResult ModuleList()
+        {
+            return PartialView("_List");
+        }
+        #endregion
+
+        #region Create
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Create(ModuleViewModel model)
+        {
+            ModelState["ParentId"].Errors.Clear();
+
+            if (ModelState.IsValid)
+            {
+                //Call API Provider
+                string strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_INSERT);
+                var result = await APIProvider.DynamicTransaction<ModuleViewModel, bool>(model, strUrl, APIConstant.API_Resource_CORE);
+
+                if (result)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index", new {group  = model.Group});
+            }
+            else
+            {
+                var modules = new ModuleModel();
+                if(TempData["Data"] != null)
+                {
+                    modules.lstModule = (List<ModuleViewModel>)TempData["Data"];
+                }
+                else
+                {
+                    var list = await APIProvider.Get<List<ModuleViewModel>>(controllerName, APIConstant.API_Resource_CORE);
+                    modules.lstModule = list;
+                }
+                modules.module = model;
+
+                ViewBag.Modules = modules.lstModule;
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                return View("Index", modules);
+            }
+
+        }
+        #endregion
+
+        #region Edit
+        [HttpGet]
+        public async Task<ActionResult> Edit(short id)
+        {
+            var model = new ModuleViewModel();
+            try
+            {
+                //Call API Provider
+                var list = await APIProvider.Get<List<ModuleViewModel>>(controllerName, APIConstant.API_Resource_CORE);
+                string strUrl = controllerName + APIProvider.APIGenerator(this, this.RouteData.Values["action"].ToString(), id);
+                model = await APIProvider.Get<ModuleViewModel>(strUrl, APIConstant.API_Resource_CORE);
+
+                
+                ViewBag.Modules = list.Where(x => x.Id != id && x.Group == model.Group);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw ex;
+            }
+            return View(model);
+        }
+
+        /// <summary>
+        /// Save change category
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="fileUpload"></param>
+        /// <returns></returns>
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Edit(ModuleViewModel model)
+        {
+            //Ignored
+            ModelState["ParentId"].Errors.Clear();
+
+            if (ModelState.IsValid)
+            {
+                //Call API Provider 
+                string strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_UPDATE);
+                var result = await APIProvider.DynamicTransaction<ModuleViewModel, bool>(model, strUrl, APIConstant.API_Resource_CORE);
+
+                if (result)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index", new { group = model.Group });
+            }
+            else
+            {
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ERROR, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.ERROR));
+                return RedirectToAction("Edit", model.Id);
+
+            }
+            
+        }
+
+        #endregion
+
+        #region Delete
+        /// <summary>
+        /// Delete Category
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public ActionResult Delete(ModuleViewModel model)
+        {
+            return PartialView("_Delete", model);
+        }
+
+        /// <summary>
+        /// Delete an object category
+        /// </summary>
+        /// <param name="model">object of category</param>
+        /// <returns>Success: return index category - Fail: return Edit</returns>
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Delete(short id)
+        {
+            var model = new ModuleViewModel();
+            model.Id = id;
+            //Check is used
+            string strUrl = controllerName + "/CheckIsUsed/" + id;
+            //string strUrl = APIProvider.APIGenerator(controllerName, "CheckIsUsed") + "/" + model.Id;
+            var checkIsUsed = await APIProvider.Get<bool>(strUrl, APIConstant.API_Resource_CORE);
+
+            if (!checkIsUsed)
+            {
+                
+                //Call API Provider - Transaction
+                string apiUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_DELETE);
+                var result = await APIProvider.DynamicTransaction<ModuleViewModel, bool>(model, apiUrl, APIConstant.API_Resource_CORE);
+
+                if (result)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_DELETE, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ISUSED, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_DELETE, ApplicationGenerator.TypeResult.ISUSED));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ERROR, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_DELETE, ApplicationGenerator.TypeResult.ISUSED));
+                return RedirectToAction("Index");
+            }
+        }
+        #endregion
+
+        #region Check Exist
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<JsonResult> CheckExist(string title, short id)
+        {
+            //Call API Provider - Get data
+            string apiUrl = APIProvider.APIGenerator(controllerName,new List<string> { "id", "title"}, false, id, title.Trim());
+            var isExist = await APIProvider.Get<bool>(apiUrl, APIConstant.API_Resource_CORE);
+
+            return Json(!isExist, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+    }
+}

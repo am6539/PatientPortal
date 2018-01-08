@@ -1,0 +1,132 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.CMS.Models.ConfigurationViewModel
+@{
+    ViewBag.Title = "Cài đặt hệ thống";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    <link href="~/Content/checkbox.css" rel="stylesheet" />
+    <link href="~/Content/checkbox-radio-build.css" rel="stylesheet" />
+}
+<div class="card">
+    @Html.Raw(TempData["Alert"])
+    <div class="card-title">@Html.CardTitle((string)ViewBag.Title, "gears")</div>
+    <div class="card-content">
+       @using (Html.BeginForm("Edit", "Configuration", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal" }))
+            {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        @Html.HiddenFor(m => m.Id)
+        <div class="form-group">
+            <div class="col-md-2 col-md-offset-10">
+                @Html.ISubmitButton(ActionButton.Submit,"Cập nhật thông tin")
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title">@Html.CardTitle("Thông tin bệnh viện", "hospital-o")</div>
+            <div class="card-content">
+                <div class="form-group">
+                    @Html.ILabelFor(m => m.Name)
+                    <div class="col-md-9">
+                        @Html.ITextBoxFor(m => m.Name)
+                        @Html.IValidationMessageFor(m => m.Name)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.ILabelFor(m => m.Address)
+                    <div class="col-md-9">
+                        @Html.ITextBoxFor(m => m.Address)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.ILabelFor(m => m.Phone)
+                    <div class="col-md-9">
+                        @Html.ITextBoxFor(m => m.Phone)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.ILabelFor(m => m.Fax)
+                    <div class="col-md-9">
+                        @Html.ITextBoxFor(m => m.Fax)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.ILabelFor(m => m.Hotline)
+                    <div class="col-md-9">
+                        @Html.ITextBoxFor(m => m.Hotline)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.ILabelFor(m => m.OpeningHours)
+                    <div class="col-md-9">
+                        @Html.ITextBoxFor(m => m.OpeningHours,"Monday - Friday: 8.00 - 17.00; Saturday: 9.30 - 17.30; Sunday: 9.30 - 15.00")
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title">@Html.CardTitle("Mạng xã hội", "share-alt")</div>
+            <div class="card-content">
+                <div class="form-group">
+                    @Html.ILabelFor(m => m.Google)
+                    <div class="col-md-9">
+                        @Html.ITextBoxFor(m => m.Google, "Google Plus")
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.ILabelFor(m => m.Youtube)
+                    <div class="col-md-9">
+                        @Html.ITextBoxFor(m => m.Youtube, "Youtube Channel")
+                    </div>
+                </div>
+                @*<div class="form-group">
+                    @Html.ILabelFor(m => m.Twitter)
+                    <div class="col-md-9">
+                        @Html.ITextBoxFor(m => m.Twitter, "Twitter")
+                    </div>
+                </div>*@
+                @*<div class="form-group">
+                    @Html.ILabelFor(m => m.Facebook)
+                    <div class="col-md-9">
+                        @Html.ITextBoxFor(m => m.Facebook,"Fanpage Facebook")
+                    </div>
+                </div>*@
+                @Html.IGroupTextBoxFor(m => m.Twitter,false,"Twitter", null, 12, 12)
+                @Html.IGroupTextBoxFor(m => m.Facebook)
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title">@Html.CardTitle("Giành cho nhà phát triển", "gear")</div>
+            <div class="card-content">
+                <div class="form-group">
+                    @Html.ILabelFor(m => m.GoogleMap)
+                    <div class="col-md-9">
+                        @Html.ITextAreaFor(m => m.GoogleMap,5)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.ILabelFor(m => m.GoogleEngineScript)
+                    <div class="col-md-9">
+                        @Html.ITextAreaFor(m => m.GoogleEngineScript, 5)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.ILabelFor(m => m.IsSendEmailWF)
+                    <div class="col-md-9">
+                        @Html.ICheckBoxFor(m => m.IsSendEmailWF, "IsSendEmailWF", "Chọn để sử dụng")
+                        @*<div class="checkbox checkbox-info">
+                            @Html.ICheckBoxFor(m => m.IsSendEmailWF, new { @class = "styled", @checked = "checked" })<label for="IsSendEmailWF"> Chọn để sử dụng</label>
+                        </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+       }
+    </div>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Libs/ckeditor/ckeditor.js"></script>s
+}

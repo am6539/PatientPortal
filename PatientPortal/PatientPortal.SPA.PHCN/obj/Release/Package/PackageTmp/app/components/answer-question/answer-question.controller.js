@@ -1,0 +1,60 @@
+﻿angular.module('spaPHCN')
+    .controller('AnswerQuestionController', ['$scope', 'Params', 'AnswerQuestionService', '$route', "ModalService",
+        "PagerService", "LoadJsService", "alertService",
+        function AnswerQuestionController($scope, Params, AnswerQuestionService, $route, ModalService,
+            PagerService, LoadJsService, alertService) {
+
+            $scope.subTitle = "Hỏi đáp";
+            $scope.pager = {};
+
+            $scope.createQuestion = function (idModal) {
+                ModalService.Open(idModal);
+            }
+
+            $scope.closeModal = function (idModal) {
+                ModalService.Close(idModal);
+            }
+
+            $scope.setPage = function (page) {
+                $scope.activeValue = page;
+                var para = { pageIndex: page, numberInPage: Params.numberPerPage, Search: $scope.searchValue };
+
+                AnswerQuestionService.get(para, function (data) {
+                    if (data !== null) {
+                        $scope.qas = data.ListViewModel;
+                        $scope.totalItems = data.TotalItem;
+
+                        if (page < 1 || (page > $scope.pager.totalPages && $scope.pager.totalPages !== null)) {
+                            return;
+                        }
+                        // get pager object from service
+                        $scope.pager = PagerService.GetPager($scope.totalItems, page, Params.numberPerPage);
+                        $("script[src='assets/js/skin/fpt-crd.js']").remove();
+                        $('.mob-mnav').remove();
+                        $('.mob-search').remove();
+                        LoadJsService.calJInsideJs();
+                    }
+                });
+            }
+
+            $scope.sendMail = function (question, idModal) {
+                //alertService.add("success", "Đang gửi góp ý!", 2500);
+                $scope.loading = true;
+                AnswerQuestionService.sendMail(question, function (data) {
+                    if (data.$resolved) {
+                        alertService.add("success", "Đã gửi câu hỏi góp ý thành công!", 1000);
+                        $scope.questionForm.$setPristine();
+                        $scope.question = null;
+                        $scope.questionForm.$submitted = false;
+                        $scope.loading = false;
+                        ModalService.Close(idModal);
+                    }
+                    else {
+                        alertService.add("danger", "Đã có lỗi xảy ra!", 1000);
+                    }
+                });
+            }
+
+            $scope.setPage(1);
+        }
+    ]);

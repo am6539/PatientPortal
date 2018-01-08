@@ -1,0 +1,29 @@
+﻿CREATE PROCEDURE [dbo].[usp_Category_CheckExistName]
+	@Name  NVARCHAR(50),
+	@Id TINYINT
+AS
+begin
+	declare @flag bit = 0;
+	declare @count TINYINT = 0;
+	if(@Id > 0)
+	begin
+		set @count = (select	count(*)
+					  from		dbo.Category
+					  where		Name = @Name and Id != @Id)
+		if(@count > 0)
+		begin
+			set @flag =1
+		end
+	end
+	else
+	begin
+		set @count = (select	count(*)
+					  from		dbo.Category
+					  where		Name = @Name)
+		if(@count > 0)
+		begin
+			set @flag =1
+		end
+	end
+RETURN @flag
+end

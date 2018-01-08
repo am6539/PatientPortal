@@ -1,0 +1,5 @@
+﻿angular.module('appTest').factory('AService', ['$resource',
+    function ($resource) {
+        return $resource(Params.rootUrl + 'Configuration', {}, {
+        });
+    }]);

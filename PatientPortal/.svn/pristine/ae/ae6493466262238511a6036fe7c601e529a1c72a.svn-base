@@ -1,0 +1,43 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Web;
+using WebApiContrib.Formatting;
+
+namespace PatientPortal.API.Provider.Models
+{
+    public static class APIHelper
+    {
+
+        /// <summary>
+        /// Get data from API
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="urlApi"></param>
+        /// <returns></returns>
+        public static T Get<T>(string urlApi, string applicationTag = "cms")
+        {
+            Uri _baseAddress = URLBuilder.APIBaseAddress("webapi:" + applicationTag);
+            using (var httpClient = new HttpClient())
+            {
+                try
+                {
+                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-protobuf"));
+                    httpClient.BaseAddress = _baseAddress;
+
+                    var response = httpClient.GetAsync(urlApi).Result;
+
+                    var data = response.Content.ReadAsAsync<T>(new[] { new ProtoBufFormatter() }).Result;
+
+                    return (data == null? default(T):data);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+        }
+    }
+}

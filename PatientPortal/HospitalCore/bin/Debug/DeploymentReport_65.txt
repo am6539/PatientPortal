@@ -1,0 +1,49 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       [dbo].[SurveyQuestions]
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       The column [dbo].[SurveyQuestions].[IsRequired] is being dropped, data loss could occur.
+       The column [dbo].[SurveyQuestions].[IsRequireds] on table [dbo].[SurveyQuestions] must be added, but the column has no
+         default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this
+         issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of
+         smart-defaults as a deployment option.
+
+** User actions
+     Alter
+       [dbo].[Setting] (Table)
+       [dbo].[usp_Setting_Transaction] (Procedure)
+       [dbo].[usp_SurveyQuestions_Transaction] (Procedure)
+       [dbo].[usp_Schedule] (Procedure)
+       [dbo].[usp_ScheduleExamine] (Procedure)
+       [dbo].[usp_spa_Schedule] (Procedure)
+       [dbo].[usp_spa_ScheduleExamine] (Procedure)
+       [dbo].[usp_spa_User_HasScheduleExamine] (Procedure)
+       [dbo].[usp_Survey] (Procedure)
+       [dbo].[usp_Survey_Transaction] (Procedure)
+       [dbo].[usp_User_HasScheduleExamine] (Procedure)
+     Table rebuild
+       [dbo].[SurveyQuestions] (Table)
+     Create
+       [dbo].[usp_AppointmentLog_ApprovedBook] (Procedure)
+       [dbo].[usp_SurveyAnswers] (Procedure)
+       [dbo].[usp_SurveyQuestions] (Procedure)
+
+** Supporting actions
+     Drop
+       [dbo].[FK_SurveyAnswers_SurveyQuestions] (Foreign Key)
+       [dbo].[FK_SurveyQuestions_Survey] (Foreign Key)
+     Create
+       [dbo].[FK_SurveyAnswers_SurveyQuestions] (Foreign Key)
+       [dbo].[FK_SurveyQuestions_Survey] (Foreign Key)
+     Refresh
+       [dbo].[usp_AppointmentLog_Confirm] (Procedure)
+       [dbo].[usp_Setting] (Procedure)
+
+The column [dbo].[SurveyQuestions].[IsRequired] is being dropped, data loss could occur.
+The column [dbo].[SurveyQuestions].[IsRequireds] on table [dbo].[SurveyQuestions] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+If this deployment is executed, changes to [dbo].[Setting] might introduce run-time errors in [dbo].[usp_AppointmentLog_ConfirmFast].
+

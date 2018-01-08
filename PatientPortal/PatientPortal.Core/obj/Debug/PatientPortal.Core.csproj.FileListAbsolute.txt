@@ -1,0 +1,9 @@
+D:\ProjectsFIS\PatientPortal\PatientPortal.Core\bin\Debug\PatientPortal.Core.dll
+D:\ProjectsFIS\PatientPortal\PatientPortal.Core\bin\Debug\PatientPortal.Core.pdb
+D:\ProjectsFIS\PatientPortal\PatientPortal.Core\bin\Debug\AutoMapper.dll
+D:\ProjectsFIS\PatientPortal\PatientPortal.Core\bin\Debug\Newtonsoft.Json.dll
+D:\ProjectsFIS\PatientPortal\PatientPortal.Core\bin\Debug\AutoMapper.xml
+D:\ProjectsFIS\PatientPortal\PatientPortal.Core\bin\Debug\Newtonsoft.Json.xml
+D:\ProjectsFIS\PatientPortal\PatientPortal.Core\obj\Debug\PatientPortal.Core.csprojResolveAssemblyReference.cache
+D:\ProjectsFIS\PatientPortal\PatientPortal.Core\obj\Debug\PatientPortal.Core.dll
+D:\ProjectsFIS\PatientPortal\PatientPortal.Core\obj\Debug\PatientPortal.Core.pdb

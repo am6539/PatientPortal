@@ -1,0 +1,63 @@
+﻿CREATE PROCEDURE [dbo].[usp_Schedule_Transaction]
+	@Action CHAR(1) = 'I',
+	@Id INT,
+	@Title NVARCHAR(50),
+	@Priority TINYINT,
+	@Detail NVARCHAR(300),
+	@IsAlarm BIT,
+	@DateFrom DATE,
+	@DateTo DATE,
+	@TimeFrom INT,
+	@TimeTo INT,
+	@Color VARCHAR(6),
+	@IsExamine BIT,
+	@UserId INT
+AS BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+
+	DECLARE @return INT = 0;
+
+	BEGIN TRY
+		BEGIN TRAN
+			IF @Action = 'I'
+				INSERT INTO [dbo].Schedule
+				VALUES(@Title, @Priority, @Detail, @IsAlarm, @DateFrom, @DateTo, @TimeFrom, @TimeTo, @Color, @IsExamine, @UserId)
+				SET @return = SCOPE_IDENTITY()
+			IF @Action = 'U'
+				UPDATE [dbo].Schedule
+				SET Title = @Title,
+				[Priority] = @Priority,
+				Detail = @Detail,
+				IsAlarm = @IsAlarm,
+				DateFrom = @DateFrom,
+				DateTo = @DateTo,
+				TimeFrom = @TimeFrom,
+				TimeTo = @TimeTo,
+				Color = @Color,
+				IsExamine = @IsExamine,
+				UserId = @UserId
+				WHERE Id = @Id
+
+				SET @return = @Id
+			IF @Action = 'D'
+				IF EXISTS (SELECT TOP 1 1 FROM [dbo].Schedule WHERE Id = @Id)
+					BEGIN
+						DELETE FROM [dbo].Schedule
+						WHERE Id = @Id
+
+						SET @return = @Id
+					END
+				ELSE
+					SET @return = 0
+		COMMIT TRAN
+	END TRY
+
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0
+			BEGIN
+				ROLLBACK TRAN
+				SET @return = 0
+			END
+	END CATCH
+END

@@ -1,0 +1,27 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.Domain.Utilities
+{
+    public static class ApiUrlConstant
+    {
+        #region POST
+        public static string POSTGetById(int id)
+        {
+            return $"api/Post?PostId={id}";
+        }
+
+        public static string POSTGet(string lanCode, int postId, byte WorkflowStateId)
+        {
+            return $"api/Post/GetAll?LanguageCode={lanCode}&PostId={postId}&WorkflowStateId={WorkflowStateId}";
+        }
+        #endregion
+
+        #region CATEGORY
+        
+        #endregion
+    }
+}

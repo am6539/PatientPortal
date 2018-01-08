@@ -1,0 +1,134 @@
+﻿@using PatientPortal.Provider.Helpers;
+@using ViewModel = PatientPortal.CMS.Models
+
+@using PatientPortal.CMS.Common
+@model ViewModel.PostFilterViewModel
+@{
+    ViewBag.Title = "Bản tin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <link href="~/Content/checkbox.css" rel="stylesheet" />
+    <link href="~/Libs/DataTable/jquery.dataTables.css" rel="stylesheet" />
+    <link href="~/Libs/Chosen/css/chosen.css" rel="stylesheet" />
+    <link href="~/Content/checkbox-radio-build.css" rel="stylesheet" />
+    <style>
+        .checkbox-mark div {
+            float: none;
+        }
+
+        .bg-green {
+            background: #1ABB9C !important;
+            border: 1px solid #1ABB9C !important;
+            color: #fff;
+        }
+
+        .bg-orange {
+            background: #F39C12 !important;
+            border: 1px solid #F39C12 !important;
+            color: #fff;
+        }
+
+        .bg-blue {
+            background: #337ab7 !important;
+            border: 1px solid #337ab7 !important;
+            color: #fff;
+        }
+    </style>
+}
+
+<div class="card">
+    <div class="card-title">@Html.ITitle("Bản tin","file-text-o")</div>
+    @Html.Raw(TempData["Alert"])
+    @using (Html.BeginForm("Index", "CMSPost", FormMethod.Get))
+    {
+        <div class="card-actionbar">
+            <div class="col-md-2 filter-drop-categories">
+                @Html.IButton(@Url.Action("Create", "CMSPost"),ActionButton.Create,"Thêm bản tin",true, null)
+            </div>
+            <div class="col-md-3 filter-drop-categories">
+                @Html.IDropDownListFor(m => m.WorkflowStateId, new SelectList(ViewBag.WorkStateId, "Id", "Name"), "Chọn trạng thái")
+            </div>
+            <div class="col-md-3 filter-drop-categories">
+                @Html.IDropDownListFor(m => m.CategoryId, new SelectList(ViewBag.CategoryId, "Id", "Name"), "Chọn chuyên mục")
+            </div>
+            <div class="col-md-3 filter-drop-categories">
+                @Html.ISubmitButtonActionBar()
+            </div>
+        </div>
+    }
+    
+    <div class="card-content table-actionbar-top">
+        <!--Use MVC-->
+        <table id="table_id" class="table table-striped table-bordered dataTable no-footer" cellspacing="0" role="grid" aria-describedby="example_info" style="width: 100%;">
+            <thead>
+                <tr role="row">
+                    <th class="sorting_asc" tabindex="0" aria-controls="example" rowspan="1" 
+                        colspan="1" aria-label="Name: activate to sort column descending" 
+                        style="width: auto" aria-sort="ascending">@Html.DisplayNameFor(model => model.PostListViewModel.SingleOrDefault().PublishDate)</th>
+                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" 
+                        colspan="1" aria-label="Position: activate to sort column ascending" 
+                        style="width: auto">@Html.DisplayNameFor(model => model.PostListViewModel.SingleOrDefault().Title)</th>
+                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" 
+                        colspan="1" aria-label="Office: activate to sort column ascending" 
+                        style="width: auto">@Html.DisplayNameFor(model => model.PostListViewModel.SingleOrDefault().CategoryName)</th>
+                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" 
+                        colspan="1" aria-label="Office: activate to sort column ascending" 
+                        style="width: auto; text-align: center">@Html.DisplayNameFor(model => model.PostListViewModel.SingleOrDefault().WorkflowStateName)</th>
+                    <th style="width: auto"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.PostListViewModel)
+                {
+                    <tr role="row" class="odd">
+                        @*<td class="sorting_1">@Html.DisplayFor(modelItem => item.Id)</td>*@
+                        <td class="sorting_1">@Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.PublishDate))</td>
+                        <td class="">@Html.DisplayFor(modelItem => item.Title)</td>
+                        <td class="">@Html.DisplayFor(modelItem => item.CategoryName)</td>
+                        <td class="">
+                            <small class="badge bg-orange">@Html.DisplayFor(modelItem => item.WorkflowStateName)</small>
+                        </td>
+                        <td>
+                            @Html.IGridButton("", ActionButton.View)
+                            @Html.IGridButton(@Url.Action("Edit", new { id = item.Id }), ActionButton.Edit)
+                            @Html.IGridButton(@Url.Action("Delete", new { id = item.Id, Title = item.Title }), ActionButton.Delete)
+                        </td>
+                    </tr>
+                }
+                
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/Libs/DataTable/jquery.dataTables.js"></script>
+    <script src="~/Libs/Chosen/js/chosen.jquery.min.js"></script>
+    <script type="text/javascript">
+    var config = {
+      '.chosen-select'           : {}
+    }
+    for (var selector in config) {
+      $(selector).chosen(config[selector]);
+    }
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#table_id').DataTable({
+                "language": {
+                    url: '/Libs/Datatable/Vietnamese.json'
+                }
+            });
+        });
+    </script>
+
+
+}
+
+
+
+

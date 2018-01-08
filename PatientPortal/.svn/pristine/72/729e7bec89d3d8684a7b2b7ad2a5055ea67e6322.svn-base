@@ -1,0 +1,29 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web;
+
+namespace PatientPortal.Domain.Models.AUTHEN
+{
+    public interface IUserSession
+    {
+        string UserName { get; }
+        string BearerToken { get; }
+    }
+
+    public class UserSession : IUserSession
+    {
+        public string UserName
+        {
+            get { return ((ClaimsPrincipal)HttpContext.Current.User).FindFirst(ClaimTypes.Name).Value; }
+        }
+
+        public string BearerToken
+        {
+            get { return ((ClaimsPrincipal)HttpContext.Current.User).FindFirst("AccessToken").Value; }
+        }
+    }
+}

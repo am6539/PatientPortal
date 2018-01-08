@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "Đặt lịch khám";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model PatientPortal.PatientServices.Models.AppointmentEditModel
+
+@section styles{
+    <style>
+        .modal-body {
+            max-height: calc(100vh - 150px);
+            overflow-y: auto;
+        }
+    </style>
+}
+<div class="card">
+    <ul class="nav nav-tabs">
+        <li class="active" onclick="showTab('Appointment')"><a data-toggle="tab" href="#appointment">Thông tin cuộc hẹn</a></li>
+        <li><a data-toggle="tab" onclick="showTab('InfoOrder', 5)" href="#infoAppointment">Thông tin cá nhân</a></li>
+        <li><a data-toggle="tab" onclick="showTab('CheckAndConfirm')" href="#checkandConfirm">Kiểm tra và xác nhận</a></li>
+    </ul>
+    <div class="tab-content">
+        @Html.Partial("_Appointment", Model)
+    </div>
+</div>
+
+ <!--Modal confirm-->
+<div id="modal-container" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+<script>
+    function makeAppointmentDoctor(Id) {
+        $(".tab-content").load("/Appointment/AppointmentPartial/" + Id, function (responseTxt, statusTxt, xhr) {
+            if (statusTxt == "error")
+                alert("Lỗi: " + xhr.status + ": " + xhr.statusText);
+            else
+            {
+                $("#doctorSelected").hide(500);
+                $("#searchDoctor").show(500);
+                $("#quickviewProfile").show(500);
+            }
+        });
+    }
+
+    function showTab(tab, patientId) {
+        if (tab == 'Appointment') {
+            $("#appointment").show();
+            $("#checkandConfirm").hide();
+            $("#infoAppointment").hide();
+        }
+        if (tab == 'InfoOrder') {
+            $("#appointment").hide();
+            $("#checkandConfirm").hide();
+            $("#infoAppointment").show();
+            $("#infoAppointment").load("/Appointment/PatientDetail?patientId=" + patientId, function (responseTxt, statusTxt, xhr) {
+                if (statusTxt == "error")
+                    alert("Lỗi: " + xhr.status + ": " + xhr.statusText);
+            });
+        }
+        if (tab == 'CheckAndConfirm') {
+            $("#appointment").hide();
+            $("#checkandConfirm").show();
+            $("#infoAppointment").hide();
+        }
+    }
+</script>

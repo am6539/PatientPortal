@@ -1,0 +1,67 @@
+﻿
+<div ng-controller="detailController">
+
+    <header id="header">
+        <nav id="main-menu" class="navbar navbar-default navbar-fixed-top" role="banner">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/index"><img src="../images/logo.png" alt="logo" style="width:70%;"></a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="/#">Trang chủ</a></li>
+                        <!--<li class="scroll"><a href="#features">Tin tức</a></li>-->
+                        <li><a href="/#">Dịch vụ</a></li>
+                        <li><a href="/#">Chuyên khoa</a></li>
+                        <li><a href="/index#gioithieu">Giới thiệu</a></li>
+                        <li><a href="/#">Tin tức</a></li>
+                        <li><a href="/#">Liên hệ</a></li>
+                    </ul>
+                </div>
+            </div><!--/.container-->
+        </nav><!--/nav-->
+    </header><!--/header-->
+
+    <div class="container">
+
+        <div class="section-header">
+            <p class="text-center wow fadeInDown"></p>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-3 wow fadeInLeft">
+                <!-- 16:9 aspect ratio -->
+                <!--<div class="embed-responsive embed-responsive-16by9">
+                    <iframe src="https://www.youtube.com/embed/f0zDS24KPVI?autoplay=0" frameborder="0" allowfullscreen style="width:95%; height:300px;"></iframe>
+                </div>-->
+
+                <ul ng-repeat="post in Posts" style="list-style-type: none">
+                    <li style="border-bottom: 1px dotted #E2E2E3;"><i class="fa fa-caret-right" aria-hidden="true"></i> <a style="color: #767676" href="javascript:void(0)" ng-click="viewDetail(post.Id)">{{post.Title}}</a></li>
+                </ul>
+            </div>
+
+            <div class="col-sm-9 wow fadeInRight">
+                <h3 class="column-title">{{Post.TitleTrans}}</h3>
+
+                <span style="font-style: italic; font-size: 70%">{{ Post.PublishDate | jsonDate : 'dd-MM-yyyy' }}</span>
+                <p>{{Post.DescriptionTrans}}</p>
+                <div ng-bind-html="Post.Detail"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-9 col-sm-offset-3">
+                <h4 class="column-title">Các bài liên quan</h4>
+                <ul ng-repeat="post in Posts" style="list-style-type: none">
+                    <li><i class="fa fa-caret-right" aria-hidden="true"></i> <a style="color: #767676" href="javascript:void(0)" ng-click="viewDetail(post.Id)">{{post.Title}}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

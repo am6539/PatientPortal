@@ -1,0 +1,72 @@
+﻿using PatientPortal.Domain.Utilities;
+using PatientPortal.SPA.CMS.Models;
+using PatientPortal.SPA.CMS.Utility;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
+
+namespace PatientPortal.SPA.CMS.Controllers
+{
+    public class PostController : Controller
+    {
+        // GET: Home/Details/5
+        public JsonResult GetDetailsView(int id)
+        {
+            try
+            {
+                var post = APIHelper.Get<PostViewModel>(ApiUrlConstant.POSTGetById(id));
+                string langCode = System.Configuration.ConfigurationManager.AppSettings["AdminLanguageCode"];
+                var postList = APIHelper.Get<List<PostListViewModel>>(ApiUrlConstant.POSTGet(langCode, 0, ValueConstant.WORK_STATE_ID_PUBLISH));
+                if (postList != null) postList.OrderByDescending(a => a.PublishDate).Take(10);
+
+                return Json( new { post = post, postList = postList }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        // GET: Home/Details/5
+        public JsonResult GetPostDetails(int id)
+        {
+            try
+            {
+                var post = APIHelper.Get<PostViewModel>(ApiUrlConstant.POSTGetById(id));
+                return Json(post, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public JsonResult GetByCategory(byte categoryId)
+        {
+            string langCode = System.Configuration.ConfigurationManager.AppSettings["AdminLanguageCode"];
+            var relatedPosts = APIHelper.Get<List<PostListViewModel>>(ApiUrlConstant.POSTGet(langCode, 0, ValueConstant.WORK_STATE_ID_PUBLISH));
+            if (relatedPosts != null) relatedPosts.Where(x => x.CategoryId == categoryId).Take(10);
+
+            return Json(relatedPosts, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetListPost()
+        {
+            try
+            {
+                string langCode = System.Configuration.ConfigurationManager.AppSettings["AdminLanguageCode"];
+                var postList = APIHelper.Get<List<PostListViewModel>>(ApiUrlConstant.POSTGet(langCode, 0, ValueConstant.WORK_STATE_ID_PUBLISH));
+                if (postList != null) postList.OrderByDescending(a => a.PublishDate).Take(5);
+
+                return Json(new { postList = postList }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+    }
+}

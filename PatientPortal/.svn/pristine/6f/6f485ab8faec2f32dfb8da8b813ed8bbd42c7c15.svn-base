@@ -1,0 +1,15 @@
+﻿using PatientPortal.Domain.Models.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.DataAccess.Repo.CMS
+{
+    public interface IWorkflow
+    {
+        List<Workflow> GetAll();
+        bool WorkflowTransaction(List<Workflow> data, char action);
+    }
+}

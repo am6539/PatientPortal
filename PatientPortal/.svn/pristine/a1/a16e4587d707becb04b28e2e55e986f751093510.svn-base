@@ -1,0 +1,56 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.IRepository.CMS;
+using PatientPortal.Domain.Models.CMS;
+using PatientPortal.DataAccess.Repo.CMS;
+
+namespace PatientPortal.Repositoty.CMS
+{
+    public class DepartmentRepoImpl : IDepartmentRepo
+    {
+        IDepartment _department;
+        public DepartmentRepoImpl(IDepartment department)
+        {
+            this._department = department;
+        }
+
+        /// <summary>
+        /// Get all
+        /// </summary>
+        /// <returns>List</returns>
+        public List<Department> GetAll()
+        {
+            return _department.GetAll();
+        } 
+
+        public Department GetById(byte id)
+        {
+            return _department.GetById(id);
+        }
+
+        /// <summary>
+        /// Transaction
+        /// </summary>
+        /// <param name="data">List</param>
+        /// <param name="action">I: Insert, U: Update, D: Delete</param>
+        /// <returns>true/false</returns>
+        public bool Transaction(List<Department> data, char action)
+        {
+            return _department.Transaction(data, action);
+        }
+
+        /// <summary>
+        /// Check exist data
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public bool CheckExist(string name, byte id)
+        {
+            return _department.CheckExist(name, id);
+        }
+    }
+}

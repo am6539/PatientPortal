@@ -1,0 +1,61 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model List<PatientPortal.Internal.Models.Account.UserProfileViewModel>
+@{
+    ViewBag.Title = "Danh mục hồ sơ bác sĩ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-title">@ViewBag.Title</div>
+
+    <div class="card-actionbar">
+        <div class="col-md-3 filter-drop-categories">
+            @Html.IButton(@Url.Action("Create", "UserProfile"), ActionButton.Create, "Thêm hồ sơ")
+            @*@Html.IDropDownListFor(m => m.CategoryId, new SelectList(ViewBag.CategoryId, "Id", "Name"), "Chọn chuyên mục")*@
+        </div>
+    </div>
+
+    <div class="card-content">
+        <div class="bootstrap snippet">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="main-box no-header clearfix">
+                        <div class="main-box-body clearfix">
+                            <div class="table-responsive">
+                                <table class="table user-list" id="tblUser">
+                                    <thead>
+                                        <tr>
+                                            <th>@Html.HiddenFor(m => m.FirstOrDefault().UserId)</th>
+                                            <th><span>@Html.LabelFor(m => m.FirstOrDefault().TabCode)</span></th>
+                                            <th><span>@Html.LabelFor(m => m.FirstOrDefault().Descriptions)</span></th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td></td>
+                                                <td>@item.TabCode</td>
+                                                <td>@item.Descriptions.Substring(0, 20)</td>
+                                                <td style="width: 20%;">
+                                                    @Html.IGridButton("", ActionButton.View)
+                                                    @Html.IGridButton(@Url.Action("Edit", new { id = item.UserId, tabCode = item.TabCode }), ActionButton.Edit)
+                                                    @Html.IGridButton(@Url.Action("Delete", new { id = item.UserId, tabCode = item.TabCode }), ActionButton.Delete)
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+

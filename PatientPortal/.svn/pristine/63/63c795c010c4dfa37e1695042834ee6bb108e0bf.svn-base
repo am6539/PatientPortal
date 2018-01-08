@@ -1,0 +1,57 @@
+﻿CREATE PROC [dbo].[usp_Setting_Transaction]
+(
+	@Action CHAR(1) = 'I',
+	@Id TINYINT = 1,
+	@Title NVARCHAR(70) = '',
+	@Description NVARCHAR(150) = '',
+	@Keyword NVARCHAR(150) = '',
+	@Membership BIT = 1,
+	@DefaultRole SMALLINT = 1,
+	@LoginURL VARCHAR(256) = '',
+	@LockedIPNoteDefault NVARCHAR(150) = ''
+)
+AS BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+	DECLARE @return INT = 0
+
+	BEGIN TRY
+		BEGIN TRAN;
+		
+			IF @Action = 'I' --INSERT
+			BEGIN
+				INSERT [dbo].[Setting] VALUES(@Title, @Description, @Keyword, @Membership, @DefaultRole, @LoginURL, @LockedIPNoteDefault)
+
+				SET @return = SCOPE_IDENTITY()
+			END
+
+			IF @Action = 'U' --UPDATE
+			BEGIN
+				UPDATE [dbo].[Setting]
+				SET [Title] = @Title, [Keyword] = @Keyword, [Description] =  @Description, [Membership] = @Membership,
+				[DefaultRole] = @DefaultRole, [LoginURL] = @LoginURL,
+				[LockedIPNoteDefault] = @LockedIPNoteDefault
+				WHERE [Id] = @Id  
+
+				SET @return = @Id
+			END
+
+			IF @Action = 'D' --DELETE
+			BEGIN
+				DELETE FROM [dbo].[Setting]
+				WHERE [Id] = @Id
+
+				SET @return = @Id
+			END
+
+			COMMIT TRAN;
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0 
+		BEGIN
+			ROLLBACK TRAN;
+			SET  @return = 0
+		END
+	END CATCH
+	SELECT @return;
+END

@@ -1,0 +1,457 @@
+﻿<div class="page relative">
+    <div class="page_layout page_margin_top clearfix">
+        <div class="page_header clearfix">
+            <div class="page_header_left">
+                <!--<h1 class="page_title">Our departments</h1>-->
+                <ul class="bread_crumb">
+                    <li>
+                        <a href="/" title="Trang chủ">
+                            Trang chủ
+                        </a>
+                    </li>
+                    <li class="separator icon_small_arrow right_gray">
+                        &nbsp;
+                    </li>
+                    <li>
+                        Chuyên Khoa
+                    </li>
+                </ul>
+            </div>
+            <!--<div class="page_header_right">
+                <form class="search">
+                    <input class="search_input" type="text" value="To search type and hit enter..." placeholder="To search type and hit enter..." />
+                </form>
+            </div>-->
+        </div>
+        <div class="page_left page_margin_top">
+            <ul class="accordion wide">
+                <li>
+                    <div id="accordion-primary-health-care">
+                        <h3>{{department.Name}}</h3>
+                    </div>
+                    <div class="clearfix tabs">
+                        <ul class="tabs_navigation clearfix">
+                            <li>
+                                <a href="#primary-health-care-general" title="General info">
+                                    Thông tin chung
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#primary-health-care-services" title="Services">
+                                    Dịch vụ chuyên khoa
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#primary-health-care-doctors" title="Doctors list">
+                                    Danh sách bác sĩ
+                                </a>
+                            </li>
+                        </ul>
+                        <div id="primary-health-care-general">
+                            <h3 class="sentence">
+                                {{department.Description}}
+                            </h3>
+                        </div>
+                        <div id="primary-health-care-services">
+                            <h3 class="sentence">
+                                Danh sách dịch vụ trong chuyên khoa
+                            </h3>
+                            <div class="columns page_margin_top clearfix">
+                                <div class="column_left">
+                                    <h3 class="box_header">
+                                        Xét nghiệm
+                                    </h3>
+                                    <ul class="items_list page_margin_top clearfix">
+                                        <li class="clearfix" ng-repeat="item in investigateServices">
+                                            <span>
+                                                {{item.Name}}
+                                            </span>
+                                            <div class="value">
+                                                {{item.Price}}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="column_right">
+                                    <h3 class="box_header">
+                                        Điều trị
+                                    </h3>
+                                    <ul class="items_list page_margin_top clearfix">
+                                        <li class="clearfix" ng-repeat="item in treatmentServices">
+                                            <span>
+                                                {{item.Name}}
+                                            </span>
+                                            <div class="value">
+                                                {{item.Price}}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="primary-health-care-doctors">
+                            <h3 class="sentence">
+                                Danh sách bác sĩ
+                            </h3>
+                            <ul class="doctors_list">
+                                <li class="item clearfix">
+                                    <div class="columns no_width">
+                                        <div class="column_left">
+                                            <div class="gallery_box">
+                                                <img src="images/samples/480x300/image_03.jpg" alt="" />
+                                                <div class="description">
+                                                    <h3>
+                                                        Ann Blyumin, Prof.
+                                                    </h3>
+                                                    <h5>
+                                                        Pediatrist
+                                                    </h5>
+                                                </div>
+                                                <ul class="controls">
+                                                    <li>
+                                                        <a href="images/samples/image_03.jpg" rel="primary-health-care-doctors" class="fancybox open_lightbox"></a>
+                                                    </li>
+                                                </ul>
+                                                <!--<ul class="social_icons clearfix">
+                                                    <li>
+                                                        <a class="social_icon facebook" href="http://facebook.com/QuanticaLabs" title="">
+                                                            &nbsp;
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="social_icon googleplus" href="#" title="">
+                                                            &nbsp;
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="social_icon mail" href="mailto:medicenter@mail.com" title="">
+                                                            &nbsp;
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="social_icon forrst" href="#" title="">
+                                                            &nbsp;
+                                                        </a>
+                                                    </li>
+                                                </ul>-->
+                                            </div>
+                                        </div>
+                                        <div class="column_right">
+                                            <div class="details_box">
+                                                <h3 class="box_header">
+                                                    Ann Blyumin, Prof.
+                                                </h3>
+                                                <ul class="info_list page_margin_top">
+                                                    <li class="clearfix">
+                                                        <label>
+                                                            Speciality
+                                                        </label>
+                                                        <div class="text">
+                                                            Pediatrist
+                                                        </div>
+                                                    </li>
+                                                    <li class="clearfix">
+                                                        <label>
+                                                            Degrees
+                                                        </label>
+                                                        <div class="text">
+                                                            M.D. of Medicine
+                                                        </div>
+                                                    </li>
+                                                    <li class="clearfix">
+                                                        <label>
+                                                            Training
+                                                        </label>
+                                                        <div class="text">
+                                                            Donec commodo oido. Nulla vitae elit libero, a pharetra augue. Mauris id Integer posuere erat ante dapibus posuere velit aliquet.
+                                                        </div>
+                                                    </li>
+                                                    <li class="clearfix">
+                                                        <label>
+                                                            Office
+                                                        </label>
+                                                        <div class="text">
+                                                            367, Hall A
+                                                        </div>
+                                                    </li>
+                                                    <li class="clearfix">
+                                                        <label>
+                                                            Work days
+                                                        </label>
+                                                        <div class="text">
+                                                            Monday, Thursday, Friday
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                                <!--<div class="item_footer clearfix">
+                                                    <a title="Timetable" href="?page=timetable" class="more">
+                                                        Timetable &rarr;
+                                                    </a>
+                                                </div>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="item clearfix">
+                                    <div class="columns no_width">
+                                        <div class="column_left">
+                                            <div class="gallery_box">
+                                                <img src="images/samples/480x300/image_01.jpg" alt="" />
+                                                <div class="description">
+                                                    <h3>
+                                                        Robert Brown, Prof.
+                                                    </h3>
+                                                    <h5>
+                                                        General Medicine
+                                                    </h5>
+                                                </div>
+                                                <ul class="controls">
+                                                    <li>
+                                                        <a href="images/samples/image_01.jpg" rel="primary-health-care-doctors" class="fancybox open_lightbox"></a>
+                                                    </li>
+                                                </ul>
+                                                <!--<ul class="social_icons clearfix">
+                                                    <li>
+                                                        <a class="social_icon facebook" href="http://facebook.com/QuanticaLabs" title="">
+                                                            &nbsp;
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="social_icon googleplus" href="#" title="">
+                                                            &nbsp;
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="social_icon linkedin" href="#" title="">
+                                                            &nbsp;
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="social_icon xing" href="#" title="">
+                                                            &nbsp;
+                                                        </a>
+                                                    </li>
+                                                </ul>-->
+                                            </div>
+                                        </div>
+                                        <div class="column_right">
+                                            <div class="details_box">
+                                                <h3 class="box_header">
+                                                    Robert Brown, Prof.
+                                                </h3>
+                                                <ul class="info_list page_margin_top">
+                                                    <li class="clearfix">
+                                                        <label>
+                                                            Speciality
+                                                        </label>
+                                                        <div class="text">
+                                                            General Medicine
+                                                        </div>
+                                                    </li>
+                                                    <li class="clearfix">
+                                                        <label>
+                                                            Degrees
+                                                        </label>
+                                                        <div class="text">
+                                                            M.D. of Medicine
+                                                        </div>
+                                                    </li>
+                                                    <li class="clearfix">
+                                                        <label>
+                                                            Training
+                                                        </label>
+                                                        <div class="text">
+                                                            Donec commodo oido. Nulla vitae elit libero, a pharetra augue. Mauris id Integer posuere erat ante dapibus posuere velit aliquet.
+                                                        </div>
+                                                    </li>
+                                                    <li class="clearfix">
+                                                        <label>
+                                                            Office
+                                                        </label>
+                                                        <div class="text">
+                                                            367, Hall A
+                                                        </div>
+                                                    </li>
+                                                    <li class="clearfix">
+                                                        <label>
+                                                            Work days
+                                                        </label>
+                                                        <div class="text">
+                                                            Monday, Thursday, Friday
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                                <!--<div class="item_footer clearfix">
+                                                    <a title="Timetable" href="?page=timetable" class="more">
+                                                        Timetable &rarr;
+                                                    </a>
+                                                </div>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="item clearfix">
+                                    <div class="columns no_width">
+                                        <div class="column_left">
+                                            <div class="gallery_box">
+                                                <img src="images/samples/480x300/image_02.jpg" alt="" />
+                                                <div class="description">
+                                                    <h3>
+                                                        Clare Mitchell, Prof.
+                                                    </h3>
+                                                    <h5>
+                                                        Family Doctor
+                                                    </h5>
+                                                </div>
+                                                <ul class="controls">
+                                                    <li>
+                                                        <a href="images/samples/image_02.jpg" rel="primary-health-care-doctors" class="fancybox open_lightbox"></a>
+                                                    </li>
+                                                </ul>
+                                                <!--<ul class="social_icons clearfix">
+                                                    <li>
+                                                        <a class="social_icon twitter" href="https://twitter.com/QuanticaLabs" title="">
+                                                            &nbsp;
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="social_icon mail" href="mailto:medicenter@mail.com" title="">
+                                                            &nbsp;
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="social_icon myspace" href="#" title="">
+                                                            &nbsp;
+                                                        </a>
+                                                    </li>
+                                                </ul>-->
+                                            </div>
+                                        </div>
+                                        <div class="column_right">
+                                            <div class="details_box">
+                                                <h3 class="box_header">
+                                                    Clare Mitchell, Prof.
+                                                </h3>
+                                                <ul class="info_list page_margin_top">
+                                                    <li class="clearfix">
+                                                        <label>
+                                                            Speciality
+                                                        </label>
+                                                        <div class="text">
+                                                            Family Doctor
+                                                        </div>
+                                                    </li>
+                                                    <li class="clearfix">
+                                                        <label>
+                                                            Degrees
+                                                        </label>
+                                                        <div class="text">
+                                                            M.D. of Medicine
+                                                        </div>
+                                                    </li>
+                                                    <li class="clearfix">
+                                                        <label>
+                                                            Training
+                                                        </label>
+                                                        <div class="text">
+                                                            Donec commodo oido. Nulla vitae elit libero, a pharetra augue. Mauris id Integer posuere erat ante dapibus posuere velit aliquet.
+                                                        </div>
+                                                    </li>
+                                                    <li class="clearfix">
+                                                        <label>
+                                                            Office
+                                                        </label>
+                                                        <div class="text">
+                                                            367, Hall A
+                                                        </div>
+                                                    </li>
+                                                    <li class="clearfix">
+                                                        <label>
+                                                            Work days
+                                                        </label>
+                                                        <div class="text">
+                                                            Monday, Thursday, Friday
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                                <!--<div class="item_footer clearfix">
+                                                    <a title="Timetable" href="?page=timetable" class="more">
+                                                        Timetable &rarr;
+                                                    </a>
+                                                </div>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="page_right page_margin_top">
+            <ul>
+                <li class="home_box light_blue animated_element animation-fadeIn duration-500" style="z-index: 3;">
+                    <h2>
+                        <a href="?page=contact" title="Emergency Case">
+                            Emergency Case
+                        </a>
+                    </h2>
+                    <div class="news clearfix">
+                        <p class="text">
+                            If you need a doctor urgently outside of medicenter opening hours, call emergency appointment number for emergency service.
+                        </p>
+                        <a class="more light icon_small_arrow margin_right_white" href="?page=contact" title="Read more">Read more</a>
+                    </div>
+                </li>
+                <li class="home_box blue animated_element animation-slideDown duration-800 delay-250" style="z-index: 2;">
+                    <h2>
+                        <a href="?page=timetable" title="Doctors Timetable">
+                            Doctors Timetable
+                        </a>
+                    </h2>
+                    <div class="news clearfix">
+                        <p class="text">
+                            Here at medicenter we have individual doctor's lists. Click read more below to see services and current timetable for our doctors.
+                        </p>
+                        <a class="more light icon_small_arrow margin_right_white" href="?page=timetable" title="Read more">Read more</a>
+                    </div>
+                </li>
+                <li class="home_box dark_blue animated_element animation-slideDown200 duration-800 delay-500" style="z-index: 1;">
+                    <h2>
+                        Opening Hours
+                    </h2>
+                    <ul class="items_list thin dark_blue opening_hours">
+                        <li class="clearfix">
+                            <span>
+                                Monday - Friday
+                            </span>
+                            <div class="value">
+                                8.00 - 17.00
+                            </div>
+                        </li>
+                        <li class="clearfix">
+                            <span>
+                                Saturday
+                            </span>
+                            <div class="value">
+                                9.30 - 17.30
+                            </div>
+                        </li>
+                        <li class="clearfix">
+                            <span>
+                                Sunday
+                            </span>
+                            <div class="value">
+                                9.30 - 15.00
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar_box"  ng-include="'app/components/contact-partial/contact-partial.template.html'">
+                    
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>		

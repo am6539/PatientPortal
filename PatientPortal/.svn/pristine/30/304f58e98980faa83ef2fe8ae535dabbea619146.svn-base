@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C41A8925-72EB-438D-A822-C4607F240236}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PatientPortal.Domain</RootNamespace>
+    <AssemblyName>PatientPortal.Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=5.2.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.2.0\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Elasticsearch.Net, Version=5.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
+      <HintPath>..\packages\Elasticsearch.Net.5.2.0\lib\net45\Elasticsearch.Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nest, Version=5.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
+      <HintPath>..\packages\NEST.5.2.0\lib\net45\Nest.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.2-beta2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="protobuf-net, Version=2.0.0.480, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
+      <HintPath>..\packages\protobuf-net.2.0.0.480\lib\net40\protobuf-net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="StackExchange.Redis, Version=1.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StackExchange.Redis.1.2.3\lib\net45\StackExchange.Redis.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="StackExchange.Redis.Extensions.Core, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StackExchange.Redis.Extensions.Core.2.2.0\lib\net45\StackExchange.Redis.Extensions.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="StackExchange.Redis.Extensions.Newtonsoft, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StackExchange.Redis.Extensions.Newtonsoft.2.2.0\lib\net45\StackExchange.Redis.Extensions.Newtonsoft.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WebApiContrib.Formatting.ProtoBuf, Version=0.9.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebApiContrib.Formatting.ProtoBuf.0.9.5.0\lib\net40\WebApiContrib.Formatting.ProtoBuf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Caching\MemCache\MemoryCacheObject.cs" />
+    <Compile Include="Caching\Redis\CacheHelper.cs" />
+    <Compile Include="Caching\Redis\ICacheManager.cs" />
+    <Compile Include="Caching\Redis\RedisCacheManager.cs" />
+    <Compile Include="Caching\Redis\RedisConfig.cs" />
+    <Compile Include="Caching\Redis\StackExchange\RedisCacheManager.cs" />
+    <Compile Include="Common\DataConfiguration.cs" />
+    <Compile Include="Common\EnumUserConstants.cs" />
+    <Compile Include="Common\GlobalVar.cs" />
+    <Compile Include="Common\ValueConstant.cs" />
+    <Compile Include="Enums\OfferAdvise\EnumOfferAdviseStatus.cs" />
+    <Compile Include="Enums\Survey\EnumQuestionType.cs" />
+    <Compile Include="LogManager\Logger.cs" />
+    <Compile Include="Models\AUTHEN\AccountViewModel.cs" />
+    <Compile Include="Models\AUTHEN\UserCache.cs" />
+    <Compile Include="Models\AUTHEN\UserSession.cs" />
+    <Compile Include="Models\AUTHEN\LoginModel.cs" />
+    <Compile Include="Models\CMS\OM\Advertise.cs" />
+    <Compile Include="Models\CMS\OM\CMSConfiguration.cs" />
+    <Compile Include="Models\CMS\OM\Department.cs" />
+    <Compile Include="Models\CMS\OM\Gallery\GalleryStore.cs" />
+    <Compile Include="Models\CMS\OM\Gallery\Gallery.cs" />
+    <Compile Include="Models\CMS\Report\Dashboard.cs" />
+    <Compile Include="Models\CMS\OM\Slider.cs" />
+    <Compile Include="Models\CMS\OM\Feature.cs" />
+    <Compile Include="Models\CMS\OM\LinkBuilding.cs" />
+    <Compile Include="Models\CMS\OM\Language.cs" />
+    <Compile Include="Models\CMS\OM\Post\Post.cs" />
+    <Compile Include="Models\CMS\OM\Category.cs" />
+    <Compile Include="Models\CMS\OM\Post\PostEdit.cs" />
+    <Compile Include="Models\CMS\OM\Post\PostList.cs" />
+    <Compile Include="Models\CMS\OM\Post\PostSEO.cs" />
+    <Compile Include="Models\CMS\OM\Post\PostStateHistory.cs" />
+    <Compile Include="Models\CMS\OM\Post\PostTran.cs" />
+    <Compile Include="Models\CMS\OM\Post\PostFilter.cs" />
+    <Compile Include="Models\CMS\OM\Workflow\Workflow.cs" />
+    <Compile Include="Models\CMS\OM\Workflow\WorkflowNavigation.cs" />
+    <Compile Include="Models\CMS\OM\Workflow\WorkflowNavigationEdit.cs" />
+    <Compile Include="Models\CMS\OM\Workflow\WorkflowState.cs" />
+    <Compile Include="Models\CMS\OM\Workflow\WorkflowStateEdit.cs" />
+    <Compile Include="Models\CORE\OM\Appointment\AppointmentCollection.cs" />
+    <Compile Include="Models\CORE\OM\Appointment\Appointment.cs" />
+    <Compile Include="Models\CORE\OM\Appointment\AppointmentEdit.cs" />
+    <Compile Include="Models\CORE\OM\Appointment\AppointmentLog.cs" />
+    <Compile Include="Models\CORE\OM\Appointment\AppointmentLogEdit.cs" />
+    <Compile Include="Models\CORE\OM\Article.cs" />
+    <Compile Include="Models\CORE\OM\ArticleComment.cs" />
+    <Compile Include="Models\CORE\OM\ArticleCommentEdit.cs" />
+    <Compile Include="Models\CORE\OM\ArticleEdit.cs" />
+    <Compile Include="Models\CORE\OM\DepartmentServices.cs" />
+    <Compile Include="Models\CORE\OM\Department.cs" />
+    <Compile Include="Models\CORE\OM\EmailMarketing.cs" />
+    <Compile Include="Models\CORE\OM\Enum\EnumTypeControl.cs" />
+    <Compile Include="Models\CORE\OM\Enum\EnumEmailGroupType.cs" />
+    <Compile Include="Models\CORE\OM\Group.cs" />
+    <Compile Include="Models\CORE\OM\Mail.cs" />
+    <Compile Include="Models\CORE\OM\MailSetting.cs" />
+    <Compile Include="Models\CORE\OM\MessageFolder.cs" />
+    <Compile Include="Models\CORE\OM\Module.cs" />
+    <Compile Include="Models\CORE\OM\OfferAdvise.cs" />
+    <Compile Include="Models\CORE\OM\Organization.cs" />
+    <Compile Include="Models\CORE\OM\QA.cs" />
+    <Compile Include="Models\CORE\OM\Role.cs" />
+    <Compile Include="Models\CORE\OM\Schedule.cs" />
+    <Compile Include="Models\CORE\OM\SurveyAnswers.cs" />
+    <Compile Include="Models\CORE\OM\Survey.cs" />
+    <Compile Include="Models\CORE\OM\SurveyQuestions.cs" />
+    <Compile Include="Models\CORE\OM\DoctorProfile.cs" />
+    <Compile Include="Models\CORE\OM\UserNotification.cs" />
+    <Compile Include="Models\CORE\OM\UserRole.cs" />
+    <Compile Include="Models\CORE\OM\Setting.cs" />
+    <Compile Include="Models\CORE\OM\User.cs" />
+    <Compile Include="Models\CORE\Report\Dashboard.cs" />
+    <Compile Include="Models\HIS\SharedFile.cs" />
+    <Compile Include="Models\SPA\Advertise.cs" />
+    <Compile Include="Models\SPA\AppointmentLogEdit.cs" />
+    <Compile Include="Models\SPA\Category.cs" />
+    <Compile Include="Models\SPA\Configuration.cs" />
+    <Compile Include="Models\SPA\Department.cs" />
+    <Compile Include="Models\SPA\DepartmentServices.cs" />
+    <Compile Include="Models\SPA\Feature.cs" />
+    <Compile Include="Models\SPA\Gallery.cs" />
+    <Compile Include="Models\SPA\Post.cs" />
+    <Compile Include="Models\SPA\PostList.cs" />
+    <Compile Include="Models\SPA\QA.cs" />
+    <Compile Include="Models\SPA\Schedule.cs" />
+    <Compile Include="Models\SPA\SEOPage.cs" />
+    <Compile Include="Models\SPA\Slider.cs" />
+    <Compile Include="Models\SPA\User.cs" />
+    <Compile Include="Models\SPA\UserProfile.cs" />
+    <Compile Include="Models\SYSTEM\ModuleApplication.cs" />
+    <Compile Include="Models\SYSTEM\OutputModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SearchEngine\ElasticConfig.cs" />
+    <Compile Include="Utilities\GlobalVariables.cs" />
+    <Compile Include="Utilities\Helper.cs" />
+    <Compile Include="Utilities\LogHelper.cs" />
+    <Compile Include="Utilities\RandomString.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\Logs\" />
+    <Folder Include="Mapping\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

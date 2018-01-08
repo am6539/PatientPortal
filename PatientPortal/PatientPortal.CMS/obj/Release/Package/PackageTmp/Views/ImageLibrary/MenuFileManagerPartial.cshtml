@@ -1,0 +1,67 @@
+﻿
+@{
+    Layout = null;
+}
+
+<div class="collapse navbar-collapse option-navbar" id="navbar-collapse-2">
+    <ul class="nav navbar-nav">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle text-center" data-toggle="dropdown">
+                <i class="glyphicon glyphicon-sort"></i><br> Sắp xếp <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+                <li class="active">
+                    <a href="javascript:;" onclick="my_sort = 'date'; showFileManager('');">Ngày</a>
+                </li>
+                <li class="">
+                    <a href="javascript:;" onclick="my_sort = 'name'; showFileManager('');">Tên</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#newFolder" class="text-center" data-toggle="modal" data-target="#newFolder"><i class="glyphicon glyphicon-folder-open"></i><br>Thư mục</a>
+        </li>
+        <li>
+            <a href="javascript:;" class="text-center"
+               onclick="$('#container_id_tree3').html('<div class=\'alert alert-info\'><center><b>Choose your target directory.</b></center></div>'); if(selected == '' || selected == null) alert('Please select files and folders'); else $('#copySelected').modal('show');"><i class="glyphicon glyphicon-book"></i><br>Sao shép</a>
+        </li>
+        <li>
+            <a href="javascript:;" class="text-center"
+               onclick="$('#container_id_tree2').html('<div class=\'alert alert-info\'><center><b>Choose your target directory.</b></center></div>'); if(selected == '' || selected == null) alert('Please select files and folders'); else $('#moveSelected').modal('show');"><i class="glyphicon glyphicon-fullscreen"></i><br>Di chuyển</a>
+        </li>
+        <li>
+            <a href="javascript:;" class="text-center"
+               onclick="if(selected == '' || selected == null) alert('Please select files and folders'); else check_selected_files_folders();"><i class="glyphicon glyphicon-remove"></i><br>Xóa</a>
+        </li>
+        <li>
+            <a href="javascript:;" class="text-center"
+               onclick="if(selected == '' || selected == null) alert('Please select files and folders'); else $('#newzipFile').modal('show');"><i class="glyphicon glyphicon-compressed"></i><br>Zip</a>
+        </li>
+        <li>
+            <a href="#uploader" class="text-center"
+               onclick="showUploader('./')" data-toggle="modal" data-target="#uploader"><i class="glyphicon glyphicon-cloud-upload"></i><br>Upload</a>
+        </li>
+        <li>
+            <a href="javascript:;" class="text-center"
+               onclick="if(selected == '' || selected == null) alert('Please select files and folders'); else $('#download_files').modal('show');"><i class="glyphicon glyphicon-cloud-download"></i><br>Tải về</a>
+        </li>
+        <li>
+            <a href="javascript:;" class="text-center"
+               onclick="if(selected == '' || selected == null) alert('Please select files and folders'); else $('#newbackupFile').modal('show');"><i class="glyphicon glyphicon-floppy-save"></i><br>Sao lưu</a>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle text-center" data-toggle="dropdown">
+                <i class="glyphicon glyphicon-share"></i><br> Chia sẻ <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+                <li>
+                    <a href="javascript:;" onclick="if(selected == '' || selected == null) alert('Please select files and folders'); else $('#share_files').modal('show');">Chia sẻ qua email</a>
+                </li>
+                <li>
+                    <a href="javascript:;" onclick="if(selected == '' || selected == null) alert('Please select file(s) for sharing with other users'); else $('#share_system_files').modal('show');">Chia sẻ online</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+

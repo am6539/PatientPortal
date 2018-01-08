@@ -1,0 +1,23 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.PatientServices.Controllers
+{
+    public class AppointmentController : Controller
+    {
+        private string apiUrl = $"api/Appointment";
+        // GET: Appointment
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult MakeAppointment()
+        {
+            return View();
+        }
+    }
+}

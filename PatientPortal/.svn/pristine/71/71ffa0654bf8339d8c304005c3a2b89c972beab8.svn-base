@@ -1,0 +1,66 @@
+﻿'use strict';
+
+angular.module('spaApp')
+    .controller("DoctorsController", [
+    "$scope", "$location", "$route", '$rootScope', "Params", "DoctorsServices", "LoadJsService", "PagerService",
+    function ($scope, $location, $route, $rootScope, Params, DoctorsServices, LoadJsService, PagerService) {
+        $scope.pager = {};
+        $scope.detail = {
+            ImageDetail : '',
+            DescriptionDetail: '',
+            NameDetail: '',
+        };
+        $scope.details = [];
+
+        $scope.setPage = function (page) {
+            var para = { pageIndex: page, numberInPage: Params.numberPerPage, search: $scope.searchValue };
+
+            DoctorsServices.getDoctorList(para, function (data) {
+                $scope.doctors = data.UserListViewModels;
+                $scope.details = [];
+
+                data.UserListViewModels.forEach(function (item) {
+                    $scope.detail = {
+                        ImageDetail: '',
+                        DescriptionDetail: '',
+                        NameDetail: '',
+                    };
+
+                    $scope.detail.ImageDetail = item.Image;
+                    $scope.detail.DescriptionDetail = item.Description;
+                    $scope.detail.NameDetail = item.Name;
+
+                    $scope.details.push($scope.detail);
+                })
+
+                $scope.totalItems = data.TotalItem;
+
+                if (page < 1 || (page > $scope.pager.totalPages && $scope.pager.totalPages != null)) {
+                    return;
+                }
+                // get pager object from service
+                $scope.pager = PagerService.GetPager($scope.totalItems, page, Params.numberPerPage);
+                $scope.pager.totalPages = $scope.pager.totalPages;
+
+                //LoadJsService.calJquery();
+                //LoadJsService.calJqueryMigrate();
+                //LoadJsService.calJqueryBa();
+                //LoadJsService.calJqueryUI();
+                //LoadJsService.calJqueryEA();
+                //LoadJsService.calJqueryCaRoul();
+                //LoadJsService.calJquerySliderControl();
+                //LoadJsService.calJquerySlider();
+                LoadJsService.calJqueryAccordion();
+                //LoadJsService.calJqueryTimeago();
+                //LoadJsService.calJqueryHint();
+                //LoadJsService.calJqueryIO();
+                //LoadJsService.calJqueryIOMas();
+                //LoadJsService.calJqueryFanc();
+                //LoadJsService.calJqueryQtip();
+                //LoadJsService.calJqueryBlockUI();
+                LoadJsService.callJqueryMain();
+            });
+        }
+
+        $scope.setPage(1);
+}]);

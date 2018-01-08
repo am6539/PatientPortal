@@ -1,0 +1,131 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CMS;
+using PatientPortal.Domain.Utilities;
+using PatientPortal.DataAccess.Dapper;
+using Dapper;
+using System.Transactions;
+using PatientPortal.DataAccess.Repo.CMS;
+
+namespace PatientPortal.DataAccess.CMS
+{
+    public class LinkBuildingImpl : ILinkBuilding
+    {
+        /// <summary>
+        /// Get all data
+        /// </summary>
+        /// <returns></returns>
+        public List<LinkBuilding> GetAll()
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    DapperConfiguration.OpenConnection(1);
+
+                    var data = DapperConfiguration.db.Query<LinkBuilding>("usp_LinkBuilding",
+                        new { Id = 0},
+                        commandType: System.Data.CommandType.StoredProcedure).ToList();
+
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute LinkBuilding get data: " + ex.Message);
+                    return null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public LinkBuilding GetById(short id)
+        {
+            using (var scope = new TransactionScope())
+            {
+                try
+                {
+                    DapperConfiguration.OpenConnection(1);
+                    var data = DapperConfiguration.db.Query<LinkBuilding>("usp_LinkBuilding",new { Id = id},
+                        commandType: System.Data.CommandType.StoredProcedure).FirstOrDefault();
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute LinkBuilding get by Id:" + ex.Message);
+                    return null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Transaction
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public bool Transaction(List<LinkBuilding> data, char action)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    var val = new Lib.DataGenerator().CommitData<LinkBuilding>(data, "usp_LinkBuilding_Transaction", action);
+                    scope.Complete();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute LinkBuilding Transaction: " + ex.Message);
+                    return false;
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Check exist title
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public bool CheckExist(string title, short id)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    DapperConfiguration.OpenConnection(1);
+
+                    var data = DapperConfiguration.db.Query<bool>("usp_LinkBuilding_CheckExistTitle",
+                        new { Name = title, Id = id },
+                        commandType: System.Data.CommandType.StoredProcedure).FirstOrDefault();
+
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute LinkBuilding get data: " + ex.Message);
+                    return false;
+                }
+            }
+        }
+    }
+}

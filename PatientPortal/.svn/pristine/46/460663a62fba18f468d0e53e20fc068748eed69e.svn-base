@@ -1,0 +1,24 @@
+﻿appManagement.controller('detailController', ['$scope', 'PostService', '$filter', function ($scope, PostService, $filter) {
+    $scope.Post = new Object();
+    $scope.Posts = [];
+
+    var url = window.location.href;
+    var Id = url.split('/:')[1];
+    //get post
+    $scope.query = function () {
+        PostService.get({ Id: Id }, function (data) {
+            $scope.Post = data;
+        });
+        PostService.query(function (data) {
+            $scope.Posts = data;
+        });
+    };
+
+    $scope.query();
+
+    $scope.viewDetail = function (Id) {
+        PostService.get({ Id: Id }, function (data) {
+            $scope.Post = data;
+        });
+    };
+}]);

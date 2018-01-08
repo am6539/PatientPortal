@@ -1,0 +1,69 @@
+﻿@using PatientPortal.PatientServices.Models;
+@{
+    ViewBag.Title = "LỊCH HẸN KHÁM BỆNH";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="card">
+    <div class="card-title">ĐẶT LỊCH HẸN KHÁM CHỮA BỆNH</div>
+    <div class="card-actionbar">
+        <a class="btn btn-success" href="#">
+            <h2>132</h2>
+            <p>ĐÃ ĐĂNG KÝ</p>
+        </a>
+        <a class="btn btn-success" href="#">
+            <h2>0</h2>
+            <p>HÔM NAY</p>
+        </a>
+    </div>
+    <div class="card-content table-actionbar-top">
+        <table class="table table-responsive table-bordered">
+            <thead>
+                <tr>
+                    <td title="Time"></td>
+                    <td>
+                        <p>Thứ 2</p>
+                        <p>06/03/2017</p>
+                    </td>
+                    <td>
+                        <p>Thứ 3</p>
+                        <p>07/03/2017</p>
+                    </td>
+                    <td>
+                        <p>Thứ 4</p>
+                        <p>08/03/2017</p>
+                    </td>
+                    <td>
+                        <p>Thứ 5</p>
+                        <p>09/03/2017</p>
+                    </td>
+                    <td>
+                        <p>Thứ 6</p>
+                        <p>10/03/2017</p>
+                    </td>
+                    <td>
+                        <p>Thứ 7</p>
+                        <p>11/03/2017</p>
+                    </td>
+                    <td>
+                        <p>Chủ nhật</p>
+                        <p>12/03/2017</p>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>08:00</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

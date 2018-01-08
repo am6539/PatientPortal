@@ -1,0 +1,15 @@
+﻿angular.module('spaPHCN')
+    .controller('AnswerQuestionController', ['$scope', 'Params', 'AnswerQuestionService', '$route', "ModalService",
+        function AnswerQuestionController($scope, Params, AnswerQuestionService, $route, ModalService) {
+
+            $scope.subTitle = "Hỏi đáp";
+
+            $scope.createQuest = function (idModal) {
+                ModalService.Open(idModal);
+            }
+
+            $scope.closeModal = function (idModal) {
+                ModalService.Close(idModal);
+            }
+        }
+    ]);

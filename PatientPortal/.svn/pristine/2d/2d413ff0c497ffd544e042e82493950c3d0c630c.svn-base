@@ -1,0 +1,14 @@
+﻿CREATE PROCEDURE [dbo].[usp_UserNotification]
+	@Id VARCHAR(128) = '',
+	@UserId NVARCHAR(128) = ''
+AS
+BEGIN
+	IF(@Id <> '')
+	BEGIN
+		SELECT * FROM [dbo].[UserNotification] WHERE Id = @Id
+	END
+	ELSE
+	BEGIN
+		SELECT * FROM [dbo].[UserNotification] WHERE SendTo = @UserId
+	END
+END

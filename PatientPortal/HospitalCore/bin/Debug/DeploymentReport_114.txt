@@ -1,0 +1,19 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Create
+       [dbo].[Module] (Table)
+       [dbo].[Module].[idxModuleGroup] (Index)
+       [dbo].[UserNotification] (Table)
+     Alter
+       [dbo].[usp_DoctorProfile_Transaction] (Procedure)
+
+** Supporting actions

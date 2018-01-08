@@ -1,0 +1,79 @@
+﻿using PatientPortal.DataAccess.Repo.CORE;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CORE;
+using PatientPortal.DataAccess.Repo.Wrapper;
+using PatientPortal.Domain.Common;
+using PatientPortal.Domain.LogManager;
+
+namespace PatientPortal.DataAccess.CORE
+{
+    public class DoctorProfileImpl : IDoctorProfile
+    {
+        private readonly IAdapterPattern _adapterPattern;
+
+        public DoctorProfileImpl(IAdapterPattern adapterPattern)
+        {
+            this._adapterPattern = adapterPattern;
+        }
+
+        /// <summary>
+        /// Transaction of User
+        /// </summary>
+        /// <param name="data">Object User</param>
+        /// <param name="action">I: Insert, U: Update, D: Delete</param>
+        /// <returns>true/false</returns>
+        public async Task<bool> Transaction(DoctorProfileEdit data, char action)
+        {
+            try
+            {
+                var val = await _adapterPattern.SingleTransaction<DoctorProfileEdit, bool>(data, "usp_DoctorProfile_Transaction", action, DataConfiguration.instanceCore);
+                return val;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Get User
+        /// </summary>
+        /// <param name="param">Dictionary</param>
+        /// <returns>List User</returns>
+        public async Task<List<DoctorProfile>> Query(Dictionary<string, object> param)
+        {
+            try
+            {
+                var data = await _adapterPattern.ExecuteQuery<DoctorProfile>(param, "usp_DoctorProfile", DataConfiguration.instanceCore);
+                return data.ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// get user
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        public async Task<DoctorProfile> SingleQuery(Dictionary<string, object> param)
+        {
+            try
+            {
+                return await _adapterPattern.SingleExecuteQuery<DoctorProfile>(param, "usp_DoctorProfile", DataConfiguration.instanceCore);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw ex;
+            }
+        }
+    }
+}

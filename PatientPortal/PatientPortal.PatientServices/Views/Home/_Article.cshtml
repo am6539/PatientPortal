@@ -1,0 +1,46 @@
+﻿@model List<PatientPortal.PatientServices.Models.ArticleViewModel>
+<div class="card">
+    <div class="card-title"><p style="font-size:1.2em;"><span class="fa fa-stethoscope" style="color:#ef5b5b"></span> Hỏi đáp y tế</p></div>
+    <div class="card-content">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Thời gian</th>
+                    <th>Tiêu đề</th>
+                    <th>Trạng thái</th>
+                    <th>Phản hồi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{if (Model != null && Model.Count > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Date</td>
+                                <td>@item.Title</td>
+                                @if (item.Status == 1)
+                                {
+                                    <td><span class="fa fa-file-text-o" style="color:#1f8e9a"></span></td>
+                                }
+                                else
+                                {
+                                    if (item.Status == 2)
+                                    {
+                                        <td><span class="fa fa-check" style="color:#0d851c"></span></td>
+                                    }
+                                    else
+                                    {
+                                        <td><span class="fa fa-trash" style="color:#ff6a00"></span></td>
+                                    }
+
+                                }
+                                <td class="text-center"><span class="fa fa-commenting-o" style="color:#ef5b5b"></span></td>
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+﻿angular.module('spaApp').factory('AppointmentService', ['$resource', 'Params',
+    function ($resource, Params) {
+        return $resource(Params.rootUrl + 'SPAPost', {}, {
+            queryDoctors: {
+                method: 'GET',
+                url: Params.rootUrl + 'User/Get?search=:search',
+                params: {
+                    search: '@search'
+                },
+                isArray: true
+            },
+            queryScheduleExamine: {
+                method: 'GET',
+                url: Params.rootUrl + 'Schedule/QueryScheduleExamine?userId=:userId&startTime=:startTime',
+                params: {
+                    userId: '@userId', startTime: '@startTime'
+                },
+                isArray: true
+            }
+        });
+    }]);

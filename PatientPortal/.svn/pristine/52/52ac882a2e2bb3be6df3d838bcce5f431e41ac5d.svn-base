@@ -1,0 +1,42 @@
+﻿@model IEnumerable<PatientPortal.CMS.Models.FileViewModel>
+@{
+    Layout = null;
+}
+@section styles{
+    <style>
+        .hide-bullets {
+            list-style: none;
+            margin-left: -40px;
+            margin-top: 20px;
+        }
+
+        .thumbnail {
+            padding: 0;
+        }
+    </style>
+}
+
+    <div id="main_area">
+        <!-- Slider -->
+        <div class="row">
+            <div class="col-sm-12" id="slider-thumbs">
+                <!-- Bottom switcher of slider -->
+                @if (Model != null)
+                {
+                    foreach (var image in Model)
+                    {
+                        <ul class="hide-bullets">
+                            <li class="col-sm-3">
+                                <a class="thumbnail" id="carousel-selector-0" data-url="@Request.Url.GetLeftPart(UriPartial.Authority)@image.Url">
+                                    <img src="@image.Url" data-source="@image.Url">
+                                </a>
+                            </li>
+                        </ul>
+                      }
+                }
+                
+            </div>
+            
+            <!--/Slider-->
+        </div>
+    </div>

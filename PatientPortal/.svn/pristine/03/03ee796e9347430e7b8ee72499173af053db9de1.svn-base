@@ -1,0 +1,59 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.CMS.Models.GalleryViewModel
+@{
+    ViewBag.Title = "Thông tin thư viện";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    <link href="~/Content/checkbox-radio-build.css" rel="stylesheet" />
+    <link href="~/Libs/Chosen/css/chosen.css" rel="stylesheet" />
+}
+<div class="card">
+    @Html.Raw(TempData["Alert"])
+    
+    <div class="card-title">@Html.ITitle("Thông tin thư viện", TitleBar.Edit)</div>
+    <div class="card-content">
+        @using (Html.IBeginForm("Edit", "Gallery"))
+            {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            @Html.IGroupSubmitButton("Cập nhật thông tin", Url.Action("Index"))
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.Date)
+            @Html.IGroupDropDownListFor(m => m.DepartmentId, new SelectList(ViewBag.Departments, "Id", "Name"), false, "Chọn chuyên khoa", null, 12)
+            @Html.IGroupTextBoxFor(m => m.Title, true, "Tiêu đề hiển thị", null, 12)
+            @Html.IGroupTextAreaFor(m => m.Description, true, 5, "Nội dung hiển thị", null, 12)
+            @Html.IGroupTextBoxFor(m => m.Highlight, true, "Nội dung nổi bật", null, 12)
+            <div class="form-group">
+                <label class="control-label col-md-3"></label>
+                <div class="col-md-6">
+                    @if (Model != null && !String.IsNullOrEmpty(Model.Img))
+                    {
+                        <img src="@Url.Content(Model.Img)" style="height:100px;width:100px" class="avatar img-circle" alt="Hình đại diện">
+                    }
+                    @Html.HiddenFor(m => m.Img)
+                </div>
+                <div class="col-md-12">
+                    @Html.IFileUpload()
+                </div>
+            </div>
+            @Html.IGroupTextAreaFor(m => m.YoutubeURL, true, 5, "Link Video Youtube đính kèm", null, 12)
+            @Html.IGroupCheckBoxFor(m => m.IsMultiple, false, "IsMultiple", 12, "Chọn để áp dụng")
+        }
+
+    </div>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+<script src="~/Libs/Chosen/js/chosen.jquery.min.js"></script>
+<script type="text/javascript">
+        var config = {
+          '.chosen-select'           : {}
+        }
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
+</script>
+}

@@ -1,0 +1,7 @@
+﻿'use strict';
+
+angular.module('spaPHCN')
+    .controller("HomeController", [
+    "$scope", "$location", "$route", "Params", "HomeServices",
+    function ($scope, $location, $route, Params, HomeServices) {
+    }]);

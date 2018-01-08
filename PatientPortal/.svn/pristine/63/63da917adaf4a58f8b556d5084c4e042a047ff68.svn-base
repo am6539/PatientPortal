@@ -1,0 +1,10 @@
+﻿using System.Collections.Generic;
+
+namespace PatientPortal.PatientServices.Models
+{
+    public class OfferAdviseModel
+    {
+        public OfferAdviseViewModel OfferAdviseViewModel { get; set; }
+        public List<OfferAdviseViewModel> lstOfferAdviseViewModel { get; set; }
+    }
+}

@@ -1,0 +1,7 @@
+﻿appManagement.controller("indexController", [
+    "$scope", "indexServices", "$rootScope", "$location", function ($scope, indexServices, $rootScope, $location) {
+        $rootScope.title = "Home";
+
+
+    }
+]);

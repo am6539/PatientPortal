@@ -1,0 +1,30 @@
+﻿using ProtoBuf;
+using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
+
+namespace PatientPortal.CMS.Models
+{
+    [ProtoContract]
+    public partial class DepartmentViewModel
+    {
+        [ProtoMember(1)]
+        public short Id { get; set; }
+        [ProtoMember(2)]
+        [Display(Name = "Tên khoa")]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        public string Name { get; set; }
+        [ProtoMember(3)]
+        [Display(Name = "Giới thiệu")]
+        public string Description { get; set; }
+        [ProtoMember(4)]
+        [Display(Name = "Url")]
+        public string Handler { get; set; }
+        [ProtoMember(5)]
+        public string Img { get; set; }
+        [ProtoMember(6)]
+        [Display(Name = "Sắp xếp")]
+        public byte Sort { get; set; }
+        [ProtoMember(7)]
+        public bool IsUsed { get; set; }
+    }
+}

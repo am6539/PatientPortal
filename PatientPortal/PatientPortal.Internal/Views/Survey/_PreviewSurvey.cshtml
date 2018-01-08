@@ -1,0 +1,166 @@
+﻿@using PatientPortal.Provider.Helpers
+@model PatientPortal.Internal.Models.Survey.SurveyModel
+    
+@section styles{
+    <link href="~/Content/checkbox-radio-build.css" rel="stylesheet" />
+    <link href="~/Content/checkbox.css" rel="stylesheet" />
+}
+<style>
+    .modal-body {
+        height: 450px;
+        min-height: 450px;
+        overflow: auto;
+    }
+
+    #nps span {
+        background: white none repeat scroll 0 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-shadow: 0 0 3px 1px #000000;
+        box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.12);
+        cursor: pointer;
+        display: inline-block;
+        font-size: 16px;
+        font-weight: bold;
+        padding: 4px 2px;
+        margin: 0 5px;
+        text-align: center;
+        vertical-align: middle;
+        width: 32px;
+        height: 32px;
+    }
+
+    #nps span:hover {
+        border-color: #8d8d8d;
+    }
+
+    #nps span.active, #nps span.active:hover {
+        background: #42ca49 none repeat scroll 0 0;
+        border: 1px solid #3cba43;
+        color: white;
+    }
+</style>
+<div>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+</div>
+<div class="modal-form form-horizontal">
+    <div class="modal-header">
+        <div class="row-fluid text-center">
+            <div class="control-group">
+                @Html.ITitle("Khảo Sát", TitleBar.View, "h3")
+            </div>
+        </div>
+    </div>
+    <div class="modal-body" style="margin-bottom: 50px;">
+        <div class="row-fluid">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="control-group">
+                    @if (Model.SurveyQuestionsModel != null)
+                    {
+                        var index1 = 0;
+                        foreach (var question in Model.SurveyQuestionsModel)
+                        {
+                            var index3 = index1;
+                            var isValidation = question.IsRequireds ?? false;
+                            @Html.HiddenFor(m => Model.SurveyQuestionsModel[index3].Id)
+                            @Html.HiddenFor(m => Model.SurveyQuestionsModel[index3].SurveyId)
+                            @Html.HiddenFor(m => Model.SurveyQuestionsModel[index3].Type)
+                            @Html.HiddenFor(m => Model.SurveyQuestionsModel[index3].IsRequireds)
+                            @Html.HiddenFor(m => Model.SurveyQuestionsModel[index3].IsRandomize)
+                            <h3 style="margin-top: 50px;">
+                                @Model.SurveyQuestionsModel[index3].Question @if (isValidation)
+                                {
+                                    <span> *</span>
+                                }
+                            </h3>
+                            if (question.SurveyAnswersModel != null)
+                            {
+                                var index2 = 0;
+                                var answers = question.SurveyAnswersModel;
+                                foreach (var answer in answers)
+                                {
+                                    var index4 = index2;
+                                    @Html.HiddenFor(m => Model.SurveyQuestionsModel[index3].SurveyAnswersModel[index4].Id)
+                                    @Html.HiddenFor(m => Model.SurveyQuestionsModel[index3].SurveyAnswersModel[index4].QuestionId)
+                                    if (question.Type == 1)
+                                    {
+                                        @Html.IGroupTextAreaFor(m => Model.SurveyQuestionsModel[index3].SurveyAnswersModel[index4].Answer, isValidation, 5, "", null, 12)
+                                    }
+                                    if (question.Type == 2)
+                                    {
+                                        @Html.IGroupTextBoxFor(m => Model.SurveyQuestionsModel[index3].SurveyAnswersModel[index4].Answer, isValidation, "", null, 12)
+                                    }
+                                    if (question.Type == 3)
+                                    {
+                                        var radioId = "SurveyQuestionsModel_" + index3 + "_SurveyAnswersModel_" + index4 + "__Id";
+                                        <div class="col-md-12">
+                                            @Html.IRadioButtonFor(m => Model.SurveyQuestionsModel[index3].SurveyAnswersModel[index4].Id, radioId, answer.Answer ?? "")
+                                        </div><div class="clearfix"></div>
+                                    }
+                                    if (question.Type == 4)
+                                    {
+                                        var checkId = "SurveyQuestionsModel_" + index3 + "__SurveyAnswersModel_" + index4 + "__IsCheck";
+                                        
+                                        <div class="col-md-12">
+                                            @Html.ICheckBoxFor(m => Model.SurveyQuestionsModel[index3].SurveyAnswersModel[index4].IsCheck, checkId, answer.Answer ?? "")
+                                        </div><div class="clearfix"></div>
+                                    }
+                                    if (question.Type == 5)
+                                    {
+                                        <div id="nps" class="text-center">
+                                            <span id="1">1</span><span id="2">2</span><span id="3">3</span><span id="4">4</span><span id="5">5</span><span id="6">6</span><span id="7">7</span><span id="8">8</span><span id="9">9</span><span id="10">10</span>
+                                        </div>
+                                        <div style="float: left; padding: 10px 17px; text-align: left;">
+                                            <b>@Model.SurveyQuestionsModel[index3].SurveyAnswersModel[index4].LowScore</b>
+                                        </div>
+                                        <div style="float: right; padding: 10px 17px; text-align: right;">
+                                            <b>@Model.SurveyQuestionsModel[index3].SurveyAnswersModel[index4].HightScore</b>
+                                        </div>
+                                    }
+                                    index2++;
+                                }
+                            }
+                            index1++;
+                        }
+                    }
+                </div>
+            </div>
+        </div><div class="clearfix"></div>
+    </div>
+    <div class="modal-footer">
+        <button id="btnSendSurvey" class="btn btn-success" type="button"><i class="fa fa-check"> Gửi</i></button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#modal-container>div").removeClass("modal-dialog");
+        $("#modal-container>div").addClass("container");
+
+        for (var i = 1; i <= 10; i++) {
+            $("#nps span#" + i).click(function () {
+                $("#nps span").removeClass("active");
+                $(this).addClass("active");
+            });
+        }
+        
+        $("#btnSendSurvey").click(function () {
+            ////Khai báo form cần lấy model data
+            //var __this = $("#form-data");
+            $.ajax({
+                url: '@Url.Action("ThankSurvey", "Survey")',
+                ////Send model data to controller
+                //data: __this.serialize(),
+                success: function (result) {
+                    $('.modal-content').html(result);
+                }
+            });
+        });
+    });
+
+    $(function () {
+        $('#btn-dismiss').click(function () {
+            $('#modal-container').modal('hide');
+        });
+    });
+</script>

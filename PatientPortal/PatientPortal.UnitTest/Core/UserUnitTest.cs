@@ -1,0 +1,170 @@
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PatientPortal.Domain.Models.CORE;
+using PatientPortal.DataAccess.CORE;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using PatientPortal.DataAccess.Repo.CORE;
+
+namespace PatientPortal.UnitTest.Core
+{
+    [TestClass]
+    public class UserUnitTest
+    {
+        public IUser _userImpl;
+        public IOrganization _organizationImpl;
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            //_userImpl = new UserImpl();
+            //_organizationImpl = new OrganizationImpl();
+        }
+        
+        //private Organization GetOrganization()
+        //{
+        //    //organization
+        //    var orlist = _organizationImpl.Query();
+        //    var or = new Organization();
+        //    if (orlist.Count > 0)
+        //    {
+        //        or = orlist.LastOrDefault();
+        //    }
+        //    else
+        //    {
+        //        var listo = new List<Organization>()
+        //        {
+        //            new Organization {
+        //                ParentId =  1,
+        //                Name = "n",
+        //                Phone = "",
+        //                Fax="",
+        //                Email = "",
+        //                Address = ""
+        //            }
+        //        };
+        //        _organizationImpl.Transaction(listo, 'I');
+        //        listo = _organizationImpl.Query();
+        //        or = listo.LastOrDefault();
+        //    }
+        //    return or;
+        //}
+
+        //[TestMethod]
+        //public void UserGetAll()
+        //{
+        //    var count = _userImpl.Query().Count;
+        //    Assert.IsTrue(count > 0);
+        //}
+
+        //[TestMethod]
+        //public void UserInsert()
+        //{
+        //    //organization
+        //    var or = GetOrganization();
+
+        //    //User
+        //    var list = new List<User>()
+        //    {
+        //        new User
+        //        {
+        //            Name = "user",
+        //            Code = "User",
+        //            Email = "email",
+        //            PasswordHash = "",
+        //            PhoneNumber = "",
+        //            HomePhone = "",
+        //            DateOfBirth = DateTime.Now,
+        //            Gender = 1,
+        //            Image = "",
+        //            OrganizationId = or.Id,
+        //            Status = true
+        //        }
+        //    };
+
+        //    var flag = _userImpl.Transaction(list, 'I');
+        //    Assert.IsTrue(flag);
+        //}
+
+        //[TestMethod]
+        //public void UserUpdate()
+        //{
+        //    //organization
+        //    var or = GetOrganization();
+
+        //    //User
+        //    var list = _userImpl.Query();
+        //    var listUpdate = new List<User>();
+        //    if (list.Count > 0)
+        //    {
+        //        listUpdate.Add(list.LastOrDefault());
+        //    }
+        //    else
+        //    {
+        //        var listInsert = new List<User>()
+        //        {
+        //            new User
+        //            {
+        //                Name = "user",
+        //                Code = "User",
+        //                Email = "email",
+        //                PasswordHash = "",
+        //                PhoneNumber = "",
+        //                HomePhone = "",
+        //                DateOfBirth = DateTime.Now,
+        //                Gender = 1,
+        //                Image = "",
+        //                OrganizationId = or.Id,
+        //                Status = true
+        //            }
+        //        };
+
+        //         _userImpl.Transaction(listInsert, 'I');
+        //        list = _userImpl.Query();
+        //        listUpdate.Add(list.LastOrDefault());
+        //    }
+        //    var flag = _userImpl.Transaction(list, 'U');
+        //    Assert.IsTrue(flag);
+        //}
+
+        //[TestMethod]
+        //public void UserDelete()
+        //{
+        //    //organization
+        //    var or = GetOrganization();
+
+        //    //User
+        //    var list = _userImpl.Query();
+        //    var listUpdate = new List<User>();
+        //    if (list.Count > 0)
+        //    {
+        //        listUpdate.Add(list.LastOrDefault());
+        //    }
+        //    else
+        //    {
+        //        var listInsert = new List<User>()
+        //        {
+        //            new User
+        //            {
+        //                Name = "user",
+        //                Code = "User",
+        //                Email = "email",
+        //                PasswordHash = "",
+        //                PhoneNumber = "",
+        //                HomePhone = "",
+        //                DateOfBirth = DateTime.Now,
+        //                Gender = 1,
+        //                Image = "",
+        //                OrganizationId = or.Id,
+        //                Status = true
+        //            }
+        //        };
+
+        //        _userImpl.Transaction(listInsert, 'I');
+        //        list = _userImpl.Query();
+        //        listUpdate.Add(list.LastOrDefault());
+        //    }
+        //    var flag = _userImpl.Transaction(list, 'D');
+        //    Assert.IsTrue(flag);
+        //}
+    }
+}

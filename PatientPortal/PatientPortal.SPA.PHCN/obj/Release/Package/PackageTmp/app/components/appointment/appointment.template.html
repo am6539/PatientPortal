@@ -1,0 +1,337 @@
+﻿<style>
+    .btn {
+    right: 20px;
+    padding: 6px 10px;
+    background: #2698D6;
+    color: #fff;
+    border-radius: 3px;
+    border: 0px;
+}
+    .column {
+        flex: 1;
+        height : 100%;
+        display:flex;
+        flex-wrap:wrap;
+    }
+    .column1{
+      width: 30%;
+      height: 50%;
+    }
+    .column2{
+        width: 70%;
+      height: 50%;
+    }
+    .user-title{
+        color: #008445;
+    }
+</style>
+<link href="assets/css/site/menuPage.css" rel="stylesheet" />
+<div class="brd-wrap" ng-include="'app/shared/template-include/submenu.template.html'">
+</div>
+<div class="top-content">
+
+</div>
+<div class="content container">
+    <div class="row">
+        <div class="content-bg">
+
+
+            <div id="ctl00_divCenter" class="col-left">
+                <div class="content-bg2">
+                    <div class='Module Module-447'>
+                        <div class="banner2 preloadimg">
+                            <img src="assets/images/media/appointment/medical-563427_1280.jpg" />
+                            <!--<img src="assets/images/media/appointment/patientservices_booking.jpg" alt=""/>-->
+                        </div>
+                        <div class="newsdt-slshadow">
+                        </div>
+                    </div>
+                    <div class='Module Module-448'>
+                        <p>Cám ơn Quý Khách hàng đã quan tâm đến dịch vụ chăm sóc sức khỏe của bệnh viện. Vui lòng gửi thông tin chi tiết để chúng tôi có thể sắp xếp cuộc hẹn.</p>
+                        <p>&nbsp;</p>
+                    </div><div class='Module Module-449'>
+                        <form name="appointmentForm" ng-submit="makeAppointment(appointment)">
+                            <div class="col-sm-6 bookfrm bookfrm-left">
+                                <h3>
+                                    Thông tin bệnh nhân
+                                </h3>
+                                <div class="bookfrm-itm bookfrm-itm-select bookfrm-itm-select1">
+                                    <span class="bg-select">
+                                        Giới tính
+                                    </span>
+                                    <select id="optionChooseDoctor" class="text_input"
+                                            ng-model="gioitinh"
+                                            ng-init="gioitinh = gioitinhs[0]"
+                                            ng-options="gioitinh.name for gioitinh in gioitinhs track by gioitinh.id" 
+                                            ng-change="changeGioitinh(gioitinh.id)"></select>
+                                    <span class="txt-error" style="display:none;"></span>
+                                </div>
+                                <div>
+                                    <div class="bookfrm-itm bookfrm-itm-date">
+                                        <input type="text" id="patientDoB" name="patientDoB" class="text_input" 
+                                               ng-model="appointment.PatientDoB" placeholder="Ngày sinh" />
+                                    </div>
+                                </div>
+                                <div class="bookfrm-itm bookfrm-itm-input">
+                                    <input type="text" placeholder="Họ tên " ng-model="appointment.PatientName" required />
+                                    <span class="txt-error" style="display:none;"></span>
+                                </div>
+                                <div class="bookfrm-itm bookfrm-itm-input">
+                                    <input type="email" placeholder="Email " ng-model="appointment.PatientEmail" required />
+
+                                    <span class="txt-error" style="display:none;"></span>
+                                </div>
+                                <div class="bookfrm-itm bookfrm-itm-input">
+                                    <input type="text" placeholder="Điện thoại" ng-model="appointment.PatientPhone" required />
+                                    <span class="txt-error" style="display:none;"></span>
+                                    <span class="txt-error" style="display:none;"></span>
+                                </div>
+                                <div class="bookfrm-itm bookfrm-itm-input">
+                                    <textarea name="symptom" required ng-model="appointment.Symptom" placeholder="Triệu chứng" style="height: 105px; width: 287px; border: 1px solid #dcdcdc; border-radius: 10px;" ></textarea>
+                                    <span class="txt-error" style="display:none;"></span>
+                                    <span class="txt-error" style="display:none;"></span>
+                                </div>
+                                <div class="booking-note">
+                                </div>
+                            </div>
+                            <div class="col-sm-6 bookfrm bookfrm-right">
+                                <h3>
+                                    Thông tin đặt hẹn
+                                </h3>
+                                <div>
+                                    <h4>
+                                        Chọn bác sĩ
+                                    </h4>
+                                    <div class="bookfrm-itm bookfrm-itm-select">
+                                        <span class="bg-select">
+                                            Chọn bác sĩ
+                                        </span>
+                                        <select id="optionChooseDoctor" class="text_input" ng-model="option"
+                                                ng-init="option.id = 0"
+                                                ng-options="option.name for option in optionsChooseDoctor track by option.id" 
+                                                ng-change="changeType(option.id)"></select>
+                                        
+                                        <span class="txt-error" style="display:none;"></span>
+                                    </div>
+                                    <div class="bookfrm-itm bookfrm-itm-select" id="choosedoctor">
+                                        <select ng-model="appointment.PhysicianId" ng-options="doctor.Id as doctor.Name for doctor in doctors"
+                                                ng-change="changeDoctor(appointment.PhysicianId)"></select>
+                                        <span class="txt-error" style="display:none;"></span>
+                                    </div>
+
+                                    <div class="bookfrm-itm bookfrm-itm-input" id="quickviewProfile" style="display: none">
+                                        <input type="button" value="Xem" class="btn" ng-click="viewDetail(appointment.PhysicianId, 'custom-modal-doctorProfile')" />
+                                    </div>
+                                    <div id="searchDoctor" style="display: none">
+                                        <div class="bookfrm-itm bookfrm-itm-input">
+                                            <input type="text" placeholder="Nhập tên " ng-model="searchText"/>
+                                            <span class="txt-error" style="display:none;"></span>
+                                        </div>
+                                        <div class="bookfrm-itm bookfrm-itm-input">
+                                            <input type="button" value="Tìm" class="btn" ng-click="doSearch('custom-modal-doctorList')" />
+                                        </div>
+                                    </div>
+                                    <h4>
+                                        Thời gian khám bệnh
+                                    </h4>
+                                    <div class="bookfrm-itm bookfrm-itm-date">
+                                        <input type="text" id="dateOrder" class="text_input" 
+                                               ng-model="appointment.Date" name="dateOrder" 
+                                               ng-change="changeOrderDate(appointment.Date)" required />
+                                    </div>
+                                    <h4>
+                                        Giờ hẹn
+                                    </h4>
+                                    <div class="bookfrm-itm bookfrm-itm-select">
+                                        <span class="bg-select">
+                                            Giờ hẹn
+                                        </span>
+                                        <select name="timeOrder" class="form-control" ng-init="appointment.Time = giohens[0]" ng-model="appointment.Time" id="timeOrder" 
+                                                    ng-options="gio for gio in giohens"></select>
+                                        <span class="txt-error" style="display:none;"></span>
+                                    </div>
+                                </div>
+                                <input type="submit" value="Đặt lịch khám"/>
+                            </div>
+                            <div class="clear">
+                            </div>
+                        </form>
+                    </div>
+                    <p><strong>* Các thắc mắc vui lòng liên hệ hotline {{contact.Hotline}}.</strong>
+                    </div>
+                </div>
+
+
+            </div>
+            <div id="ctl00_divRight" class="col-right cmszone">
+
+                <div class='Module Module-400'>
+                    <div class="left-menu">
+                        <ul class="noli">
+                            <li class="active">
+                            <a class="active" href="/tanbinh/dat-lich-kham" target="_self" title="Đặt lịch khám">Đặt lịch khám</a></li>
+                            <li><a href="/doctors" target="_self" title="Danh sách bác sĩ">Danh sách bác sĩ</a></li>
+                            <li><a href="#" target="_self" title="Hỏi đáp">Hỏi đáp</a></li>
+                            <!--<li><a href="#" target="_self" title="Hỏi đáp chuyên khoa">Hỏi đáp chuyên khoa</a></li>-->
+                        </ul>
+                    </div>
+                </div>
+                <div class='Module Module-372'>
+                    <div class="fb-page" data-href="https://www.facebook.com/Phòng-Khám-Hoàn-Mỹ-Sài-Gòn-1934658413425374" data-tabs="Facebook" data-width="231" data-small-header="false" data-adapt-container-width="false" data-hide-cover="false" data-show-facepile="true" ng-show="contact.Name != null">{{contact.Name}}</div>
+                    <div class="emhotline">
+                        CẤP CỨU <span ng-show="contact.Hotline != null">{{contact.Hotline}}</span>
+                    </div>
+                    <a href="#" target="_blank">
+                        <img src="../../../assets/images/adv/KS-ngoai-tru.png" alt="Khao-sat-ngoai-tru" />
+                    </a>
+                    <a href="#" target="_blank">
+                        <img src="../../../assets/images/adv/KS-noi-tru.png" alt="Khao-sat-noi-tru" />
+                    </a>
+                </div>
+
+            </div>
+            <div class="clear">
+            </div>
+
+        </div>
+    </div>
+
+
+<modal id="custom-modal-doctorProfile">
+    <div class="modal">
+        <div class="modal-header">
+            <!--<button type="button" class="close" data-dismiss="modal">
+                <span aria-hidden="true">×</span>
+            </button>-->
+        </div>
+        <div class="modal-body">
+            <h1>Thông tin bác sĩ</h1>
+                <div style="width: 100%" class="column">
+                        <div class="column1">
+                            <img alt="" src="{{doctor.Image}}" class="color" ng-show="doctor.Image != null" /><br />
+                            <br />
+                            <span style="color: #008445;"><strong>BS. {{doctor.Name}}</strong></span>
+                            <br />
+                            Giám Đốc Điều Hành<br />
+                            <br />
+                        </div>
+
+                        <div class="column2">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td class="user-title">
+                                            <strong>
+                                                Chuyên khoa
+                                            </strong>
+                                        </td>
+                                        <td ng-bind-html="doctor.Speciality"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="user-title">
+                                            <strong>
+                                                Chứng nhận
+                                            </strong>
+                                        </td>
+                                        <td ng-bind-html="doctor.Degrees"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="user-title">
+                                            <strong>
+                                                Kinh nghiệm
+                                            </strong>
+                                        </td>
+                                        <td ng-bind-html="doctor.Training"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="user-title">
+                                            <strong>
+                                                Phòng ban
+                                            </strong>
+                                        </td>
+                                        <td ng-bind-html="doctor.Office"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                </div>
+                <div class="row">
+                    <table style="width: 90%; margin-top: 20px; margin-left: 20px; margin-right: 20px" class="table table-bordered table-hover">
+                        <thead>
+                            <tr style="background-color: #c7c7c7; height: 20px">
+                                <td>Ngày</td>
+                                <td>Thời gian</td>
+                                <td>Ghi chú</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="schedule in schedules">
+                                <td>{{schedule.Start | dateFilter | date:'dd-MM-yyyy'}}</td>
+                                <td>{{schedule.Start | date:'HH:mm'}} - {{schedule.End | date:'HH:mm'}}</td>
+                                <td>{{schedule.Detail}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <input type="button" value="Đóng" class="more blue right btn" ng-click="closeModal('custom-modal-doctorProfile');" />
+                </div>
+            <!--<button ng-click="closeModal('custom-modal-doctorProfile');">Đóng</button>-->
+        </div>
+    </div>
+    <div class="modal-background"></div>
+</modal>
+
+<modal id="custom-modal-doctorList">
+    <div class="modal">
+        <div class="modal-header">
+            <!--<button type="button" class="close" data-dismiss="modal">
+                <span aria-hidden="true">×</span>
+            </button>-->
+        </div>
+        <div class="modal-body">
+                <div class="row" ng-show="doctors.length > 0" ng-repeat="doctor in doctors">
+                    <div class="col-md-4 col-sm-4 col-xs-4">
+                        <div class="profile" ng-show="doctor.Image != null">
+                            <div class="profile_pic">
+                                <img src="doctor.Image" style="width: 100%" />
+                            </div>
+                        </div>
+                        <input type="button" value="Chọn bác sĩ" class="more blue btn" ng-click="chooseADoctor(doctor.Id, 'custom-modal-doctorList')" />
+                        <!--<button class="btn btn-warning" data-dismiss="modal" style="width: 100%; margin-top: 5px" ng-click="chooseADoctor(doctor.Id)">Chọn bác sĩ</button>-->
+                    </div>
+
+                    <div class="col-md-8 col-sm-8 col-xs-8">
+                        <div class="row">
+                            <div class="col-md-9 col-sm-9 col-xs-9">
+                                <span class="blue"><b>{{doctor.Name}}</b></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="row" ng-show="doctors.length == 0">
+                    <div class="col-md-8 col-sm-8 col-xs-8">
+                        <div class="row">
+                            Không tìm thấy kết quả nào
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <input type="button" value="Đóng" class="more blue right btn" ng-click="closeModal('custom-modal-doctorList');" />
+                </div>
+        </div>
+    </div>
+    <div class="modal-background"></div>
+</modal>
+<script>
+    $("#dateOrder").datepicker({
+        dateFormat: 'dd/mm/yy',
+        minDate: 0,
+        maxDate: "+1D"
+    });
+    $("#patientDoB").datepicker({
+        dateFormat: 'dd/mm/yy',
+        maxDate: 0
+    });
+</script>

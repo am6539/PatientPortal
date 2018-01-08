@@ -1,0 +1,19 @@
+﻿CREATE PROCEDURE [dbo].[usp_PostTrans]
+	@PostId INT = 0,
+	@LanguageId TINYINT
+AS
+BEGIN
+SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+
+	BEGIN TRY
+		SELECT * FROM [dbo].[PostTrans]
+			WHERE [PostId] = @PostId and [LanguageId] = @LanguageId
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0 
+		BEGIN
+			RETURN NULL
+		END
+	END CATCH
+END

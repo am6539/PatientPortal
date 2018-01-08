@@ -1,0 +1,247 @@
+﻿
+<link href="assets/css/site/menuPage.css" rel="stylesheet" />
+<div class="brd-wrap" ng-include="'app/shared/template-include/submenu.template.html'">
+</div>
+
+<div class="top-content">
+    <div class="content container">
+        <div class="row">
+            <div class="content-bg">
+                <div id="ctl00_divCenter" class="col-left">
+                    <div class="content-bg2">
+                        <div class='Module Module-256'>
+                            <div id="ctl00_mainContent_ctl00_NewsView1_pnlInnerWrap">
+                                <div class="news">
+                                    <div class="newsdt-slimg"><img src="assets/images/data/news/hoanmy-sg.jpg" alt=""></div><div class="newsdt-slshadow"></div><h1 class="newsdt-title title1">Bệnh viện hiện đại với chi phí hợp lý </h1><div class="newstext">
+                                        <div style="text-align: justify;">
+                                            Thành lập năm 1997 với sứ mệnh mang tới dịch vụ chăm sóc sức khỏe chất lượng cao với chi phí hợp lý, Bệnh viện Hoàn Mỹ Sài Gòn đã trở thành địa chỉ tin cậy và quen thuộc của người dân trên địa bàn TP. HCM và các tỉnh, thành lân cận.<br />
+                                            <img alt="" style="margin-left: 20px; float: right;" src="assets/images/data/Gioithieu_saigon_VN.jpg" />
+                                        </div>
+                                        <strong>
+                                            <div>
+                                                <strong>
+                                                    <br />
+                                                </strong>
+                                            </div>
+                                            Lịch sử hình thành
+                                        </strong>
+                                        <div>
+                                            <strong>
+                                                <br />
+                                            </strong>
+                                            <div>
+                                                <strong><em>Năm 1997: Ra đời</em></strong><br />
+                                                Tên gọi Hoàn Mỹ chính thức xuất hiện trên nền y tế nước nhà với tiền thân là Phòng Khám Đa Khoa Lý Thường Kiệt – 1A Lý Thường Kiệt, Phường 7, Quận Tân Bình, Tp.HCM. Phòng Khám đầu tiên của Thành phố Hồ Chí Minh.<br />
+                                                <br />
+                                                <strong>
+                                                    <em>
+                                                        Năm 1999: Thành Lập
+                                                    </em>
+                                                </strong><br />
+                                                Bệnh viện đa khoa Hoàn Mỹ đầu tiên ra đời và tọa lạc tại 124 Trần Quốc Thảo, Phướng 7, Quận 3, Tp.HCM – Bệnh viện đa khoa tư nhân đầu tiên trên Thành phố Hồ Chí Minh.<br />
+                                                <br />
+                                                <strong>
+                                                    <em>
+                                                        Năm 2002: Mở Rộng
+                                                    </em>
+                                                </strong><br />
+                                                Bệnh viện đa khoa Hoàn Mỹ (cơ sở II) được thành lập ở số 4 Hoàng Việt, Phường 4, Quận Tân Bình.<br />
+                                                <br />
+                                                <strong>
+                                                    <em>
+                                                        Năm 2011: Phát Triển
+                                                    </em>
+                                                </strong><br />
+                                                Bệnh viện Hoàn Mỹ Sài Gòn gia nhập Tập Đoàn Quốc Tế Fortis. Chính thức đổi tên Bệnh viện đa khoa Hoàn Mỹ thành Bệnh viện đa khoa HOÀN MỸ SÀI GÒN và dời cơ sở I từ 124 Trần Quốc Thảo, Phường 7, Quận 3, Tp.HCM về 60-60A Phan Xích Long, Phường 1, Quận Phú Nhuận, Tp.HCM.<br />
+                                                <br />
+                                                <strong>
+                                                    <em>
+                                                        Năm 2013: Bền Vững
+                                                    </em>
+                                                </strong><br />
+                                                Bệnh viện đa khoa Hoàn Mỹ Sài Gòn gia nhâp Tập Đoàn Clermont phát triển thành Tập Đoàn Y Khoa Hoàn Mỹ (Việt Nam) với hệ thống trải dài từ miền Trung đến miền Nam với 8 bệnh viện và 01 Phòng khám.
+                                            </div>
+                                            <div>
+                                                <br />
+                                                <p><strong>Văn hóa Hoàn Mỹ</strong></p>
+                                                <p>&nbsp;</p>
+                                                Từ trái tim của người sáng lập – Bác sĩ NGUYỄN HỮU TÙNG với câu nói nổi tiếng: “Bệnh nhân không bao giờ có lỗi”, đó cũng chính là khởi nguồn của giá trị “Người Bệnh là Trung Tâm”. Hướng đến lợi ích cao nhất dành cho Người Bệnh, nhân viên toàn viện thực hành chuẩn mực nhân viên Hoàn Mỹ Sài Gòn:
+                                            </div>
+                                            <div>
+                                                <br />
+                                                1.	Đối với Người Bệnh: “Người Bệnh không bao giờ có lỗi”, và “Người bác sĩ không bao giờ nói chuyện tiền bạc với Người Bệnh”.
+                                            </div>
+                                            <p>
+                                            </p>
+                                            <ul>
+                                                <li>Người Bệnh không bao giờ có lỗi, do đó nhân viên Y Tế luôn nỗ lực phát triển không chỉ kiến thức, tay nghề chuyên môn tập trung cho chữa trị, mà mở lòng thấu hiểu Người Bệnh trong mọi tình huống và giải thích hướng Người Bệnh đến kiến thức đúng của Y Khoa, giúp quá trình điều trị được thuận lợi hiệu quả cao, cũng như đem lại dịch vụ chăm sóc ân cần.</li>
+                                                <li>Khi tiếp xúc với Người Bệnh, điều tiên quyết là sức khỏe của Người Bệnh, và như bác Nguyễn Tuấn – P. Giám Đốc Chuyên Môn BV Hoàn Mỹ Sài Gòn chia sẻ: “First do no Harm” – thực hành lời thề Hippocrates “Trước tiên không gây hại” – Người bác sĩ luôn tập trung nhất cho Lợi Ích Sức Khỏe của Người Bệnh và đưa ra giải pháp tối ưu nhất trong mọi hoạt động Y Tế liên quan đến Người Bệnh như chẩn đoán, thực hiện cận lâm sàng hay ứng dụng phác đồ điều trị, … Và cũng chính từ điều này, tại Hoàn Mỹ Sài Gòn thực hành chính sách nhân đạo với Người Bệnh – không đóng tiền trước khi chữa trị trong các trường hợp khẩn cấp.</li>
+                                            </ul>
+                                            2.	Đối với đồng nghiệp: Không đổ lỗi, không trốn tránh trách nhiệm và làm việc, quan hệ với đồng nghiệp có tôn ti trật tự. Đây cũng là cơ sở để phục vụ Người Bệnh với tinh thần “Người Bệnh là Trung Tâm”.&nbsp;<span style="font-size: 13px;">Gia nhập hệ thống Y Khoa Quốc Tế từ năm 2011, với Tập Đoàn Fortis, rồi Chandler và cho đến nay đổi tên là Clermont, Hoàn Mỹ Sài Gòn cũng hòa nhập văn hóa Tập Đoàn cùng với 5 Giá Trị Cốt Lõi:</span>
+                                        </div>
+                                        <div>
+                                            <br />
+                                            <div>
+                                                1.	Người Bệnh là Trung Tâm: tiếp tục kế thừa và phát huy Văn Hóa Hoàn Mỹ Sài Gòn – Cảm kết hiệu quả điều trị và Sự hài lòng của Người Bệnh.<br />
+                                                2.	Không ngừng Đổi mới: Luôn nỗ lực nâng cao và cải tiến vượt trên mong đời của Người Bệnh.<br />
+                                                3.	Tinh thần Tự Chủ: Tiên phong thực hiện cam kết với tinh thần trách nhiệm vượt trội.<br />
+                                                4.	Hợp tác chặt chẽ: Tôn trọng và đề cao giá trị mỗi con người trong tổ chức.<br />
+                                                5.	Liêm minh chính trực: Tuân thủ nguyên tắc, trung thực và luôn tuân theo lẽ phải.<br />
+                                                <br />
+                                            </div>
+                                            <div>
+                                                Tận tâm từng giây, bởi vì chúng tôi hiểu khát vọng sống là điều mãnh liệt nhất, nhưng cuộc sống lại là thứ mong manh nhất.<br />
+                                                Với tinh thần cải tiến không ngừng nâng cao giá trị điều trị và phục vụ, lấy khách hàng làm trung tâm, Hoàn Mỹ Sài Gòn luôn hướng đến Lợi Ích Sức Khỏe tốt nhất cho Người Bệnh, cùng với khẩu hiệu <strong>Tomorrow’s Health Care Today – “Chăm Sóc Hôm Nay – Sức Khỏe Ngày Mai”</strong>. Vì chúng tôi hiểu rằng: Cuộc sống cần có hy vọng, niềm tin và yêu thương. Và vì cuộc sống khoẻ mạnh ngày mai, bắt đầu từ sự quan tâm chăm sóc hôm nay.
+                                                <p>&nbsp;</p>
+                                                <p><strong>Một số chuyên khoa mũi nhọn</strong></p>
+                                                <ol>
+                                                    <li>Khoa Tim Mạch</li>
+                                                    <li>Khoa Tiêu Hóa</li>
+                                                    <li>Khoa Gan Mật Tụy</li>
+                                                    <li>Khoa Ung Bướu</li>
+                                                    <li>Khoa Chấn Thương Chỉnh Hình</li>
+                                                    <li>Khoa Ngoại Thần Kinh</li>
+                                                    <li>Khoa Nội Thần Kinh</li>
+                                                    <li>Khoa Sản Phụ</li>
+                                                    <li>Khoa Tiết Niệu</li>
+                                                    <li>Khoa Tai Mũi Họng</li>
+                                                    <li>Khoa Mắt</li>
+                                                    <li>Khoa Da Liễu</li>
+                                                    <li>Khoa Nội Tiết</li>
+                                                    <li>Khoa Thận Nhân Tạo</li>
+                                                    <li>Khoa Răng Hàm Mặt</li>
+                                                    <li>Nhi Khoa</li>
+                                                </ol>
+                                                <p>Bệnh viện đặc biệt chú trọng đầu tư trang thiết bị, cập nhật công nghệ y khoa nhằm nâng cao năng lực chuyên môn tại các khoa mũi nhọn như Khoa Tim Mạch, Tiêu Hóa, Gan Mật, Xét nghiệm, Phụ Sản, Chấn thương chỉnh hình. Đến nay, Bệnh viện Hoàn Mỹ Sài Gòn đã thực hiện điều trị  phẫu thuật thành công không ít các bệnh phức tạp và có mức độ nguy hiểm cao.</p>
+                                                <p><strong>Thành Tích</strong></p>
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>&nbsp;<strong><em>2012</em></strong>&nbsp;</td>
+                                                            <td>
+                                                                &nbsp;Đạt được hai giải thưởng Quản lý bệnh viện châu Á năm 2012:<br />
+                                                                + Giải nhất về cải tiến chất lượng bệnh viện<br />
+                                                                + Giải nhì về trách nhiệm cộng đồng
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong><em>&nbsp;2013</em></strong></td>
+                                                            <td>
+                                                                +  Giấy khen về tích cục tham gia Chương trình an sinh xã hội và thực hiện tốt chính sách thuế số 348/QĐ-UBND của UBND Quận Phú Nhuận<br />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>&nbsp;<strong><em>2014</em></strong></td>
+                                                            <td>
+                                                                + Bằng khen về tham gia hưởng ứng Cuộc vận động "Vì người nghèo" và các hoạt động an sinh xã hội TPHCM số 51/QĐ-MTTQ của Ủy Ban Mặt trận Tổ Quốc VN TPHCM<br />
+                                                                + Tuyên dương về tích cực hỗ trợ chăm sóc sức khỏe trẻ em tỉnh Bạc Liêu 2010 - 2014 số 1191/QĐ-UBND của Chủ tịch UBND Tỉnh Bạc Liêu<br />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>&nbsp;<strong><em>2015</em></strong></td>
+                                                            <td>
+                                                                + Đạt được bằng khen tích cục tham gia hỗ trợ Chương trình Xây dựng Nông Thôn Mời huyện Cần Giờ số 752/QĐ-UBND của UBND Quận Phú Nhuận <br />
+                                                                + Nhận Cờ thi đua yêu nước cửa Bộ Y Tế
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>&nbsp;</td>
+                                                            <td>
+                                                                <br />
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <div>
+                                                    <p><strong>Sơ Đồ Tổ Chức</strong></p>
+                                                    <p>
+                                                        <strong>
+                                                            <img alt="" src="assets/images/data/news/CCTC1.png" /><br />
+                                                        </strong>
+                                                    </p>
+                                                    <p>Bệnh viện có tổng cộng có 669 nhân viên , trong đó có 118 bác sĩ (hơn 30 bác sĩ đạt học vị Thạc sĩ trở lên), 226 điều dưỡng, 29 kỹ thuật viên và 23 nữ hộ sinh và hơn 240 nhân viên khối gián tiếp.</p>
+                                                    <p>
+                                                        <strong>
+                                                            Cơ sở vật chất
+                                                        </strong>
+                                                    </p>
+                                                    <p>
+                                                        Phòng lưu bệnh BV Hoàn Mỹ Sài Gòn có các loại phòng theo nhu cầu: phòng 1 giường, phòng 2 giường, phòng 3 giường, phòng 4 giường và phòng 6 giường. Bệnh viện tuyệt đối không nhận quá số bệnh nhân tiêu chuẩn trong mỗi phòng.&nbsp;
+                                                    </p>
+                                                    <p>Đồng thời, mỗi giường bệnh đều được trang bị tủ đựng đồ, giường cho người nhà Bệnh nhân và các thiết bị y tế hỗ trợ, đặc biệt là “nút bấm gọi điều dưỡng”. Ngoài ra, chúng tôi cũng lắp đặt nhiều tiện nghi khác cho người bệnh như ti vi, tủ lạnh, máy lạnh, dịch vụ internet miễn phí, máy nước nóng – lạnh…</p>
+                                                    <p>
+                                                        Điểm nổi bật ở Hoàn Mỹ Sài Gòn là có trang bị khu nghỉ ngơi miễn phí cho người nhà Bệnh nhân đang nhập viện ở khoa Hồi sức với các tiện nghi cần thiết.<br />
+                                                        Các phòng chức năng khác như phòng mổ, phòng thủ thuật được trang bị đầy đủ thiết bị nội soi, máy X-quang di động, máy siêu âm di động… giúp thực hiện dễ dàng các trường hợp phẫu thuật mở, phẫu thuật nội soi. Đồng thời, phòng mổ được thiết kế một chiều, tích hợp áp lực dương giúp hạn chế nhiễm khuẩn tối đa sau phẫu thuật.
+                                                    </p>
+                                                    <p>
+                                                        Với hơn 250 giường lưu bệnh, 21 chuyên khoa và 12 phòng chức năng, Hoàn Mỹ Sài Gòn đã thực hiện khám và điều trị khoảng 400.000 lượt bệnh nhân ngoại trú, trên 15.000 lượt bệnh nhân nội trú và thực hiện hơn 5.000 ca phẫu thuật mỗi năm.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <strong>Lịch làm việc</strong><br />
+                                        Thứ Hai đến Thứ Bảy: 7h00 - 11h30 &amp; 12h30 - 16h00<br />
+                                        Ngoài giờ<br />
+                                        Thứ Hai đến Thứ Bảy: 16h00 - 18h00<br />
+                                        Chủ Nhật: 7h00 - 12h00
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="ctl00_divRight" class="col-right cmszone">
+
+                    <div class='Module Module-257'>
+                        <div class="left-menu">
+                            <ul class="noli">
+                                <li class="active"><a class="active" href="/about" target="_self" title="Giới thiệu chung">Giới thiệu chung</a></li>
+                                <li><a href="/saigon/ban-lanh-dao" target="_self" title="Ban lãnh đạo">Ban lãnh đạo</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class='Module Module-258'>
+                        <div class="fb-page" data-href="https://www.facebook.com/hoanmysaigon" data-tabs="Facebook" data-width="231" data-small-header="false" data-adapt-container-width="false" data-hide-cover="false" data-show-facepile="true">
+                            <div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/hoanmysaigon"><a href="https://www.facebook.com/hoanmysaigon">BV Hoàn Mỹ Sài Gòn</a></blockquote></div>
+                        </div>
+                        <div class="emhotline">
+                            Cấp cứu<span>(08) 3995 9860</span>
+                        </div>
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSemdqrYVGswrTxbQGKUwPzImgqXa6DMt5D_wBdiPKvhbyq2FA/viewform?c=0&amp;w=1" target="_blank">
+                            <img src="assets/images/adv/KS-ngoai-tru.png" alt="Khao-sat-ngoai-tru" />
+                        </a>
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdGUagF2UaZ2U0QkNWDXj46q8fND-aIz46VN_9tZCQCezfSEw/viewform?c=0&amp;w=1" target="_blank">
+                            <img src="assets/images/adv/KS-noi-tru.png" alt="Khao-sat-noi-tru" />
+                        </a>
+                    </div>
+                    <div class='Module Module-795'>
+                        <div class="cc-wrap">
+                            <h4>
+                                <a href="/saigon/cau-chuyen-benh-nhan">Câu chuyện bệnh nhân</a>
+                            </h4>
+                            <table></table>
+                        </div>
+                    </div>
+                    <!--<div class='cn-wrap Module Module-796'>
+                        <div class="cc-wrap">
+                            <h4>
+                                <a href="/saigon/cam-nhan-benh-nhan">Cảm nhận bệnh nhân</a>
+                            </h4>
+                            <section class="bg-cn">
+                                <div class="cn-slide">
+                                </div>
+                                <div class="pagination" id="foo2_pag">
+                                </div>
+                            </section>
+                        </div>
+                    </div>-->
+                    <div class='rmodule Module Module-568'>
+                        <img alt="" src="http://manage.hoanmy.com/Data/Sites/5/media/News/HMSG/kham%20suc%20khoe%20HMSG2.jpg" style="border: 0px none; margin: 0px; padding: 0px; font-size: 0px; color: transparent; vertical-align: middle; max-width: 100%; font-family: Arial,sans-serif; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px;" />
+                    </div>
+                </div>
+                <div class="clear">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

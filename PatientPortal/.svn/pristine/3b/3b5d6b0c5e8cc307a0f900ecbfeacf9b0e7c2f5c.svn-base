@@ -1,0 +1,174 @@
+﻿
+<link href="assets/css/site/menuPage.css" rel="stylesheet" />
+<div class="brd-wrap" ng-include="'app/shared/template-include/submenu.template.html'">
+</div>
+
+<div class="top-content">
+    <div class="content container">
+        <div class="row">
+            <div class="content-bg">
+                
+
+                <div id="ctl00_divCenter" class="col-left">
+                    <div class="content-bg2">
+                        <div class='Module Module-259'>
+                            <div id="ctl00_mainContent_ctl00_NewsView1_pnlInnerWrap">
+                                <div class="news">
+                                    <h1 class="newsdt-title hidden">Ban Giám Đốc </h1><div class="newstext hmdetail">
+                                        <div class="contact-item">
+                                            <br />
+                                            <table width="1062" height="210">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="width: 180px; text-align: center; vertical-align: top;">
+                                                            <img alt="" src="/Data/Sites/5/media/BM%20PICS/IMG_0049.png" class="color" /><br />
+                                                        </td>
+                                                        <td style="text-align: left; vertical-align: top;">
+                                                            <span style="color: #008445;"><strong>BS. NGUYỄN HỮU TRÂM EM</strong></span><strong>
+                                                                <br />
+                                                                Giám Đốc Điều Hành<br />
+                                                                <br />
+                                                            </strong>
+                                                            BS. Nguyễn Hữu Trâm Em tốt nghiệp Y Khoa năm 1991, tại Đại Học Y Dược Huế. Ông đã được đào tạo chuyên khoa Nội Tim Mạch và giữ chức vụ Trưởng khoa Điện Chẩn Đoán tại Trung Tâm Chẩn Đoán Y Khoa MEDIC gần 10 năm. Năm 2003, ông gia nhập vào Bệnh Viện Hoàn Mỹ và liên tục được đề bạt các vị trí cao cấp như Trưởng Phòng Đào Tạo, Phó Giám Đốc Chuyên Môn. <br />
+                                                            Đến tháng 4/2015, ông được bổ nhiệm làm Quyền Giám Đốc Bệnh Viện và chính thức là Giám Đốc Bệnh Viện Bệnh Viện Hoàn Mỹ Sài Gòn kể từ tháng 11/2015. <br />
+                                                            BS. Nguyễn Hữu Trâm Em được đào tạo về nội tim mạch từ năm 1993, đã được đào tạo chuyên khoa I Nội Khoa, là bác sĩ có quá trình thực hành hơn 20 năm trong lĩnh vực nội tim mạch. Đã tham gia nhiều hoạt động khoa học với hơn 10 nghiên cứu về tim mạch và có nhiều đóng góp các bài báo khoa học liên quan các lĩnh vực tim mạch lâm sàng, điện tâm đồ, điện tâm đồ gắng sức, Holter ECG…<br />
+                                                            Từ một nhà lâm sàng, ông không ngừng cải thiện kỹ năng lãnh đạo và tham gia các hoạt động bệnh viện như là nhà quản trị y tế chuyên nghiệp. Đồng thời ông cũng được đào tạo trong nhiều khoá học Quản Trị Bệnh Viện tại Đại Học Đại Học Quản trị Singapore (SMU) và chương trình liên kết Quản Trị Bệnh Viện của Trường Đại Học Y Khoa Phạm Ngọc Thạch với Trường EHESP (Pháp)<br />
+                                                            <br />
+                                                            <strong>Quan điểm:</strong><br />
+                                                            “Y học là một ngành khoa học không ngừng cải tiến và phát triển, việc cập nhật các kỹ thuật, công nghệ điều trị hiện đại với các chuyên gia đến từ những nền y học phát triển là hết sức cần thiết, không chỉ với nhân viên y tế tại bệnh viện mà quan trọng hơn, là đem đến cuộc sống tốt đẹp cho người bệnh. Với định hướng trở thành một bệnh viện không chỉ tốt về dịch vụ, mà còn có chất lượng chuyên môn cao, trong thời gian tới, Hoàn Mỹ Sài Gòn sẽ đẩy mạnh hợp tác chuyển giao công nghệ, kỹ thuật y học với các đơn vị quốc tế nhằm đáp ứng nhu cầu khám chữa bệnh ngày càng cao và đem đến cho người bệnh trải nghiệm thật tốt đẹp tại bệnh viện Hoàn Mỹ Sài Gòn.”
+                                                            <p>&nbsp;</p>
+                                                            <div style="text-align: justify;"><span style="font-size: 13px;"></span></div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="contact-item">
+                                            <table width="1062" height="206">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="text-align: center; width: 180px; vertical-align: top;">
+                                                            <img alt="" src="/Data/Sites/5/userfiles/46/bstuan.jpg" /><br />
+                                                        </td>
+                                                        <td style="text-align: left; vertical-align: top;">
+                                                            <span style="color: #008445;"><strong>TS. BS. NGUYỄN TUẤN</strong></span><strong>
+                                                                <br />
+                                                            </strong>
+                                                            <p><strong>Phó Giám Đốc Chuyên Môn</strong></p>
+                                                            Bác sĩ Nguyễn Tuấn tốt nghiệp chuyên ngành Ngoại Tiêu hóa Đại học Y Dược TP.HCM năm 2000 và tốt nghiệp chuyên khoa I, Bác sĩ nội trú Ngoại Tổng quát vào năm 2005. Năm 2007, ông đến Strasbourg - Pháp tu nghiệp về Phẫu thuật nội soi Tổng quát nâng cao. <br />
+                                                            Đến năm 2015, ông chính thức nhận học vị Tiến sĩ Y học, chuyên ngành Ngoại Tiêu hóa. TS.BS. Nguyễn Tuấn đã tham dự nhiều khóa huấn luyện về phẫu thuật cắt gan, phẫu thuật đường mật, phẫu thuật tụy, điều trị thoát vị và các bệnh đường tiêu hóa. Ngoài ra, ông đã tham gia thực hiện và công bố trên 15 đề tài nghiên cứu khoa học chuyên ngành.<br />
+                                                            <br />
+                                                            <strong>Quan điểm:</strong>
+                                                            <p>Tại sao Lời thề của Hippocrates “Primum non nocere” hay là “First do no harm”, tôi xin dịch ra tiếng Việt là “Trước tiên hãy đừng làm hại cho bệnh nhân” vẫn được nhắc đến cho những ai làm nghề Y cho đến bây giờ? Tôi vẫn giữ quan điểm này và luôn cố gắng chia sẻ cho Đồng nghiệp qua những công việc hàng ngày; chúng tôi luôn nỗ lực tìm cách để không làm tổn hại cho Người bệnh về tinh thần, thể xác, tài chính bằng việc không ngừng cải thiện về giao tiếp, cập nhật nâng cao kiến thức chuyên môn, tuân thủ các biện pháp nhằm giữ an toàn Người bệnh, tăng cường hội chẩn để tìm ra phương án hiệu quả nhất để chẩn đoán và điều trị cho Người bệnh,…   </p>
+                                                            <p> </p>
+                                                            <div style="text-align: justify;"><span style="font-size: 13px;"></span></div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="contact-item">
+                                            <table width="1062" height="215">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="width: 180px; text-align: left; vertical-align: top;">
+                                                            <p style="text-align: center;">&nbsp;<img alt="" src="/Data/Sites/5/media/BM%20PICS/IMG_0061.jpg" /></p>
+                                                        </td>
+                                                        <td style="text-align: left; vertical-align: top;">
+                                                            <span style="color: #008445;"><strong>Ông PHẠM THANH DANH</strong></span><br />
+                                                            <p>
+                                                                <strong>Phó Giám Đốc Quản Trị</strong>
+                                                            </p>
+                                                            Ông Phạm Thanh Danh, tốt nghiệp khoa kế toán – kiểm toán Trường Đại học Kinh tế Thành phố Hồ Chí mInh năm 2007. Ông đã có kinh nghiệm 7 năm làm việc với vai trò là kiểm toán viên tại Công ty TNHH Ernst &amp; Young Việt Nam là một trong 4 công ty kiểm toán lớn nhất thế giới. <br />
+                                                            <br />
+                                                            Ông gia nhập Bệnh viện Hoàn Mỹ Sài Gòn vào năm 2015 với vai trò Phó Giám Đốc – Phụ trách Tài chính của Bệnh viện và được đề bạt làm Phó Giám Đốc Quản trị của Bệnh viện từ ngày 1 tháng 10 năm 2016. Ông đã trãi qua khóa học Quản lý Bệnh viện do Trường Đại Học Y khoa Phạm Ngọc Thạch và Sở Y tế Thành phố Hồ Chí Minh kết hợp với Viện EFUHP của Pháp tổ chức vào tháng 9 năm 2016.<br />
+                                                            <br />
+                                                            <strong>Quan điểm:</strong><br />
+                                                            “Quản trị Bệnh viện là một khoa học nhằm sử dụng hiệu quả nguồn lực có giới hạn mà bệnh viện đang có nhằm tạo ra giá trị phục vụ cao nhất cho khách hàng bên trong (nhân viên y tế) và khách hàng bên ngoài (bệnh nhân và thân nhân người bệnh). Tại Việt Nam, bài toán về kinh tế y tế là một bài toán nan giải với việc người bệnh đòi hỏi một chất lượng điều trị, thuốc và trang thiết bị y tế đạt tiêu chuẩn Quốc tế trong khi điều kiện thanh toán của người dân chỉ đáp ứng được chi phí điều trị với mức chi trả tương ứng với thu nhập tại Việt Nam. Do đó, để sử dụng hiệu quả nguồn lực của Bệnh viện nhằm mang lại một chất lượng dịch vụ y tế cao và chi phí điều trị hợp lý, trong quản trị, Bệnh viện không ngừng thực hiện các dự án cải tiến liên tục áp dụng LEAN SIX SIGMA nhằm nâng cao chất lượng phục vụ, cắt giảm lãng phí và nâng cao sự trải nghiệm của khách hàng khi đến với bệnh viện.”
+                                                            <p>&nbsp;</p>
+                                                            <div style="text-align: justify;"><span style="font-size: 13px;"></span></div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="contact-item">
+                                            <table width="1062" height="204">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="width: 180px; text-align: center; vertical-align: top;">
+                                                            <img alt="" src="/Data/Sites/5/userfiles/46/thaob.jpg" /><br />
+                                                        </td>
+                                                        <td style="text-align: left; vertical-align: top;">
+                                                            <span style="color: #008445;"><strong>BÀ HUỲNH THỊ PHƯƠNG THẢO</strong></span><br />
+                                                            <p><strong>Phó Giám Đốc Tài Chính</strong></p>
+                                                            Bà Huỳnh Thị Phương Thảo tốt nghiệp Thạc sĩ Tài chính – Ngân hàng tại Đại học Monash, Úc năm 2011. Trước đó, bà tốt nghiệp Cử nhân tại trường Đại học Kinh Tế thành phố Hồ Chí Minh. Bà đã có hơn 8 năm kinh nghiệm làm việc trong lĩnh vực Tài chính – Kế toán tại các doanh nghiệp trong và ngoài nước. <br />
+                                                            <br />
+                                                            Năm 2013, bà Huỳnh Thị Phương Thảo gia nhập Tập đoàn Y khoa Hoàn Mỹ. Bà được đề bạt làm Phó giám đốc Tài chính tại bệnh viện Hoàn Mỹ Quốc tế đồng Nai năm 2015 và Hoàn Mỹ Sài Gòn vào năm 2016. <br />
+                                                            <br />
+                                                            <strong>Quan Điểm:</strong><br />
+                                                            "Bệnh viện là môi trường làm việc khác với tất cả các ngành khác. Đây là nơi chịu trách nhiệm về sức khỏe và tính mạng của khách hàng nên có yêu cầu cao và nghiêm khắc về trình độ chuyên môn, quy trình quản lý (con người) và trang thiết bị y tế (máy móc). Nhằm mang lại hiệu quả khám chữa bệnh và chất lượng dịch vụ tốt nhất, bệnh viện Hoàn Mỹ Sài Gòn luôn dành ra khoản ngân sách cao để đầu tư nguồn lực nhân sự, nâng cao trình độ chuyên môn và cập nhật, ứng dụng kĩ thuật mới; điển hình là các khóa đào tạo liên tục tại Việt Nam và nước ngoài. Bên cạnh đó, máy móc thiết bị y tế luôn được nâng cấp nhằm đảm bảo bệnh nhân được tiếp cận phương pháp điều trị mới nhất và hiệu quả nhất."
+                                                            <p>&nbsp;</p>
+                                                            <p><strong></strong></p>
+                                                            <div style="text-align: justify;"><span style="font-size: 13px;"></span></div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div id="ctl00_divRight" class="col-right cmszone">
+                    <div class='Module Module-257'>
+                        <div class="left-menu">
+                            <ul class="noli">
+                                <li><a href="/saigon/gioi-thieu-chung" target="_self" title="Giới thiệu chung">Giới thiệu chung</a></li>
+                                <li class="active"><a class="active" href="/saigon/ban-lanh-dao" target="_self" title="Ban lãnh đạo">Ban lãnh đạo</a></li>
+                            </ul>
+                        </div>
+                    </div><div class='Module Module-258'>
+                        <div class="fb-page" data-href="https://www.facebook.com/hoanmysaigon" data-tabs="Facebook" data-width="231" data-small-header="false" data-adapt-container-width="false" data-hide-cover="false" data-show-facepile="true">
+                            <div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/hoanmysaigon"><a href="https://www.facebook.com/hoanmysaigon">BV Hoàn Mỹ Sài Gòn</a></blockquote></div>
+                        </div>
+                        <div class="emhotline">
+                            Cấp cứu<span>(028) 3995 9860</span>
+                        </div>
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSemdqrYVGswrTxbQGKUwPzImgqXa6DMt5D_wBdiPKvhbyq2FA/viewform?c=0&amp;w=1" target="_blank"><img src="http://hoanmy.com/Data/Sites/1/userfiles/56/KS-ngoai-tru.png" alt="Khao-sat-ngoai-tru" /></a>
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdGUagF2UaZ2U0QkNWDXj46q8fND-aIz46VN_9tZCQCezfSEw/viewform?c=0&amp;w=1" target="_blank"><img src="http://hoanmy.com/Data/Sites/1/userfiles/56/KS-noi-tru.png" alt="Khao-sat-noi-tru" /></a>
+                    </div><div class='Module Module-795'>
+                        <div class="cc-wrap">
+                            <h4>
+                                <a href="/saigon/cau-chuyen-benh-nhan">Câu chuyện bệnh nhân</a>
+                            </h4>
+                            <table></table>
+                        </div>
+                    </div><div class='cn-wrap Module Module-796'>
+                        <div class="cc-wrap">
+                            <h4>
+                                <a href="/saigon/cam-nhan-benh-nhan">Cảm nhận bệnh nhân</a>
+                            </h4>
+                            <section class="bg-cn">
+                                <div class="cn-slide">
+                                </div>
+                                <div class="pagination" id="foo2_pag">
+                                </div>
+                            </section>
+                        </div>
+                    </div><div class='rmodule Module Module-568'><img alt="" src="http://manage.hoanmy.com/Data/Sites/5/media/News/HMSG/kham%20suc%20khoe%20HMSG2.jpg" style="border: 0px none; margin: 0px; padding: 0px; font-size: 0px; color: transparent; vertical-align: middle; max-width: 100%; font-family: Arial,sans-serif; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px;" /></div>
+
+                </div>
+                <div class="clear">
+                </div>
+
+                
+                <div class="clear">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

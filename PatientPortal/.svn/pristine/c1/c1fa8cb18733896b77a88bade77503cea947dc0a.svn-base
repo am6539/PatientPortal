@@ -1,0 +1,16 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.CMS.Models.LanguageViewModel
+<div class="card">
+    <div class="card-content">
+        @using (Html.IBeginForm("Create", "Language"))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            @Html.HiddenFor(m => m.Id)
+            @Html.IGroupSubmitButton("Thêm ngôn ngữ", true, true, null, null, 3)
+            @Html.IGroupTextBoxFor(m => m.Name, true, "Tên ngôn ngữ", null, 12)
+            @Html.IGroupTextBoxFor(m => m.Code, true, "Ký hiệu", null, 12)
+        }
+    </div>
+</div>
+

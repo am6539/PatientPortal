@@ -1,0 +1,147 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.Internal.Models.AppointmentLogViewModel
+    
+@using (Html.IBeginForm("ConfirmAppointment", "Appointment"))
+{
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        @Html.ITitle("Phiếu đặt lịch hẹn", TitleBar.View)
+    </div>
+
+    <div class="modal-body">
+        <div class="row-fluid">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    @Html.HiddenFor(m => m.Id)
+                    @Html.HiddenFor(m => m.PatientDoB)
+                    @Html.HiddenFor(m => m.PatientGender)
+                    @Html.HiddenFor(m => m.PatientId)
+                    @Html.HiddenFor(m => m.PhysicianId)
+                    @Html.HiddenFor(m => m.Symptom)
+                    @Html.HiddenFor(m => m.PhysicianId)
+                    @Html.HiddenFor(m => m.PatientName)
+                    @Html.HiddenFor(m => m.PatientPhone)
+                    @Html.HiddenFor(m => m.PatientAddress)
+                    @Html.HiddenFor(m => m.PatientEmail)
+                    @Html.HiddenFor(m => m.PhysicianName)
+                    @Html.HiddenFor(m => m.Date)
+                    @Html.HiddenFor(m => m.Time)
+                    <label class="control-label col-sm-3">Người đặt:</label>
+                    <div class="col-sm-9">
+                        
+                        <label class="control-label">@Model.PatientName</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="phone">Số điện thoại:</label>
+                    <div class="col-sm-9">
+                        
+                        <label class="control-label"> @Model.PatientPhone</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="address">Địa chỉ:</label>
+                    <div class="col-sm-9">
+                        
+                        <label class="control-label"> @Model.PatientAddress</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="email">Email:</label>
+                    <div class="col-sm-9">
+                        
+                        <label class="control-label"> @Model.PatientEmail</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="physicianId">Bác sĩ:</label>
+                    <div class="col-sm-9">
+                        
+                        <label class="control-label">@Model.PhysicianName</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="date">Ngày đặt hẹn:</label>
+                    <div class="col-sm-4">
+                        
+                        <label class="control-label">@Model.Date</label>
+                    </div>
+                    <label class="control-label col-sm-2" for="time">Giờ:</label>
+                    <div class="col-sm-3">
+                        
+                        <label class="control-label">@Model.TimeString</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="status">Tình trạng:</label>
+                    <div class="col-sm-9">
+                        @Html.DropDownListFor(model => model.Status, new SelectList(new[]{
+                            new SelectListItem { Text = "Mới đặt hẹn", Value = "1" },
+                            new SelectListItem { Text = "Đã khám", Value = "2" },
+                            new SelectListItem { Text = "Đã hủy", Value = "3" }
+                        }, "Value", "Text"), new { @class = "chosen-select", @data_placeholder = "Meta Robots Advanced" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer" style="text-align: center">
+        <button class="btn btn-success" type="submit"><i class="fa fa-trash"> Xác nhận</i></button>
+        @*<button class="btn btn-warning" type="submit"><i class="fa fa-trash"> Hủy</i></button>*@
+        <button class="btn" type="button" id="btn-dismiss" data-dismiss="modal" aria-hidden="true"><i class="fa fa-long-arrow-right"></i> Thoát</button>
+    </div>
+}
+<script type="text/javascript">
+    $(function () {
+        //renderTimeDefault();
+        $('#btn-dismiss').click(function () {
+            $('#modal-container').modal('hide');
+        });
+    });
+    $("#OrderDate").datetimepicker({
+        format: 'DD/MM/YYYY',
+        locale: 'vi',
+        //minDate: Date.now(),
+    });
+    var config = {
+        '.chosen-select': {}
+    }
+    for (var selector in config) {
+        $(selector).chosen(config[selector]);
+    }
+
+    ////render time if not choose a doctor
+    //function renderTimeDefault() {
+    //    var giohen = getGioKham();
+    //    appendTime(giohen);
+    //}
+
+    ////Init time 
+    //function getGioKham() {
+    //    var now = moment().hours(8).minutes(0).seconds(0).milliseconds(0);
+    //    var max = moment().hours(19).minutes(0).seconds(0).milliseconds(0);
+    //    var gio = [];
+    //    var duration = moment.duration({ 'minutes': 15 });
+    //    now = now.add(duration);
+    //    while (now < max) {
+    //        gio.push(now.format('hh:mm'));
+    //        now = now.add(duration);
+    //    }
+    //    return gio;
+    //}
+
+    ////binding time view
+    //function appendTime(giohen) {
+    //    $.each(giohen, function (key, value) {
+    //        $('#timeAppointment')
+    //            .append($("<option></option>")
+    //                       .attr("value", key)
+    //                       .text(value));
+    //    });
+    //}
+
+    //function changeTime(value) {
+    //    $("#timeAppointmentChoose").val(value);
+    //}
+</script>

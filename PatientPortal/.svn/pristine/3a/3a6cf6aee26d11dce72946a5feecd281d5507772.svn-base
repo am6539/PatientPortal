@@ -1,0 +1,69 @@
+﻿using AutoMapper;
+using PatientPortal.API.CMS.ViewModels;
+using PatientPortal.Domain.Models.CMS;
+using PatientPortal.IRepository.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+
+namespace PatientPortal.API.CMS.Controllers
+{
+    public class WorkflowNavigationController : ApiController
+    {
+        /// <summary>
+        /// declare variables
+        /// </summary>
+        private readonly IWorkflowNavigationRepo _workflowNavigation;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="language"></param>
+        public WorkflowNavigationController(IWorkflowNavigationRepo workflowNavigation)
+        {
+            this._workflowNavigation = workflowNavigation;
+        }
+
+        #region API Function
+        /// <summary>
+        /// Get all WorkflowNavigations
+        /// </summary>
+        /// <returns>List of WorkflowNavigation</returns>
+        public List<WorkflowNavigationViewModel> GetAll()
+        {
+            var source = _workflowNavigation.GetAll();
+            List<WorkflowNavigationViewModel> dest = Mapper.Map<List<WorkflowNavigationViewModel>>(source);
+            //short k = 2;
+            //GetWorkflowList(dest, dest.FirstOrDefault().WorkflowStateId);
+            return dest;
+        }
+
+        [HttpGet]
+        [Route("api/WorkflowNavigation/GetByWorkflowId/{Id}")]
+        public List<WorkflowNavigationViewModel> GetByWorkflowId(byte Id)
+        {
+            var source = _workflowNavigation.GetByWorkflowId(Id);
+            List<WorkflowNavigationViewModel> dest = Mapper.Map<List<WorkflowNavigationViewModel>>(source);
+            return dest;
+        }
+
+        /// <summary>
+        /// Action: Insert/Update/Delete WorkflowNavigation
+        /// </summary>
+        /// <param name="workflowNavigationModel">object "WorkflowNavigation"</param>
+        /// <param name="action">Action: 'I' - Insert; 'U'- Update; 'D'- Delete</param>
+        /// <returns>Result: Success- true; Fail- false</returns>
+        [HttpPost]
+        public bool Transaction(WorkflowNavigationViewModel workflowNavigationModel, char action)
+        {
+            var workflowNavigation = Mapper.Map<WorkflowNavigationEdit>(workflowNavigationModel);
+            var data = new List<WorkflowNavigationEdit>();
+            data.Add(workflowNavigation);
+            return _workflowNavigation.Transaction(data, action);
+        }
+        #endregion
+    }
+}

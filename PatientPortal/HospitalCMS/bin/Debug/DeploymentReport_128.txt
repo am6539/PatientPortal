@@ -1,0 +1,32 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Alter
+       [dbo].[Post] (Table)
+
+** Supporting actions
+     Refresh
+       [dbo].[usp_ApprovePost_Transaction] (Procedure)
+       [dbo].[usp_Category_CheckIsUsed] (Procedure)
+       [dbo].[usp_Category_Transaction] (Procedure)
+       [dbo].[usp_Language_Transaction] (Procedure)
+       [dbo].[usp_Post] (Procedure)
+       [dbo].[usp_Post_Transaction] (Procedure)
+       [dbo].[usp_Post_WorkflowState_Transaction] (Procedure)
+       [dbo].[usp_PublishPost_Transaction] (Procedure)
+       [dbo].[usp_spa_Post] (Procedure)
+       [dbo].[usp_spa_Post_ById] (Procedure)
+       [dbo].[usp_spa_Post_Paging] (Procedure)
+       [dbo].[usp_WorkflowNavigation_Transaction] (Procedure)
+       [dbo].[usp_WorkflowState_Transaction] (Procedure)
+
+If this deployment is executed, changes to [dbo].[Post] might introduce run-time errors in [dbo].[usp_spa_PostAbout].
+

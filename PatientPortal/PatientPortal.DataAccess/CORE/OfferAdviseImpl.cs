@@ -1,0 +1,49 @@
+﻿using PatientPortal.DataAccess.Repo.CORE;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CORE;
+using PatientPortal.Domain.Utilities;
+using PatientPortal.DataAccess.Repo.Wrapper;
+using PatientPortal.Domain.Common;
+using PatientPortal.Domain.LogManager;
+
+namespace PatientPortal.DataAccess.CORE
+{
+    public class OfferAdviseImpl : IOfferAdvise
+    {
+        private readonly IAdapterPattern _adapterPattern;
+
+        public OfferAdviseImpl(IAdapterPattern adapterPattern)
+        {
+            this._adapterPattern = adapterPattern;
+        }
+
+        public async Task<IEnumerable<OfferAdvise>> Query(Dictionary<string, dynamic> para)
+        {
+            return await _adapterPattern.ExecuteQuery<OfferAdvise>(para, "usp_OfferAdvise", DataConfiguration.instanceCore);
+        }
+
+        public async Task<OfferAdvise> SingleQuery(Dictionary<string, dynamic> para)
+        {
+            return await _adapterPattern.SingleExecuteQuery<OfferAdvise>(para, "usp_OfferAdvise", DataConfiguration.instanceCore);
+        }
+
+        public async Task<bool> CheckExist(Dictionary<string, dynamic> para)
+        {
+            return await _adapterPattern.SingleExecuteQuery<bool>(para, "usp_OfferAdvise_CheckExistName");
+        }
+
+        /// <summary>
+        /// Transaction of OfferAdvise
+        /// </summary>
+        /// <param name="data">Object OfferAdvise</param>
+        /// <param name="action">I: Insert, U: Update, D: Delete</param>
+        /// <returns>true/false</returns>
+        public async Task<int> Transaction(OfferAdviseEdit data, char action)
+        {
+            return await _adapterPattern.SingleTransaction<OfferAdviseEdit, int>(data, "usp_OfferAdvise_Transaction", action, DataConfiguration.instanceCore);
+        }
+    }
+}

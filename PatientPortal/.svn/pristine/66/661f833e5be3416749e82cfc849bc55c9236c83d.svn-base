@@ -1,0 +1,10 @@
+﻿'use strict';
+
+angular.
+module('spaPHCN').controller('AppController', ['$scope', "Params", 'ContactService',
+    function MainController($scope, Params, ContactService) {
+        ContactService.get(function (data) {
+            $scope.contact = data;
+        });
+    }
+]);

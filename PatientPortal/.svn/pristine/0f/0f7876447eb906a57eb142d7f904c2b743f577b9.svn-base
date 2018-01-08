@@ -1,0 +1,715 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data.SqlClient;
+using System.Reflection;
+using System.ComponentModel;
+using System.Data;
+using PatientPortal.Domain.Utilities;
+using System.Transactions;
+using PatientPortal.DataAccess.Dapper;
+using Dapper;
+using PatientPortal.Domain.Common;
+using PatientPortal.Domain.LogManager;
+using PatientPortal.Domain.Models.SYSTEM;
+
+namespace PatientPortal.DataAccess.Lib
+{
+    public class DataGenerator
+    {
+        #region Commit Transaction
+        /// <summary>
+        /// Dynamic Generate Properties
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data"></param>
+        /// <param name="action"></param>
+        /// <param name="strFields"></param>
+        /// <returns></returns>
+        private DynamicParameters GetPropertyObject<T>(T data, char action, string ignoreParas, ref string strFields)
+        {
+            var para = new DynamicParameters();
+            strFields = "@Action";
+            para.Add(strFields, action);
+
+            foreach (var prop in data.GetType().GetProperties())
+            {
+                if (!prop.PropertyType.Namespace.Contains("Collection"))
+                {
+                    var _name = prop.Name;
+                    var _val = prop.GetValue(data, null);
+
+                    strFields += (strFields.Length < 1 ? "@" : ", @") + _name;
+
+                    if (ignoreParas.Contains(_name) || (action == 'D' && _name != "Id"))
+                    {
+                        _val = (_val == null?Helper.GetDefault(_val.GetType()): _val);
+                    }
+                    para.Add(prop.Name, _val);
+                }
+            }
+            return para;
+        }
+        private DynamicParameters GetPropertyObject<T>(T data, string ignoreParas, ref string strFields)
+        {
+            var para = new DynamicParameters();
+
+            foreach (var prop in data.GetType().GetProperties())
+            {
+                var _name = prop.Name;
+                var _val = prop.GetValue(data, null);
+
+                strFields += (strFields.Length < 1 ? "@" : ", @") + _name;
+
+                strFields += (strFields.Length < 1 ? "@" : ", @") + prop.Name;
+                if (ignoreParas.Contains(_name))
+                {
+                    _val = Helper.GetDefault(_val.GetType());
+                }
+               
+                para.Add(prop.Name, _val);
+            }
+            return para;
+        }
+        private DynamicParameters GetPropertyObject(Dictionary<string, dynamic> data, ref string strFields)
+        {
+            var para = new DynamicParameters();
+
+            foreach (var pair in data)
+            {
+                strFields += (strFields.Length < 1 ? "@" : ", @") + pair.Key;
+                para.Add(pair.Key, pair.Value);
+            }
+            return para;
+        }
+
+        private DynamicParameters GetPropertyObject(Dictionary<string, dynamic> data, string outParaName, ref string strFields)
+        {
+            var para = new DynamicParameters();
+
+            foreach (var pair in data)
+            {
+                strFields += (strFields.Length < 1 ? "@" : ", @") + pair.Key;
+                para.Add(pair.Key, pair.Value);
+            }
+
+            if (outParaName != null && outParaName.Length > 0)
+                para.Add(outParaName, 0, DbType.Int32, ParameterDirection.Output);
+            return para;
+        }
+
+
+        private DynamicParameters GetPropertyObject(Dictionary<string, dynamic> data, List<OutputModel> output, ref string strFields)
+        {
+            var para = new DynamicParameters();
+
+            foreach (var pair in data)
+            {
+                strFields += (strFields.Length < 1 ? "@" : ", @") + pair.Key;
+                para.Add(pair.Key, pair.Value);
+            }
+            if(output != null && output.Count > 0)
+            {
+                foreach (var pair in output)
+                {
+                    strFields += (strFields.Length < 1 ? "@" : ", @") + pair.TName;
+                    //var type = pair.GetType();
+                    //para.Add(pair.Key, pair.Value, TypeToDbType[type], ParameterDirection.Output);
+                    para.Add(pair.TName, null, pair.TValue, ParameterDirection.Output);
+                }
+            }
+            
+            return para;
+        }
+
+        //public static Dictionary<DbType, Type> DbTypeToType = new Dictionary<DbType, Type>()
+        //{
+        //    {DbType.Byte, typeof (byte)},
+        //    {DbType.Byte, typeof (sbyte)},
+        //    {DbType.Int16, typeof (short)},
+        //    {DbType.Int16, typeof (ushort) },
+        //    {DbType.Int32, typeof (int)},
+        //    {DbType.Int32, typeof (uint)},
+        //    {DbType.Int64, typeof (long)},
+        //    {DbType.Int64, typeof (ulong)},
+        //    {DbType.Single, typeof (float)},
+        //    {DbType.Double, typeof (double)},
+        //    {DbType.Decimal, typeof (decimal)},
+        //    {DbType.Boolean, typeof (bool)},
+        //    {DbType.String, typeof (string)},
+        //    {DbType.StringFixedLength,typeof (char)},
+        //    {DbType.Guid, typeof (Guid)},
+        //    {DbType.DateTime, typeof (DateTime)},
+        //    {DbType.DateTimeOffset, typeof (DateTimeOffset)},
+        //    {DbType.Binary, typeof (byte[])},
+        //    {DbType.Byte, typeof (byte?) },
+        //    {DbType.Byte, typeof (sbyte?) },
+        //    {DbType.Int16, typeof (short?) },
+        //    {DbType.Int16, typeof (ushort?) },
+        //    {DbType.Int32, typeof (uint?) },
+        //    {DbType.Int64, typeof (long?) },
+        //    {DbType.Int64, typeof (ulong?) },
+        //    {DbType.Single, typeof (float?) },
+        //    {DbType.Double, typeof (double?) },
+        //    {DbType.Decimal, typeof (decimal?) },
+        //    {DbType.Boolean, typeof (bool?) },
+        //    {DbType.StringFixedLength, typeof (char?) },
+        //    {DbType.Guid, typeof (Guid?) },
+        //    {DbType.DateTime, typeof (DateTime?) },
+        //    {DbType.DateTimeOffset, typeof (DateTimeOffset?) }
+        //    //{typeof (System.Data.Linq.Binary), DbType.Binary}
+        //};
+
+        //public static Dictionary<Type, DbType> TypeToDbType = new Dictionary<Type, DbType>()
+        //{
+        //    {typeof (byte), DbType.Byte},
+        //    {typeof (sbyte), DbType.Byte},
+        //    {typeof (short), DbType.Int16},
+        //    {typeof (ushort), DbType.Int16},
+        //    {typeof (int), DbType.Int32},
+        //    {typeof (uint), DbType.Int32},
+        //    {typeof (long), DbType.Int64},
+        //    {typeof (ulong), DbType.Int64},
+        //    {typeof (float), DbType.Single},
+        //    {typeof (double), DbType.Double},
+        //    {typeof (decimal), DbType.Decimal},
+        //    {typeof (bool), DbType.Boolean},
+        //    {typeof (string), DbType.String},
+        //    {typeof (char), DbType.StringFixedLength},
+        //    {typeof (Guid), DbType.Guid},
+        //    {typeof (DateTime), DbType.DateTime},
+        //    {typeof (DateTimeOffset), DbType.DateTimeOffset},
+        //    {typeof (byte[]), DbType.Binary},
+        //    {typeof (byte?), DbType.Byte},
+        //    {typeof (sbyte?), DbType.Byte},
+        //    {typeof (short?), DbType.Int16},
+        //    {typeof (ushort?), DbType.Int16},
+        //    {typeof (int?), DbType.Int32},
+        //    {typeof (uint?), DbType.Int32},
+        //    {typeof (long?), DbType.Int64},
+        //    {typeof (ulong?), DbType.Int64},
+        //    {typeof (float?), DbType.Single},
+        //    {typeof (double?), DbType.Double},
+        //    {typeof (decimal?), DbType.Decimal},
+        //    {typeof (bool?), DbType.Boolean},
+        //    {typeof (char?), DbType.StringFixedLength},
+        //    {typeof (Guid?), DbType.Guid},
+        //    {typeof (DateTime?), DbType.DateTime},
+        //    {typeof (DateTimeOffset?), DbType.DateTimeOffset}
+        //    //{typeof (System.Data.Linq.Binary), DbType.Binary}
+        //};
+
+        //public static readonly Dictionary<Type, SqlDbType> TypeToSqlDbType = new Dictionary<Type, SqlDbType>
+        //    {
+        //      // Mapping C# types to Ado.net SqlDbType enumeration
+        //        {typeof (byte), SqlDbType.TinyInt},
+        //        {typeof (sbyte), SqlDbType.TinyInt},
+        //        {typeof (short), SqlDbType.SmallInt},
+        //        {typeof (ushort), SqlDbType.SmallInt},
+        //        {typeof (int), SqlDbType.Int},
+        //        {typeof (uint), SqlDbType.Int},
+        //        {typeof (long), SqlDbType.BigInt},
+        //        {typeof (ulong), SqlDbType.BigInt},
+        //        {typeof (float), SqlDbType.Float},
+        //        {typeof (double), SqlDbType.Float},
+        //        {typeof (decimal), SqlDbType.Decimal},
+        //        {typeof (bool), SqlDbType.Bit},
+        //        {typeof (string), SqlDbType.VarChar},
+        //        {typeof (char), SqlDbType.Char},
+        //        {typeof (Guid), SqlDbType.UniqueIdentifier},
+        //        {typeof (DateTime), SqlDbType.DateTime},
+        //        {typeof (DateTimeOffset), SqlDbType.DateTimeOffset},
+        //        {typeof (byte[]), SqlDbType.VarBinary},
+        //        {typeof (byte?), SqlDbType.TinyInt},
+        //        {typeof (sbyte?), SqlDbType.TinyInt},
+        //        {typeof (short?), SqlDbType.SmallInt},
+        //        {typeof (ushort?), SqlDbType.SmallInt},
+        //        {typeof (int?), SqlDbType.Int},
+        //        {typeof (uint?), SqlDbType.Int},
+        //        {typeof (long?), SqlDbType.BigInt},
+        //        {typeof (ulong?), SqlDbType.BigInt},
+        //        {typeof (float?), SqlDbType.Float},
+        //        {typeof (double?), SqlDbType.Float},
+        //        {typeof (decimal?), SqlDbType.Decimal},
+        //        {typeof (bool?), SqlDbType.Bit},
+        //        {typeof (char?), SqlDbType.Char},
+        //        {typeof (Guid?), SqlDbType.UniqueIdentifier},
+        //        {typeof (DateTime?), SqlDbType.DateTime},
+        //        {typeof (DateTimeOffset?), SqlDbType.DateTimeOffset},
+        //        //{typeof (System.Data.Linq.Binary), SqlDbType.Binary},
+        //        {typeof (IEnumerable<>), SqlDbType.Structured},
+        //        {typeof (List<>), SqlDbType.Structured},
+        //        {typeof (DataTable), SqlDbType.Structured},
+
+        //    };
+
+        /// <summary>
+        /// Commit Transaction with Dynamic return data
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="Q"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="proc"></param>
+        /// <param name="action"></param>
+        /// <param name="instance"></param>
+        /// <param name="ignoreParas"></param>
+        /// <param name="QueryOption"></param>
+        /// <returns></returns>
+        public virtual async Task<Q> CommitData<T, Q>(T obj, string proc, char action, byte instance = 1, string ignoreParas = "", DataConfiguration.DapperQueryOption queryOption = DataConfiguration.DapperQueryOption.FirstOrDefault)
+        {
+            string fields = string.Empty;
+            var para = GetPropertyObject<T>(obj, action, ignoreParas, ref fields);
+            var data = default(Q);
+
+            try
+            {
+                using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    try
+                    {
+                        using (IDbConnection dapper = DapperConfiguration.Open(instance))
+                        {
+                            switch (queryOption)
+                            {
+                                case DataConfiguration.DapperQueryOption.Single:
+                                    data = await dapper.QuerySingleAsync<Q>(proc, para, commandType: System.Data.CommandType.StoredProcedure);
+                                    break;
+                                case DataConfiguration.DapperQueryOption.SingleOrDefault:
+                                    data = await dapper.QuerySingleOrDefaultAsync<Q>(proc, para, commandType: System.Data.CommandType.StoredProcedure);
+                                    break;
+                                case DataConfiguration.DapperQueryOption.First:
+                                    data = await dapper.QueryFirstAsync<Q>(proc, para, commandType: System.Data.CommandType.StoredProcedure);
+                                    break;
+                                case DataConfiguration.DapperQueryOption.FirstOrDefault:
+                                    data = await dapper.QueryFirstOrDefaultAsync<Q>(proc, para, commandType: System.Data.CommandType.StoredProcedure);
+                                    break;
+                            }
+
+                            scope.Complete();
+                            return data;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.LogError(ex);
+                        return data;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                return data;
+            }
+        }
+
+        public virtual async Task<IEnumerable<Q>> CommitData<T, Q>(T obj, string proc, byte instance = 1, string ignoreParas = "")
+        {
+            string fields = string.Empty;
+            var para = GetPropertyObject<T>(obj, ignoreParas, ref fields);
+            var data = default(IEnumerable<Q>);
+
+            try
+            {
+                using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+
+                    try
+                    {
+                        using (IDbConnection dapper = DapperConfiguration.Open(instance))
+                        {
+
+                            data = await dapper.QueryAsync<Q>(proc, para, commandType: System.Data.CommandType.StoredProcedure);
+
+                            scope.Complete();
+                            return data;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.LogError(ex);
+                        return data;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                return data;
+            }
+        }
+
+        public virtual async Task<IEnumerable<T>> QueryData<T>(Dictionary<string, dynamic> obj, string proc, byte instance = 1)
+        {
+            //Check data
+            if(obj.ContainsKey("AvailableData"))
+            {
+                proc += "_Available";
+                obj.Remove("AvailableData");
+            }
+
+            string fields = string.Empty;
+            var para = (obj == null? null: GetPropertyObject(obj, ref fields));
+            var data = default(IEnumerable<T>);
+
+            try
+            {
+                using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+
+                    try
+                    {
+                        using (IDbConnection dapper = DapperConfiguration.Open(instance))
+                        {
+                        //DapperConfiguration.OpenConnection(instance);
+                            if(para != null)
+                                data = await dapper.QueryAsync<T>(proc, para, commandType: System.Data.CommandType.StoredProcedure);
+                            else
+                                data = await dapper.QueryAsync<T>(proc, commandType: System.Data.CommandType.StoredProcedure);
+
+                        //DapperConfiguration.CloseConnection();
+                            scope.Complete();
+                            return data;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.LogError(ex);
+                        return data;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                return data;
+            }
+        }
+
+        public virtual async Task<Tuple<IEnumerable<T>, int>> QueryDataOut<T>(Dictionary<string, dynamic> obj, string proc, string outParaName, byte instance = 1)
+        {
+            string fields = string.Empty;
+            var para = (obj == null ? null : GetPropertyObject(obj, outParaName, ref fields));
+            var data = default(IEnumerable<T>);
+            bool isOutput = (outParaName != null && outParaName.Length > 0);
+            int outValue = 0;
+
+            try
+            {
+                using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+
+                    try
+                    {
+                        using (IDbConnection dapper = DapperConfiguration.Open(instance))
+                        {
+                            //DapperConfiguration.OpenConnection(instance);
+                            if (para != null)
+                            {
+                                data = await dapper.QueryAsync<T>(proc, para, commandType: System.Data.CommandType.StoredProcedure);
+                                if(isOutput)
+                                {
+                                    outValue = para.Get<int>(outParaName);
+                                }
+                            }
+                            else
+                                data = await dapper.QueryAsync<T>(proc, commandType: System.Data.CommandType.StoredProcedure);
+
+                            //DapperConfiguration.CloseConnection();
+                            scope.Complete();
+                            return Tuple.Create(data, outValue);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.LogError(ex);
+                        return Tuple.Create(data, outValue);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                return Tuple.Create(data, outValue);
+            }
+        }
+
+        //TODO: multiple para output
+        //public virtual async Task<Tuple<IEnumerable<T>, List<ReturnOuputModel>>> QueryData<T>(Dictionary<string, dynamic> obj, List<OutputModel> outputparams, string proc, byte instance = 1)
+        //{
+        //    string fields = string.Empty;
+        //    bool isOutput = (outputparams != null && outputparams.Count > 0);
+
+        //    var para = (obj == null ? null : (!isOutput ? GetPropertyObject(obj, ref fields) : GetPropertyObject(obj, outputparams, ref fields)));
+        //    var data = default(IEnumerable<T>);
+        //    var output = default(List<ReturnOuputModel>);
+        //    try
+        //    {
+        //        using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+        //        {
+
+        //            try
+        //            {
+        //                using (IDbConnection dapper = DapperConfiguration.Open(instance))
+        //                {
+        //                    //DapperConfiguration.OpenConnection(instance);
+        //                    if (para != null)
+        //                    {
+        //                        data = await dapper.QueryAsync<T>(proc, para, commandType: System.Data.CommandType.StoredProcedure);
+        //                        if (isOutput)
+        //                        {
+
+        //                            foreach (var item in outputparams)
+        //                            {
+        //                                var opdata = new ReturnOuputModel();
+        //                                opdata.TName = item.TName;
+        //                                Type type = DbTypeToType[item.TValue];
+        //                                opdata.TValue = para.Get<string>(item.TName);
+
+        //                                output.Add()
+        //                            }
+
+        //                        }
+        //                    }
+        //                    else
+        //                        data = await dapper.QueryAsync<T>(proc, commandType: System.Data.CommandType.StoredProcedure);
+
+        //                    //DapperConfiguration.CloseConnection();
+        //                    scope.Complete();
+        //                    return data;
+        //                }
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                Logger.LogError(ex);
+        //                return Tuple.Create(data, output);
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.LogError(ex);
+        //        return Tuple.Create(data, output);
+        //    }
+        //}
+
+        public virtual async Task<T> QueryData<T>(Dictionary<string, dynamic> obj, string proc, byte instance = 1, DataConfiguration.DapperQueryOption queryOption = DataConfiguration.DapperQueryOption.FirstOrDefault)
+        {
+            string fields = string.Empty;
+            var para = GetPropertyObject(obj, ref fields);
+            var data = default(T);
+
+            try
+            {
+                using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+
+                    try
+                    {
+                        using (IDbConnection dapper = DapperConfiguration.Open(instance))
+                        {
+
+                            switch (queryOption)
+                            {
+                                case DataConfiguration.DapperQueryOption.Single:
+                                    data = await dapper.QuerySingleAsync<T>(proc, para, commandType: System.Data.CommandType.StoredProcedure);
+                                    break;
+                                case DataConfiguration.DapperQueryOption.SingleOrDefault:
+                                    data = await dapper.QuerySingleAsync<T>(proc, para, commandType: System.Data.CommandType.StoredProcedure);
+                                    break;
+                                case DataConfiguration.DapperQueryOption.First:
+                                    data = await dapper.QueryFirstOrDefaultAsync<T>(proc, para, commandType: System.Data.CommandType.StoredProcedure);
+                                    break;
+                                case DataConfiguration.DapperQueryOption.FirstOrDefault:
+                                    data = await dapper.QueryFirstOrDefaultAsync<T>(proc, para, commandType: System.Data.CommandType.StoredProcedure);
+                                    break;
+                            }
+
+                            scope.Complete();
+                            return data;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.LogError(ex);
+                        return data;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                return data;
+            }
+        }
+        #endregion
+
+        #region CommitData-Old
+        public DynamicParameters DataTableToSqlParameterArray(DataTable table, char action, ref string para)
+        {
+            var param = new DynamicParameters();
+            param.Add("@Action", action);
+            para = " @Action";
+
+            foreach (DataRow dtRow in table.Rows)
+            {
+                foreach (DataColumn dtCol in table.Columns)
+                {
+                    string name = "@" + dtCol.Caption;
+                    object value = dtRow[dtCol].GetType() == typeof(string) ? dtRow[dtCol].ToString().GetStringOrDBNull() : dtRow[dtCol];
+                    para = para + (para.Length < 1 ? "" : ",") + name;
+                    param.Add(name, value);
+                }
+            }
+
+            return param;
+        }
+        public SqlParameter[] DataTableToSqlParameterArray(Dictionary<string, object> parameters)
+        {
+            var sqlParameterCollection = new List<SqlParameter>();
+            foreach (var parameter in parameters)
+            {
+                sqlParameterCollection.Add(new SqlParameter(parameter.Key, parameter.Value));
+            }
+            return sqlParameterCollection.ToArray();
+        }
+
+        public DataTable CreateDataTable<T>(IList<T> data, string ignoreParas = "")
+        {
+            PropertyDescriptorCollection properties =
+            TypeDescriptor.GetProperties(typeof(T));
+            DataTable table = new DataTable();
+            foreach (PropertyDescriptor prop in properties)
+                if (!prop.PropertyType.FullName.Contains("ICollection") && !prop.PropertyType.FullName.Contains("PatientPortal"))
+                {
+                    if (ignoreParas.Length < 1 || !ignoreParas.Contains(prop.Name)) //Ignore para
+                        table.Columns.Add(prop.Name, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
+                }
+            foreach (T item in data)
+            {
+                DataRow row = table.NewRow();
+                foreach (PropertyDescriptor prop in properties)
+                {
+                    if (ignoreParas.Length < 1 || !ignoreParas.Contains(prop.Name)) //Ignore para
+                    {
+                        if (prop.PropertyType.FullName == "System.String")
+                            row[prop.Name] = prop.GetValue(item) ?? string.Empty;
+                        else
+                        if (!prop.PropertyType.FullName.Contains("ICollection") && !prop.PropertyType.FullName.Contains("PatientPortal"))
+                            row[prop.Name] = prop.GetValue(item) ?? DBNull.Value;
+                    }
+                }
+                table.Rows.Add(row);
+            }
+            return table;
+        }
+        public virtual bool CommitData<T>(List<T> list, string proc, char action, short instance = 1, string ignoreParas = "")
+        {
+            string fields = string.Empty;
+            DataTable table = CreateDataTable(list, ignoreParas);
+            var para = DataTableToSqlParameterArray(table, action, ref fields);
+
+            try
+            {
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    try
+                    {
+                        DapperConfiguration.OpenConnection(instance);
+
+                        var data = DapperConfiguration.db.Query<bool>(proc, para, commandType: System.Data.CommandType.StoredProcedure).FirstOrDefault();
+
+                        DapperConfiguration.CloseConnection();
+
+                        scope.Complete();
+                        return data;
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.LogError(ex);
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog("Execute Procedure SQL: " + proc + " > " + ex.Message);
+                return false;
+            }
+        }
+
+        public virtual Q DynamicCommitData<T, Q>(List<T> list, string proc, char action, short instance = 1, string ignoreParas = "")
+        {
+            string fields = string.Empty;
+            DataTable table = CreateDataTable(list, ignoreParas);
+            var para = DataTableToSqlParameterArray(table, action, ref fields);
+
+            try
+            {
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    try
+                    {
+                        DapperConfiguration.OpenConnection(instance);
+
+                        var data = DapperConfiguration.db.Query<Q>(proc, para, commandType: System.Data.CommandType.StoredProcedure).FirstOrDefault();
+
+                        DapperConfiguration.CloseConnection();
+
+                        scope.Complete();
+                        return data;
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.LogError(ex);
+                        return default(Q);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                return default(Q);
+            }
+        }
+
+        public virtual T TCommitData<T>(List<T> list, string proc, char action, short instance = 1, string ignoreParas = "")
+        {
+            string fields = string.Empty;
+            DataTable table = CreateDataTable(list, ignoreParas);
+            var para = DataTableToSqlParameterArray(table, action, ref fields);
+
+            try
+            {
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    try
+                    {
+                        DapperConfiguration.OpenConnection(instance);
+
+                        var data = (T)DapperConfiguration.db.Query<T>(proc, para, commandType: System.Data.CommandType.StoredProcedure);
+
+                        DapperConfiguration.CloseConnection();
+
+                        scope.Complete();
+                        return data;
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.LogError(ex);
+                        return default(T);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                return default(T);
+            }
+        }
+        #endregion
+
+    }
+}

@@ -1,0 +1,98 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.Internal.Models.Account.RegisterBindingModel
+@{
+    ViewBag.Title = "Tài khoản";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <link href="~/Libs/fullcalendar-3.3.1/css/fullcalendar.css" rel="stylesheet" />
+    <link href="~/Libs/Chosen/css/chosen.css" rel="stylesheet" />
+    <link href="~/Content/checkbox-radio-build.css" rel="stylesheet" />
+}
+
+<div class="card">
+    @using (Html.IBeginForm("Create", "Account"))
+    {
+        @Html.Raw(TempData["Alert"])
+        <div class="card-title">
+            @Html.ITitle("tài khoản", TitleBar.Create)
+        </div>
+            <div class="card-content">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                @Html.IGroupSubmitButton("Cập nhật thông tin", true, true, null, null, 3, Url.Action("Index"))
+                @Html.IGroupDropDownListFor(m => m.RoleName, new SelectList(ViewBag.Role, "Name", "Name"), false, null, null, 12)
+                @Html.IGroupTextBoxFor(m => m.Name, true, "Tên tài khoản", null, 12)
+                @Html.IGroupTextBoxFor(m => m.Email, true, "Email đăng nhập", new { @type = "email" }, 12)
+                @Html.IGroupTextBoxFor(m => m.Password, true, "Mật khẩu", 4, false, new { @type = "password" })
+                @Html.IGroupTextBoxFor(m => m.ConfirmPassword, true, "Xác nhận mật khẩu", 4, false, new { @type = "password" })
+                @Html.IGroupTextBoxFor(m => m.DoB, true, "Ngày sinh", 2)
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Gender, new { @class = "control-label col-md-12", @style = "text-align: left;" })
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-2">
+                                @Html.IRadioButtonFor(m => m.Gender, "Gender_Male", "Nam", 1)
+                            </div>
+                            <div class="col-md-2">
+                                @Html.IRadioButtonFor(m => m.Gender, "Gender_Female", "Nữ", 0)
+                            </div>
+                            <div class="col-md-2">
+                                @Html.IRadioButtonFor(m => m.Gender, "Gender_Other", "Khác", 2)
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+                @Html.IGroupCheckBoxFor(m => m.IsDoctor, false, "IsDoctor", 12, "Chọn để xác nhận")
+                <div class="form-group">
+                    <div class="col-md-4 col-md-offset-4">
+                        <div class="text-center">
+                            <img src="~/Assets/Avatar/user_default.jpg" class="avatar img-circle" alt="Hình đại diện" style="width:100%; height:100%; max-width: 200px;">
+                            <div style="margin-top:10px;">
+                                @Html.IFileUpload()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    }
+   <!-- /form -->
+</div> 
+
+@section scripts{
+    <script src="~/Libs/fullcalendar-3.3.1/lib/jquery-ui.min.js"></script>
+    <script src="~/Libs/fullcalendar-3.3.1/js/fullcalendar.js"></script>
+    <script src="~/Libs/fullcalendar-3.3.1/js/locale-all.js"></script>
+    <script src="~/Libs/Chosen/js/chosen.jquery.min.js"></script>
+    <script type="text/javascript">
+        var config = {
+          '.chosen-select'           : {}
+        }
+        for (var selector in config) {
+          $(selector).chosen(config[selector]);
+        }
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var d = new Date();
+
+            var month = d.getMonth() + 1;
+            var day = d.getDate();
+
+            var output = (day < 10 ? '0' : '') + day + '/'
+                + (month < 10 ? '0' : '') + month + '/' +
+                +d.getFullYear();
+
+            $("#DoB").datetimepicker({
+                format: 'DD/MM/YYYY',
+                locale: 'vi',
+                maxDate: Date.now(),
+            });
+
+            $("#DoB").val(output);
+        });
+    </script>
+}

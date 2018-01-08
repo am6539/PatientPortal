@@ -1,0 +1,42 @@
+﻿using Dapper;
+using PatientPortal.DataAccess.Dapper;
+using PatientPortal.DataAccess.Repo.SPA;
+using PatientPortal.Domain.Models.SPA;
+using PatientPortal.Domain.Utilities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Transactions;
+
+namespace PatientPortal.DataAccess.SPA
+{
+    public class DepartmentImpl: IDepartment
+    {
+        public async Task<List<Department>> GetDepartment(int id)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    DapperConfiguration.OpenConnection(1);
+
+                    var data = await DapperConfiguration.db.QueryAsync<Department>("usp_spa_Department",
+                        new { Id = id },
+                        commandType: System.Data.CommandType.StoredProcedure);
+
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data.ToList();
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Department get data: " + ex.Message);
+                    return null;
+                }
+            }
+        }
+    }
+}

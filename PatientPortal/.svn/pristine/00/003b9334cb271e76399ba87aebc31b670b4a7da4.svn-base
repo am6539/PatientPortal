@@ -1,0 +1,46 @@
+﻿CREATE PROC usp_DefaultData_Insert
+AS
+BEGIN
+	SET NOCOUNT ON
+		SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+
+		BEGIN TRY
+			---Insert Category
+			IF(NOT EXISTS(SELECT TOP 1 1 FROM [dbo].[Category]))
+				INSERT INTO Category(Name, Handler, Sort, ParentId) VALUES(N'Tin sức khỏe', N'', 1, 0)
+			
+			---Insert workflow
+			IF(NOT EXISTS(SELECT TOP 1 1 FROM [dbo].Workflow))
+				INSERT INTO Workflow(Name) VALUES(N'workflow 1')
+
+			---Insert workfow state
+			IF(NOT EXISTS(SELECT COUNT(*) FROM WorkflowState))
+			BEGIN
+				DECLARE @workflowId TINYINT;
+				SET @workflowId = (SELECT MAX(Id) FROM Workflow)
+				INSERT INTO WorkflowState(Name, WorkflowId, IsActive) VALUES(N'work flow state 1', @workflowId, 1)
+			END
+
+			---Insert languge
+			IF(NOT EXISTS(SELECT COUNT(*) FROM [dbo].[Language]))
+				INSERT INTO [dbo].[Language] VALUES('vi',N'Việt Nam')
+
+		END TRY
+		BEGIN CATCH
+			IF @@TRANCOUNT <> 0 
+			BEGIN
+				RETURN NULL
+			END
+	END CATCH
+END
+
+GO
+
+
+CREATE PROC [dbo].[usp_DefaultData_Exec]
+AS
+BEGIN
+	EXEC usp_DefaultData_Insert
+END
+
+GO

@@ -1,0 +1,39 @@
+﻿@model List<PatientPortal.PatientServices.Models.UserNotificationViewModel>
+@{
+    var countNoti = 0;
+    if (Model != null)
+    {
+        countNoti = Model.FindAll(m => m.IsRead == false).Count;
+    }
+}
+<a href="#0" id="notificationLink"  onclick="updateNoti()">
+    <span class="fa fa-bell"></span>
+    @if (countNoti > 0)
+    {
+        <span class="badge bg-orange" id="numberNoti">@countNoti</span>
+    }
+</a>
+
+@if (Model != null)
+{
+<div id="notificationContainer">
+    <div id="notificationTitle">Thông báo</div>
+
+    <div id="notificationsBody" class="notifications">
+        <ul>
+            @foreach (var item in Model)
+            {
+                <li>
+                    <div class="noti-item">
+                        <a>
+                            <span id="@item.Id" hidden>@item.IsRead</span>@item.Detail
+                        </a>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+    <div id="notificationFooter">@Html.ActionLink("Xem tất cả", "Index", "UserNotification")</div>
+</div>
+
+}

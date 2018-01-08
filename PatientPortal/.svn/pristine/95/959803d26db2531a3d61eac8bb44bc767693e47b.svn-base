@@ -1,0 +1,190 @@
+﻿using PatientPortal.Domain.LogManager;
+using PatientPortal.Internal.Common;
+using PatientPortal.Internal.Models.Permission;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using PatientPortal.Utility.Application;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.Internal.Controllers
+{
+    public class PermissionController : Controller
+    {
+        private static string controllerName = string.Empty;
+
+        #region GetList
+        // GET: Permission
+        public async Task<ActionResult> Index()
+        {
+            var results = new PermissionModel();
+            try
+            {
+                //Call API Provider
+                controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                var list = await APIProvider.Get<List<PermissionViewModel>>(controllerName, "GetAll", APIConstant.API_Resource_Authencation);
+
+                var permission = new PermissionViewModel();
+
+                results.lstPermissionViewModel = list;
+                results.PermissionViewModel = permission;
+
+                TempData["Data"] = list;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw ex;
+            }
+            return View(results);
+        }
+        #endregion
+
+        #region Create
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Create(PermissionViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //Call API Provider
+                string strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_INSERT);
+                var result = await APIProvider.DynamicTransaction<PermissionViewModel, bool>(model, strUrl);
+
+                if (result)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var permission = new PermissionModel();
+                if (TempData["Data"] != null)
+                {
+                    permission.lstPermissionViewModel = (List<PermissionViewModel>)TempData["Data"];
+                }
+                else
+                {
+                    permission.lstPermissionViewModel = await APIProvider.Get<List<PermissionViewModel>>(controllerName);
+                }
+
+                permission.PermissionViewModel = model;
+
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                return View("Index", permission);
+            }
+        }
+        #endregion
+
+        #region Edit
+
+        [HttpGet]
+        public async Task<ActionResult> Edit(byte id)
+        {
+            var model = new PermissionViewModel();
+            try
+            {
+                //Call API Provider
+                string strUrl = controllerName + APIProvider.APIGenerator(this, this.RouteData.Values["action"].ToString(), id);
+                model = await APIProvider.Get<PermissionViewModel>(strUrl);
+                if (model != null)
+                    return View(model);
+                else
+                    return View(model);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw ex;
+            }
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Edit(PermissionViewModel model, HttpPostedFileBase fileUpload)
+        {
+            if (ModelState.IsValid)
+            {
+                //Call API Provider 
+                string strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_UPDATE);
+                var result = await APIProvider.DynamicTransaction<PermissionViewModel, bool>(model, strUrl);
+
+                if (result)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.FAIL));
+                return View();
+            }
+        }
+        #endregion
+
+        #region Delete
+        public async Task<ActionResult> Delete(PermissionViewModel model)
+        {
+            return PartialView("_Delete", model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Delete(string id)
+        {
+            var model = new PermissionViewModel();
+            model.Id = id;
+
+            //Call API Provider - Get data
+            string apiUrl = APIProvider.APIGenerator(controllerName, "CheckIsUsed", new List<string> { "id" }, false, model.Id);
+            var checkIsused = await APIProvider.Get<bool>(apiUrl);
+
+            if (!checkIsused)
+            {
+                try
+                {
+                    //Call API Provider - Transaction
+                    apiUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_DELETE);
+                    var result = await APIProvider.DynamicTransaction<PermissionViewModel, bool>(model, apiUrl);
+
+                    if (result)
+                    {
+                        TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, "Xóa thành công");
+                    }
+                    else
+                    {
+                        TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, "Xóa không thành công");
+                    }
+
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogError(ex);
+                    return RedirectToAction("Index");
+                }
+            }
+            else
+            {
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ISUSED, "Ngôn ngữ đã được sử dụng.");
+                return RedirectToAction("Index");
+            }
+
+        }
+
+        #endregion
+    }
+}

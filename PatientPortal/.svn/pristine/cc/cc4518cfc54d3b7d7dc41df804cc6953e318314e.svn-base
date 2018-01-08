@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="c8871cf1-24d1-426f-a7cc-6d34efe2161b" ChangeDateTime="09/12/2017 10:00:32">
+    <Property Name="ElementName" Value="[dbo].[PatientCertificate].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PatientCertificate]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PatientId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c13ab958-3766-4aef-9148-6dce7ae3a70e" ChangeDateTime="09/12/2017 17:39:05">
+    <Property Name="ElementName" Value="[dbo].[Vital].[BP]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Vital]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="BP_Systolic" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="afe4016e-eb8f-4c24-8293-cf2b7a395094" ChangeDateTime="09/12/2017 17:39:39">
+    <Property Name="ElementName" Value="[dbo].[Vital].[HeartRate]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Vital]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Pulse" />
+  </Operation>
+</Operations>

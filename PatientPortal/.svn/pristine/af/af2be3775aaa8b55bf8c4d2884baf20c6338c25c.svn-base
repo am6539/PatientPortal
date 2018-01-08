@@ -1,0 +1,20 @@
+﻿CREATE PROCEDURE [dbo].[usp_Workflow]
+	@Id TINYINT
+AS BEGIN
+	BEGIN TRY
+	IF(@Id > 0)
+	BEGIN
+		SELECT * FROM [dbo].[Workflow] WHERE [Id] = @ID
+	END
+	ELSE
+	BEGIN
+		SELECT * FROM [dbo].[Workflow]
+	END
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0
+			BEGIN
+				RETURN NULL
+			END
+	END CATCH
+END

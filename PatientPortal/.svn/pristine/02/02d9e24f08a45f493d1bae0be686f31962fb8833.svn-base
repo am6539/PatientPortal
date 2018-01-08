@@ -1,0 +1,11 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+}
+
+<div class="jumbotron">
+    <h1>PATIENT PORTAL</h1>
+    <p class="text-center">Internal Dashboard... initialing....</p>
+</div>
+
+<div class="row">
+</div>

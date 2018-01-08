@@ -1,0 +1,36 @@
+﻿angular.module('spaApp')
+    .controller('GalleryController', ['$scope', 'Params', 'GalleryService', '$route', 'DepartmentService', 'LoadJsService',
+        function DepartmentController($scope, Params, GalleryService, $route, DepartmentService, LoadJsService) {
+            //LoadJsService.calJquery();
+            //LoadJsService.calJqueryMigrate();
+            //LoadJsService.calJqueryBa();
+            //LoadJsService.calJqueryUI();
+            //LoadJsService.calJqueryEA();
+            //LoadJsService.calJqueryCaRoul();
+            //LoadJsService.calJquerySliderControl();
+            //LoadJsService.calJquerySlider();
+            //LoadJsService.calJqueryAccordion();
+            //LoadJsService.calJqueryTimeago();
+            //LoadJsService.calJqueryHint();
+            //LoadJsService.calJqueryIO();
+            LoadJsService.calJqueryIOMas();
+            //LoadJsService.calJqueryFanc();
+            //LoadJsService.calJqueryQtip();
+            //LoadJsService.calJqueryBlockUI();
+            LoadJsService.callJqueryMain();
+
+            //get all department
+            DepartmentService.query(function (data) {
+                $scope.departments = data;
+            });
+
+            //get all gallery
+            $scope.getGalleries = function (departmentId) {
+                GalleryService.query({ departmentId: departmentId }, function (data) {
+                    $scope.galleries = data;
+                });
+            }
+
+            $scope.getGalleries(0);
+        }
+    ]);

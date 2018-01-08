@@ -1,0 +1,16 @@
+﻿using ProtoBuf;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.API.CMS.ViewModels
+{
+    [ProtoContract]
+    public class WorkflowNavigationViewModel
+    {
+        public short WorkflowStateId { get; set; }
+        public short NextWorkflowStateId { get; set; }
+        public bool IsUsed { get; set; }
+    }
+}

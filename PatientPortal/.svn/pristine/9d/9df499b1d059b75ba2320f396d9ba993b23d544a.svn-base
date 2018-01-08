@@ -1,0 +1,58 @@
+﻿using AutoMapper;
+using PatientPortal.API.SPA.ViewModels;
+using PatientPortal.Domain.Caching.Redis.StackExchange;
+using PatientPortal.IRepository.SPA;
+using PatientPortal.Utility.Files;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Diagnostics;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Http;
+
+namespace PatientPortal.API.SPA.Controllers
+{
+    public class SliderController : ApiController
+    {
+        private readonly ISliderRepo _iSliderRepo;
+        private RedisCacheService redisCache = new RedisCacheService();
+
+        public SliderController(ISliderRepo iSliderRepo)
+        {
+            this._iSliderRepo = iSliderRepo;
+        }
+
+        [HttpGet]
+        public async Task<HttpResponseMessage> Get()
+        {
+            try
+            {
+                var results = await redisCache.GetListAsync<SliderViewModel>();
+                if(results.ToList().Count == 0)
+                {
+                    var data = await _iSliderRepo.GetAll();
+
+
+                    results = data.Select(s => new SliderViewModel() {
+                        Id = s.Id,
+                        Title = s.Title,
+                        Description = s.Description,
+                        Image = LayoutGuide.SPA_ResourcePath(Provider.Common.APIEnums.Application.CMS, s.Image)
+                    }).AsEnumerable();
+
+                    //
+                    await redisCache.AddListAsync(results);
+                }
+                
+                return Request.CreateResponse(HttpStatusCode.OK, results);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+    }
+}

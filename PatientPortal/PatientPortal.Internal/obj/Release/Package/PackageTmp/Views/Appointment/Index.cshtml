@@ -1,0 +1,181 @@
+﻿@using PatientPortal.Provider.Helpers;
+@using System.Globalization
+@model List<PatientPortal.Internal.Models.AppointmentLogViewModel>
+@{
+    ViewBag.Title = "Quản lý Đăng ký KCB";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <link href="~/Libs/DataTable/jquery.dataTables.css" rel="stylesheet" />
+    <link href="~/Content/checkbox-radio-build.css" rel="stylesheet" />
+    <style>
+        .checkbox-custom{margin-top:3px; text-align:center;}
+    </style>
+}
+
+<div class="card">
+    @Html.Raw(TempData["Alert"])
+    <div class="card-title">@Html.ITitle("Danh sách đăng ký KCB trực tuyến","file-text-o")</div>
+    <div class="card-content">
+        @Html.IButton(Url.Action("Book", "Appointment", new { @status = 2 }), ActionButton.Submit, "Xác nhận đặt hẹn", true, null, true)
+        @Html.IButton(Url.Action("Book", "Appointment", new { @status = 3 }), ActionButton.Cancel, "Hủy đặt hẹn", true, new { @class = "btn-danger" }, true)
+        <table id="table_id" class="table table-responsive table-bordered">
+            <thead>
+            <tr>
+                <th style="text-align: center;">
+                </th>
+                <th>Ngày hẹn</th>
+                <th>Thời gian</th>
+                <th>Bệnh nhân</th>
+                <th>Số điện thoại</th>
+                <th>Bác sĩ</th>
+                <th>Tình trạng</th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (Model != null)
+            {
+                var status = false;
+                for (int i = 0; i < Model.Count(); i++)
+                {
+                    var idx = Model[i].Id;
+                    if (Model[i].Status == 2 || Model[i].Status == 3)
+                    {
+                        status = true;
+                    }
+                    else
+                    {
+                        status = false;
+                    }
+                    var result = TimeSpan.FromMinutes(Model[i].Time);
+                    var fromTimeString = result.ToString("hh':'mm");
+                    <tr role="row">
+                        
+                        @{
+                            if (Model[i].Status == 2 || Model[i].Status == 3)
+                            {
+                                <td>
+                                    @Html.ICheckBoxFor(m => status, idx.ToString(), "", new { @disabled = true, @style= "margin-top:5px;" })
+                                    @*<div class="checkbox checkbox-info" style="text-align: center;">
+                                        @Html.CheckBoxFor(m => status, new {@id = idx, @class = "styled", @disabled = true})<label for=@idx></label>
+                                    </div>*@
+                                </td>
+                                <td>@Model[i].Date.ToString("dd/M/yyyy", CultureInfo.InvariantCulture)</td>
+                                <td style="padding: 8px 15px;">@fromTimeString</td>
+                            }
+                            else
+                            {
+                                <td style="padding-top:5px;">
+                                    @Html.ICheckBoxFor(m => status, idx.ToString(), "", new { @onclick = "onGetCheck('" + idx + "')", @style = "margin-top:5px;" })
+                                </td>
+                                <td>@Model[i].Date.ToString("dd/M/yyyy", CultureInfo.InvariantCulture)</td>
+                                <td  style="padding-top:5px;">@Html.IGridButton(Url.Action("Details","Appointment", new { id = Model[i].Id }), ActionButton.Detail, fromTimeString, null, true)</td>
+                            }
+                        }
+                        
+                        <td>@Model[i].PatientName</td>
+                        <td>@Model[i].PatientPhone</td>
+                        <td>@Model[i].PhysicianName</td>
+                        @if (Model[i].Status == 1)
+                        {
+                            <td style="text-align: center">
+                                <small class="badge bg-green">Mới đặt hẹn</small>
+                            </td>
+                        }
+                        @if (Model[i].Status == 2)
+                        {
+                            <td style="text-align: center">
+                                <small class="badge bg-blue">Đã xác nhận đặt hẹn</small>
+                            </td>
+                        }
+                        @if (Model[i].Status == 3)
+                        {
+                            <td style="text-align: center">
+                                <small class="badge bg-orange">Hủy đặt hẹn</small>
+                            </td>
+                        }
+                    </tr>
+                }
+            }
+            </tbody>
+        </table>
+        @Html.IButton(Url.Action("Book", "Appointment", new { @status = 2 }), ActionButton.Submit, "Xác nhận đặt hẹn", true, null, true)
+        @Html.IButton(Url.Action("Book", "Appointment", new { @status = 3 }), ActionButton.Cancel, "Hủy đặt hẹn", true, new { @class = "btn-danger" }, true)
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Libs/DataTable/jquery.dataTables.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //Setting table
+            $('#table_id').DataTable({
+                "order": [[1, "desc"]],
+                "language": {
+                    url: '/Libs/Datatable/Vietnamese.json'
+                }
+            });
+        });
+        var config = {
+            '.chosen-select': {}
+        }
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
+        $("#Start").datetimepicker({
+            format: 'DD/MM/YYYY',
+            locale: 'vi',
+            //minDate: Date.now(),
+        });
+
+        $("#End").datetimepicker({
+            format: 'DD/MM/YYYY',
+            locale: 'vi',
+            //minDate: Date.now(),
+        });
+
+        var arrayId = [];
+        function onGetCheck(value) {
+            var chk = $('#' + value + ':checkbox:checked').length > 0;
+            if (chk == true) {
+                arrayId.push(value);
+            } else {
+                arrayId.splice(arrayId.indexOf(value), 1);
+            }
+        }
+
+        function ConfirmBook() {
+         //   if (arrayId.length > 0) {
+                $.ajax({
+                    async: true,
+                    type: "GET",
+                    datatype: "json",
+                    url: "/Appointment/ApprovedBook",
+                    data: {
+                        ids: JSON.stringify(arrayId),
+                        status: $("#BookingStatus").val()
+                    },
+                    contentType: "application/json; charset=utf-8"
+                    //success: function(response) {
+                    //    if (response != null) {
+                    //        arrayId = null;
+                    //        $('#modal-container').modal('hide');
+                    //    }
+                    //},
+                    //failure: function(response) {
+                    //   // alert(response.responseText);
+                    //},
+                    //error: function(response) {
+                    //  //  alert(response.responseText);
+                    //}
+                });
+                $('#modal-container').modal('hide');
+                location.reload();
+          //  } else {
+               // alert("Vui lòng chọn yêu cầu để xác nhận!");
+          //  }
+        }
+    </script>
+}
+

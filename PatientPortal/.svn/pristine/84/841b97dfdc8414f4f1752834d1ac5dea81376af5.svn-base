@@ -1,0 +1,40 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.Provider.Common
+{
+    public class APIConstant
+    {
+        //API Resource
+        public const string API_Resource_CMS = "cms";
+        public const string API_Resource_CORE = "core";
+        public const string API_Resource_Authorize = "authorize";
+        public const string API_Resource_SPA = "spa";
+
+        //Authorization
+        public const string API_Authorize = "Authorize";
+
+        //API Action
+        public const string ACTION_INSERT = "I";
+        public const string ACTION_UPDATE = "U";
+        public const string ACTION_DELETE = "D";
+        public const string ACTION_SEND = "S";
+        public const string ACTION_ACCESS = "A";
+        public const string ACTION_GET = "G";
+
+        //Cookies
+        public const string COOKIE_MODULE = "ModuleShared";
+        public const string MODULE_CMS = "1";
+        public const string MODULE_PATIENT = "2";
+        public const string MODULE_INTERNAL = "3";
+
+        public const string XAuthorizeHeaderARS = "x-authvalue-ARS";
+        public const string DefaultRoleInitial = "Admin";
+        public const string ContentType = "application/x-protobuf";
+        public const string SerializeContentType = "application/json";
+    }
+
+    
+}

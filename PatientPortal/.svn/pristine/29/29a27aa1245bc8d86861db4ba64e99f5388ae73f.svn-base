@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.CMS.Models
+{
+    public class LanguagesModel
+    {
+        public LanguageViewModel LanguageViewModel { get; set; }
+        public List<LanguageViewModel> lstLanguageViewModel { get; set; }
+    }
+}

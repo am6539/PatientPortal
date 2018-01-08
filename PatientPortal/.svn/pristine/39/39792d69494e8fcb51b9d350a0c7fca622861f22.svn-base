@@ -1,0 +1,669 @@
+﻿<!DOCTYPE html>
+<html ng-app="spaApp">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<base href="/">
+
+	<!--css-->
+	<!--<link href="assets/libs/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />-->
+	<link href="assets/libs/bower_components/font-awesome-4.6.3/css/font-awesome.css" rel="stylesheet" />
+
+	<link href="assets/css/reset.css" rel="stylesheet" />
+	<link href="assets/css/superfish.css" rel="stylesheet" />
+	<link href="assets/css/fancybox/jquery.fancybox.css" rel="stylesheet" />
+	<link href="assets/css/jquery.qtip.css" rel="stylesheet" />
+	<link href="assets/css/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
+	<link href="assets/css/style.css" rel="stylesheet" />
+	<link href="assets/css/responsive.css" rel="stylesheet" />
+	<link href="assets/css/animations.css" rel="stylesheet" />
+	<link rel="shortcut icon" href="assets/img/favicon.ico" />
+    <link href="assets/layout_picker/layout_picker.css" rel="stylesheet" />
+
+    <link href="assets/css/modal.min.css" rel="stylesheet" /> 
+	<!--end css-->
+
+	<title>Bệnh viện đa khoa Bình Định</title>
+	<meta charset="utf-8" />
+
+	<!--Theme script-->
+	<script src="assets/js/jquery-1.12.4.min.js"></script>
+	<script src="assets/js/jquery-migrate-1.4.1.min.js"></script>
+    <script src="assets/js/jquery.ba-bbq.js"></script>
+	<!--<script src="assets/js/jquery.ba-bbq.min.js"></script>-->
+	<script src="assets/js/jquery-ui-1.9.2.custom.min.js"></script>
+	<script src="assets/js/jquery.easing.1.3.js"></script>
+	<script src="assets/js/jquery.carouFredSel-5.6.4-packed.js"></script>
+	<script src="assets/js/jquery.sliderControl.js"></script>
+	<script src="assets/js/jquery.timeago.js"></script>
+	<script src="assets/js/jquery.hint.js"></script>
+	<script src="assets/js/jquery.isotope.min.js"></script>
+	<script src="assets/js/jquery.isotope.masonry.js"></script>
+	<script src="assets/js/jquery.fancybox-1.3.4.pack.js"></script>
+	<script src="assets/js/jquery.qtip.min.js"></script>
+	<script src="assets/js/jquery.blockUI.js"></script>
+	<script src="assets/js/main.js"></script>
+    <script src="assets/layout_picker/layout_picker.js"></script>
+	<!--end theme script-->
+
+</head>
+<body ng-controller="MainController">
+	<div id="cssawards"><a target="_blank" href="/">MediCenter</a></div>
+	<div class="site_container">
+		<div class="header_container">
+			<div class="header clearfix">
+				<div class="header_left">
+					<a href="index.html" title="MEDICENTER">
+						<img src="assets/img/header_logo.png" alt="logo" />
+						<span class="logo">medicenter</span>
+					</a>
+				</div>
+				<ul class="sf-menu header_right">
+					<li class="submenu selected">
+						<a href="#" title="GIỚI THIỆU">
+							GIỚI THIỆU
+						</a>
+						<ul>
+							<li class='selected'>
+								<a href="#" title="Vì Sao Chọn Chúng Tôi">
+                                    Vì Sao Chọn Chúng Tôi
+								</a>
+							</li>
+							<li>
+								<a href="#" title="Tầm Nhìn Và Sứ Mệnh">
+                                    Tầm Nhìn Và Sứ Mệnh
+								</a>
+							</li>
+							<li>
+								<a href="#" title="Cơ Cấu Tổ Chức">
+                                    Cơ Cấu Tổ Chức
+								</a>
+							</li>
+							<li>
+								<a href="#" title="Chuyên Khoa Nổi Tiếng">
+                                    Chuyên Khoa Nổi Tiếng
+								</a>
+							</li>
+							<li>
+								<a href="#" title="Sơ Đồ Bệnh Viện">
+                                    Sơ Đồ Bệnh Viện
+								</a>
+							</li>
+							<li>
+								<a href="#" title="Thành Tích Giải Thưởng">
+                                    Thành Tích Giải Thưởng
+								</a>
+							</li>
+                            <li>
+                                <a href="#" title="Thư Viện Media Hình Ảnh">
+                                    Thư Viện Media Hình Ảnh
+                                </a>
+                            </li>
+						</ul>
+					</li>
+					<li class="submenu">
+						<a href="#" title="TIN TỨC">
+                            TIN TỨC
+						</a>
+						<ul>
+							<li>
+								<a href="/posts" title="Blog with sidebar">
+                                    Tin tức
+								</a>
+							</li>
+							<li>
+								<a href="#" title="Blog 2 columns">
+									Blog 2 columns
+								</a>
+								<ul>
+									<li>
+										<a href="blog_2_columns.html" title="Right Sidebar">
+											Right sidebar
+										</a>
+									</li>
+									<li>
+										<a href="blog_2_columns_left_sidebar.html" title="Left Sidebar">
+											Left sidebar
+										</a>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<a href="?page=post" title="SINGLE POST">
+									Single post
+								</a>
+							</li>
+						</ul>
+					</li>
+					<!--<li class="submenu">
+						<a href="#" title="PAGES">
+							PAGES
+						</a>
+						<ul>
+							<li>
+								<a href="/about" title="About">
+									About
+								</a>
+							</li>
+							<li>
+								<a href="doctors.html" title="Our Doctors">
+									Our Doctors
+								</a>
+							</li>
+							<li>
+								<a href="medical_care.html" title="Medical Care">
+									Medical Care
+								</a>
+							</li>
+							<li>
+								<a href="#" title="Shortcodes">
+									Shortcodes
+								</a>
+								<ul class="wide">
+									<li>
+										<a href="?page=shortcodes#features-style" title="Features Styles">
+											Features Styles
+										</a>
+									</li>
+									<li>
+										<a href="?page=shortcodes#carousel" title="Carousel">
+											Carousel
+										</a>
+									</li>
+									<li>
+										<a href="?page=shortcodes#testimonials-announcement" title="Testimonials &amp; Announcement">
+											Testimonials &amp; Announcement
+										</a>
+									</li>
+									<li>
+										<a href="?page=shortcodes#accordiontab-notifications" title="Accordion &amp; Notifications">
+											Accordion &amp; Notifications
+										</a>
+									</li>
+									<li>
+										<a href="?page=shortcodes#tabs-quote" title="Tabs &amp; Quote">
+											Tabs &amp; Quote
+										</a>
+									</li>
+									<li>
+										<a href="?page=shortcodes#lists" title="Lists">
+											Lists
+										</a>
+									</li>
+									<li>
+										<a href="?page=shortcodes#icons" title="Icons">
+											Icons
+										</a>
+									</li>
+									<li>
+										<a href="?page=shortcodes#buttons-headings" title="Buttons &amp; Headings">
+											Buttons &amp; Headings
+										</a>
+									</li>
+									<li>
+										<a href="?page=shortcodes#columns" title="Columns &amp; Code">
+											Columns &amp; Code
+										</a>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<a href="?page=404" title="404 Not Found">
+									404 Not Found
+								</a>
+							</li>
+						</ul>
+					</li>-->
+					<li class="submenu wide">
+						<a href="#" title="CHUYÊN KHOA">
+							CHUYÊN KHOA
+						</a>
+						<ul>
+							<li>
+								<a href="departments.html" title="Primary Health Care">
+									Primary Health Care
+								</a>
+							</li>
+							<li>
+								<a href="departments.html#laryngological-clinic" title="Laryngological Clinic">
+									Laryngological Clinic
+								</a>
+							</li>
+							<li>
+								<a href="departments.html#pediatric-clinic" title="Pediatric Clinic">
+									Pediatric Clinic
+								</a>
+							</li>
+							<li>
+								<a href="departments.html#ophthalmology-clinic" title="Ophthalmology Clinic">
+									Ophthalmology Clinic
+								</a>
+							</li>
+							<li>
+								<a href="departments.html#outpatient-surgery" title="Outpatient Surgery">
+									Outpatient Surgery
+								</a>
+							</li>
+							<li>
+								<a href="departments.html#dental-clinic" title="Dental Clinic">
+									Dental Clinic
+								</a>
+							</li>
+							<li>
+								<a href="departments.html#gynaecological-clinic" title="Gynaecological Clinic">
+									Gynaecological Clinic
+								</a>
+							</li>
+							<li>
+								<a href="departments.html#outpatient-rehabilitation" title="Outpatient Rehabilitation">
+									Outpatient Rehabilitation
+								</a>
+							</li>
+							<li>
+								<a href="departments.html#cardiac-clinic" title="Cardiac Clinic">
+									Cardiac Clinic
+								</a>
+							</li>
+						</ul>
+					</li>
+					<!--<li class="submenu wide">
+						<a href="#" title="Timetable">
+							TIMETABLE
+						</a>
+						<ul class="timetable_submenu">
+							<li>
+								<a href="timetable.html" title="All Departments">
+									All Departments
+								</a>
+							</li>
+							<li>
+								<a href="timetable.html#cardiac-clinic" title="Cardiac Clinic">
+									Cardiac Clinic
+								</a>
+							</li>
+							<li>
+								<a href="timetable.html#primary-health-care" title="Primary Health Care">
+									Primary Health Care
+								</a>
+							</li>
+							<li>
+								<a href="timetable.html#laryngological-clinic" title="Laryngological Clinic">
+									Laryngological Clinic
+								</a>
+							</li>
+							<li>
+								<a href="timetable.html#pediatric-clinic" title="Pediatric Clinic">
+									Pediatric Clinic
+								</a>
+							</li>
+							<li>
+								<a href="timetable.html#ophthalmology-clinic" title="Ophthalmology Clinic">
+									Ophthalmology Clinic
+								</a>
+							</li>
+							<li>
+								<a href="timetable.html#outpatient-surgery" title="Outpatient Surgery">
+									Outpatient Surgery
+								</a>
+							</li>
+							<li>
+								<a href="timetable.html#dental-clinic" title="Dental Clinic">
+									Dental Clinic
+								</a>
+							</li>
+							<li>
+								<a href="timetable.html#gynaecological-clinic" title="Gynaecological Clinic">
+									Gynaecological Clinic
+								</a>
+							</li>
+							<li>
+								<a href="timetable.html#outpatient-rehabilitation" title="Outpatient Rehabilitation">
+									Outpatient Rehabilitation
+								</a>
+							</li>
+						</ul>
+					</li>-->
+					<li class="submenu">
+						<a href="#" title="Gallery">
+							GALLERY
+						</a>
+						<ul style="margin-left: -100px;">
+							<li>
+								<a href="gallery_2_columns.html" title="2 Columns">
+									2 Columns
+								</a>
+							</li>
+							<li>
+								<a href="gallery_3_columns.html" title="3 Columns">
+									3 Columns
+								</a>
+							</li>
+							<li>
+								<a href="gallery_4_columns.html" title="4 Columns">
+									4 Columns
+								</a>
+							</li>
+							<li>
+								<a href="gallery_with_sidebar.html" title="With Sidebar">
+									With Sidebar
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="contact.html" title="LIÊN HỆ">
+                            LIÊN HỆ
+						</a>
+					</li>
+                    <li>
+                        <a href="/appointment" title="ĐẶT HẸN KHÁM BỆNH">
+                            ĐẶT HẸN KHÁM BỆNH
+                        </a>
+                    </li>
+				</ul>
+				<div class="mobile_menu">
+					<select>
+						<option value="">GIỚI THIỆU</option>
+						<option value="#" selected='selected'>- Vì Sao Chọn Chúng Tôi</option>
+						<option value="#">- Tầm Nhìn Và Sứ Mệnh</option>
+						<option value="#">- Cơ Cấu Tổ Chức</option>
+						<option value="#">- Chuyên Khoa Nổi Tiếng</option>
+						<option value="#">- Sơ Đồ Bệnh Viện</option>
+						<option value="#">- Thành Tích Giải Thưởng</option>
+                        <option value="#">- Thư Viện Media Hình Ảnh</option>
+						<option value="blog.html">BLOG</option>
+						<option value="blog.html">- Blog with sidebar</option>
+						<option value="?page=blog_2_columns">- Blog 2 columns</option>
+						<option value="blog_2_columns.html">-- Right sidebar</option>
+						<option value="blog_2_columns_left_sidebar.html">-- Left sidebar</option>
+						<option value="?page=post">- Single post</option>
+						<option value="?page=about">PAGES</option>
+						<option value="about.html">- About</option>
+						<option value="?page=doctors">- Our Doctors</option>
+						<option value="?page=medical_care">- Medical Care</option>
+						<option value="?page=shortcodes">- Shortcodes</option>
+						<option value="?page=shortcodes#features-style">-- Features Style</option>
+						<option value="?page=shortcodes#carousel">-- Carousel</option>
+						<option value="?page=shortcodes#testimonials-announcement">-- Testimonials &amp; Announcement</option>
+						<option value="?page=shortcodes#accordiontab-notifications">-- Accordion &amp; Notifications</option>
+						<option value="?page=shortcodes#tabs-quote">-- Tabs &amp; Quote</option>
+						<option value="?page=shortcodes#lists">-- Lists</option>
+						<option value="?page=shortcodes#icons">-- Icons</option>
+						<option value="?page=shortcodes#buttons-headings">-- Buttons &amp; Headings</option>
+						<option value="?page=shortcodes#columns">-- Columns &amp; Code</option>
+						<option value="?page=404">-- 404 Not Found</option>
+						<option value="?page=departments">DEPARTMENTS</option>
+						<option value="departments.html">- Primary Health Care</option>
+						<option value="departments.html#pediatric-clinic">- Pediatric Clinic</option>
+						<option value="?page=departments#outpatient-surgery">- Outpatient Surgery</option>
+						<option value="?page=departments#gynaecological-clinic">- Gynaecological Clinic</option>
+						<option value="?page=departments#cardiac-clinic">- Cardiac Clinic</option>
+						<option value="?page=departments#laryngological-clinic">- Laryngological Clinic</option>
+						<option value="?page=departments#ophthalmology-clinic">- Ophthalmology Clinic</option>
+						<option value="?page=departments#dental-clinic">- Dental Clinic</option>
+						<option value="?page=departments#outpatient-rehabilitation">- Outpatient Rehabilitation</option>
+						<option value="?page=timetable">TIMETABLE</option>
+						<option value="?page=timetable#all-departments">- All Departments</option>
+						<option value="?page=timetable#primary-health-care">- Primary Health Care</option>
+						<option value="?page=timetable#pediatric-clinic">- Pediatric Clinic</option>
+						<option value="?page=timetable#outpatient-surgery">- Outpatient Surgery</option>
+						<option value="?page=timetable#gynaecological-clinic">- Gynaecological Clinic</option>
+						<option value="?page=timetable#cardiac-clinic">- Cardiac Clinic</option>
+						<option value="?page=timetable#laryngological-clinic">- Laryngological Clinic</option>
+						<option value="?page=timetable#ophthalmology-clinic">- Ophthalmology Clinic</option>
+						<option value="?page=timetable#dental-clinic">- Dental Clinic</option>
+						<option value="?page=timetable#outpatient-rehabilitation">- Outpatient Rehabilitation</option>
+						<option value="?page=gallery_2_columns">GALLERY</option>
+						<option value="?page=gallery_2_columns">- 2 Columns</option>
+						<option value="?page=gallery_3_columns">- 3 Columns</option>
+						<option value="?page=gallery_4_columns">- 4 Columns</option>
+						<option value="?page=gallery_with_sidebar">- With Sidebar</option>
+						<option value="contact.html">CONTACT</option>
+					</select>
+				</div>
+			</div>
+		</div>
+        <div ng-view></div>
+        <!--<ui-view></ui-view>-->
+		<!--<div class="caroufredsel_wrapper caroufredsel_wrapper_slider">
+			<home-page>
+
+			</home-page>
+		</div>-->
+		<div class="footer_container">
+			<div class="footer">
+				<ul class="footer_banner_box_container clearfix">
+					<li class="footer_banner_box super_light_blue animated_element animation-fadeIn duration-500">
+						<h2>
+							Bảo hiểm sức khỏe
+						</h2>
+						<p>
+							<a class="icon_small_arrow right_white" href="#">Chọn để xem thông tin chi tiết</a>
+						</p>
+					</li>
+					<li class="footer_banner_box light_blue animated_element animation-slideRight duration-800 delay-250">
+						<h2>
+							Hồ sơ bệnh án
+						</h2>
+						<p>
+							<a class="icon_small_arrow right_white" href="#">Chọn để xem thông tin chi tiết</a>
+						</p>
+					</li>
+					<li class="footer_banner_box blue animated_element animation-slideRight200 duration-800 delay-500">
+						<h2>
+							Hóa đơn điện tử
+						</h2>
+						<p>
+							<a class="icon_small_arrow right_white" href="#">Chọn để xem thông tin chi tiết</a>
+						</p>
+					</li>
+				</ul>
+				<div class="footer_box_container clearfix">
+					<div class="footer_box">
+						<h3 class="box_header">
+							Thông tin liên hệ
+						</h3>
+						<p class="info">
+							Đến với chúng tôi để trải nghiệm dịch vụ khám chữa bệnh tốt nhất
+						</p>
+						<ul class="footer_contact_info_container clearfix">
+							<li class="footer_contact_info_row">
+								<div class="footer_contact_info_left">
+									Bệnh viện đa khoa FIS
+								</div>
+							</li>
+							<li class="footer_contact_info_row">
+								<div class="footer_contact_info_left">
+                                    Số 96 Cao Thắng
+								</div>
+								<div class="footer_contact_info_right">
+                                    Tel: (061) 896.9999
+								</div>
+							</li>
+							<li class="footer_contact_info_row">
+								<div class="footer_contact_info_left">
+                                    TP.Hồ Chí Minh
+								</div>
+								<div class="footer_contact_info_right">
+                                    Fax: (061) 8878.666
+								</div>
+							</li>
+							<li class="footer_contact_info_row">
+								<div class="footer_contact_info_left">
+									Việt Nam
+								</div>
+								<div class="footer_contact_info_right">
+									<a href="mailto:medicenter@mail.com" title="Send Email">
+                                        thachtx@fpt.com.vn
+									</a>
+								</div>
+							</li>
+						</ul>
+						<ul class="social_icons clearfix">
+							<li>
+								<a class="social_icon facebook" href="http://facebook.com" title="" target="_blank">
+									&nbsp;
+								</a>
+							</li>
+							<li>
+								<a class="social_icon twitter" href="https://twitter.com" title="" target="_blank">
+									&nbsp;
+								</a>
+							</li>
+							<li>
+								<a class="social_icon googleplus" href="#" title="">
+									&nbsp;
+								</a>
+							</li>
+							<li>
+								<a class="social_icon mail" href="thachtx@fpt.com.vn" title="">
+									&nbsp;
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="footer_box">
+						<div class="clearfix">
+							<div class="header_left">
+								<h3 class="box_header">
+									Tin tức mới nhất
+								</h3>
+							</div>
+							<div class="header_right">
+								<a href="#" id="footer_recent_posts_prev" class="scrolling_list_control_left icon_small_arrow left_white"></a>
+								<a href="#" id="footer_recent_posts_next" class="scrolling_list_control_right icon_small_arrow right_white"></a>
+							</div>
+						</div>
+						<div class="scrolling_list_wrapper">
+							<ul class="scrolling_list footer_recent_posts">
+								<li ng-repeat="post in lstPost" class="icon_small_arrow right_white">
+									<a href="/post/{{ post.Id }}">
+										{{ post.TitleTran }}
+									</a>
+									<abbr title="{{ post.PublishDate|dateEnNiceFilter }}" class="timeago">{{ post.PublishDate | dateEnNiceFilter }}</abbr>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="footer_box last">
+						<div class="clearfix">
+							<div class="header_left">
+								<h3 class="box_header">
+									Sự kiện mới nhất
+								</h3>
+							</div>
+							<div class="header_right">
+								<a href="#" id="latest_tweets_prev" class="scrolling_list_control_left icon_small_arrow left_white"></a>
+								<a href="#" id="latest_tweets_next" class="scrolling_list_control_right icon_small_arrow right_white"></a>
+							</div>
+						</div>
+						<div class="scrolling_list_wrapper">
+							<ul class="scrolling_list latest_tweets">
+								<li class="icon_small_arrow right_white"><p>We've released new version (v3.3) of our Dynamic #Step Process #Panels #WP #Tabs Plugin. Please check at #CodeCanyon <a href="https://t.co/5Lmc0tcJOI" target="_blank">t.co/5Lmc0tcJOI</a><abbr title="2017-05-24T11:10:45+00:00" class="timeago">Wed May 24 11:10:45 +0000 2017</abbr></p></li>
+								<li class="icon_small_arrow right_white"><p>We've released new version (v9.4) of our MediCenter #Medic #Health #WordPress Theme. Please check at #ThemeForest <a href="https://t.co/BIO54EthRz" target="_blank">t.co/BIO54EthRz</a><abbr title="2017-05-11T14:40:45+00:00" class="timeago">Thu May 11 14:40:45 +0000 2017</abbr></p></li>
+								<li class="icon_small_arrow right_white"><p>We've released new version (v3.1.1) of our Pressroom #News #Magazine #WordPress Theme. Please check at #ThemeForest <a href="https://t.co/sNBlrJJ7Ce" target="_blank">t.co/sNBlrJJ7Ce</a><abbr title="2017-05-11T10:59:12+00:00" class="timeago">Thu May 11 10:59:12 +0000 2017</abbr></p></li>
+								<li class="icon_small_arrow right_white"><p>We've released new version(v3.8.1) of our Renovate #Construction #Renovation #WordPress Theme. Check at #ThemeForest <a href="https://t.co/SqpmUycaL2" target="_blank">t.co/SqpmUycaL2</a><abbr title="2017-05-11T10:55:01+00:00" class="timeago">Thu May 11 10:55:01 +0000 2017</abbr></p></li>
+								<li class="icon_small_arrow right_white"><p>We've released new version(v3.6.1) of our #Car Service #Mechanic #Auto #Shop #WordPress Theme. Check at #ThemeForest <a href="https://t.co/uxaMcQBN52" target="_blank">t.co/uxaMcQBN52</a><abbr title="2017-05-11T10:53:50+00:00" class="timeago">Thu May 11 10:53:50 +0000 2017</abbr></p></li>
+								<li class="icon_small_arrow right_white"><p>We've released new version (v11.3) of our GymBase #Gym #Fitness #WordPress Theme. Please check at #ThemeForest <a href="https://t.co/feUKVKecHY" target="_blank">t.co/feUKVKecHY</a><abbr title="2017-05-10T12:44:38+00:00" class="timeago">Wed May 10 12:44:38 +0000 2017</abbr></p></li>
+								<li class="icon_small_arrow right_white"><p>We've released new version (v3.1) of our Pressroom #News #Magazine #WordPress Theme. Please check at #ThemeForest <a href="https://t.co/sNBlrJJ7Ce" target="_blank">t.co/sNBlrJJ7Ce</a><abbr title="2017-05-10T12:43:20+00:00" class="timeago">Wed May 10 12:43:20 +0000 2017</abbr></p></li>
+								<li class="icon_small_arrow right_white"><p>We've released new version(v3.8) of our Renovate #Construction #Renovation #WordPress Theme. Check at #ThemeForest <a href="https://t.co/SqpmUycaL2" target="_blank">t.co/SqpmUycaL2</a><abbr title="2017-05-10T12:41:51+00:00" class="timeago">Wed May 10 12:41:51 +0000 2017</abbr></p></li>
+								<li class="icon_small_arrow right_white"><p>We've released new version (v3.6) of our #Car Service #Mechanic #Auto #Shop #WordPress Theme. Check at #ThemeForest <a href="https://t.co/uxaMcQBN52" target="_blank">t.co/uxaMcQBN52</a><abbr title="2017-05-10T12:39:26+00:00" class="timeago">Wed May 10 12:39:26 +0000 2017</abbr></p></li>
+								<li class="icon_small_arrow right_white"><p>We've released new version (v9.3) of our MediCenter #Medic #Health #WordPress Theme. Please check at #ThemeForest <a href="https://t.co/BIO54EthRz" target="_blank">t.co/BIO54EthRz</a><abbr title="2017-04-14T14:05:55+00:00" class="timeago">Fri Apr 14 14:05:55 +0000 2017</abbr></p></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="copyright_area clearfix">
+					<div class="copyright_left">
+						© Copyright - <a href="http://www.fis.com.vn/" title="MediCenter Template" target="_blank">FIS Template</a> by <a href="http://www.fis.com.vn/" title="QuanticaLabs" target="_blank">CRD Team</a>
+					</div>
+					<div class="copyright_right">
+						<a class="scroll_top icon_small_arrow top_white" href="#top" title="Scroll to top">Đầu trang</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="layout_picker">
+		<div class="layout_picker_icon">
+			&nbsp;
+		</div>
+		<div class="layout_picker_content">
+			<ul>
+				<li class="layout_picker_header">
+					Chế độ xem
+				</li>
+				<li>
+					<a href="#" id="layout_picker_fw" class="selected">
+						Toàn màn hình
+					</a>
+				</li>
+				<li>
+					<a href="#" id="layout_picker_bx">
+						Thu nhỏ
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<!--end body-->
+	<!--global script-->
+
+	<script src="assets/libs/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+	<script src="assets/libs/bower_components/angular/angular.js"></script>
+	<script src="assets/libs/bower_components/angular-resource/angular-resource.js"></script>
+	<script src="assets/libs/bower_components/angular-route/angular-route.js"></script>
+	<script src="assets/libs/bower_components/angular-animate/angular-animate.min.js"></script>
+	<script src="assets/libs/bower_components/angular-aria/angular-aria.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.min.js"></script>s
+    <script src="assets/libs/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/0.10.0/lodash.min.js"></script>
+    <script src="assets/libs/bower_components/oclazyload/dist/ocLazyLoad.require.min.js"></script>
+    <script src="assets/libs/bower_components/oclazyload/dist/ocLazyLoad.min.js"></script>
+    <!-- underscore -->
+    <script src="assets/js/underscore-min.js"></script>
+    <script src="assets/js/jquery-ui-1.9.2.custom.min.js"></script>
+    <script src="assets/js/moment.js"></script>
+    <!--end global script-->
+	<!--app script-->
+	<!--app config-->
+	<script src="app/app.module.js"></script>
+	<script src="app/app.config.js"></script>
+	<script src="app/app.controller.js"></script>
+	<!--end app config-->
+
+	<!--core script-->
+	
+    <!--modules script-->
+
+    <script src="app/shared/directive/keyEnter.directive.js"></script>
+    <script src="app/shared/directive/modal.directive.js"></script>
+
+    <script src="app/shared/service/params.service.js"></script>
+    <script src="app/shared/service/modal.service.js"></script>
+    <script src="app/shared/service/loadjs.service.js"></script>
+
+    <script src="app/shared/time.filter.js"></script>
+
+    <script src="app/shared/service/pager.service.js"></script>
+
+    <script src="app/components/home-page/home-page.service.js"></script>
+    <script src="app/components/home-page/home-page.controller.js"></script>
+
+    <script src="app/components/posts/posts.service.js"></script>
+    <script src="app/components/categories/category.service.js"></script>
+    <script src="app/components/post-detail/post-detail.service.js"></script>
+    <script src="app/components/appointment/appointment.service.js"></script>
+
+
+    <script src="app/components/posts/posts.controller.js"></script>
+    <script src="app/components/post-detail/post-detail.controller.js"></script>
+    <script src="app/components/appointment/appointment.controller.js"></script>
+
+	<!--end modules-->
+	<!--end app script-->
+</body>
+</html>

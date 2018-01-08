@@ -1,0 +1,66 @@
+﻿@model PatientPortal.PatientServices.Models.UserViewModel
+
+<form class="form-horizontal">
+    <div class="form-group">
+        <label class="col-md-2 col-sm-3 col-xs-4">Họ tên: <span class="red">*</span></label>
+        <div class="col-md-6 col-sm-9 col-xs-8">
+            <input type="text" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 col-sm-3 col-xs-4">Ngày sinh: </label>
+        <div class="col-md-6 col-sm-9 col-xs-8">
+            <input type="text" class="form-control" id="dateNgaySinh">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 col-sm-3 col-xs-4">Giới tính: </label>
+        <div class="col-md-6 col-sm-9 col-xs-8">
+            <label class="radio-inline">
+                <input type="radio" name="genderOptRadio">Nam
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="genderOptRadio">Nữ
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 col-sm-3 col-xs-4">Tình trạng hôn nhân: </label>
+        <div class="col-md-6 col-sm-9 col-xs-8">
+            <select class="form-control">
+                <option value="one">Độc thân</option>
+                <option value="two">Đã kết hôn</option>
+                <option value="three">Đã ly dị</option>
+                <option value="three">Góa</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 col-sm-3 col-xs-4">Quốc gia: </label>
+        <div class="col-md-6 col-sm-9 col-xs-8">
+            <select class="form-control">
+                <option value="one">Việt Nam</option>
+                <option value="two">Singapo</option>
+                <option value="three">Nhật Bản</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 col-sm-3 col-xs-4">Email: </label>
+        <div class="col-md-6 col-sm-9 col-xs-8">
+            <input type="email" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 col-sm-3 col-xs-4">Số điện thoại: </label>
+        <div class="col-md-6 col-sm-9 col-xs-8">
+            <input type="text" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 col-sm-3 col-xs-4"></label>
+        <div class="col-md-6 col-sm-9 col-xs-8">
+            <button class="btn btn-success" onclick="registerInfo()">Đăng ký và tiếp tục</button>
+        </div>
+    </div>
+</form>

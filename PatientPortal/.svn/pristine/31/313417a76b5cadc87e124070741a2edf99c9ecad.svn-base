@@ -1,0 +1,117 @@
+﻿
+@model PatientPortal.CMS.Models.DepartmentViewModel
+
+@section styles{
+    <link href="~/Content/checkbox-radio-build.css" rel="stylesheet" />
+    <link href="~/Libs/jstree/dist/themes/default/style.min.css" rel="stylesheet" />
+}
+
+@using (Html.BeginForm("Create", "Department", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal" }))
+            {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="form-group" style="display: none">
+        @Html.LabelFor(m => m.Id, new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.Id, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @placeholder = "Nhập tên" })
+            @Html.ValidationMessageFor(m => m.Name, null, new { @class = "field-validation-error" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Description, new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @placeholder = "Nhập nội dung", @row = "5" })
+            @Html.ValidationMessageFor(m => m.Description)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Handler, new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            <input type="file" webkitdirectory directory multiple name="fileUpload" class="form-control">
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Sort, new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.Sort, new { @class = "form-control", @type="number"})
+            @Html.ValidationMessageFor(model => model.Sort, null, new { @class = "field-validation-error" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.IsUsed, new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            <div class="checkbox checkbox-info">
+                @Html.CheckBoxFor(m => m.IsUsed, new { @class = "styled" })<label for="IsUsed"></label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3"></label>
+        <div class="col-md-9">
+            <button type="submit" class="btn btn-success btn-sm" style="width:100%;"><i class="fa fa-check" aria-hidden="true"></i> Thêm dịch vụ</button>
+        </div>
+    </div>
+}
+
+
+@section scripts{
+    <script src="~/Libs/jstree/dist/jstree.js"></script>
+
+    <script>
+
+        $(function () {
+
+            $('#modal-container').on('show.bs.modal', function () {
+                $.ajax({
+                    type: "GET",
+                    url: "/Department/GetTreeData",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        createJSTrees(data);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                        alert(thrownError);
+                    }
+                });
+            });
+
+            function createJSTrees(jsonData) {
+                $('#treeFolder').jstree({
+                    'core': {
+                        'data': jsonData,
+                        'check_callback': true,
+                        'themes': { "stripes": true },
+                    },
+                    "plugins": ["themes", "dnd", "contextmenu", "ui", "crrm"]
+                });
+            }
+
+            $('#treeFolder')
+            // listen for event
+            .on('changed.jstree', function (e, data) {
+                var i, j, r = [];
+                for (i = 0, j = data.selected.length; i < j; i++) {
+                    r.push(data.instance.get_node(data.selected[i]).id);
+                }
+
+                $("#contentmanager").load("/Gallerry/GallerryPartial?fullPath=" + r.join(', '), function (responseTxt, statusTxt, xhr) {
+                    if (statusTxt == "error")
+                        alert("Lỗi: " + xhr.status + ": " + xhr.statusText);
+                });
+            })
+
+            $('#btnCancel').click(function () {
+                $('#modal-container').modal('hide');
+            });
+        });
+
+
+    </script>
+}

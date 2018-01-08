@@ -1,0 +1,12 @@
+﻿appManagement.controller('detailController', ['$scope', 'PostService', function ($scope, PostService) {
+    $scope.Post = new Object();
+    var Id = 1;
+    //get post
+    $scope.query = function () {
+        $scope.Post = PostService.query({ Id: Id }, function (data) {
+            $scope.Post = data;
+        });
+    };
+
+    $scope.query();
+}]);

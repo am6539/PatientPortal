@@ -1,0 +1,50 @@
+﻿CREATE PROCEDURE [dbo].[usp_UserGroup_Transaction]
+	@Action CHAR(1) = 'I',
+	@UserId INT,
+	@GroupId TINYINT
+AS BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+	DECLARE @return BIT = 1
+
+	BEGIN TRY
+		BEGIN TRAN
+
+			IF @Action = 'I' -- INSERT
+				IF NOT EXISTS (SELECT TOP 1 1 FROM [dbo].[UserGroup] WHERE [UserId] = @UserId AND [GroupId] = @GroupId)
+					INSERT INTO [dbo].[UserGroup] VALUES(@UserId, @GroupId)
+				ELSE
+					SET @return = 0
+
+			IF @Action = 'U' -- UPDATE
+				IF EXISTS (SELECT TOP 1 1 FROM [dbo].[UserGroup] WHERE [UserId] = @UserId AND [GroupId] = @GroupId)
+					UPDATE [dbo].[UserGroup]
+					SET [UserId] = @UserId, [GroupId] = @GroupId
+					WHERE [UserId] = @UserId
+					AND [GroupId] = @GroupId
+			ELSE
+				SET @return = 0
+
+			IF @Action = 'D' -- DELETE
+				IF EXISTS(SELECT TOP 1 1 FROM [dbo].[UserGroup] WHERE [UserId] = @UserId AND [GroupId] = @GroupId)
+				BEGIN
+					IF @UserId <> 0 AND @GroupId <> 0
+						DELETE [dbo].[UserGroup]
+						WHERE [UserId] = @UserId
+						AND [GroupId] = @GroupId
+					ELSE
+						SET @return = 0;
+				END
+				ELSE
+					SET @return = 0;
+		COMMIT TRAN
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0
+			BEGIN
+				ROLLBACK TRAN
+				SET @return = 0
+			END
+	END CATCH
+	SELECT @return
+END

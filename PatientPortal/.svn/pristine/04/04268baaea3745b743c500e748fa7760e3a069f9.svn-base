@@ -1,0 +1,11 @@
+﻿namespace PatientPortal.API.SPA.Common
+{
+    public enum CategoryId
+    {
+        Home = 15,
+        Service = 16,
+        About = 4,
+        Posts = 5,
+        Contact = 20
+    }
+}

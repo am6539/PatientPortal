@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.CMS.Models
+{
+    public class CategoriesModel
+    {
+        public CategoryViewModel CategoryViewModel { get; set; }
+        public List<CategoryViewModel> CategoryViewModelList { get; set; }
+    }
+}

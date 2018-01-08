@@ -1,0 +1,41 @@
+﻿using PatientPortal.DataAccess.Repo.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CMS;
+using System.Transactions;
+using PatientPortal.Domain.Utilities;
+using PatientPortal.DataAccess.Dapper;
+using Dapper;
+
+namespace PatientPortal.DataAccess.CMS
+{
+    public class PostTranImpl : IPostTran
+    {
+        public List<PostTran> GetAll()
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    DapperConfiguration.OpenConnection(1);
+
+                    var data = DapperConfiguration.db.Query<PostTran>("usp_PostTrans_GetAll", commandType: System.Data.CommandType.StoredProcedure).ToList();
+
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute PostTrans get data: " + ex.Message);
+                    return null;
+                }
+            }
+        }
+    }
+}

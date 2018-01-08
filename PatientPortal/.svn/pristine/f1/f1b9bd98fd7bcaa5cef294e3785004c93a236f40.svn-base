@@ -1,0 +1,33 @@
+﻿using ProtoBuf;
+using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
+using System;
+
+namespace PatientPortal.CMS.Models
+{
+    [ProtoContract]
+    public partial class SliderViewModel
+    {
+        [ProtoMember(1)]
+        public short Id { get; set; }
+        [ProtoMember(2)]
+        [Display(Name = "Tiêu đề")]
+        //[Remote("CheckExist", "Slider", HttpMethod = "POST", AdditionalFields = "Id", ErrorMessage = "Tiêu đề đã tồn tại. Vui lòng nhập lại.")]
+        [Required(ErrorMessage = "Bạn cần nhập tiêu đề")]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        public string Title { get; set; }
+        [ProtoMember(3)]
+        [Display(Name = "Nội dung")]
+        [Required(ErrorMessage = "Bạn cần nhập nội dung")]
+        public string Description { get; set; }
+        [ProtoMember(4)]
+        [Display(Name = "Hình ảnh")]
+        public string Image { get; set; }
+        [ProtoMember(5)]
+        [Display(Name = "Ngày hết hạn")]
+        public DateTime ExpiredDate { get; set; }
+        [ProtoMember(6)]
+        [Display(Name = "Trạng thái")]
+        public bool IsUsed { get; set; }
+    }
+}

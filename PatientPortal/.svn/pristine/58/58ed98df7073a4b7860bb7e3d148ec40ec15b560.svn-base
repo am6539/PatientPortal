@@ -1,0 +1,48 @@
+﻿angular.module('spaApp').factory('HomePageServices', ['$resource', 'Params',
+    function ($resource, Params) {
+        return $resource(Params.rootUrl + 'SPAPost', {}, {
+            getListPost: {
+                method: 'GET',
+                url: Params.rootUrl + "SPAPost/GetListPost?languageCode=:languageCode",
+                isArray: true,
+                params: { languageCode: '@languageCode' }
+            },
+            getAbout: {
+                method: 'GET',
+                url: Params.rootUrl + "SPAPost/GetPostAbout?languageCode=:languageCode",
+                params: { languageCode: '@languageCode' },
+                isArray: true
+            },
+            getSlider: {
+                method: 'GET',
+                url: Params.rootUrl + "Slider/Get",
+                isArray: true
+            },
+            getDepartment: {
+                method: 'GET',
+                url: Params.rootUrl + "Department/GetDepartment/:id",
+                params: { id: '@id' },
+                isArray: true
+            },
+            getFeature: {
+                method: 'GET',
+                url: Params.rootUrl + "Feature/Get",
+                params: { id: '@id' },
+                isArray: true
+            },
+            getContact: {
+                method: 'GET',
+                url: Params.rootUrl + "Configuration/Get",
+                isArray: true
+            },
+            getListMenu: {
+                method: 'GET',
+                url: Params.rootUrl + "Category/GetMenu",
+                isArray: true
+            },
+            postSendMail: {
+                method: 'POST',
+                url: "http://localhost:18892/api/Configuration/SendMail"
+            }
+        });
+    }]);

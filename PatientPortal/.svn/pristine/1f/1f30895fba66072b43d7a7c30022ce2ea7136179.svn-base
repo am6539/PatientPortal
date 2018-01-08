@@ -1,0 +1,13 @@
+﻿@using PatientPortal.Provider.Helpers;
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    @Html.ITitle("Khảo sát", TitleBar.Approve)
+</div>
+
+@using (Html.IBeginForm("Delete", "Survey"))
+{
+    @Html.ValidationSummary()
+    @Html.IGroupModalMessage()
+    @Html.IGroupModalSubmitButton("Xóa dữ liệu")
+}

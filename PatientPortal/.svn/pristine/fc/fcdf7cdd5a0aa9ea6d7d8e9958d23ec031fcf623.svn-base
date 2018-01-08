@@ -1,0 +1,85 @@
+﻿using PatientPortal.DataAccess.Repo.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CMS;
+using System.Transactions;
+using PatientPortal.DataAccess.Dapper;
+using Dapper;
+using PatientPortal.Domain.Utilities;
+
+namespace PatientPortal.DataAccess.CMS
+{
+    public class WorkflowNavigationImpl : IWorkflowNavigation
+    {
+        public List<WorkflowNavigation> GetAll()
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    DapperConfiguration.OpenConnection(1);
+
+                    var data = DapperConfiguration.db.Query<WorkflowNavigation>("usp_WorkflowNavigation", commandType: System.Data.CommandType.StoredProcedure).ToList();
+
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute WorkflowNavigation get data: " + ex.Message);
+                    return null;
+                }
+            }
+        }
+
+        public List<WorkflowNavigation> GetByWorkflowId(byte Id)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    DapperConfiguration.OpenConnection(1);
+
+                    var data = DapperConfiguration.db.Query<WorkflowNavigation>("usp_WorkflowNavigation",
+                        new { WorkflowId = Id },
+                        commandType: System.Data.CommandType.StoredProcedure).ToList();
+
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute WorkflowNavigation get data: " + ex.Message);
+                    return null;
+                }
+            }
+        }
+
+        public bool Transaction(List<WorkflowNavigationEdit> data, char action)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    var val = new Lib.DataGenerator().CommitData<WorkflowNavigationEdit>(data, "usp_WorkflowNavigation_Transaction", action);
+                    scope.Complete();
+                    return val;
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute WorkflowNavigation Transaction: " + ex.Message);
+                    return false;
+                }
+            }
+        }
+    }
+}

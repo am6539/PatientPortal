@@ -1,0 +1,162 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Lib/choosenCss")
+    @Scripts.Render("~/bundles/modernizr")
+
+    @RenderSection("styles", required: false)
+
+    <title>Internal System - FIS Medical Center</title>
+</head>
+<body>
+    <header class="cd-main-header">
+        <a href="#0" class="cd-logo">
+            <span class="fa fa-gears fa-2x"></span> Admin Panel
+        </a>
+        <div class="navicon">
+            <span class="navicon-breadcrumb">@ViewBag.Title</span>
+        </div>
+        <div class="cd-search is-hidden">
+            <form action="#0">
+                <input type="search" placeholder="Tìm kiếm...">
+            </form>
+        </div> <!-- cd-search -->
+        <a href="#0" class="cd-nav-trigger"><span></span></a>
+        <nav class="cd-nav">
+            <ul class="cd-top-nav">
+                <li><a href="#"><span class="fa fa-bell"></span></a></li>
+                <li><a href="#"><span class="fa fa-envelope-o"></span></a></li>
+                <li class="has-children account">
+                    @Html.Action("_NavAccount", "Account")
+                    <ul>
+                        <li>
+                            <a href="@Url.Action("ViewProfile", "Account")"><i class="fa fa-info-circle" aria-hidden="true"> Thông tin cá nhân</i></a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("LogOff", "Account")"><i class="fa fa-sign-out" aria-hidden="true"> Đăng xuất</i></a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header> <!-- .cd-main-header -->
+    <main class="cd-main-content">
+        <nav class="cd-side-nav">
+            <div class="wrapper-user">
+                <div class="icon-user">
+                    <div class="box">
+                        @Html.Action("_NavSideAccount", "Account")
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="welcome-note">
+                </div>
+            </div>
+            @Html.Action("_Nav","Module")
+            <ul>
+                <li class="cd-label">Main</li>
+                <li class="has-children overview">
+                    <a href="@Url.Action("Index","Home")">Dashboard</a>
+                </li>
+                <li class="has-children schedule">
+                    <a href="@Url.Action("Index","Schedule")"><span>Lịch làm việc</span></a>
+                </li>
+                <li class="has-children prescription">
+                    <a href="@Url.Action("Index","Appointment")">Quản lý đăng ký KCB</a>
+                </li>
+                <li class="has-children department ">
+                    <a href="@Url.Action("Index", "Department")">Chuyên khoa</a>
+                </li>
+                <li class="has-children category">
+                    <a href="@Url.Action("Index","Module")">Chức năng</a>
+                </li>
+            </ul>
+            <ul>
+                <li class="cd-label">COMUNICATION</li>
+
+                <li class="has-children message-box">
+                    <a href="#">Hộp thư</a>
+                </li>
+                <li class="has-children email-marketing">
+                    <a href="@Url.Action("Index","EmailMarketing")"><span>Email Marketing</span></a>
+                </li>
+                <li class="has-children question">
+                    <a href="@Url.Action("Index","Article")"><span>Hỏi đáp y tế</span></a>
+                </li>
+                <li class="has-children offder-advise">
+                    <a href="@Url.Action("Index","OfferAdvise")">Góp ý xây dựng</a>
+                </li>
+                <li class="has-children survey">
+                    <a href="@Url.Action("Index","Survey")">Khảo sát</a>
+                </li>
+                <li class="has-children survey">
+                    <a href="@Url.Action("Index","QA")">Hỏi đáp</a>
+                </li>
+            </ul>
+            <ul>
+                <li class="cd-label">SYSTEM</li>
+                <li class="has-children configuration">
+                    <a href="@Url.Action("Index","Setting")">Cài đặt</a>
+                </li>
+                <li class="has-children users">
+                    <a href="@Url.Action("Index","Account")">Tài khoản</a>
+                </li>
+                <li class="has-children permission">
+                    <a href="@Url.Action("Index","Permission")">Chi tiết quyền</a>
+                </li>
+                <li class="has-children role">
+                    <a href="@Url.Action("Index","Role")">Nhóm tài khoản</a>
+                </li>
+            </ul>
+            <ul>
+                <li class="cd-label">Action</li>
+                <li class="action-btn"><a href="@Url.Action("ViewProfile", "Account")">Trang cá nhân</a></li>
+            </ul>
+        </nav>
+        <div class="content-wrapper">
+            <div class="content-render">
+                @RenderBody()
+            </div>
+        </div> <!-- .content-wrapper -->
+    </main> <!-- .cd-main-content -->
+    <!--Back to top-->
+    <div class="fis_backtop"><i class="fa fa-chevron-up"></i></div>
+    <!--Modal confirm-->
+    <div id="modal-container" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Lib/choosenJs")
+    @Scripts.Render("~/bundles/app")
+
+    @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+        $(function () {
+            $('body').on('click', '.modal-link', function (e) {
+                e.preventDefault();
+                $(this).attr('data-target', '#modal-container');
+                $(this).attr('data-toggle', 'modal');
+            });
+            // Attach listener to .modal-close-btn's so that when the button is pressed the modal dialog disappears
+            $('body').on('click', '.modal-close-btn', function () {
+                $('#modal-container').modal('hide');
+            });
+            //clear modal cache, so that new content can be loaded
+            $('#modal-container').on('hidden.bs.modal', function () {
+                $(this).removeData('bs.modal');
+            });
+            $('#CancelModal').on('click', function () {
+                return false;
+            });
+        });
+    </script>
+</body>
+</html>

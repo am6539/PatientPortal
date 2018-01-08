@@ -1,0 +1,7 @@
+﻿@using PatientPortal.Provider.Common;
+@using PatientPortal.Utility.Files
+@model PatientPortal.Domain.Models.AUTHEN.UserCache
+
+<a href="#0">
+    <img src="@Model.Image" /> @Model.UserName
+</a>

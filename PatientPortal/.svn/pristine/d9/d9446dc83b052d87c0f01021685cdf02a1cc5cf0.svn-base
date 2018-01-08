@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.API.SPA.Common
+{
+    public enum CategoryId
+    {
+        Home = 15,
+        Service = 16,
+        About = 18,
+        Posts = 2,
+        Contact = 20
+    }
+}

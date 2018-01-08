@@ -1,0 +1,8 @@
+﻿
+detailModule.factory('PostService', ['$resource', function ($resource) {
+    return $resource("/Home",
+        {},
+        {
+            query: { method: "GET", url: "/Home/GetDetail/Id:Id", params: { Id: '@Id' } },
+        });
+}]);

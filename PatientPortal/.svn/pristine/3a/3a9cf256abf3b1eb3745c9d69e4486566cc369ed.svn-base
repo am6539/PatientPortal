@@ -1,0 +1,284 @@
+﻿using PatientPortal.CMS.Models;
+using PatientPortal.CMS.Utility;
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Configuration;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Linq.Dynamic;
+using PatientPortal.CMS.Common;
+using System.Threading.Tasks;
+using System.IO;
+
+namespace PatientPortal.CMS.Controllers
+{
+    public class CMSPostController : Controller
+    {
+        #region Get
+
+        // GET: Post
+        [HttpGet]
+        public ActionResult Index(PostFilterViewModel param)
+        {
+            try
+            {
+                param.LanguageCode = ConfigurationManager.AppSettings["AdminLanguageCode"];
+                if (param.WorkflowStateId == 0)
+                    param.WorkflowStateId = ValueConstant.WORK_STATE_ID_DRAFF;
+                var listCatg = APIHelper.Get<List<CategoryViewModel>>($"api/Category");
+                if (listCatg.Count > 0)
+                    ViewBag.CategoryId = listCatg;
+
+                var lstWorkState = APIHelper.Get<List<WorkflowStateViewModel>>($"api/WorkflowState");
+                if (lstWorkState.Count > 0)
+                    ViewBag.WorkStateId = lstWorkState;
+
+                var results = APIHelper.Get<List<PostListViewModel>>($"api/Post/GetAll/?" + APIHelper.GetQueryString(param));
+                if (results == null)
+                    results = new List<PostListViewModel>();
+                param.PostListViewModel = results;
+
+                return View(param);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog("Error get all Post" + ex.Message);
+                throw;
+            }
+        }
+        #endregion
+
+        #region Create
+        // GET: Post/Create
+        public ActionResult Create()
+        {
+            //var listCatg = APIHelper.Get<List<CategoryViewModel>>($"api/Category");
+            //if (listCatg != null)
+            //    ViewBag.CategoryId = new SelectList(listCatg, "Id", "Name");
+
+            var data = APIHelper.Get<List<CategoryViewModel>>($"api/Category");
+            if (data != null)
+                ViewBag.Categories = data;
+
+            var model = new PostViewModel();
+
+            return View(model);
+        }
+        
+        // POST: Post/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create(PostViewModel model, HttpPostedFileBase fileUpload)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        //string fullImgPath = string.Empty;
+                        string name = string.Empty;
+                        if (fileUpload != null)
+                        {
+                            string imagePath = CreateFolder();
+                            WebImageHelper.UploadImage(fileUpload, imagePath, ref name);
+                            //fullImgPath = imagePath + ValueConstant.FOLDER_SEPARATOR + fileUpload.FileName;
+                        }
+                        else
+                        {
+                            name = ValueConstant.PATH_IMAGE_DEFAULT;
+                        }
+                        model.Image = name;
+                        model.LanguageId = ValueConstant.LANG_VIETNAM;
+                        model.Status = 1;
+                        model.WorkflowStateId = ValueConstant.WORK_STATE_ID_DRAFF;
+                        var result = await APIHelper.TransactionAsyncResult<PostViewModel>(model, $"api/Post/PostTrans?action={ ValueConstant.ACTION_INSERT }");
+                        if (result == true)
+                        {
+                            TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.SUCCESS));
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            var data = APIHelper.Get<List<CategoryViewModel>>($"api/Category");
+                            if (data != null)
+                                ViewBag.Categories = data;
+                            TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.FAIL));
+                            return View(model);
+                        }
+                    }
+                    catch
+                    {
+                        TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.ERROR, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.ERROR));
+                        return View();
+                    }
+                }
+                else
+                {
+                    var data = APIHelper.Get<List<CategoryViewModel>>($"api/Category");
+                    if (data != null)
+                        ViewBag.Categories = data;
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.FAIL));
+                    return View(model);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog("Error create Post" + ex.Message);
+                throw;
+            }
+        }
+
+        private string CreateFolder()
+        {
+            try
+            {
+                string nameFolder = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString("00") + DateTime.Now.Day.ToString("00");
+                string path = ValueConstant.IMAGE_PATH + ValueConstant.IMAGE_POST_PATH + nameFolder;
+                string mapPath = Server.MapPath(path);
+                if (!Directory.Exists(mapPath))
+                {
+                    Directory.CreateDirectory(mapPath);
+                    return path;
+                }
+                else
+                    return path;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        #endregion
+
+        #region Edit
+        // GET: Post/Edit/5
+        public ActionResult Edit(int id)
+        {
+            try
+            {
+                var listCatg = APIHelper.Get<List<CategoryViewModel>>($"api/Category");
+                var model = APIHelper.Get<PostViewModel>($"api/Post?PostId={id}");
+                if (string.IsNullOrEmpty(model.Image))
+                {
+                    model.Image = ValueConstant.IMAGE_PATH + ValueConstant.IMAGE_POST_PATH + ValueConstant.IMAGE_DEFAULT;
+                }
+                if (listCatg.Count > 0)
+                    ViewBag.CategoryId = listCatg;
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        
+        // POST: Post/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(PostViewModel model, HttpPostedFileBase fileUpload)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        if (fileUpload != null)
+                        {
+                            if (string.IsNullOrEmpty(model.Image) || model.Image == ValueConstant.IMAGE_DEFAULT)
+                            {
+                                string imagePath = CreateFolder();
+                                string name = "";
+                                WebImageHelper.UploadImage(fileUpload, imagePath, ref name);
+                                //model.Image = imagePath + ValueConstant.FOLDER_SEPARATOR + fileUpload.FileName;
+                                model.Image = name;
+                            }
+                            else
+                            {
+                                string name = "";
+                                string directory = Path.GetDirectoryName(model.Image);
+                                WebImageHelper.UploadImage(fileUpload, directory, ref name);
+                                //model.Image = directory + ValueConstant.FOLDER_SEPARATOR + fileUpload.FileName;
+                                model.Image = name;
+                            }
+                        }
+                        model.LanguageId = ValueConstant.LANG_VIETNAM;
+                        model.Status = 1;
+                        model.ModifiedBy = ValueConstant.TEMP_USERID;
+                        var result = await APIHelper.TransactionAsyncResult<PostViewModel>(model, $"api/Post?action={ ValueConstant.ACTION_UPDATE }");
+                        if (result == true)
+                        {
+                            TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.SUCCESS));
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            var data = APIHelper.Get<List<CategoryViewModel>>($"api/Category");
+                            if (data != null)
+                                ViewBag.Categories = data;
+                            TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.FAIL));
+                            return View(model);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.ERROR, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.ERROR));
+                        return View();
+                    }
+                }
+                else
+                {
+                    var data = APIHelper.Get<List<CategoryViewModel>>($"api/Category");
+                    if (data != null)
+                        ViewBag.Categories = data;
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.FAIL));
+                    return View();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog("Error edit Post" + ex.Message);
+                throw;
+            }
+        }
+        #endregion
+
+        #region Delete
+        // POST: Post/Delete/5
+        [HttpPost]
+        public async Task<ActionResult> Delete(int id)
+        {
+            try
+            {
+                var model = new PostViewModel();
+                model.Id = id;
+                var result = await APIHelper.TransactionAsync<PostViewModel>(model, $"api/Post?action={ ValueConstant.ACTION_DELETE }");
+                return RedirectToAction("Index");
+            }
+            catch(Exception ex)
+            {
+                LogHelper.WriteLog("Error delete Post" + ex.Message);
+                return View();
+            }
+        }
+
+        public ActionResult ViewConfirmDelete(PostListViewModel model)
+        {
+            try
+            {
+                return PartialView("_ConfirmDeletePartial", model);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog("Error confirm delete Post" + ex.Message);
+                throw;
+            }
+        }
+
+        #endregion
+    }
+}

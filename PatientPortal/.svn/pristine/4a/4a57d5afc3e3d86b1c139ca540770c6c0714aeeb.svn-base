@@ -1,0 +1,18 @@
+﻿using PatientPortal.Domain.Models.SPA;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.DataAccess.Repo.SPA
+{
+    public interface IUser
+    {
+        Task<List<User>> Query(Dictionary<string, object> param);
+        Task<User> Get(Dictionary<string, object> param);
+        Task<List<User>> GetUserHaveScheduleExamine(Dictionary<string, object> param);
+        Task<List<User>> GetDoctorList(Dictionary<string, object> param);
+        Task<List<User>> GetUserProfile(Dictionary<string, object> param);
+    }
+}

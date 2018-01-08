@@ -1,0 +1,17 @@
+﻿CREATE PROCEDURE [dbo].[usp_Category_CheckExistName]
+	@Name  NVARCHAR(50),
+	@Id TINYINT
+AS
+BEGIN
+	DECLARE @return BIT = 0;
+	DECLARE @count TINYINT = 0;
+	IF(@Id > 0)
+		IF(EXISTS(SELECT TOP 1 1 FROM [dbo].[Category] WHERE [Name] = @Name and Id != @Id))
+			SET @return = 1
+	ELSE
+	BEGIN
+		IF(EXISTS(SELECT TOP 1 1 FROM [dbo].[Category] WHERE [Name] = @Name))
+			SET @return = 1
+	END
+	SELECT @return
+END

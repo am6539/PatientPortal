@@ -1,0 +1,25 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.Internal.Models.SystemNotificationViewModel
+@{
+    ViewBag.Title = "Thông báo nội bộ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-title">@Html.ITitle("Thông báo nội bộ", "bell-o")</div>
+    <div class="card-content">
+        <div id="notificationCtrl-alert-submit">
+
+        </div>
+        @using (Html.IBeginForm("Push", "Notification", FormMethod.Post, new { @id = "frm_Notification_System" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            @Html.IGroupSubmitButton("Gửi thông báo", null, 12)
+            @Html.HiddenFor(m => m.Id)
+            @Html.IGroupTextAreaFor(m => m.Detail, true, 5, "Nội dung thông báo", null, 12)
+            @Html.IGroupTextBoxFor(m => m.Link, true, "Địa chỉ liên kết", null, 12)
+        }
+    </div>
+</div>

@@ -1,0 +1,13 @@
+﻿CREATE TABLE [dbo].[Schedule]
+(
+	[Id] INT NOT NULL PRIMARY KEY, 
+    [Title] NVARCHAR(50) NOT NULL, 
+    [Priority] TINYINT NOT NULL, 
+    [Detail] NVARCHAR(300) NOT NULL, 
+    [IsAlarm] BIT NOT NULL, 
+    [Date] DATE NOT NULL, 
+    [From] INT NOT NULL, 
+    [To] INT NOT NULL, 
+    [Color] VARCHAR(6) NOT NULL, 
+    [IsExamine] BIT NOT NULL
+)

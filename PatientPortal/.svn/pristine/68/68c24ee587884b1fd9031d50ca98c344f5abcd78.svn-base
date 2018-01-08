@@ -1,0 +1,169 @@
+﻿<style>
+    .btn {
+        right: 20px;
+        padding: 6px 10px;
+        background: #73b744;
+        color: #fff;
+        border-radius: 3px;
+        border: 0px;
+    }
+</style>
+
+<link href="assets/css/site/menuPage.css" rel="stylesheet" />
+<div class="brd-wrap" ng-include="'app/shared/template-include/submenu.template.html'">
+</div>
+<div class="top-content">
+
+</div>
+<div class="content container">
+    <div class="row">
+        <div class="content-bg">
+            <div id="ctl00_divCenter" class="col-left">
+
+
+                <div class="content-bg2">
+                    <div class='Module Module-540'>
+                        <div class="banner">
+                            <img src="assets/images/media/6/patientservices_faq.jpg" alt="" />
+                        </div>
+                    </div><div class='Module Module-592'>
+                        <div class="faqs-wrap">
+                            <div class="faq-item">
+                                <div class="faq-title">
+                                    <h2 class="post-title">Đầy bụng khó chịu sau khi ngủ trưa</h2><span style="color: #1b7b57; font-family: Arial, sans-serif; font-size: 13px; font-style: normal; font-variant: normal; font-weight: bold; letter-spacing: normal; line-height: 18.200000762939453px; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: #ffffff; float: none; display: inline !important;">Tôi thường ăn trưa sau 30 phút mới đi ngủ và ít khi ngủ được. Khi dậy thường thấy đầy bụng, khó chịu, phải 30 phút sau mới hết. Xin hỏi bác sĩ hiện tượng này là vì sao và cách chữa thế nào? (Nguyễn Văn)</span>
+                                </div>
+                                <div class="faq-content">
+                                    <div class="faq-content2">
+                                        <span style="color: #666666; font-family: Arial, sans-serif; font-size: 13px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 18.200000762939453px; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: #ffffff; float: none; display: inline !important;">Chào bạn,</span><br style="font-family: Arial, sans-serif; font-style: normal; color: #666666; background-color: #ffffff; font-size: 13px; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 18.200000762939453px; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-image: none !important;" />
+                                        <br style="font-family: Arial, sans-serif; font-style: normal; color: #666666; background-color: #ffffff; font-size: 13px; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 18.200000762939453px; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-image: none !important;" />
+                                        <div style="border: 0px; margin: 0px; padding: 0px; font-size: 13px; font-family: Arial, sans-serif; font-style: normal; color: #666666; background-color: #ffffff; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 18.200000762939453px; orphans: auto; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-align: justify; background-image: none !important;">
+                                            Vì trong thư bạn không nêu rõ là nam hay nữ, bao nhiêu tuổi, bệnh bao lâu, có sốt, đau bụng, sụt cân hay không, tình trạng đi tiêu thế nào… Với những triệu chứng mô tả ở trên, tôi nghĩ tình trạng của bạn liên quan đến bệnh dạ dày.<br style="font-family: Arial, sans-serif !important; font-style: normal !important; color: #666666 !important; background-image: none !important;" />
+                                        </div>
+                                        <br style="font-family: Arial, sans-serif; font-style: normal; color: #666666; background-color: #ffffff; font-size: 13px; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 18.200000762939453px; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-image: none !important;" />
+                                        <div style="border: 0px; margin: 0px; padding: 0px; font-size: 13px; font-family: Arial, sans-serif; font-style: normal; color: #666666; background-color: #ffffff; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 18.200000762939453px; orphans: auto; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-align: justify; background-image: none !important;">
+                                            Nếu bạn bị đầy bụng, khó tiêu mà kèm theo các triệu chứng khác như nước tiểu bị sậm màu, phân xám, vàng hoặc bạc màu, nôn ói, chán ăn, mệt mỏi, suy nhược cơ thể… Đây có thể là triệu chứng bệnh lý của gan.<br style="font-family: Arial, sans-serif !important; font-style: normal !important; color: #666666 !important; background-image: none !important;" />
+                                        </div>
+                                        <br style="font-family: Arial, sans-serif; font-style: normal; color: #666666; background-color: #ffffff; font-size: 13px; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 18.200000762939453px; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-image: none !important;" />
+                                        <div style="border: 0px; margin: 0px; padding: 0px; font-size: 13px; font-family: Arial, sans-serif; font-style: normal; color: #666666; background-color: #ffffff; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 18.200000762939453px; orphans: auto; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-align: justify; background-image: none !important;">
+                                            Ngoài ra cũng có một số yếu tố khác có thể làm tăng nguy cơ này như tác hại của việc hút thuốc, rượu bia, tinh thần căng thẳng, mệt mỏi…, hay trước khi đi ngủ mà ăn quá nhiều chất béo, ngọt cũng có thể dẫn đến đầy bụng, khó tiêu.<br style="font-family: Arial, sans-serif !important; font-style: normal !important; color: #666666 !important; background-image: none !important;" />
+                                        </div>
+                                        <br style="font-family: Arial, sans-serif; font-style: normal; color: #666666; background-color: #ffffff; font-size: 13px; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 18.200000762939453px; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-image: none !important;" />
+                                        <div style="border: 0px; margin: 0px; padding: 0px; font-size: 13px; font-family: Arial, sans-serif; font-style: normal; color: #666666; background-color: #ffffff; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 18.200000762939453px; orphans: auto; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-align: justify; background-image: none !important;">
+                                            Bạn nên hạn chế ăn mặn, chua, hạn chế uống bia, rượu, các nước uống có ga… Và nên thường xuyên bổ sung men tiêu hóa (men tiêu hóa có trong sữa chua, hay trong thực phẩm tự nhiên như mầm giá), ăn thực phẩm nhiều chất xơ như rau xanh và củ quả.<br style="font-family: Arial, sans-serif !important; font-style: normal !important; color: #666666 !important; background-image: none !important;" />
+                                        </div>
+                                        <br style="font-family: Arial, sans-serif; font-style: normal; color: #666666; background-color: #ffffff; font-size: 13px; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 18.200000762939453px; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-image: none !important;" />
+                                        <div style="border: 0px; margin: 0px; padding: 0px; font-size: 13px; font-family: Arial, sans-serif; font-style: normal; color: #666666; background-color: #ffffff; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 18.200000762939453px; orphans: auto; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-align: justify; background-image: none !important;">
+                                            Tốt nhất bạn nên đi khám chuyên khoa tiêu hóa – gan mật tại các bệnh viện để được bác sĩ chuyên khoa tư vấn, điều trị. Nếu cần tư vấn thêm, bạn có thể gọi điện thoại trực tiếp số 0909 602 827 vào các buổi chiều để được hỗ trợ.<br style="font-family: Arial, sans-serif !important; font-style: normal !important; color: #666666 !important; background-image: none !important;" />
+                                        </div>
+                                        <br style="font-family: Arial, sans-serif; font-style: normal; color: #666666; background-color: #ffffff; font-size: 13px; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 18.200000762939453px; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-image: none !important;" />
+                                        <strong style="border: 0px; margin: 0px; padding: 0px; font-size: 13px; font-weight: bold; font-family: Arial, sans-serif; font-style: normal; color: #666666; background-color: #ffffff; font-variant: normal; letter-spacing: normal; line-height: 18.200000762939453px; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-image: none !important;">
+                                            Thạc sĩ, bác sĩ Bùi Quang Đi<br style="font-family: Arial, sans-serif !important; font-style: normal !important; color: #666666 !important; background-image: none !important;" />
+                                            Khoa Tiêu hóa - Gan mật, Bệnh viện Hoàn Mỹ<span class="Apple-converted-space">&nbsp;</span>
+                                        </strong>
+                                    </div>
+                                </div>
+                                <div class="clear">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-note">Nếu bạn có câu hỏi khác, vui lòng gửi câu hỏi cho chúng tôi hoặc liên hệ Bộ phận Chăm sóc khách hàng.
+                            <div class="clear"></div>
+                            <button type="button" class='show-faq' ng-click="createQuestion('custom-modal-createQuest')"  value="Gửi">
+                                <span>Gửi câu hỏi cho chúng tôi</span>
+                            </button>
+                            <div class="clear"></div>
+                        </div>
+                        <div id="ctl00_mainContent_ctl01_NewsList1_divPager" class="pages">
+                            <div class='modulepager'>
+                                <span class="PageInfo">Trang 1 / 2</span> 
+                                <span class="SelectedPage" title="Đến trang 1">1</span> 
+                                <a class='ModulePager' href="/tanbinh/hoi-dap?pagenumber=2" title="Đến trang 2">2</a> 
+                                <a class='ModulePager NextPage' href="/tanbinh/hoi-dap?pagenumber=2" title="Chuyển đến trang 2">&rsaquo;</a> 
+                                <a class='ModulePager LastPage' href="/tanbinh/hoi-dap?pagenumber=2" title="Trang cuối">&raquo;</a> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div id="ctl00_divRight" class="col-right cmszone">
+
+                <div class='Module Module-400'>
+                    <div class="left-menu">
+                        <ul class="noli">
+                            <li><a href="/appointment" target="_self" title="Đặt lịch khám">Đặt lịch khám</a></li>
+                            <li><a href="/tanbinh/danh-sach-bac-si" target="_self" title="Danh sách bác sĩ">Danh sách bác sĩ</a></li>
+                            <li class="active"><a class="active" href="/answer-question" target="_self" title="Hỏi đáp">Hỏi đáp</a></li>
+                            <li><a href="/tanbinh/hoi-dap-chuyen-khoa" target="_self" title="Hỏi đáp chuyên khoa">Hỏi đáp chuyên khoa</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class='Module Module-372'>
+                    <div class="fb-page" data-href="#" data-tabs="Facebook" data-width="231" data-small-header="false" data-adapt-container-width="false" data-hide-cover="false" data-show-facepile="true">Phòng Khám Hoàn Mỹ Sài Gòn</div>
+                    <div class="emhotline">
+                        CẤP CỨU <span>(08) 3811 9783</span>
+                    </div>
+                    <a href="#" target="_blank">
+                        <img src="http://hoanmy.com/Data/Sites/1/userfiles/56/KS-ngoai-tru.png" alt="Khao-sat-ngoai-tru" />
+                    </a>
+                    <a href="#" target="_blank">
+                        <img src="http://hoanmy.com/Data/Sites/1/userfiles/56/KS-noi-tru.png" alt="Khao-sat-noi-tru" />
+                    </a>
+                </div>
+
+            </div>
+            <div class="clear">
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+<modal id="custom-modal-createQuest">
+    <div class="modal">
+        <div class="modal-header">
+        </div>
+        <div class="modal-body">
+            
+            <div class="email-subject">
+                <div class="frm-row ct-name">
+                    <label for="txtName" class="label">Tên của bạn</label>
+                    <input type="text" maxlength="100" id="txtName">
+                </div>
+                <div class="frm-row ct-name">
+                    <label for="txtEmail" class="label">Email của bạn (*)</label>
+                    <input type="text" maxlength="255" id="txtEmail">
+                    <span id="reqEmail" title="Email không hợp lệ." class="txt-error" style="display:none;"></span>
+                    <span id="regexEmail" title="Email không hợp lệ." class="txt-error" style="display:none;"></span>
+                </div>
+                <div class="frm-row ct-name">
+                    <label for="txtSubject" class="label">Tiêu đề</label>
+                    <input type="text" maxlength="255" id="txtSubject">
+                </div>
+                <div class="frm-row ct-name">
+                    <label for="txtMessage" class="label">Nội dung (*)</label>
+                    <textarea rows="2" cols="20" id="txtMessage"></textarea>
+                    <span id="reqMessage" class="txt-error" style="display:none;"></span>
+                </div>
+                <div class="frm-row ct-name">
+                    <label class="label">&nbsp;</label>
+                    <div class="frm-btn">
+                        <input type="submit" value="Gửi" id="btnSend">
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="cp-error"></div>
+            </div>
+
+            <div class="row">
+                <input type="button" value="Đóng" class="more blue right btn" ng-click="closeModal('custom-modal-createQuest');" />
+            </div>
+        </div>
+    </div>
+    <div class="modal-background"></div>
+</modal>
+
+<script src="../../../assets/js/skin/fpt-crd.js"></script>

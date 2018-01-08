@@ -1,0 +1,14 @@
+﻿using PatientPortal.Domain.Models.AUTHEN;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.Domain.Common
+{
+    public class GlobalVar
+    {
+        public static UserCache UserCacheModel { get; set; }
+    }
+}

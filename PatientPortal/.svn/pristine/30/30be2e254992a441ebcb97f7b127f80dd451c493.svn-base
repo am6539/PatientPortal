@@ -1,0 +1,46 @@
+﻿CREATE PROC [dbo].[usp_Configuration_Transaction](
+	@Action CHAR(1) = 'I',
+	@Id TINYINT = 1,
+	@Name NVARCHAR(250) = '',
+	@Address NVARCHAR(250) = '',
+	@Phone VARCHAR(100) = '',
+	@Fax VARCHAR(100) = '',
+	@Hotline VARCHAR(50) = '',
+	@GoogleMap VARCHAR(50) = '',
+	@GoogleEngineScript NVARCHAR(MAX) = '',
+	@IsSendEmailWF BIT
+)
+AS BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+
+	DECLARE @return bit = 1
+	BEGIN TRY
+		BEGIN TRAN;
+		
+		IF EXISTS(SELECT TOP 1 1 FROM [dbo].[CMS])
+		BEGIN
+			UPDATE  [dbo].[CMS]
+			SET
+				[Name] = @Name, [Address] = @Address, [Phone] = @Phone, [Fax] = @Fax, [Hotline] = @Hotline,
+				[GoogleMap] = @GoogleMap, [GoogleEngineScript] = @GoogleEngineScript, IsSendEmailWF = @IsSendEmailWF
+			WHERE [Id] = 1
+		END
+		ELSE
+		BEGIN
+			INSERT [dbo].[CMS] ([Id], [Name], [Address], [Phone], [Fax], [Hotline], [GoogleMap], [GoogleEngineScript], [IsSendEmailWF])
+			VALUES(1, @Name, @Address, @Phone, @Fax, @Hotline, @GoogleMap, @GoogleEngineScript, @IsSendEmailWF)
+		END
+
+		COMMIT TRAN;
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0 
+		BEGIN
+			ROLLBACK TRAN;
+			SET  @return = 0
+		END
+	END CATCH
+	SELECT @return
+	
+END

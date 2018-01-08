@@ -1,0 +1,346 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using PatientPortal.PatientServices.Common;
+using PatientPortal.PatientServices.Models.Article;
+using PatientPortal.PatientServices.Utility;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using PatientPortal.Domain.LogManager;
+
+namespace PatientPortal.PatientServices.Controllers
+{
+    public class QAMedicalController : Controller
+    {
+        private static string controllerName = string.Empty;
+        
+        #region Private Methods
+        private async Task<ArticleViewModel> GetArticle(int id)
+        {
+            var apiUrl = controllerName + APIProvider.APIGenerator(this, this.RouteData.Values["action"].ToString(), id);
+            var model = await APIProvider.Get<ArticleViewModel>(apiUrl, APIConstant.API_Resource_CORE);
+            return model;
+        }
+
+        private async Task<ArticleCommentViewModel> GetArticleComment(int id, int idArticle)
+        {
+            var apiUrl = controllerName + "/GetComment?id=" + Convert.ToString(id)+"&idArticle="+Convert.ToString(idArticle);
+            var model = await APIProvider.Get<ArticleCommentViewModel>(apiUrl, APIConstant.API_Resource_CORE);
+            return model;
+        }
+        private async Task<List<ArticleCommentViewModel>> GetComments(int idArticle)
+        {
+            var apiUrl = controllerName + "/GetAllComment?idArticle=" + Convert.ToString(idArticle);
+            var model = await APIProvider.Get<List<ArticleCommentViewModel>>(apiUrl, APIConstant.API_Resource_CORE);
+            return model;
+        }
+
+        private static async Task<int> InvokeTransaction(ArticleViewModel model, string strUrl)
+        {
+            var result =
+                await APIProvider.DynamicTransaction<ArticleViewModel, int>(model, strUrl, APIConstant.API_Resource_CORE);
+            return result;
+        }
+        private static async Task<int> InvokeTransaction(ArticleCommentViewModel model, string strUrl)
+        {
+            var result =
+                await APIProvider.DynamicTransaction<ArticleCommentViewModel, int>(model, strUrl, APIConstant.API_Resource_CORE);
+            return result;
+        }
+        #endregion
+
+        #region Article
+
+        #region -- Read
+        // GET: QAMedical
+        public async Task<ActionResult> Index(byte type = 0)
+        {
+            //Set controller name
+            controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+
+            //Result
+            var model = new List<ArticleViewModel>();
+            try
+            {
+                //Call API Provider
+                var list = await APIProvider.Get<List<ArticleViewModel>>(controllerName, APIConstant.API_Resource_CORE);
+
+                if (type == 1)
+                {
+                    //Get list Unanswer
+                    list = list.Where(i => i.CountComments == 0).ToList();
+                }
+                ViewBag.TypePage = type;
+                model = list != null ? list.OrderByDescending(i=>i.Date).ToList() : model;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw ex.GetBaseException();
+            }
+
+            return View(model);
+        }
+
+        #endregion
+
+        #region -- Create
+        public ActionResult NewArticle()
+        {
+            return View();
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> AddNewArticle(ArticleViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //Set default some fields
+                model.PatientId = 11;
+                model.Status = (byte) ValueConstant.ArticleStatus.JustCreated;
+                model.IsClosed = false;
+                model.Date = DateTime.Now;
+
+                //Call API Provider
+                string strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_INSERT);
+                var result = await InvokeTransaction(model, strUrl);
+
+                if (result > 0)
+                {
+                    //Successfull
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    //Failed
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.FAIL));
+                }
+                
+            }
+
+            return View("NewArticle");
+
+        }
+        #endregion
+
+        #region -- Edit
+        public async Task<ActionResult> ViewEditArticle(int id, bool? ViewDetail = false)
+        {
+            //Call API Provider - Get data
+            var model = await GetArticle(id);
+            ViewBag.FlagCallFromViewDetail = ViewDetail ?? false;
+            return PartialView("_EditArticle", model);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> UpdateArticle(ArticleViewModel model, bool ViewDetail = false)
+        {
+            if (ModelState.IsValid)
+            {
+                model.Date = DateTime.Now;
+
+                //Call API Provider 
+                var strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_UPDATE);
+                var result = await InvokeTransaction(model, strUrl);
+
+                if (result > 0)
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.FAIL));
+                }
+
+                if (ViewDetail)
+                {
+                    return RedirectToAction("ViewDetail", new {id = model.Id});
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            else
+            {
+                
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.FAIL));
+                return RedirectToAction("Index");
+            }
+        }
+        #endregion
+
+        #region -- Delete
+        public ActionResult ViewConfirmDeleteArticle(ArticleViewModel model)
+        {
+            return PartialView("_ConfirmDeleteArticle", model);
+        }
+
+        public async Task<ActionResult> DeleteArticle(int id)
+        {
+            try
+            {
+                //Call API Provider - Get data
+                var apiUrl = controllerName + APIProvider.APIGenerator(this, this.RouteData.Values["action"].ToString(), id);
+                var model = await GetArticle(id);
+
+                //Call API Provider - Transaction
+                apiUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_DELETE);
+                var result = await InvokeTransaction(model, apiUrl);
+
+                if (result > 0)
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_DELETE, RenderMessage.TypeResult.SUCCESS));
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_DELETE, RenderMessage.TypeResult.FAIL));
+                    return RedirectToAction("ViewDetail", new { id = model.Id });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                return View("Index");
+            }
+        }
+        #endregion
+
+        #endregion End Article
+
+        #region View Article Detail
+
+        #region -- Read
+        public async Task<ActionResult> ViewDetail(int id)
+        {
+            ArticleModel result = new ArticleModel();
+
+            //Call API Provider - Get data
+            var model = await GetArticle(id);
+            var comments = await GetComments(id);
+
+            result.ArticleViewModel = model ?? result.ArticleViewModel;
+            result.ListArticleCommentViewModels = comments ?? result.ListArticleCommentViewModels;
+
+            return View("ViewDetail", result);
+        }
+        #endregion
+
+        #region -- Create
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> NewReplyComment(int ArticleId, int CreatedUser, string ReplyContent)
+        {
+            ArticleCommentViewModel model = new ArticleCommentViewModel();
+            model.ArticleId = ArticleId;
+            model.CreatedUser = CreatedUser;
+            model.Detail = ReplyContent;
+            model.Status = (byte)ValueConstant.ArticleStatus.JustCreated;
+            model.Date = DateTime.Now;
+
+            //Call API Provider 
+            var strUrl = APIProvider.APIGenerator(controllerName+ "/Comment", APIConstant.ACTION_INSERT);
+            var result = await InvokeTransaction(model, strUrl);
+
+            if (result > 0)
+            {
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.SUCCESS));
+            }
+            else
+            {
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.FAIL));
+            }
+            return RedirectToAction("ViewDetail", new { id = ArticleId });
+        }
+        #endregion
+
+        #region -- Edit
+        public async Task<ActionResult> ViewEditArticleComment(int id, int idArticle)
+        {
+            //Call API Provider - Get data
+            var model = await GetArticleComment(id, idArticle);
+            return PartialView("_EditArticleComment", model);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> UpdateComment(ArticleCommentViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                model.Date = DateTime.Now;
+
+                //Call API Provider 
+                var strUrl = APIProvider.APIGenerator(controllerName + "/Comment", APIConstant.ACTION_UPDATE);
+                var result = await InvokeTransaction(model, strUrl);
+
+                if (result > 0)
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.FAIL));
+                }
+                return RedirectToAction("ViewDetail", new { id = model.ArticleId });
+            }
+            else
+            {
+                //Chưa sửa
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.FAIL));
+                return RedirectToAction("ViewDetail", new { id = model.ArticleId });
+            }
+        }
+        #endregion
+
+        #region -- Delete
+        public ActionResult ViewConfirmDeleteComment(int id, int idArticle)
+        {
+            ViewBag.IdComment = id;
+            ViewBag.IdArticle = idArticle;
+            return PartialView("_ConfirmDeleteComment");
+        }
+
+        public async Task<ActionResult> DeleteArticleComment(int id, int idArticle)
+        {
+            try
+            {
+                //Call API Provider - Get data
+                var apiUrl = controllerName + APIProvider.APIGenerator(this, this.RouteData.Values["action"].ToString(), id);
+                var model = await GetArticleComment(id, idArticle);
+                var articleId = model.ArticleId;
+
+                //Call API Provider - Transaction
+                apiUrl = APIProvider.APIGenerator(controllerName + "/Comment", APIConstant.ACTION_DELETE);
+                var result = await InvokeTransaction(model, apiUrl);
+
+                if (result > 0)
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_DELETE, RenderMessage.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_DELETE, RenderMessage.TypeResult.FAIL));
+                }
+
+                return RedirectToAction("ViewDetail", new { id = articleId });
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                return View("Index");
+            }
+        }
+        #endregion
+        #endregion End Article Comment
+
+
+    }
+}

@@ -1,0 +1,195 @@
+﻿using PatientPortal.CMS.Models;
+using PatientPortal.CMS.Utility;
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Configuration;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Linq.Dynamic;
+using PatientPortal.CMS.Common;
+using System.Threading.Tasks;
+using System.IO;
+
+namespace PatientPortal.CMS.Controllers
+{
+    public class CMSPostController : Controller
+    {
+        // GET: Post
+        public ActionResult Index(string languageCode)
+        {
+            try
+            {
+                languageCode = ConfigurationManager.AppSettings["AdminLanguageCode"];
+
+                var listCatg = APIHelper.Get<List<CategoryViewModel>>($"api/Category");
+                if (listCatg != null)
+                    ViewData["ListCategory"] = listCatg;
+                    
+                var results = APIHelper.Get<List<PostListViewModel>>($"api/Post?languageCode={languageCode}");
+
+                return View(results);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        // GET: Post/Create
+        public ActionResult Create()
+        {
+            //var listCatg = APIHelper.Get<List<CategoryViewModel>>($"api/Category");
+            //if (listCatg != null)
+            //    ViewBag.CategoryId = new SelectList(listCatg, "Id", "Name");
+
+            var data = APIHelper.Get<List<CategoryViewModel>>($"api/Category");
+            if (data != null)
+                ViewBag.Categories = data;
+
+            var model = new PostViewModel();
+
+            return View(model);
+        }
+
+        // POST: Post/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create(PostViewModel model, HttpPostedFileBase fileUpload)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    string fullImgPath = string.Empty;
+                    if (fileUpload != null)
+                    {
+                        string imagePath = CreateFolder();
+                        string name = "";
+                        WebImageHelper.UploadImage(fileUpload, imagePath, ref name);
+                        fullImgPath = imagePath + ValueConstant.FOLDER_SEPARATOR + fileUpload.FileName;
+                    }
+                    model.Image = fullImgPath;
+                    model.LanguageId = ValueConstant.LANG_VIETNAM;
+                    model.Status = 1;
+                    var result = await APIHelper.TransactionAsync<PostViewModel>(model, $"api/Post?action={ ValueConstant.ACTION_INSERT }");
+                    return RedirectToAction("Index");
+                }
+                catch
+                {
+                    return View();
+                }
+            }
+
+            var data = APIHelper.Get<List<CategoryViewModel>>($"api/Category");
+            if (data != null)
+                ViewBag.Categories = data;
+            return View(model);
+        }
+
+        private string CreateFolder()
+        {
+            try
+            {
+                string nameFolder = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString("00") + DateTime.Now.Day.ToString("00");
+                string path = ValueConstant.IMAGE_PATH + ValueConstant.IMAGE_POST_PATH + nameFolder;
+                string mapPath = Server.MapPath(path);
+                if (!Directory.Exists(mapPath))
+                {
+                    Directory.CreateDirectory(mapPath);
+                    return path;
+                }
+                else
+                    return path;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        // GET: Post/Edit/5
+        public ActionResult Edit(int id)
+        {
+            try
+            {
+                var listCatg = APIHelper.Get<List<CategoryViewModel>>($"api/Category");
+                var model = APIHelper.Get<PostViewModel>($"api/Post?PostId={id}");
+                if (string.IsNullOrEmpty(model.Image))
+                {
+                    model.Image = ValueConstant.IMAGE_PATH + ValueConstant.IMAGE_POST_PATH + ValueConstant.IMAGE_DEFAULT;
+                }
+                if (listCatg != null)
+                    ViewBag.CategoryId = new SelectList(listCatg, "ID", "Name", model.CategoryId);
+                
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        // POST: Post/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(PostViewModel model, HttpPostedFileBase fileUpload)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if (fileUpload != null)
+                    {
+                        if (string.IsNullOrEmpty(model.Image) || model.Image == ValueConstant.IMAGE_DEFAULT)
+                        {
+                            string imagePath = CreateFolder();
+                            string name = "";
+                            WebImageHelper.UploadImage(fileUpload, imagePath, ref name);
+                            model.Image = imagePath + ValueConstant.FOLDER_SEPARATOR + fileUpload.FileName;
+                        }
+                        else
+                        {
+                            string name = "";
+                            string directory = Path.GetDirectoryName(model.Image);
+                            WebImageHelper.UploadImage(fileUpload, directory, ref name);
+                            model.Image = directory + ValueConstant.FOLDER_SEPARATOR + fileUpload.FileName;
+                        }
+                    }
+                    model.LanguageId = ValueConstant.LANG_VIETNAM;
+                    model.Status = 1;
+                    var result = await APIHelper.TransactionAsync<PostViewModel>(model, $"api/Post?action={ ValueConstant.ACTION_UPDATE }");
+                    return RedirectToAction("Index");
+                }
+                catch(Exception ex)
+                {
+                    return View();
+                }
+            }
+            return View();
+        }
+
+        // POST: Post/Delete/5
+        [HttpPost]
+        public async Task<ActionResult> Delete(int id)
+        {
+            try
+            {
+                var model = new PostViewModel();
+                model.Id = id;
+                var result = await APIHelper.TransactionAsync<PostViewModel>(model, $"api/Post?action={ ValueConstant.ACTION_DELETE }");
+                return RedirectToAction("Index");
+            }
+            catch(Exception ex)
+            {
+                return View();
+            }
+        }
+
+        public ActionResult ViewConfirmDelete(PostListViewModel model)
+        {
+            return PartialView("_ConfirmDeletePartial", model);
+        }
+    }
+}

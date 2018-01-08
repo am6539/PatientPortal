@@ -1,0 +1,156 @@
+﻿<style>
+    .btn {
+        right: 20px;
+        padding: 6px 10px;
+        background: #73b744;
+        color: #fff;
+        border-radius: 3px;
+        border: 0px;
+    }
+</style>
+
+<link href="assets/css/site/menuPage.css" rel="stylesheet" />
+<div class="brd-wrap" ng-include="'app/shared/template-include/submenu.template.html'">
+</div>
+<div class="top-content">
+    <div class="content container">
+        <div class="row">
+            <div class="content-bg">
+                <div id="ctl00_divCenter" class="col-left">
+
+                    <div class="content-bg2">
+                        <div class='Module Module-540'>
+                            <div class="banner">
+                                <img src="assets/images/media/6/patientservices_faq.jpg" alt="" />
+                            </div>
+                        </div><div class='Module Module-592'>
+                            <div class="faqs-wrap">
+                                <div class="faq-item" ng-repeat="item in qas">
+                                    <div class="faq-title">
+                                        <h2 class="post-title">{{item.Title}}</h2>
+                                        <span style="color: #1b7b57; font-family: Arial, sans-serif; font-size: 13px; font-style: normal; font-variant: normal; font-weight: bold; letter-spacing: normal; line-height: 18.200000762939453px; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: #ffffff; float: none; display: inline !important;">
+                                            {{item.Question}}
+                                        </span>
+                                    </div>
+                                    <div class="faq-content">
+                                        <div class="faq-content2">
+                                            {{item.Answer}}
+                                        </div>
+                                    </div>
+                                    <div class="clear">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="faq-note">
+                                Nếu bạn có câu hỏi khác, vui lòng gửi câu hỏi cho chúng tôi hoặc liên hệ Bộ phận Chăm sóc khách hàng.
+                                <div class="clear"></div>
+                                <button type="button" class='show-faq' ng-click="createQuestion('custom-modal-createQuest')" value="Gửi">
+                                    <span>Gửi câu hỏi cho chúng tôi</span>
+                                </button>
+                                <div class="clear"></div>
+                            </div>
+                            <div id="ctl00_mainContent_ctl01_NewsList1_divPager" class="pages">
+                                <div class='modulepager'>
+                                    <a class="ModulePager FirstPage" ng-click="setPage(1)" title="Trang đầu tiên">«</a>
+                                    <a class="ModulePager BackPage" ng-click="setPage(pager.currentPage - 1)" title="Trang trước">‹</a>
+                                    <a class='ModulePager' ng-class="{SelectedPage : activeValue === page}" ng-repeat="page in pager.pages" ng-click="setPage(page)" title="Đến trang {{page}}">{{page}}</a>
+                                    <a class='ModulePager NextPage' ng-click="setPage(pager.currentPage + 1)" title="Trang tiếp">&rsaquo;</a>
+                                    <a class='ModulePager LastPage' ng-click="setPage(pager.totalPages)" title="Trang cuối">&raquo;</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div id="ctl00_divRight" class="col-right cmszone">
+                    <div class='Module Module-400'>
+                        <div class="left-menu">
+                            <ul class="noli">
+                                <li><a href="/appointment" target="_self" title="Đặt lịch khám">Đặt lịch khám</a></li>
+                                <li><a href="/tanbinh/danh-sach-bac-si" target="_self" title="Danh sách bác sĩ">Danh sách bác sĩ</a></li>
+                                <li class="active"><a class="active" href="/answer-question" target="_self" title="Hỏi đáp">Hỏi đáp</a></li>
+                                <li><a href="/tanbinh/hoi-dap-chuyen-khoa" target="_self" title="Hỏi đáp chuyên khoa">Hỏi đáp chuyên khoa</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class='Module Module-372'>
+                        <div class="fb-page" data-href="#" data-tabs="Facebook" data-width="231" data-small-header="false" data-adapt-container-width="false" data-hide-cover="false" data-show-facepile="true">Phòng Khám Hoàn Mỹ Sài Gòn</div>
+                        <div class="emhotline">
+                            CẤP CỨU <span>(08) 3811 9783</span>
+                        </div>
+                        <a href="#" target="_blank">
+                            <img src="http://hoanmy.com/Data/Sites/1/userfiles/56/KS-ngoai-tru.png" alt="Khao-sat-ngoai-tru" />
+                        </a>
+                        <a href="#" target="_blank">
+                            <img src="http://hoanmy.com/Data/Sites/1/userfiles/56/KS-noi-tru.png" alt="Khao-sat-noi-tru" />
+                        </a>
+                    </div>
+
+                </div>
+                <div class="clear">
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<modal id="custom-modal-createQuest">
+    <div class="modal">
+        <div class="modal-header">
+        </div>
+        <div class="modal-body">
+            <form class="contact_form" id="question_form" name="questionForm" method="post" ng-submit="sendMail(question, 'custom-modal-createQuest')">
+                <div class="email-subject">
+                    <div class="frm-row ct-name">
+                        <label for="txtName" class="label">Tên của bạn</label>
+                        <input type="text" maxlength="100" id="txtName" ng-model="question.Name">
+                        <div ng-show="questionForm.$submitted && questionForm.txtName.$dirty && questionForm.txtName.$invalid" class="text-danger">
+                            <i class="fa fa-times text-danger"></i>
+                            <span class="message-error" ng-show="questionForm.txtName.$error.required">Vui lòng nhập tên</span>
+                        </div>
+                    </div>
+                    <div class="frm-row ct-name">
+                        <label for="txtEmail" class="label">Email của bạn (*)</label>
+                        <input type="email" maxlength="255" id="txtEmail" ng-model="question.Email">
+                        <div ng-show="questionForm.$submitted && questionForm.txtEmail.$dirty && questionForm.txtEmail.$invalid" class="text-danger">
+                            <i class="fa fa-times text-danger"></i>
+                            <span class="message-error" ng-show="questionForm.txtEmail.$error.required">Bạn chưa nhập địa chỉ email</span>
+                            <span class="message-error" ng-show="questionForm.txtEmail.$error.email">Không đúng định dạng email</span>
+                        </div>
+                    </div>
+                    <div class="frm-row ct-name">
+                        <label for="txtSubject" class="label">Tiêu đề</label>
+                        <input type="text" maxlength="255" id="txtSubject" ng-model="question.Subject">
+                        <div ng-show="questionForm.$submitted && questionForm.txtSubject.$dirty && questionForm.txtSubject.$invalid" class="text-danger">
+                            <i class="fa fa-times text-danger"></i>
+                            <span class="message-error" ng-show="questionForm.txtSubject.$error.required">Vui lòng nhập tiêu đề câu hỏi</span>
+                        </div>
+                    </div>
+                    <div class="frm-row ct-name">
+                        <label for="txtMessage" class="label">Nội dung (*)</label>
+                        <textarea rows="2" cols="20" id="txtMessage" ng-model="question.Body"></textarea>
+                        <div ng-show="questionForm.$submitted && questionForm.txtMessage.$dirty && questionForm.txtMessage.$invalid" class="text-danger">
+                            <i class="fa fa-times text-danger"></i>
+                            <span class="message-error" ng-show="questionForm.txtMessage.$error.required">Vui lòng nhập nội dung câu hỏi</span>
+                        </div>
+                    </div>
+                    <div class="frm-row ct-name">
+                        <label class="label">&nbsp;</label>
+                        <div class="frm-btn">
+                            <input class="more blue" type="submit" value="Gửi" id="btnSend">
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="cp-error"></div>
+                </div>
+            </form>
+
+            <div class="row">
+                <input type="button" value="Đóng" class="more blue right btn" ng-click="closeModal('custom-modal-createQuest');" />
+            </div>
+        </div>
+    </div>
+    <div class="modal-background"></div>
+</modal>

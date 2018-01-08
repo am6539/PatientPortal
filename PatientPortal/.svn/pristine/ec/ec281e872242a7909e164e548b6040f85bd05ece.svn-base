@@ -1,0 +1,16 @@
+﻿using PatientPortal.Domain.Models.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.DataAccess.Repo.CMS
+{
+    public interface ISlider
+    {
+        List<Slider> GetAll();
+        Slider GetById(short id);
+        bool Transaction(List<Slider> data, char action);
+    }
+}

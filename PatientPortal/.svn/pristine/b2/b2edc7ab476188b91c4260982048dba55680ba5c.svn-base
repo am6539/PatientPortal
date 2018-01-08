@@ -1,0 +1,75 @@
+﻿using PatientPortal.Domain;
+using PatientPortal.Domain.LogManager;
+using PatientPortal.Domain.Models.AUTHEN;
+using PatientPortal.Internal.Models;
+using PatientPortal.Internal.Models.Schedule;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using PatientPortal.Utility.Application;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using static PatientPortal.Utility.Application.ApplicationGenerator;
+
+namespace PatientPortal.Internal.Controllers
+{
+    [Authorize]
+    [AppHandleError]
+    public class ScheduleController : Controller
+    {
+        private static string controllerName = string.Empty;
+        private static string controllerUser = "User";
+        private readonly IUserSession _userSession;
+        public ScheduleController(IUserSession userSession)
+        {
+            _userSession = userSession;
+        }
+        // GET: Schedule
+        public async Task<ActionResult> Index(ScheduleFilter param)
+        {
+            try
+            {
+                byte type = (byte)EnumUserConstants.UserType.ISDOCTOR;
+                string search = "";
+                string apiUrl = APIProvider.APIGenerator(controllerUser, new List<string> { nameof(search), nameof(type) }, true, search, type);
+                var doctorList = await APIProvider.Authorize_Get<List<UserViewModel>>(_userSession.BearerToken, apiUrl, APIConstant.API_Resource_CORE, ARS.Get);
+                if (doctorList == null)
+                    doctorList = ApplicationGenerator.GetObject<List<UserViewModel>>();
+                ViewBag.Users = doctorList;
+
+                //Call API Provider
+                if (param.Start == DateTime.MinValue && param.End == DateTime.MinValue)
+                {
+                    param.Start = DateTime.Now;
+                    param.End = DateTime.Now;
+                }
+                controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                string apiUrlSchedule = APIProvider.APIGenerator(controllerName, new List<string> { nameof(param.UserId),
+                nameof(param.Start), nameof(param.End) }, true, param.UserId, param.Start.ToString("yyyy-MM-dd"), param.End.ToString("yyyy-MM-dd"));
+                var schedule = await APIProvider.Authorize_Get<List<ScheduleViewModel>>(_userSession.BearerToken, apiUrlSchedule, APIConstant.API_Resource_CORE, ARS.Get);
+                if (schedule == null)
+                    schedule = new List<ScheduleViewModel>();
+
+                ViewBag.Schedule = schedule;
+
+                var model = new ScheduleFilter();
+                return View(model);
+            }
+            catch (HttpException ex)
+            {
+                Logger.LogError(ex);
+                int statusCode = ex.GetHttpCode();
+                if (statusCode == 401)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(FuntionType.Department, APIConstant.ACTION_ACCESS);
+                    return new HttpUnauthorizedResult();
+                }
+
+                throw ex;
+            }
+        }
+    }
+}

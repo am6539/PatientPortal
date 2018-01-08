@@ -1,0 +1,33 @@
+﻿using PatientPortal.Domain.Models.SPA;
+using PatientPortal.IRepository.SPA;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.Repositoty.SPA
+{
+    public class PostRepoImpl : IPostRepo
+    {
+        private IPostRepo _iPost;
+
+        public PostRepoImpl(IPostRepo iPost)
+        {
+            this._iPost = iPost;
+        }
+
+        public List<PostList> GetAll(string languageCode)
+        {
+            try
+            {
+                var results = _iPost.GetAll(languageCode);
+                return results;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+    }
+}

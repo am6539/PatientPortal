@@ -1,0 +1,66 @@
+﻿using PatientPortal.DataAccess.Repo.CORE;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CORE;
+using PatientPortal.DataAccess.Dapper;
+using Dapper;
+using System.Transactions;
+using PatientPortal.Domain.Utilities;
+using PatientPortal.DataAccess.Repo.Wrapper;
+using PatientPortal.Domain.Common;
+
+namespace PatientPortal.DataAccess.CORE
+{
+    public class MessageFolderImpl : IMessageFolder
+    {
+        private readonly IAdapterPattern _adapterPattern;
+
+        public MessageFolderImpl(IAdapterPattern adapterPattern)
+        {
+            this._adapterPattern = adapterPattern;
+        }
+
+        /// <summary>
+        /// Get MessageFolder
+        /// </summary>
+        /// <param name="param">Dictionary</param>
+        /// <returns>List MessageFolder</returns>
+        public async Task<List<MessageFolder>> Query(Dictionary<string, object> param)
+        {
+            try
+            {
+                var data = await _adapterPattern.ExecuteQuery<MessageFolder>(param, "usp_MessageFolder", DataConfiguration.instanceCore);
+                return data.ToList();
+
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog("Execute Appointment get data: " + ex.Message);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Transaction of Dictionary
+        /// </summary>
+        /// <param name="data">Object MessageFolder</param>
+        /// <param name="action">I: Insert, U: Update, D: delete</param>
+        /// <returns>true/false</returns>
+        public async Task<bool> Transaction(MessageFolder data, char action)
+        {
+            try
+            {
+                var val = await _adapterPattern.SingleTransaction<MessageFolder, bool>(data, "usp_MessageFolder_Transaction", action, DataConfiguration.instanceCore);
+                return val;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog("Execute Appointment Transaction: " + ex.Message);
+                return false;
+            }
+        }
+    }
+}

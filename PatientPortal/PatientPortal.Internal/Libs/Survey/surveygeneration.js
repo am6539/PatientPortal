@@ -1,0 +1,343 @@
+﻿var arrBox = [];
+var stt = 1;
+var index = 0;
+function addQuestion(type) {
+    arrBox.sort();
+    getIndex();
+    //Id  : SurveyQuestionsModel_ItemIndex__Question
+    //Name: SurveyQuestionsModel[ItemIndex].Question
+    var hdftypeId = "SurveyQuestionsModel_" + index + "__Type";
+    var hdftypeName = "SurveyQuestionsModel[" + index + "].Type";
+    var hdfIsRequiredId = "SurveyQuestionsModel_" + index + "__IsRequireds";
+    var hdfIsRequiredName = "SurveyQuestionsModel[" + index + "].IsRequireds";
+    var $fields = $('#fields');
+    var typeId = "Type" + index;
+    var chkToogleId = "chkToogle" + index;
+    var $controlBottom = '<div class="clearfix"></div>' +
+        '<input type="hidden" value="" id="' + hdftypeId + '" name="' + hdftypeName + '" />' +
+        '<div id="controlBottom">' +
+        '<div class="col-md-8">' +
+        '<div class="form-group">' +
+        '<div class="col-md-12 group-label text-left">' +
+        '<label class="text-leftcontrol-label" for="SurveyQuestionsViewModel_Type">Loại câu hỏi</label>' +
+        '</div>' +
+        '<div class="col-md-12">' +
+        '<select class="chosen-select" data-placeholder="Chọn loại câu hỏi" data-val="true" id=' + typeId + ' onchange="onchangeType(this.value, ' + index + ')">' +
+        '<option value=""></option>' +
+        '<option value="1">Long text answer</option>' +
+        '<option value="2">Short text answer</option>' +
+        '<option value="3">Radio buttons</option>' +
+        '<option value="4">Checkboxes</option>' +
+        '<option value="5">Net promoter score</option>' +
+        '</select>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '<div class="col-md-4">' +
+        '<div class="checkbox-mark">' +
+        '<input type="hidden" value="" id="' + hdfIsRequiredId + '" name="' + hdfIsRequiredName + '" />' +
+        '<label class="text-leftcontrol-lable">Bắt buộc</label>' +
+        '<div class="checkbox-slidetoggle">' +
+        '<input type="checkbox" value="0" id=' + chkToogleId + ' name="check" onclick="clickRequire(' + index + ')">' +
+        '<label for=' + chkToogleId + '></label>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '<div class="clearfix"></div>';
+
+    var boxId = "box-area" + index;
+    //Id  : SurveyQuestionsModel_ItemIndex__Question
+    //Name: SurveyQuestionsModel[ItemIndex].Question
+    var questionId = "SurveyQuestionsModel_" + index + "__Question";
+    var questionName = "SurveyQuestionsModel[" + index + "].Question";
+
+    if (type == "textArea") {
+        $('<div class="box-area" id="' + boxId + '">' +
+            '<label class="text-leftcontrol-lable col-md-1">' + stt + '</label>' +
+            '<div class="col-md-10">' +
+            '<input class="form-control" type="text" name="' + questionName + '" id="' + questionId + '" />' +
+            '</div>' +
+            '<a class="col-md-1" style="padding: 5px 10px;" onclick="removeQuestion(' + index + ')"><i class="fa fa-trash-o" style="font-size: 15pt;" aria-hidden="true"></i></a>' +
+            '<div class="clearfix"></div>' + $controlBottom +
+            '</div>').appendTo($fields);
+        $('#' + typeId).chosen();
+        $('#' + typeId).val(1).trigger("chosen:updated");
+
+        //Custormer push box id into arrBox
+        arrBox.push(index);
+
+        //Set value type -> model.Type
+        var areatypeValue = $('#' + typeId).val();
+        $("#SurveyQuestionsModel_" + index + "__Type").val(areatypeValue);
+        stt = stt + 1;
+        index = index + 1;
+    }
+    if (type == "textBox") {
+        $('<div class="box-area" id="' + boxId + '">' +
+            '<label class="text-leftcontrol-lable col-md-1">' + stt + '</label>' +
+            '<div class="col-md-10">' +
+            '<input class="form-control" type="text" name="' + questionName + '" id="' + questionId + '" />' +
+            '</div>' +
+            '<a class="col-md-1" style="padding: 5px 10px;" onclick="removeQuestion(' + index + ')"><i class="fa fa-trash-o" style="font-size: 15pt;" aria-hidden="true"></i></a>' +
+            '<div class="clearfix"></div>' + $controlBottom +
+            '</div>').appendTo($fields);
+        $('#' + typeId).chosen();
+        $('#' + typeId).val(2).trigger("chosen:updated");
+
+        //Custormer push box id into arrBox
+        arrBox.push(index);
+
+        //Set value type -> model.Type
+        var texttypeValue = $('#' + typeId).val();
+        $("#SurveyQuestionsModel_" + index + "__Type").val(texttypeValue);
+        stt = stt + 1;
+        index = index + 1;
+    }
+
+    //Id  : SurveyQuestionsModel_ItemIndex_SurveyAnswersModel_1__Answer
+    //Name: SurveyQuestionsModel[ItemIndex].SurveyAnswersModel[1].Answer
+    var answerId1 = "SurveyQuestionsModel_" + index + "__SurveyAnswersModel_0__Answer";
+    var answerId2 = "SurveyQuestionsModel_" + index + "__SurveyAnswersModel_1__Answer";
+    var answerName1 = "SurveyQuestionsModel[" + index + "].SurveyAnswersModel[0].Answer";
+    var answerName2 = "SurveyQuestionsModel[" + index + "].SurveyAnswersModel[1].Answer";
+    if (type == "radioButton") {
+        $('<div class="box-area" id="' + boxId + '">' +
+            '<label class="text-leftcontrol-lable col-md-1">' + stt + '</label>' +
+            '<div class="col-md-10">' +
+            '<input class="form-control" type="text" name="' + questionName + '" id="' + questionId + '" />' +
+            '<div class="col-md-12">' +
+            '<div class="answer" id="' + answerId1 + '">' +
+            '<div class="col-md-12"><label class="text-leftcontrol-label">Trả lời 1</label></div>' +
+            '<div class="col-md-11"><input class="form-control" type="text" name="' + answerName1 + '" id="' + answerId1 + '" /></div>' +
+            '<a id="' + questionId + 'trash-answer" class="col-md-1" style="padding: 5px 10px;" onclick="removeAnswer(\'' + answerId1 + '\', \'radio\', ' + index + ')"><i class="fa fa-trash-o" style="font-size: 15pt;" aria-hidden="true"></i></a><div class="clearfix"></div>' +
+            '</div>' +
+            '<div class="answer" id="' + answerId2 + '">' +
+            '<div class="col-md-12"><label class="text-leftcontrol-label">Trả lời 2</label></div>' +
+            '<div class="col-md-11"><input class="form-control" type="text" name="' + answerName2 + '" id="' + answerId2 + '" /></div>' +
+            '<a id="' + questionId + 'trash-answer" class="col-md-1" style="padding: 5px 10px;" onclick="removeAnswer(\'' + answerId2 + '\', \'radio\', ' + index + ')"><i class="fa fa-trash-o" style="font-size: 15pt;" aria-hidden="true"></i></a><div class="clearfix"></div>' +
+            '</div>' +
+            '<div class="answer" id="answerRadioFields' + index + '"></div>' +
+            '<div class="col-md-12"><button class="btn btn-sm btn-answer" type="button" onclick="addRadioAnswer(' + index + ')">Thêm trả lời</button></div>' +
+            '</div>' +
+            '</div>' +
+            '<a class="col-md-1" style="padding: 5px 10px;" onclick="removeQuestion(' + index + ')"><i class="fa fa-trash-o" style="font-size: 15pt;" aria-hidden="true"></i></a>' + $controlBottom +
+            '</div>').appendTo($fields);
+        $('#' + typeId).chosen();
+        $('#' + typeId).val(3).trigger("chosen:updated");
+
+        //Custormer push box id into arrBox
+        arrBox.push(index);
+
+        //Set value type -> model.Type
+        var radiotypeValue = $('#' + typeId).val();
+        $("#SurveyQuestionsModel_" + index + "__Type").val(radiotypeValue);
+        stt = stt + 1;
+        index = index + 1;
+    }
+    if (type == "checkBox") {
+        $('<div class="box-area" id="' + boxId + '">' +
+            '<label class="text-leftcontrol-lable col-md-1">' + stt + '</label>' +
+            '<div class="col-md-10">' +
+            '<input class="form-control" type="text" name="' + questionName + '" id="' + questionId + '" />' +
+            '<div class="col-md-12">' +
+            '<div class="answer" id="' + answerId1 + '">' +
+            '<div class="col-md-12"><label class="text-leftcontrol-label">Trả lời 1</label></div>' +
+            '<div class="col-md-11"><input class="form-control" type="text" name="' + answerName1 + '" id="' + answerId1 + '" /></div>' +
+            '<a id="' + questionId + 'trash-answer" class="col-md-1" style="padding: 5px 10px;" onclick="removeAnswer(\'' + answerId1 + '\', \'check\', ' + index + ')"><i class="fa fa-trash-o" style="font-size: 15pt;" aria-hidden="true"></i></a><div class="clearfix"></div>' +
+            '</div>' +
+            '<div class="answer" id="' + answerId2 + '">' +
+            '<div class="col-md-12"><label class="text-leftcontrol-label">Trả lời 2</label></div>' +
+            '<div class="col-md-11"><input class="form-control" type="text" name="' + answerName2 + '" id="' + answerId2 + '" /></div>' +
+            '<a id="' + questionId + 'trash-answer" class="col-md-1" style="padding: 5px 10px;" onclick="removeAnswer(\'' + answerId2 + '\', \'check\', ' + index + ')"><i class="fa fa-trash-o" style="font-size: 15pt;" aria-hidden="true"></i></a><div class="clearfix"></div>' +
+            '</div>' +
+            '<div class="answer" id="answerCheckFields' + index + '"></div>' +
+            '<div class="col-md-12"><button class="btn btn-sm btn-answer" type="button" onclick="addCheckAnswer(' + index + ')">Thêm trả lời</button></div>' +
+            '</div>' +
+            '</div>' +
+            '<a class="col-md-1" style="padding: 5px 10px;" onclick="removeQuestion(' + index + ')"><i class="fa fa-trash-o" style="font-size: 15pt;" aria-hidden="true"></i></a>' + $controlBottom +
+            '</div>').appendTo($fields);
+        $('#' + typeId).chosen();
+        $('#' + typeId).val(4).trigger("chosen:updated");
+
+        //Custormer push box id into arrBox
+        arrBox.push(index);
+
+        //set value type -> model.Type
+        var checktypeValue = $('#' + typeId).val();
+        $("#SurveyQuestionsModel_" + index + "__Type").val(checktypeValue);
+        stt = stt + 1;
+        index = index + 1;
+    }
+
+    //--Structure set value model
+    //Id  : SurveyQuestionsModel_ItemIndex_SurveyAnswersModel_1__LowScore
+    //Name: SurveyQuestionsModel[ItemIndex].SurveyAnswersModel[1].LowScore
+
+    //Variable
+    var lowScoreId = "SurveyQuestionsModel_" + index + "_SurveyAnswersModel_0__LowScore";
+    var hightScoreId = "SurveyQuestionsModel_" + index + "_SurveyAnswersModel_0__HightScore";
+    var lowScoreName = "SurveyQuestionsModel[" + index + "].SurveyAnswersModel[0].LowScore";
+    var hightScoreName = "SurveyQuestionsModel[" + index + "].SurveyAnswersModel[0].HightScore";
+    if (type == "NPS") {
+        //Generation code html
+        $('<div class="box-area" id="' + boxId + '">' +
+            '<label class="text-leftcontrol-lable col-md-1">' + stt + '</label>' +
+            '<div class="col-md-10">' +
+            '<input class="form-control" type="text" name="' + questionName + '" id="' + questionId + '" />' +
+            '<div class="col-md-10">' +
+            '<div class="answer">' +
+            '<label class="text-leftcontrol-label">Nhãn điểm thấp</label>' +
+            '<input class="form-control" type="text" name="' + lowScoreName + '" id="' + lowScoreId + '" />' +
+            '</div>' +
+            '<div class="answer">' +
+            '<label class="text-leftcontrol-label">Nhãn điểm cao</label>' +
+            '<input class="form-control" type="text" name="' + hightScoreName + '" id="' + hightScoreId + '" />' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '<a class="col-md-1" style="padding: 5px 10px;" onclick="removeQuestion(' + index + ')"><i class="fa fa-trash-o" style="font-size: 15pt;" aria-hidden="true"></i></a>' + $controlBottom +
+            '</div>').appendTo($fields);
+
+        //Generation dropbox type
+        $('#' + typeId).chosen();
+        //Update dropbox type set value picked
+        $('#' + typeId).val(5).trigger("chosen:updated");
+
+        //Custormer push box id into arrBox
+        arrBox.push(index);
+
+        //Set value type -> model.Type
+        var npstypeValue = $('#' + typeId).val();
+
+        //Set value for QuestionType field
+        $("#SurveyQuestionsModel_" + index + "__Type").val(npstypeValue);
+
+        //Tăng số thứ tự cho câu hỏi tiếp theo
+        stt = stt + 1;
+
+        //Tăng index cho properties model tiếp theo
+        index = index + 1;
+    }
+
+    //Focus point for enter text
+    $("#" + questionId).focus();
+}
+
+var answerRadioNo = 2;
+function addRadioAnswer(index) {
+    //Variable
+    var answerNo = answerRadioNo + 1;
+    var answerRadioFieldsId = "answerRadioFields" + index;
+    var $answerRadioFields = $('#' + answerRadioFieldsId);
+    var answerId = "SurveyQuestionsModel_" + index + "_SurveyAnswersModel_" + answerRadioNo + "__Answer";
+    var answerName = "SurveyQuestionsModel[" + index + "].SurveyAnswersModel[" + answerRadioNo + "].Answer";
+    var elementName = "Question" + index + "answer" + answerRadioNo;
+    var elementId = "Question" + index + "trash-answer";
+
+    //Generation code html
+    $('<div class="answer" id="' + elementName + '">' +
+        '<div class="col-md-12"><label class="text-leftcontrol-label">Trả lời ' + answerNo + '</label></div>' +
+        '<div class="col-md-11"><input class="form-control" type="text" name="' + answerName + '" id="' + answerId + '" /></div>' +
+        '<a id="' + elementId + '" class="col-md-1" style="padding: 5px 10px;" onclick="removeAnswer(\'' + elementName + '\', \'radio\', ' + index + ')"><i class="fa fa-trash-o" style="font-size: 15pt;" aria-hidden="true"></i></a><div class="clearfix"></div>' +
+        '</div>').appendTo($answerRadioFields);
+
+    //Kiểm tra icon delete answer show/hide
+    checkTrash(elementId, answerRadioNo);
+
+    //Tăng số thứ tự cho câu hỏi tiếp theo
+    answerRadioNo = answerRadioNo + 1;
+
+    //Focus point for enter text
+    $("#" + answerId).focus();
+}
+
+var answerCheckNo = 2;
+function addCheckAnswer(index) {
+    var answerNo = answerCheckNo + 1;
+    var answerCheckFieldsId = "answerCheckFields" + index;
+    var $answerCheckFields = $('#' + answerCheckFieldsId);
+    var answerId = "SurveyQuestionsModel_" + index + "_SurveyAnswersModel_" + answerCheckNo + "__Answer";
+    var answerName = "SurveyQuestionsModel[" + index + "].SurveyAnswersModel[" + answerCheckNo + "].Answer";
+    var className = "Question" + index + "answer" + answerCheckNo;
+    var elementId = "Question" + index + "trash-answer";
+
+    //Generation code html
+    $('<div class="answer" id="' + className + '">' +
+        '<div class="col-md-12"><label class="text-leftcontrol-label">Trả lời ' + answerNo + '</label></div>' +
+        '<div class="col-md-11"><input class="form-control" type="text" name="' + answerName + '" id="' + answerId + '" /></div>' +
+        '<a id="' + elementId + '" class="col-md-1" style="padding: 5px 10px;" onclick="removeAnswer(\'' + className + '\', \'check\', ' + index + ')"><i class="fa fa-trash-o" style="font-size: 15pt;" aria-hidden="true"></i></a><div class="clearfix"></div>' +
+        '</div>').appendTo($answerCheckFields);
+
+    //Kiểm tra icon delete answer show/hide
+    checkTrash(elementId, answerCheckNo);
+
+    //Tăng số thứ tự cho câu hỏi tiếp theo
+    answerCheckNo = answerCheckNo + 1;
+
+    //Focus point for enter text
+    $("#" + answerId).focus();
+}
+
+function removeQuestion(index) {
+    var boxId = "box-area" + index;
+    $("#" + boxId).remove();
+    arrBox.splice(arrBox.indexOf(index), 1);
+    getIndex();
+}
+
+function removeAnswer(elementId, type, index) {
+    $("#" + elementId).remove();
+    var elemId = "Question" + index + "trash-answer";
+    if (type == "check") {
+        answerCheckNo = answerCheckNo - 1;
+        checkTrash(elemId, answerCheckNo);
+    }
+    if (type == "radio") {
+        answerRadioNo = answerRadioNo - 1;
+        checkTrash(elemId, answerRadioNo);
+    }
+}
+
+function checkTrash(elementId, numberAnswer) {
+    //if (numberAnswer > 2) {
+    //    $("#" + elementId).css("display", "block");
+    //} else {
+    //    $("#" + elementId).css("display", "none");
+    //}
+}
+
+function onchangeType(value, index) {
+    //Set value for dropbox type
+    $("#SurveyQuestionsModel_" + index + "__Type").val(value);
+
+    //Remove current control
+    var mstt = index + 1;
+    removeQuestion(mstt);
+
+    //Generation new control
+    var type = "";
+    if (value == 1) type = "textArea";
+    if (value == 2) type = "textBox";
+    if (value == 3) type = "radioButton";
+    if (value == 4) type = "checkBox";
+    if (value == 5) type = "NPS";
+    addQuestion(type);
+}
+
+function clickRequire(index) {
+    var chkToogleId = "chkToogle" + index;
+    var rs = $('#' + chkToogleId).is(":checked");
+    $("#SurveyQuestionsModel_" + index + "__IsRequireds").val(rs);
+}
+
+function getIndex() {
+    arrBox.forEach(function (i, idx) {
+        if (idx != i) {
+            index = idx;
+            return;
+        } else {
+            index = arrBox[arrBox.length - 1] + 1;
+        }
+    });
+}

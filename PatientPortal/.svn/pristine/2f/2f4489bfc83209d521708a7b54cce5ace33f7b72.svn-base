@@ -1,0 +1,42 @@
+﻿using Dapper;
+using PatientPortal.DataAccess.Dapper;
+using PatientPortal.Domain.Models.SPA;
+using PatientPortal.Domain.Utilities;
+using PatientPortal.DataAccess.Repo.SPA;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Transactions;
+using System.Threading.Tasks;
+
+namespace PatientPortal.DataAccess.SPA
+{
+    public class SliderImpl : ISlider
+    {
+        public async Task<List<Slider>> GetAll()
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    DapperConfiguration.OpenConnection(1);
+
+                    var data = await DapperConfiguration.db.QueryAsync<Slider>("usp_spa_Slider",
+                        new { Id = GlobalVariables.IsTransParameter },
+                        commandType: System.Data.CommandType.StoredProcedure);
+
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data.ToList();
+
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Category get data: " + ex.Message);
+                    return null;
+                }
+            }
+        }
+    }
+}

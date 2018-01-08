@@ -1,0 +1,88 @@
+﻿CREATE PROCEDURE [dbo].[usp_Post]
+	@languageCode CHAR(3) = 'vi',
+	@PostId INT = 0,
+	@WorkflowStateId TINYINT = 1
+	--@PageIndex int, 
+	--@NumberPerPage int, 
+	--@TotalRecordCount int out
+AS BEGIN
+	BEGIN TRY
+		SET NOCOUNT ON
+		SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+		DECLARE @return BIT = 1;
+
+		--IF @languageId > 0
+		--	BEGIN
+		--		SET @TotalRecordCount = (SELECT COUNT(Id)
+		--		FROM [dbo].Post
+		--		WHERE [Status] = 1)
+
+		--		;WITH tmpData AS
+		--		(
+		--			SELECT t.Title, c.Name, p.PublishDate,
+		--			ROW_NUMBER() OVER (ORDER BY p.Id) AS RowNum
+		--			FROM [dbo].Post p, [dbo].PostTrans t, [dbo].Category c
+		--			WHERE p.Id = t.PostId
+		--			AND p.CategoryId = c.Id
+		--			AND p.[Status] = 1
+		--		)
+		--		SELECT *
+		--		FROM tmpData
+		--		WHERE RowNum BETWEEN (@PageIndex - 1) * @NumberPerPage + 1
+		--		AND @PageIndex * @NumberPerPage ;
+
+		--		SET NOCOUNT OFF
+		--	END
+		--ELSE
+		--	SET @return = 0
+
+		IF @languageCode != '' AND @PostId = 0
+			SELECT p.Id, t.Title, c.Name as CategoryName, p.PublishDate, 
+			CASE WHEN p.[Status] = 1 THEN N'Chưa duyệt' 
+			WHEN p.[Status] = 2 THEN N'Đã duyệt' ELSE N'Đã đăng bài' END AS [Status]
+			FROM [dbo].Post p, [dbo].PostTrans t, [dbo].Category c
+			WHERE p.Id = t.PostId
+			AND p.CategoryId = c.Id
+			AND P.WorkflowStateId = @WorkflowStateId
+		ELSE IF @languageCode = '' AND @PostId > 0
+			SELECT p.Id, 
+			p.[Image],
+			p.PublishDate,
+			p.Author, 
+			p.WorkflowStateId,
+			p.CategoryId,
+			p.[Status],
+			p.CreatedBy,
+			p.ModifiedBy,
+
+			ps.Title as TitleSEO, 
+			ps.[Description] as DescriptionSEO, 
+			ps.Canonical,
+			ps.MetaRobotIndex,
+			ps.MetaRobotFollow,
+			ps.MetaRobotAdvanced,
+
+			t.Title as TitleTrans, 
+			c.Name as CategoryName, 
+			t.[Description] as DescriptionTrans, 
+			t.Detail,
+			t.Tag
+
+			FROM [dbo].Post p, [dbo].PostTrans t, [dbo].Category c, [dbo].PostSEO ps
+			WHERE p.Id = t.PostId
+			AND p.CategoryId = c.Id
+			AND p.Id = ps.PostId
+			--AND p.[Status] = 1
+			AND p.Id = @PostId
+		ELSE
+			SET @return = 0
+
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0
+			BEGIN
+				RETURN NULL
+			END
+	END CATCH
+	SELECT @return
+END

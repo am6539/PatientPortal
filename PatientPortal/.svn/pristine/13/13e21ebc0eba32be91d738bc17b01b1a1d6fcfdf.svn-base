@@ -1,0 +1,34 @@
+﻿using AutoMapper;
+using PatientPortal.API.SPA.ViewModels;
+using PatientPortal.IRepository.SPA;
+using System;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+
+namespace PatientPortal.API.SPA.Controllers
+{
+    public class SliderController : ApiController
+    {
+        private readonly ISliderRepo _iSliderRepo;
+        public SliderController(ISliderRepo iSliderRepo)
+        {
+            this._iSliderRepo = iSliderRepo;
+        }
+
+        [HttpGet]
+        public HttpResponseMessage Get()
+        {
+            try
+            {
+                var data = _iSliderRepo.GetAll();
+                var result = Mapper.Map<SliderViewModel>(data);
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+    }
+}

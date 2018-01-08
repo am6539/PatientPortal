@@ -1,0 +1,41 @@
+﻿@model  List<PatientPortal.Domain.Models.CORE.Report.RPAppointment>
+<div class="card">
+    <div class="card-title"><p style="font-size:1.2em;"><span class="fa fa-calendar-check-o" style="color:#b200ff"></span> Lịch hẹn khám bệnh</p></div>
+    <div class="card-content">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <td colspan="6" style="font-weight:bold; font-style:italic;">STT: Là số thứ tự đăng ký khám chữa bệnh, được cấp tự động bởi hệ thống</td>
+                </tr>
+                <tr>
+                    <th>STT</th>
+                    <th>Ngày đăng ký</th>
+                    <th>Thời gian</th>
+                    <th>Bác sĩ</th>
+                    <th>Chuyên khoa</th>
+                    <th>Trạng thái</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{if (Model != null)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td style="font-weight:bold; color: #ff6a00">@item.No.ToString("D4")</td>
+                                <td>@item.Date.ToShortDateString()</td>
+                                <td>@item.Time</td>
+                                <td>@item.PhysicianName</td>
+                                <td>@item.DepartmentName</td>
+                                <td>
+                                    <span class="badge bg-green">Đã xác nhận</span>
+                                </td>
+                            </tr>
+                        }
+
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

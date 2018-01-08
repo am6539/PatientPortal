@@ -1,0 +1,26 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Alter
+       [dbo].[CMS] (Table)
+       [dbo].[Language] (Table)
+       [dbo].[usp_Configuration_Transaction] (Procedure)
+       [dbo].[usp_Language_Transaction] (Procedure)
+       [dbo].[usp_Post] (Procedure)
+
+** Supporting actions
+     Refresh
+       [dbo].[usp_Configuration] (Procedure)
+       [dbo].[usp_spa_CMSConfig] (Procedure)
+       [dbo].[usp_DefaultData_Insert] (Procedure)
+       [dbo].[usp_Language] (Procedure)
+       [dbo].[usp_Language_CheckExistCode] (Procedure)
+       [dbo].[usp_DefaultData_Exec] (Procedure)

@@ -1,0 +1,76 @@
+﻿using PatientPortal.CMS.Common;
+using PatientPortal.CMS.Models;
+using PatientPortal.CMS.Utility;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.CMS.Controllers
+{
+    public class ConfigurationController : Controller
+    {
+        private string apiUrl = $"api/Configuration";
+        // GET: Configuration
+        public ActionResult Index()
+        {
+            var list = APIHelper.Get<List<ConfigurationViewModel>>(apiUrl);
+            ConfigurationViewModel model  = APIHelper.Get<ConfigurationViewModel>(apiUrl + "/1");
+            if(model == null)
+            {
+                model = new ConfigurationViewModel();
+            }
+            return View(model);
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Edit(ConfigurationViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await Save(model, ValueConstant.ACTION_UPDATE);
+                if (result)
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.FAIL));
+                }
+            }
+            else
+            {
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.ERROR, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.ERROR));
+            }
+            return RedirectToAction("Index", model);
+        }
+
+        #region API Transaction
+        private async Task<bool> Save(ConfigurationViewModel model, string action)
+        {
+            bool result = false;
+            try
+            {
+                result = await APIHelper.TransactionAsyncResult<ConfigurationViewModel>(model, apiUrl + "?action=" + action + "");
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("", e.Message);
+                LogHelper.WriteLog(e.Message);
+            }
+            return result;
+        }
+        #endregion
+    }
+
+
+}

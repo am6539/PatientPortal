@@ -1,0 +1,84 @@
+﻿using AutoMapper;
+using PatientPortal.API.CMS.ViewModels;
+using PatientPortal.IRepository.CMS;
+using PatientPortal.Provider.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Http;
+
+namespace PatientPortal.API.CMS.Controllers
+{
+    public class LinkBuildingController : ApiController
+    {
+        /// <summary>
+        /// declare variables
+        /// </summary>
+        private readonly ILinkBuildingRepo _link;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="link"></param>
+        public LinkBuildingController(ILinkBuildingRepo link)
+        {
+            this._link = link;
+        }
+
+        #region API Function
+        public async Task<List<LinkBuildingViewModel>> GetAll()
+        {
+            List<string> list = new List<string> { "id" };
+            var para = APIProvider.APIDefaultParameter(list, 0);
+
+            var source = await _link.Query(para);
+            List<LinkBuildingViewModel> dest = Mapper.Map<List<LinkBuildingViewModel>>(source);
+
+            return dest;
+        }
+
+        /// <summary>
+        /// Get Link by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Category view model</returns>
+        // GET api/values/5
+        public async Task<LinkBuildingViewModel> GetById(short id)
+        {
+            var list = this.RequestContext.RouteData.Values.Keys;
+            var para = APIProvider.APIGeneratorParameter(list, id);
+
+            var source = await _link.SingleQuery(para);
+            LinkBuildingViewModel dest = Mapper.Map<LinkBuildingViewModel>(source);
+            return dest;
+        }
+
+        /// <summary>
+        /// Action: Insert/Update/Delete Link
+        /// </summary>
+        /// <param name="model">object "LinkBuildingViewModel"</param>
+        /// <param name="action">Action: 'I' - Insert; 'U'- Update; 'D'- Delete</param>
+        /// <returns>Result: Success- true; Fail- false</returns>
+        [HttpPost]
+        public async Task<bool> Transaction(LinkBuildingViewModel model, char action)
+        {
+            var obj = Mapper.Map<Domain.Models.CMS.LinkBuilding>(model);
+            return await _link.Transaction(obj, action);
+        }
+
+        /// <summary>
+        /// Check title is existed
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="id"></param>
+        /// <returns>If existed: true - else: false</returns>
+        [HttpGet]
+        public async Task<bool> CheckExistTitle(short id, string title)
+        {
+            //var list = this.RequestContext.RouteData.Values.Keys;
+            List<string> list = new List<string> { "title", "id" };
+            var para = APIProvider.APIGeneratorParameter(list, title, id);
+            return await _link.CheckExist(para);
+        }
+        #endregion
+    }
+}

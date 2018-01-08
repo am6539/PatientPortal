@@ -1,0 +1,110 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CMS;
+using PatientPortal.Domain.Utilities;
+using System.Transactions;
+using PatientPortal.DataAccess.Dapper;
+using Dapper;
+using PatientPortal.DataAccess.Repo.CMS;
+
+namespace PatientPortal.DataAccess.CMS
+{
+    public class FeatureImpl : IFeature
+    {
+        public List<Feature> GetAll(byte id)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                { 
+                    DapperConfiguration.OpenConnection(1);
+
+                    var data = DapperConfiguration.db.Query<Feature>("usp_Feature", 
+                        new { Id = id},
+                        commandType: System.Data.CommandType.StoredProcedure).ToList();
+
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+                    
+                }
+                catch(Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Feature get data: " + ex.Message);
+                    return null;
+                }
+            }
+        }
+
+        public Feature GetById(byte id)
+        {
+            using(var scope = new TransactionScope())
+            {
+                try
+                {
+                    DapperConfiguration.OpenConnection(1);
+                    var data = DapperConfiguration.db.Query<Feature>("usp_Feature",
+                        new { Id = id},
+                        commandType: System.Data.CommandType.StoredProcedure).FirstOrDefault();
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Feature get by Id:" + ex.Message);
+                    return null;
+                }
+            }
+        }
+
+        public bool Transaction(List<Feature> data, char action)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    var val = new Lib.DataGenerator().CommitData<Feature>(data, "usp_Feature_Transaction", action);
+                    scope.Complete();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Feature Transaction: " + ex.Message);
+                    return false;
+                }
+            }
+        }
+        
+        public bool CheckExist(string title, byte id)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    DapperConfiguration.OpenConnection(1);
+
+                    var data = DapperConfiguration.db.Query<bool>("usp_Feature_CheckExistTitle",
+                        new { Title = title , Id = id },
+                        commandType: System.Data.CommandType.StoredProcedure).FirstOrDefault();
+
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Feature get data: " + ex.Message);
+                    return false;
+                }
+            }
+        }
+    }
+}

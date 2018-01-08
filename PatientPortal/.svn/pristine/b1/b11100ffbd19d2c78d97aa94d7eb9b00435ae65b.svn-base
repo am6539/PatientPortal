@@ -1,0 +1,72 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+
+namespace PatientPortal.API.Identity.Models.UserRole
+{
+    public class UserRoleStoreBase
+    {
+        public DbContext Context { get; private set; }
+        public DbSet<UserRole> DbEntitySet { get; private set; }
+
+        public IQueryable<UserRole> EntitySet
+        {
+            get
+            {
+                return this.DbEntitySet;
+            }
+        }
+
+        public UserRoleStoreBase(DbContext context)
+        {
+            this.Context = context;
+            this.DbEntitySet = context.Set<UserRole>();
+        }
+
+        public void Create(UserRole entity)
+        {
+            this.DbEntitySet.Add(entity);
+        }
+
+
+        public void Delete(UserRole entity)
+        {
+            this.DbEntitySet.Attach(entity);
+            this.DbEntitySet.Remove(entity);
+        }
+
+
+        public virtual List<UserRole> GetAll()
+        {
+            return this.DbEntitySet.ToList();
+        }
+
+        public virtual Task<List<UserRole>> GetAllAsync()
+        {
+            return this.DbEntitySet.ToListAsync();
+        }
+
+        public virtual Task<UserRole> GetByIdAsync(string roleId)
+        {
+            return this.DbEntitySet.FirstOrDefaultAsync(x => x.RoleId.Equals(roleId));
+        }
+
+
+        public virtual UserRole GetById(string roleId)
+        {
+            return this.DbEntitySet.FirstOrDefault(x => x.RoleId.Equals(roleId));
+        }
+
+
+        public virtual void Update(UserRole entity)
+        {
+            if (entity != null)
+            {
+                this.Context.Entry<UserRole>(entity).State = EntityState.Modified;
+            }
+        }
+    }
+}

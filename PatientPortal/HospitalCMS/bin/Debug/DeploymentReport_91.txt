@@ -1,0 +1,17 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Create
+       [dbo].[usp_Configuration] (Procedure)
+       [dbo].[usp_Configuration_Transaction] (Procedure)
+       [dbo].[usp_spa_Post] (Procedure)
+
+** Supporting actions

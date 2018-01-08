@@ -1,0 +1,29 @@
+﻿angular.module('spaApp').factory('ContactService', ['$resource', 'Params',
+    function ($resource, Params) {
+        return $resource(Params.rootUrl + 'Configuration', {}, {
+            get: {
+                method: 'GET',
+                url: Params.rootUrl + 'Configuration/Get'
+            },
+            // sendMail
+            //this.postSendMail = function (mail) {
+            //    $http({
+            //        url: "http://localhost:18892/api/Configuration/SendMail",
+            //        method: "POST",
+            //        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            //        data: $.param(mail)
+            //    }).then(function (data, status, headers, config) {
+            //        $scope.status = status;
+            //    }).error(function (data, status, headers, config) {
+            //        $scope.status = status;
+            //    });
+            //};
+            sendMail: {
+                method: 'POST',
+                url: Params.rootUrl + 'Configuration/SendMail',
+                //headers: {
+                //    'Content-Type': 'application/x-www-form-urlencoded'
+                //}
+            }
+        });
+    }]);

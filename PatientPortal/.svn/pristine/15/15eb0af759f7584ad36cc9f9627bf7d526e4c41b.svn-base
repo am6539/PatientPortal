@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html ng-app="appTest">
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <base href="/">
+</head>
+<body ng-controller="MainTestController">
+    <div>
+        <ul>
+            <li><a href="/a">A</a></li>
+            <li><a href="/b">B</a></li>
+        </ul>
+    </div>
+    
+
+    <ng-view></ng-view>
+
+
+    <script src="assets/bower_components/jquery/dist/jquery.js"></script>
+    <script src="assets/bower_components/angular/angular.js"></script>
+    <script src="assets/bower_components/angular-route/angular-route.js"></script>
+    <script src="assets/bower_components/angular-aria/angular-aria.js"></script>
+    <script src="assets/bower_components/angular-resource/angular-resource.js"></script>
+    <script src="assets/bower_components/angular-animate/angular-animate.js"></script>
+    <script src="assets/bower_components/angular-sanitize/angular-sanitize.js"></script>
+    
+    <script src="app/app.module.js"></script>
+    <script src="app/app.config.js"></script>
+    <script src="app/app.controller.js"></script>
+
+    <script src="app/components/a/a.service.js"></script>
+    <script src="app/components/b/b.service.js"></script>
+    <script src="app/components/c/c.service.js"></script>
+
+    <script src="app/components/a/a.controller.js"></script>
+    <script src="app/components/b/b.controller.js"></script>
+    <script src="app/components/c/c.controller.js"></script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+﻿
+@{
+    ViewBag.Title = "Đặt lịch khám";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model PatientPortal.PatientServices.Models.AppointmentEditModel
+
+@section styles{
+@Styles.Render("~/Lib/choosenCss")
+    <style>
+        .modal-body {
+            max-height: calc(100vh - 150px);
+            overflow-y: auto;
+        }
+    </style>
+}
+<div class="card">
+    @Html.Partial("_Appointment", Model)
+
+</div>
+<!--Modal confirm-->
+<div id="modal-container" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+@section scripts{
+    @Scripts.Render("~/Lib/choosenJs")
+    <script>
+
+    $(document).ready(function () {
+
+        $("#dateAppointment").datetimepicker({
+            format: 'DD/MM/YYYY',
+            locale: 'vi',
+            minDate: Date.now(),
+            maxDate: moment().add(7, 'days')
+        });
+        $("#dateNgaySinh").datetimepicker({
+            format: 'DD/MM/YYYY',
+            locale: 'vi',
+            maxDate: Date.now()
+        });
+
+        var giohen = getGioKham();
+        $.each(giohen, function (key, value) {
+            $('#timeAppointment')
+                .append($("<option></option>")
+                           .attr("value", key)
+                           .text(value));
+        });
+    });
+    function makeAppointmentDoctor(Id) {
+        $("#selectPhysician").val(Id);
+        //$(".tab-content").load("/Appointment/AppointmentPartial/" + Id, function (responseTxt, statusTxt, xhr) {
+        //    if (statusTxt == "error")
+        //        alert("Lỗi: " + xhr.status + ": " + xhr.statusText);
+        //    else
+        //    {
+        //        $("#doctorSelected").hide(500);
+        //        $("#searchDoctor").show(500);
+        //        $("#quickviewProfile").show(500);
+        //    }
+        //});
+    }
+    $("#selectDoctor").on('change', 'select', function (e) {
+        var optionSelected = $("option:selected", this);
+        var valueSelected = this.value;
+        if (valueSelected == 0) {
+            $("#doctorSelected").show(500);
+            $("#searchDoctor").hide(500);
+            $("#quickviewProfile").show(500);
+        }
+        if (valueSelected == 1) {
+            $("#doctorSelected").hide(500);
+            $("#searchDoctor").hide(500);
+            $("#quickviewProfile").hide(500);
+        }
+        if (valueSelected == 2) {
+            $("#searchDoctor").show(500);
+            $("#doctorSelected").hide(500);
+            $("#quickviewProfile").hide(500);
+        }
+    });
+
+    $("#chooseADoctor").on('change', 'select', function (e) {
+        var optionSelected = $("option:selected", this);
+        var valueSelected = this.value;
+        if (valueSelected != null) {
+            $("#quickviewProfile").show(500);
+        }
+        else {
+            $("#quickviewProfile").hide(500);
+        }
+    });
+
+    function getGioKham() {
+        var now = moment().hours(8).minutes(0).seconds(0).milliseconds(0);
+        var max = moment().hours(19).minutes(0).seconds(0).milliseconds(0);
+        var gio = [];
+        var duration = moment.duration({ 'minutes': 15 });
+        now = now.add(duration);
+        while (now < max) {
+            gio.push(now.format('hh:mm'));
+            now = now.add(duration);
+        }
+        return gio;
+    }
+    function editAppointment() {
+        $('.nav-tabs a[href="#appointment"]').tab('show')
+    }
+
+    function showDoctorList() {
+        //$('#myModal').modal('toggle');
+        $("#doctorSelected").hide(500);
+    }
+    function viewDoctorProfile() {
+        $('#collapseThongTinModal').modal('toggle');
+    }
+
+    function showTab(tab, patientId) {
+        if (tab == 'Appointment') {
+            $("#appointment").show();
+            $("#checkandConfirm").hide();
+            $("#infoAppointment").hide();
+        }
+        if (tab == 'InfoOrder') {
+            $("#appointment").hide();
+            $("#checkandConfirm").hide();
+            $("#infoAppointment").show();
+            $("#checkandConfirm").removeClass("active in");
+            $("#appointment").removeClass("active in");
+            $("#infoAppointment").addClass("active in");
+            $("#infoAppointment").load("/Appointment/PatientDetail?patientId=" + patientId, function (responseTxt, statusTxt, xhr) {
+                if (statusTxt == "error")
+                    alert("Lỗi: " + xhr.status + ": " + xhr.statusText);
+            });
+        }
+        if (tab == 'CheckAndConfirm') {
+            $("#appointment").hide();
+            $("#checkandConfirm").show();
+            $("#infoAppointment").hide();
+        }
+    }
+    </script>
+}

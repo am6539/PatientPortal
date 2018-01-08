@@ -1,0 +1,25 @@
+﻿CREATE PROCEDURE [dbo].[usp_WorkflowState]
+	@workflowId tinyint
+AS BEGIN
+	BEGIN TRY
+		IF(@workflowId = 0) ---get all 'WorkflowState'
+		BEGIN
+			SELECT	wfs.*, wf.Name as WorkflowName
+			FROM	[dbo].[WorkflowState] wfs
+					inner join [dbo].[Workflow] wf on wf.Id = wfs.WorkflowId
+		END
+		BEGIN  ---get all 'WorkflowState' by workflow
+			SELECT	wfs.*, wf.Name as WorkflowName
+			FROM	[dbo].[WorkflowState] wfs
+					inner join [dbo].[Workflow] wf on wf.Id = wfs.WorkflowId
+			WHERE   wfs.WorkflowId = @workflowId
+		END
+
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0
+			BEGIN
+				RETURN NULL
+			END
+	END CATCH
+END

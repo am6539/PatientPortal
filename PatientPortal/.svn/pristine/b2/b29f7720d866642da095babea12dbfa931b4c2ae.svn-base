@@ -1,0 +1,86 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model List<PatientPortal.Internal.Models.Account.UserListViewModel>
+@{
+    ViewBag.Title = "Tài khoản";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <link href="~/Content/user-list.css" rel="stylesheet" />
+    <link href="~/Libs/DataTable/jquery.dataTables.css" rel="stylesheet" />
+}
+
+<div class="card">
+    @Html.Raw(TempData["Alert"])
+    <div class="card-title">@Html.ITitle("Tài khoản","address-card-o")</div>
+    <div class="card-actionbar">
+        @Html.IButton(@Url.Action("Create", "Account"), ActionButton.Create, "Thêm tài khoản")
+    </div>
+    <div class="card-content">
+        <div class="bootstrap snippet">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="main-box no-header clearfix">
+                        <div class="main-box-body clearfix">
+                            <div class="table-responsive">
+                                <table class="table user-list" id="tblUser">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th><span>Tên tài khoản</span></th>
+                                            <th><span>Tên đăng nhập</span></th>
+                                            <th class="text-center"><span>Trạng thái</span></th>
+                                            <th><span>Email</span></th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    <img src="@item.Image" alt="Ảnh đại diện" />
+                                                    <a href="#" class="user-link">@item.Name</a>
+                                                    <span class="user-subhead">@item.GroupMember</span>
+                                                </td>
+                                                <td>@item.UserName</td>
+                                                <td class="text-center">
+                                                    <span class="label label-default">Đã duyệt</span>
+                                                </td>
+                                                <td>
+                                                    <a href="#">@item.Email</a>
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    @Html.IGridButton("", ActionButton.View)
+                                                    @Html.IGridButton(@Url.Action("Edit", new { id = item.Id }), ActionButton.Edit)
+                                                    @Html.IGridButton(@Url.Action("Delete", new { id = item.Id, name = item.Name }), ActionButton.Delete)
+                                                </td>
+                                            </tr>
+                                        }
+                                                                                
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Libs/DataTable/jquery.dataTables.js"></script>
+
+    <script type="text/javascript">
+            $(document).ready(function () {
+                $('#tblUser').DataTable({
+                    "language": {
+                        url: '/Libs/Datatable/Vietnamese.json'
+                    }
+                });
+            });
+    </script>
+}

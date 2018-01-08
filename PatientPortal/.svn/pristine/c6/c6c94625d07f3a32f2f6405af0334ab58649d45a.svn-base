@@ -1,0 +1,27 @@
+﻿'use strict';
+
+angular.
+  module('core.homepage').
+  factory('HomePage', ['$resource', 'Params',
+    function ($resource, Params) {
+        return $resource(Params.apiUrl + 'SPAPost', {}, {
+            query: {
+                method: 'GET',
+                url: Params.apiUrl + 'SPAPost/GetPosts/:Id?languageCode=:languageCode',
+                params: {
+                    Id: '@Id', languageCode: '@languageCode'
+                }
+            },
+            get: {
+                method: "GET", url: Params.apiUrl + 'SPAPost/Get/:Id',
+                params: { Id: '@Id' }
+            },
+            getAdvertise: {
+                method: "GET", url: Params.apiUrl + 'Advertise/Get', isArray: true
+            },
+            querySlider: {
+                method: 'GET', url: Params.apiUrl + 'Slider/Get', isArray: true
+            }
+        });
+    }
+  ]);

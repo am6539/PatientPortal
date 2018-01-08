@@ -1,0 +1,166 @@
+﻿using PatientPortal.DataAccess.Repo.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using PatientPortal.Domain.Models.CMS;
+using System.Transactions;
+using PatientPortal.Domain.Utilities;
+using PatientPortal.DataAccess.Dapper;
+using Dapper;
+
+
+namespace PatientPortal.DataAccess.CMS
+{
+    public class PostImpl : IPost
+    {
+        public List<PostList> GetAll(PostFilter param)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    DapperConfiguration.OpenConnection(1);
+
+                    var data = DapperConfiguration.db.Query<PostList>("usp_Post", 
+                        new { languageCode = param.LanguageCode, workflowStateId = param.WorkflowStateId, PostId = 0 }, 
+                        commandType: System.Data.CommandType.StoredProcedure).ToList();
+
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Category get data: " + ex.Message);
+                    return null;
+                }
+            }
+        }
+
+        public Post GetById(int Id, string languageCode)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    DapperConfiguration.OpenConnection(1);
+
+                    var data = DapperConfiguration.db.Query<Post>("usp_Post", new { PostId = Id, languageCode = languageCode }, 
+                        commandType: System.Data.CommandType.StoredProcedure);
+                    var result = new Post();
+                    if (data.Count() > 0)
+                    {
+                        result = data.FirstOrDefault() ;
+                    }
+
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return result;
+
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Post get data: " + ex.Message);
+                    return null;
+                }
+            }
+        }
+
+        public List<Post> GetListByCategory(byte categoryId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Post> GetListByCreateTime(string startTime, string endTime)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Post> GetListBySearchText(string searchText)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Post> GetListByStatus(byte status)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Post> GetListByWorkflowState(short workflowStateId)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Transaction post
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public int Transaction(List<PostEdit> data, char action)
+        {
+            try
+            {
+                var val = new Lib.DataGenerator().DynamicCommitData<PostEdit, int>(data, "usp_Post_Transaction", action);
+                return val;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog("Execute Post Transaction: " + ex.Message);
+                return 0;
+            }
+        }
+        
+
+        /// <summary>
+        /// Approve
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public bool Approve(List<PostStateHistory> data, char action)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    var val = new Lib.DataGenerator().CommitData<PostStateHistory>(data, "usp_ApprovePost_Transaction", action, 1, "WorkflowStateId");
+                    scope.Complete();
+                    return val;
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute ApprovePost: " + ex.Message);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Publish
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public bool Publish(List<PostStateHistory> data, char action)
+        {
+            using (var scope = new TransactionScope())
+            {
+                try
+                {
+                    var val = new Lib.DataGenerator().CommitData<PostStateHistory>(data, "usp_PublishPost_Transaction", action, 1, "WorkflowStateId");
+                    scope.Complete();
+                    return val;
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute PublishPost: " + ex.Message);
+                    throw;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,60 @@
+﻿@model PatientPortal.Domain.Models.AUTHEN.LoginModel
+@{
+    ViewBag.Title = "ĐĂNG NHẬP HỆ THỐNG";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+@section styles{
+    <style>
+        #inputEmail,
+        #inputPassword {
+            direction: ltr;
+            height: 44px;
+            font-size: 16px;
+            width: 100%;
+            display: block;
+            margin-bottom: 10px;
+            z-index: 1;
+            position: relative;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        
+    </style>
+}
+
+@using (Html.BeginForm("Login", "Account", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container">
+        <div class="card card-container">
+            
+            <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+            <p id="profile-name" class="profile-name-card"></p>
+            <h4 class="text-center login-title">INTERNAL SYSTEM</h4>
+            <form class="form-signin">
+                <span id="reauth-email" class="reauth-email"></span>
+                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @type = "text", @class = "form-control", @id = "inputEmail", @placeholder = "Tên đăng nhập", @required = "", @autofocus = "" } })
+                @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @type = "password", @class = "form-control", @id = "inputPassword", @placeholder = "Mật khẩu", @required = "" } })
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+
+                @Html.Raw(TempData["Alert"])
+
+                <div id="remember" class="checkbox">
+                    <label>
+                        @Html.TextBoxFor(model => model.Password, new { @type = "checkbox", @value = "remember-me" }) Nhớ mật khẩu
+                    </label>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Đăng nhập</button>
+            </form><!-- /form -->
+            <a href="#" class="forgot-password">
+                Quên mật khẩu?
+            </a>
+        </div><!-- /card-container -->
+    </div><!-- /container -->
+}
+

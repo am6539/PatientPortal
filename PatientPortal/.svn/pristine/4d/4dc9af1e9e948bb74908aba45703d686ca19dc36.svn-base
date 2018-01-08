@@ -1,0 +1,59 @@
+﻿using PatientPortal.DataAccess.Repo.CORE;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CORE;
+using PatientPortal.DataAccess.Dapper;
+using Dapper;
+using PatientPortal.Domain.Utilities;
+using System.Transactions;
+
+namespace PatientPortal.DataAccess.CORE
+{
+    public class OfferAdviseImpl : IOfferAdvise
+    {
+        public List<OfferAdvise> GetAll()
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    DapperConfiguration.OpenConnection(2);
+
+                    var data = DapperConfiguration.db.Query<OfferAdvise>("usp_OfferAdvise", commandType: System.Data.CommandType.StoredProcedure).ToList();
+
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Appointment get data: " + ex.Message);
+                    return null;
+                }
+            }
+        }
+
+        public bool Transaction(List<OfferAdvise> data, char action)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    var val = new Lib.DataGenerator().CommitData<OfferAdvise>(data, "usp_OfferAdvise_Transaction", action, 2);
+                    scope.Complete();
+                    return val;
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Appointment Transaction: " + ex.Message);
+                    return false;
+                }
+            }
+        }
+    }
+}

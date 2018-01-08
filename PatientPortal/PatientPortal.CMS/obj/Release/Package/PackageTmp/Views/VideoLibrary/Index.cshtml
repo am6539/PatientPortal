@@ -1,0 +1,165 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <link href="~/Libs/jstree/dist/themes/default/style.min.css" rel="stylesheet" />
+    <link href="~/Content/style-video.css" rel="stylesheet" />
+}
+
+<div class="panel panel-default">
+    <div class="panel-body">
+
+        @Html.Raw(TempData["Alert"])
+
+        <div id="content_show">
+            <!-- START HTML -->
+            <div class="row">
+                <div class="col-md-3 col-sm-12">
+                    <h3 class="site_map_title">Cây thư mục</h3>
+                    <div id="container">
+                        <div id="MainTree">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-9 col-sm-12">
+                    <h3>Quản lý file</h3>
+
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-2">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+                        <!-- Menu file manager -->
+                        @Html.Partial("MenuFileManagerPartial")
+                        <!-- /.navbar-collapse -->
+                    </nav>
+
+                    <!--Partial nội dung files-->
+                    <div id="contentmanager">
+                        @Html.Partial("ListVideoPartial")
+                    </div>
+
+                </div>
+            </div>
+            <!-- END HTML -->
+            <!-- START MODALS -->
+
+            <!-- Upload modal -->
+            @Html.BeginForm("UploadFile", "VideoLibrary", FormMethod.Post, new { @enctype = "multipart/form-data" })
+            {
+            <div class="modal fade" id="uploader" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title" id="myModalLabel_upload">Upload File</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h6>Chọn file hình cần upload...</h6>
+                                        <input type="file" name="fileUpload" class="form-control">
+                                        <hr />
+                                        <button type="submit" class="btn btn-success"><i class="fa fa-cloud-upload" aria-hidden="true">Tải lên</i></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-long-arrow-right"> Hủy</i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+            <!-- END MODAL -->
+
+            @section scripts{
+
+                <script src="~/Libs/jstree/dist/jstree.js"></script>
+
+                <script>
+                  $(function () {
+
+                      $.ajax({
+                          type: "POST",
+                          url: "/VideoLibrary/GetTreeData",
+                          contentType: "application/json; charset=utf-8",
+                          success: function (data) {
+                              createJSTrees(data);
+                          },
+                          error: function (xhr, ajaxOptions, thrownError) {
+                              alert(xhr.status);
+                              alert(thrownError);
+                          }
+                      });
+
+                      function createJSTrees(jsonData) {
+                          $('#MainTree').jstree({
+                              'core': {
+                                  'data': jsonData,
+                                  'check_callback': true,
+                                  'themes': { "stripes": true },
+                              },
+                              "plugins": ["themes", "dnd", "contextmenu", "ui", "crrm"]
+                          });
+                      }
+
+                      $('#MainTree')
+                      // listen for event
+                      .on('changed.jstree', function (e, data) {
+                          var i, j, r = [];
+                          for (i = 0, j = data.selected.length; i < j; i++) {
+                              r.push(data.instance.get_node(data.selected[i]).id);
+                          }
+
+                          $("#contentmanager").load("/VideoLibrary/ListVideoPartial?fullPath=" + r.join(', '), function (responseTxt, statusTxt, xhr) {
+                              if (statusTxt == "error")
+                                  alert("Lỗi: " + xhr.status + ": " + xhr.statusText);
+                          });
+                      })
+                  });
+
+                  $('#MainTree').on("create_node.jstree", function (e, data) {
+                      $.post(
+                              "/VideoLibrary/CreateFolder",
+                              {
+                                  "path": data.parent,
+                                  "newname": data.node.text
+                              },
+                              function (r) {
+
+                              }
+                          );
+                  });
+
+                  $('#MainTree').on("rename_node.jstree", function (e, data) {
+                      $.post(
+                              "/VideoLibrary/RenameFolder",
+                              {
+                                  "path": data.node.parent,
+                                  "newname": data.text,
+                                  "oldname": data.old
+                              },
+                              function (r) {
+                                  return window.location.href = "/VideoLibrary/Index/";
+                              }
+                          );
+                  });
+                </script>
+            }
+        </div>
+    </div>
+</div>
+

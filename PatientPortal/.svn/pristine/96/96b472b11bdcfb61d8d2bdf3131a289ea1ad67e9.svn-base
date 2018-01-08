@@ -1,0 +1,57 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.Internal.Models.ModuleModel
+@{
+    ViewBag.Title = "Chức năng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    <link href="~/Content/checkbox.css" rel="stylesheet" />
+    <link href="~/Libs/Chosen/css/chosen.css" rel="stylesheet" />
+    @Styles.Render("~/TreeView/css")
+}
+<div class="card">
+    
+    <div class="card-title">@Html.ITitle("Chức năng", "list-ul")</div>
+    <div class="card-content">
+        @Html.Raw(TempData["Alert"])
+        <div class="col-md-5">
+            <div id="panelAddy">
+                @Html.Partial("_Create", Model.module)
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div id="panelList">
+                @Html.Partial("_List", Model.lstModule)
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <!--Chosen-->
+    <script src="~/Libs/Chosen/js/chosen.jquery.min.js"></script>
+    <script type="text/javascript">
+        var config = {
+          '.chosen-select'           : {}
+        }
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
+        $(document).ready(function () {
+            $(".treeview li>ul").css('display', 'none'); // Hide all 2-level ul
+            $(".collapsible").click(function (e) {
+                e.preventDefault();
+                $(this).toggleClass("collapse expand");
+                $(this).closest('li').children('ul').slideToggle();
+            });
+        });
+
+        function viewModule(id) {
+            var urlModuleList = "@Url.Action("Edit", "Module")/" + id + "";
+            window.location.href = urlModuleList;
+        }
+    </script>
+}
+
+

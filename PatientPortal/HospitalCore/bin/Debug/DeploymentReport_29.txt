@@ -1,0 +1,45 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       [dbo].[Schedule]
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       The column [dbo].[OfferAdvise].[Tags] on table [dbo].[OfferAdvise] must be added, but the column has no default value
+         and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must
+         either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults
+         as a deployment option.
+       The column [dbo].[Schedule].[DateTo] on table [dbo].[Schedule] must be added, but the column has no default value and
+         does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must
+         either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults
+         as a deployment option.
+       The column [dbo].[Schedule].[UserId] on table [dbo].[Schedule] must be added, but the column has no default value and
+         does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must
+         either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults
+         as a deployment option.
+
+** User actions
+     Rename
+       [dbo].[Schedule].[DateFrom] (Column)
+       [dbo].[Schedule].[TimeFrom] (Column)
+       [dbo].[Schedule].[TimeTo] (Column)
+     Alter
+       [dbo].[Appointment] (Table)
+       [dbo].[OfferAdvise] (Table)
+     Table rebuild
+       [dbo].[Schedule] (Table)
+     Create
+       [dbo].[FK_Schedule_User] (Foreign Key)
+
+** Supporting actions
+     Refresh
+       [dbo].[usp_Appointment] (Procedure)
+       [dbo].[usp_Appointment_Transaction] (Procedure)
+       [dbo].[usp_OfferAdvise] (Procedure)
+       [dbo].[usp_OfferAdvise_Transaction] (Procedure)
+
+The column [dbo].[OfferAdvise].[Tags] on table [dbo].[OfferAdvise] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+The column [dbo].[Schedule].[DateTo] on table [dbo].[Schedule] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+The column [dbo].[Schedule].[UserId] on table [dbo].[Schedule] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+

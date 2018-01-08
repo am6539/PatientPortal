@@ -1,0 +1,58 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.CMS.Models.AdvertisesModel
+@{
+    ViewBag.Title = "Quảng cáo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+
+    <link href="~/Content/checkbox-radio-build.css" rel="stylesheet" />
+}
+<div class="card">
+    @Html.Raw(TempData["Alert"])
+    <div class="card-title">
+        @Html.ITitle("Quảng cáo", "bullhorn")
+    </div>
+    <div class="card-content">
+        <div class="col-md-5">
+            <div id="panelAddCategory">
+                @Html.Partial("_Create", Model.AdvertiseViewModel)
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div id="panelCategoryList">
+                @Html.Partial("_List", Model.lstAdvertiseViewModel)
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var d = new Date();
+
+            var month = d.getMonth() + 1;
+            var day = d.getDate();
+
+            var output = (day < 10 ? '0' : '') + day + '/'
+                + (month < 10 ? '0' : '') + month+ '/' +
+                + d.getFullYear();
+
+            $("#StartDate").datetimepicker({
+                format: 'DD/MM/YYYY',
+                locale: 'vi',
+                minDate: Date.now()
+            });
+            $("#StartDate").val(output);
+            $("#EndDate").datetimepicker({
+                format: 'DD/MM/YYYY',
+                locale: 'vi',
+                minDate: Date.now()
+            });
+            $("#EndDate").val(output);
+        });
+    </script>
+}

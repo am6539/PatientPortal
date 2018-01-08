@@ -1,0 +1,22 @@
+﻿CREATE PROCEDURE [dbo].[usp_spa_Category]
+	@ParentId TINYINT
+AS BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+
+	BEGIN TRY
+		IF @ParentId > 0
+			SELECT * FROM [dbo].[Category]
+			WHERE [ParentId] = @ParentId
+			ORDER BY [Id]
+		ELSE
+			SELECT * FROM [dbo].[Category]
+			ORDER BY [Id]
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0 
+		BEGIN
+			RETURN NULL
+		END
+	END CATCH
+END

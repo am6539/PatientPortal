@@ -1,0 +1,118 @@
+﻿CREATE PROCEDURE [dbo].[usp_Post_Transaction]
+	@Action CHAR(1) = 'I',
+	@Id INT,
+	@Image VARCHAR(256),
+	@Author NVARCHAR(50),
+	@WorkflowStateId TINYINT,
+	@CategoryId TINYINT,
+	@Status TINYINT = 1,
+	@CreatedBy INT,
+	@ModifiedBy INT,
+	-- PostSEO
+	@PostId INT,
+	@TitleSEO NVARCHAR(71),
+	@DescriptionSEO NVARCHAR(160),
+	@Canonical VARCHAR(256),
+	@BreadcrumbsTitle NVARCHAR(71),
+	@MetaRobotIndex TINYINT,
+	@MetaRobotFollow TINYINT,
+	@MetaRobotAdvanced TINYINT,
+	-- PostTrans
+	@LanguageId TINYINT,
+	@TitleTrans NVARCHAR(256),
+	@DecriptionTrans NVARCHAR(1000),
+	@Detail NVARCHAR(MAX),
+	@Tag NVARCHAR(60),
+	-- PostStateHistory
+	@UserId INT,
+	@Note NVARCHAR(500) 
+AS BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+
+	DECLARE @return BIT = 1
+	DECLARE @Date SMALLDATETIME, @PresentDate VARCHAR(20)
+	SET @Date = GETDATE()
+	SET @PresentDate = [dbo].[ufnGetDate]()
+
+	BEGIN TRY
+		BEGIN TRAN
+			IF @Action = 'I' 
+			BEGIN
+				-- Post Table
+				INSERT INTO [dbo].[Post]
+				VALUES(@Date, @Image, @Author, @WorkflowStateId, @CategoryId, @Status, @PresentDate,
+				@CreatedBy, @PresentDate,@ModifiedBy)
+
+				-- PostSEO Table
+				SET @PostId = SCOPE_IDENTITY()
+				INSERT INTO [dbo].[PostSEO]
+				VALUES(@PostId, @TitleSEO, @DescriptionSEO, @Canonical, @BreadcrumbsTitle, @MetaRobotIndex,
+				@MetaRobotFollow, @MetaRobotAdvanced)
+
+				-- PostTrans Table
+				INSERT INTO [dbo].[PostTrans]
+				VALUES(@PostId, @LanguageId, @TitleTrans, @DecriptionTrans, @Detail, @Tag)
+
+				-- PostStateHistory Table
+				INSERT INTO [dbo].[PostStateHistory]
+				VALUES(@PostId, @WorkflowStateId, @UserId, @Note, @PresentDate)
+			END				
+			IF @Action = 'U' 
+			BEGIN
+				-- Post Table
+				UPDATE [dbo].[Post]
+				SET [PublishDate] = @Date, [Image] = @Image, [Author] = @Author, [WorkflowStateId] = @WorkflowStateId,
+				[CategoryId] = @CategoryId, [Status] = @Status,
+				[ModifiedDate] = @PresentDate, [ModifiedBy] = @ModifiedBy
+				WHERE [Id] = @Id
+
+				-- PostSEO Table
+				UPDATE [dbo].[PostSEO]
+				SET [PostId] = @Id, [Title] = @TitleSEO, [Description] = @DescriptionSEO,
+				[Canonical] = @Canonical, [BreadcrumbsTitle] = @BreadcrumbsTitle, [MetaRobotIndex] = @MetaRobotIndex,
+				[MetaRobotFollow] = @MetaRobotFollow, [MetaRobotAdvanced] = @MetaRobotAdvanced
+				WHERE [PostId] = @Id
+
+				-- PostTrans Table
+				UPDATE [dbo].[PostTrans]
+				SET [LanguageId] = @LanguageId, [Title] = @TitleTrans,
+				[Description] = @DecriptionTrans, [Detail] = @Detail, [Tag] = @Tag
+				WHERE [PostId] = @Id AND [LanguageId] = @LanguageId
+
+				-- PostStateHistory Table
+				IF NOT EXISTS( SELECT TOP 1 1 FROM [dbo].[PostStateHistory] WITH(INDEX(IdxPostStateHistoryPost)) WHERE [PostId] = @Id AND [WorkflowStateId] = @WorkflowStateId )
+				BEGIN
+					INSERT INTO [dbo].[PostStateHistory]
+					VALUES(@Id, @WorkflowStateId, @UserId, @Note, @PresentDate)
+				END
+			END
+			IF @Action = 'D' 
+			BEGIN
+				--  PostSEO Table
+				DELETE FROM [dbo].[PostSEO]
+				WHERE [PostId] = @Id
+
+				-- PostTrans Table
+				DELETE FROM [dbo].[PostTrans]
+				WHERE [PostId] = @Id
+
+				-- PostStateHistory
+				DELETE FROM [dbo].[PostStateHistory]
+				WHERE [PostId] = @Id
+
+				-- Post Table
+				DELETE FROM [dbo].[Post]
+				WHERE [Id] = @Id
+			END
+		COMMIT TRAN
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0
+			BEGIN
+				ROLLBACK TRAN
+				SET @return = 0
+			END
+	END CATCH
+	SELECT @return
+END

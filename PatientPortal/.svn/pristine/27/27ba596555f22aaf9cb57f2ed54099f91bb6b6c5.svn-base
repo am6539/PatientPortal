@@ -1,0 +1,159 @@
+﻿
+@model PatientPortal.PatientServices.Models.ArticlesModel
+@{
+    ViewBag.Title = "Chi tiết bài viết";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .post .post-description {
+        padding: 5px;
+    }
+
+        .post .post-description p {
+            font-size: 14px;
+        }
+
+    .post .post-heading {
+        height: 95px;
+        padding: 20px 15px;
+    }
+
+        .post .post-heading .avatar {
+            width: 60px;
+            height: 60px;
+            display: block;
+            margin-right: 15px;
+        }
+
+    .post .post-footer .comments-list {
+        padding: 0;
+        margin-top: 20px;
+        list-style-type: none;
+    }
+
+        .post .post-footer .comments-list .comment {
+            display: block;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+    .post .post-footer {
+        border-top: 1px solid #ddd;
+        padding: 15px;
+    }
+
+        .post .post-footer .input-group {
+            width: 100%;
+        }
+
+        .post .post-footer .textarea {
+            width: 100%;
+            color: #454545;
+            resize: vertical;
+        }
+
+        .post .post-footer .send {
+            margin: 5px 0px;
+        }
+
+        .post .post-footer .comments-list .comment .avatar {
+            width: 35px;
+            height: 35px;
+        }
+
+        .post .post-footer .comments-list .comment .comment-heading {
+            display: block;
+            width: 100%;
+        }
+
+            .post .post-footer .comments-list .comment .comment-heading .user {
+                font-size: 14px;
+                font-weight: bold;
+                display: inline;
+                margin-top: 0;
+                margin-right: 10px;
+            }
+
+            .post .post-footer .comments-list .comment .comment-heading .time {
+                font-size: 12px;
+                color: #aaa;
+                margin-top: 0;
+                display: inline;
+            }
+
+        .post .post-footer .comments-list .comment .comment-body {
+            margin-left: 50px;
+        }
+</style>
+<div class="card">
+    <div class="card-title">@ViewBag.Title</div>
+    <div class="card-content">
+        <div class="post">
+            <div class="post-heading">
+                <div class="pull-left image">
+                    @if (Model.ArticleViewModel.ImageProfile != null)
+                    {
+                        <img src="@Url.Content(Model.ArticleViewModel.ImageProfile)" class="img-circle avatar" alt="user profile image">
+                    }
+                    else
+                    {
+                        <img src="~/img/user_1.jpg" class="img-circle avatar" alt="user profile image">
+                    }
+                </div>
+                <div class="pull-left meta">
+                    <div class="title h5">
+                        <a href="#"><b>@Model.ArticleViewModel.AuthorName</b></a>
+                        đã hỏi.
+                    </div>
+                    <h6 class="text-muted time">@Convert.ToString(string.Format("{0:dd/MM/yyyy}", Model.ArticleViewModel.Date))</h6>
+                </div>
+            </div>
+            <div class="post-description">
+                <p>@Model.ArticleViewModel.Detail</p>
+            </div>
+            <div class="post-footer">
+                <div class="input-group">
+
+                    @using (Html.BeginForm("Details", "Article", FormMethod.Post))
+                    {
+                        @Html.HiddenFor(m => m.ArticleCommentModel.CreatedUser)
+                        @Html.HiddenFor(m => m.ArticleCommentModel.ArticleId)
+                        @Html.TextAreaFor(m => m.ArticleCommentModel.Detail, new { @class = "form-control", @placeholder = "Nhập nội dung", @row = "4" })
+                        @Html.ValidationMessageFor(m => m.ArticleCommentModel.Detail)
+                        @*<textarea class="form-control textarea" placeholder="Add a comment" type="text" rows="4"></textarea>*@
+                        <button class="pull-right send btn-success" type="submit">Gửi</button>
+                    }
+
+                </div>
+                <ul class="comments-list">
+                    @if (Model.lstArticleCommentModel != null)
+                    {
+                        foreach (var item in Model.lstArticleCommentModel)
+                        {
+                            <li class="comment">
+                                <a class="pull-left" href="#">
+                                    @if (item.ImageProfile != null)
+                                    {
+                                        <img src="@Url.Content(item.ImageProfile)" class="img-circle avatar" alt="user profile image">
+                                    }
+                                    else
+                                    {
+                                        <img src="~/img/user_1.jpg" class="img-circle avatar" alt="user profile image">
+                                    }
+                                </a>
+                                <div class="comment-body">
+                                    <div class="comment-heading">
+                                        <h4 class="user">@item.Author</h4> trả lời
+                                        <h5 class="time">@Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.Date))</h5>
+                                    </div>
+                                    <p>@item.Detail</p>
+                                </div>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,8 @@
+﻿CREATE TABLE [dbo].[UserGroup] (
+    [UserId]  INT     NOT NULL,
+    [GroupId] TINYINT NOT NULL,
+    CONSTRAINT [PK_UserGroup] PRIMARY KEY CLUSTERED ([UserId] ASC, [GroupId] ASC),
+    CONSTRAINT [FK_UserGroup_Group] FOREIGN KEY ([GroupId]) REFERENCES [dbo].[Group] ([Id]),
+    CONSTRAINT [FK_UserGroup_Users] FOREIGN KEY ([UserId]) REFERENCES [dbo].[Users] ([Id])
+);
+

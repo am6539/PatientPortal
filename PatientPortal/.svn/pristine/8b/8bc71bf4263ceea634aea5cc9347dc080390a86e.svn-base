@@ -1,0 +1,88 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using Microsoft.AspNet.SignalR;
+using Microsoft.Owin;
+using PatientPortal.Domain.LogManager;
+using System.Threading.Tasks;
+
+namespace PatientPortal.Internal.Hubs
+{
+
+    public class NotificationHub : Hub
+    {
+        #region Data Members
+        static List<NotiUser> ConnectedUsers = new List<NotiUser>();
+        static List<NotiMessage> CurrentMessage = new List<NotiMessage>();
+        #endregion
+
+        public void Connect(string userId, string userName)
+        {
+            var id = Context.ConnectionId;
+
+            if (ConnectedUsers.Count(x => x.ConnectionId == id) == 0)
+            {
+                ConnectedUsers.Add(new NotiUser { ConnectionId = id, UserName = userName, UserId = userId });
+            }
+            NotiUser CurrentUser = ConnectedUsers.Where(u => u.ConnectionId == id).FirstOrDefault();
+            // send to caller           
+            //Clients.Caller.onConnected(CurrentUser.UserId, CurrentUser.UserName, ConnectedUsers, CurrentMessage);
+            // send to all except caller client           
+            //Clients.AllExcept(CurrentUser.ConnectionId).onNewUserConnected(CurrentUser.UserId, CurrentUser.UserName);
+        }
+
+        public void PushMessage(string message)
+        {
+            try
+            {
+                //Target 
+                string fromConnectionId = Context.ConnectionId;
+                var FromUser = ConnectedUsers.FirstOrDefault(u => u.ConnectionId == fromConnectionId);
+                             
+               // List<NotiUser> FromUsers = ConnectedUsers.Where(u => u.UserId == CurrentUser.UserId).ToList();
+                List<NotiUser> ToUsers = ConnectedUsers.Where(x => x.UserId != FromUser.UserId).ToList();
+
+                if (FromUser != null && ToUsers.Count() != 0)
+                {
+                    foreach (var user in ToUsers)
+                    {
+                        // Send to                                                                                           
+                        Clients.Client(user.ConnectionId)
+                            .getLastedNotification(FromUser.UserName, message);
+                    }
+
+                    // send to caller user                                                      
+                    //Clients.Client(FromUser.ConnectionId).getPushStatus("Thông báo đã được gửi");
+                }
+            }
+            catch (Exception ex) {
+                Logger.LogError(ex);
+            }
+        }
+
+        public override Task OnDisconnected(bool stopCalled)
+        {
+            var item = ConnectedUsers.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
+            if (item != null)
+            {
+                ConnectedUsers.Remove(item);
+            }
+            return base.OnDisconnected(stopCalled);
+        }
+    }
+    public class NotiMessage
+    {
+        public string FromUserId { get; set; }
+        public string FromUserName { get; set; }
+        public string ToUserId { get; set; }
+        public string Message { get; set; }
+    }
+
+    public class NotiUser
+    {
+        public string ConnectionId { get; set; }
+        public string UserId { get; set; }
+        public string UserName { get; set; }
+    }
+}

@@ -1,0 +1,75 @@
+﻿using AutoMapper;
+using PatientPortal.API.CMS.ViewModels;
+using PatientPortal.Domain.Models.CMS;
+using PatientPortal.IRepository.CMS;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Http;
+
+namespace PatientPortal.API.CMS.Controllers
+{
+    public class WorkflowNavigationController : ApiController
+    {
+        /// <summary>
+        /// declare variables
+        /// </summary>
+        private readonly IWorkflowNavigationRepo _workflowNavigation;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="language"></param>
+        public WorkflowNavigationController(IWorkflowNavigationRepo workflowNavigation)
+        {
+            this._workflowNavigation = workflowNavigation;
+        }
+
+        #region API Function
+        /// <summary>
+        /// Get all WorkflowNavigations
+        /// </summary>
+        /// <returns>List of WorkflowNavigation</returns>
+        public async Task<List<WorkflowNavigationViewModel>> GetAll()
+        {
+            List<string> list = new List<string> { "WorkflowId" };
+            var para = APIProvider.APIDefaultParameter(list, 0);
+
+            var source = await _workflowNavigation.Query(para);
+            List<WorkflowNavigationViewModel> dest = Mapper.Map<List<WorkflowNavigationViewModel>>(source);
+            //short k = 2;
+            //GetWorkflowList(dest, dest.FirstOrDefault().WorkflowStateId);
+            return dest;
+        }
+
+        [HttpGet]
+        [Route("api/WorkflowNavigation/GetByWorkflowId/{id}")]
+        public async Task<List<WorkflowNavigationViewModel>> GetByWorkflowId(byte id)
+        {
+            List<string> list = new List<string> { "WorkflowId" };
+            var para = APIProvider.APIDefaultParameter(list, id);
+
+            var source = await _workflowNavigation.SingleQuery(para);
+            List<WorkflowNavigationViewModel> dest = Mapper.Map<List<WorkflowNavigationViewModel>>(source);
+            return dest;
+        }
+
+        /// <summary>
+        /// Action: Insert/Update/Delete WorkflowNavigation
+        /// </summary>
+        /// <param name="workflowNavigationModel">object "WorkflowNavigation"</param>
+        /// <param name="action">Action: 'I' - Insert; 'U'- Update; 'D'- Delete</param>
+        /// <returns>Result: Success- true; Fail- false</returns>
+        [HttpPost]
+        public async Task<bool> Transaction(WorkflowNavigationViewModel workflowNavigationModel, char action)
+        {
+            var obj = Mapper.Map<WorkflowNavigationEdit>(workflowNavigationModel);
+            return await _workflowNavigation.Transaction(obj, action);
+        }
+        #endregion
+    }
+}

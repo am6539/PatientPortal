@@ -1,0 +1,13 @@
+﻿'use strict';
+
+angular.module('spaPHCN')
+    .controller("PostsController", [
+    "$scope", "$location", "$route", "Params", "PostsServices",
+    function ($scope, $location, $route, Params, PostsServices) {
+
+        $scope.subTitle = "Tin tức";
+
+        PostService.queryPost({ languageCode: 'vi', priority: Params.hotpriority, categoryId: Params.postParentCategoryId }, function (data) {
+            $scope.hotposts = data;
+        });
+    }]);

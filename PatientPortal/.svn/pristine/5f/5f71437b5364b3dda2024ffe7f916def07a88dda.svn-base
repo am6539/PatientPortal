@@ -1,0 +1,47 @@
+﻿using PatientPortal.Domain.LogManager;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Optimization;
+using System.Web.Routing;
+using PatientPortal.PatientServices.Binders;
+using System.Web.Http;
+using System.Web.Helpers;
+using System.Security.Claims;
+
+namespace PatientPortal.PatientServices
+{
+    public class MvcApplication : System.Web.HttpApplication
+    {
+        protected void Application_Start()
+        {
+            AreaRegistration.RegisterAllAreas();
+
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
+            AuthConfig.RegisterAuth();
+
+            // anti-forgery token support with claims-based authentication
+            AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimsIdentity.DefaultNameClaimType;
+
+            //Log4Net
+            log4net.Config.XmlConfigurator.Configure();
+
+            //ModelBinder
+            ModelBinders.Binders.Add(typeof(DateTime), new DateTimeModelBinder());
+            ModelBinders.Binders.Add(typeof(DateTime?), new DateTimeModelBinder());
+        }
+
+        protected void Application_Error(Object sender, EventArgs e)
+        {
+            Exception ex = Server.GetLastError();
+            if (ex is ThreadAbortException)
+                return;
+            Logger.LogError(ex);
+        }
+    }
+}

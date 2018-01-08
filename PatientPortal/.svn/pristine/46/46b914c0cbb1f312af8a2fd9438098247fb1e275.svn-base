@@ -1,0 +1,36 @@
+﻿
+@model PatientPortal.CMS.Models.PostStateHistoryViewModel
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>Duyệt bài viết</h3>
+</div>
+
+@using (Html.BeginForm("Publish", "PublishPost", FormMethod.Post, new { @class = "modal-form form-horizontal" }))
+{
+    @Html.HiddenFor(model => model.PostId)
+    <div class="modal-body">
+        <div class="row-fluid">
+            <div class="form-group">
+                <label class="control-label col-md-2">Ghi chú: <a href="#" class="fa fa-info-circle" data-toggle="tooltip" title="Tiêu đề này sẽ được hiển thị ở đầu của mỗi bài viết."></a></label>
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.Note, new { @class = "form-control", @placeholder = "Nhập ghi chú", @rows = "5" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-danger" type="submit"><i class="fa fa-check"> Duyệt</i></button>
+        <button class="btn" type="button" id="approve-btn" data-dismiss="modal" aria-hidden="true"><i class="fa fa-long-arrow-right"> Hủy</i></button>
+    </div>
+}
+
+
+<script type="text/javascript">
+    $(function () {
+        $('#approve-btn').click(function () {
+            $('#modal-container').modal('hide');
+        });
+    });
+</script>

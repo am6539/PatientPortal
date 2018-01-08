@@ -1,0 +1,24 @@
+﻿using PatientPortal.IRepository.SPA;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.SPA;
+
+namespace PatientPortal.Repositoty.SPA
+{
+    public class ScheduleRepoImpl : IScheduleRepo
+    {
+        private IScheduleRepo _iScheduleRepo;
+
+        public ScheduleRepoImpl(IScheduleRepo iScheduleRepo)
+        {
+            this._iScheduleRepo = iScheduleRepo;
+        }
+        public async Task<List<Schedule>> GetScheduleExamine(Dictionary<string, object> param)
+        {
+            return await _iScheduleRepo.GetScheduleExamine(param);
+        }
+    }
+}

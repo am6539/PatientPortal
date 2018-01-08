@@ -1,0 +1,46 @@
+﻿@model PatientPortal.Internal.Models.Account.ChangePasswordBindingModel
+
+@using (Html.BeginForm("ChangePassword", "Account", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="main-login main-center">
+        <h4 style="font-size: 20px;text-align: center;"><strong>Đổi mật khẩu</strong></h4>
+        <div class="form-horizontal">
+            <div class="change-pass">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.OldPassword, new { @class = "cols-sm-2 control-label", @for = "OldPassword" })
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
+                            @Html.EditorFor(m => m.OldPassword, new { htmlAttributes = new { @type = "password", @class = "form-control", @placeholder = "Nhập mật khẩu cũ" } })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.NewPassword, new { @class = "cols-sm-2 control-label", @for = "NewPassword" })
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                            @Html.EditorFor(m => m.NewPassword, new { htmlAttributes = new { @type = "password", @class = "form-control", @placeholder = "Nhập mật khẩu mới" } })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ConfirmPassword, new { @class = "cols-sm-2 control-label", @for = "ConfirmPassword" })
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                            @Html.EditorFor(m => m.ConfirmPassword, new { htmlAttributes = new { @type = "password", @class = "form-control", @placeholder = "Nhập lại mật khẩu mới" } })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <button type="submit" class="btn btn-primary btn-block login-button">Đổi mật khẩu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

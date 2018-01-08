@@ -1,0 +1,12 @@
+﻿CREATE TABLE [dbo].[OfferAdvise] (
+    [Id]        INT            IDENTITY (1, 1) NOT NULL,
+    [Date]      SMALLDATETIME  NOT NULL,
+    [Detail]    NVARCHAR (MAX) NOT NULL,
+    [PatientId] INT            NOT NULL,
+    [IsRead] BIT NOT NULL, 
+    [IsSent] BIT NOT NULL, 
+    [Tag] NVARCHAR(150) NOT NULL, 
+    CONSTRAINT [PK_OfferAdvise] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_OfferAdvise_Users] FOREIGN KEY ([PatientId]) REFERENCES [dbo].[Users] ([Id])
+);
+

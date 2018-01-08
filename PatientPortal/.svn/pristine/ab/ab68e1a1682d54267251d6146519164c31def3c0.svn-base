@@ -1,0 +1,28 @@
+﻿using AutoMapper;
+using PatientPortal.API.Core.Models;
+using PatientPortal.Domain.Models.CORE;
+using PatientPortal.IRepository.CORE;
+using System.Threading.Tasks;
+using System.Web.Http;
+
+namespace PatientPortal.API.Core.Controllers
+{
+    public class AppointmentLogController : ApiController
+    {
+        private readonly IAppointmentLogRepo _appointment;
+
+        #region Constructor
+        public AppointmentLogController(IAppointmentLogRepo appointment)
+        {
+            this._appointment = appointment;
+        }
+        #endregion
+
+        [HttpPost]
+        public async Task<bool> Transaction(AppointmentLogEditModel appointmentModel, char action)
+        {
+            var data = Mapper.Map<AppointmentLogEdit>(appointmentModel);
+            return await _appointment.Transaction(data, action);
+        }
+    }
+}

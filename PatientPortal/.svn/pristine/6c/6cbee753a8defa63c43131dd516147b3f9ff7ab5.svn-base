@@ -1,0 +1,18 @@
+﻿@model PatientPortal.PatientServices.Models.UserViewModel
+
+<h4><i class="fa fa-bookmark" aria-hidden="true" style="color:#26B99A"></i> THÔNG TIN CÁ NHÂN ĐẶT HẸN</h4>
+<p>
+    Họ tên: @Model.Name<br />
+    Địa chỉ email: @Model.Email<br />
+    Ngày sinh: @Model.DateOfBirth<br />
+    Giới tính: @Model.DateOfBirth<br />
+    Số điện thoại: @Model.PhoneNumber<br />
+</p>
+
+<hr />
+<h4><i class="fa fa-bookmark" aria-hidden="true" style="color: #26B99A"></i> THÔNG TIN ĐẶT HẸN KHÁM</h4>
+<p>
+    Bác sĩ: <span id="doctorName"></span><br />
+    Ngày: <span id="dateChoose"></span>. Giờ: <span id="timeChoose"></span><br />
+    Triệu chứng: <span id="symptomOText"></span><br />
+</p>

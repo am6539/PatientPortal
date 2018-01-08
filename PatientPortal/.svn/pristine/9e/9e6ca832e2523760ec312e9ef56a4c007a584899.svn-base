@@ -1,0 +1,104 @@
+﻿using PatientPortal.CMS.Common;
+using PatientPortal.CMS.Models;
+using PatientPortal.CMS.Utility;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.CMS.Controllers
+{
+    public class ApprovePostController : Controller
+    {
+        // GET: ApprovePost
+        public ActionResult Index(string languageCode)
+        {
+            try
+            {
+                languageCode = ConfigurationManager.AppSettings["AdminLanguageCode"];
+
+                var listCatg = APIHelper.Get<List<CategoryViewModel>>($"api/Category");
+                if (listCatg != null)
+                    ViewData["ListCategory"] = listCatg;
+
+                var results = APIHelper.Get<List<PostListViewModel>>($"api/Post?languageCode={languageCode}");
+
+                return View(results);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        // GET: ApprovePost/Details/5
+        public ActionResult Details(int id)
+        {
+            try
+            {
+                var listCatg = APIHelper.Get<List<CategoryViewModel>>($"api/Category");
+                var model = APIHelper.Get<PostViewModel>($"api/Post?PostId={id}");
+                if (string.IsNullOrEmpty(model.Image))
+                {
+                    model.Image = ValueConstant.IMAGE_PATH + ValueConstant.IMAGE_POST_PATH + ValueConstant.IMAGE_DEFAULT;
+                }
+                if (listCatg != null)
+                    ViewBag.CategoryId = new SelectList(listCatg, "ID", "Name", model.CategoryId);
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public async Task<ActionResult> Approve(PostStateHistoryViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var result = await APIHelper.TransactionAsyncResult<PostStateHistoryViewModel>(model, $"api/ApprovePost?action={ ValueConstant.ACTION_UPDATE }");
+                    if (result == true)
+                    {
+                        TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, "Duyệt bài viết thành công");
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, "Duyệt bài không thành công");
+                        return View(model);
+                    }
+                }
+                catch
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, "Duyệt bài không thành công");
+                    return View();
+                }
+            }
+            else
+            {
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, "Duyệt bài không thành công");
+                return View(model);
+            }
+        }
+
+        public ActionResult ConfirmApprove(int id)
+        {
+            try
+            {
+                var model = new PostStateHistoryViewModel();
+                model.Id = id;
+                return PartialView("_ConfirmApprovePartial", model);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+    }
+}

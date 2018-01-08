@@ -1,0 +1,9 @@
+﻿'use strict';
+
+angular.module('spaPHCN')
+    .controller("PostListController", [
+    "$scope", "$location", "$route", "Params", "PostListServices",
+    function ($scope, $location, $route, Params, PostListServices) {
+
+
+    }]);

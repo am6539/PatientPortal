@@ -1,0 +1,99 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       [dbo].[Role]
+       [dbo].[Users]
+       [dbo].[UserRole]
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       The type for column Name in table [dbo].[Role] is currently  NVARCHAR (256) NOT NULL but is being changed to  NVARCHAR
+         (128) NOT NULL. Data loss could occur.
+       The column [dbo].[Users].[Code] on table [dbo].[Users] must be added, but the column has no default value and does not
+         allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add
+         a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a
+         deployment option.
+       The column [dbo].[Users].[HomePhone] on table [dbo].[Users] must be added, but the column has no default value and does
+         not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either:
+         add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a
+         deployment option.
+       The column [dbo].[Users].[Status] on table [dbo].[Users] must be added, but the column has no default value and does not
+         allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add
+         a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a
+         deployment option.
+       The type for column Image in table [dbo].[Users] is currently  NVARCHAR (MAX) NULL but is being changed to  VARCHAR
+         (256) NOT NULL. Data loss could occur.
+       The type for column OrganizationId in table [dbo].[Users] is currently  INT NOT NULL but is being changed to  SMALLINT
+         NOT NULL. Data loss could occur.
+
+** User actions
+     Drop
+       [dbo].[Role].[RoleNameIndex] (Index)
+       [dbo].[UserRole].[IX_RoleId] (Index)
+       [dbo].[UserRole].[IX_UserId] (Index)
+       [dbo].[Users].[UserNameIndex] (Index)
+       [dbo].[FK_dbo.UserRole_dbo.Users_UserId] (Foreign Key)
+       [dbo].[FK_dbo.UserClaim_dbo.Users_UserId] (Foreign Key)
+       [dbo].[FK_dbo.UserLogin_dbo.Users_UserId] (Foreign Key)
+       [dbo].[FK_dbo.UserRole_dbo.Role_RoleId] (Foreign Key)
+     Table rebuild
+       [dbo].[Role] (Table)
+       [dbo].[Users] (Table)
+       [dbo].[UserRole] (Table)
+     Create
+       [dbo].[Users].[idxUserAccess] (Index)
+       [dbo].[EmailMarketing] (Table)
+       [dbo].[Permission] (Table)
+       [dbo].[Survey] (Table)
+       [dbo].[SurveyAnswers] (Table)
+       [dbo].[SurveyAnswers].[IX_SurveyAnswers_QuestionId] (Index)
+       [dbo].[SurveyQuestions] (Table)
+       [dbo].[UserGroup] (Table)
+       [dbo].[OfferAdvise].[IX_OfferAdvise_PatientId] (Index)
+       Default Constraint: unnamed constraint on [dbo].[EmailMarketing] (Default Constraint)
+       Default Constraint: unnamed constraint on [dbo].[Survey] (Default Constraint)
+       Default Constraint: unnamed constraint on [dbo].[Survey] (Default Constraint)
+       Default Constraint: unnamed constraint on [dbo].[Survey] (Default Constraint)
+       Default Constraint: unnamed constraint on [dbo].[SurveyAnswers] (Default Constraint)
+       Default Constraint: unnamed constraint on [dbo].[SurveyAnswers] (Default Constraint)
+       [dbo].[FK_Users_Organization] (Foreign Key)
+       [dbo].[FK_UserRole_Role] (Foreign Key)
+       [dbo].[FK_UserRole_Users] (Foreign Key)
+       [dbo].[FK_Permission_Module] (Foreign Key)
+       [dbo].[FK_SurveyAnswers_SurveyQuestions] (Foreign Key)
+       [dbo].[FK_SurveyQuestions_Survey] (Foreign Key)
+       [dbo].[FK_UserGroup_Group] (Foreign Key)
+       [dbo].[FK_UserGroup_Users] (Foreign Key)
+     Alter
+       [dbo].[usp_AppointmentLog_Confirm] (Procedure)
+       [dbo].[usp_Article] (Procedure)
+       [dbo].[usp_Article_Transaction] (Procedure)
+       [dbo].[usp_ArticleComment] (Procedure)
+       [dbo].[usp_OfferAdvise] (Procedure)
+
+** Supporting actions
+     Refresh
+       [dbo].[usp_Login] (Procedure)
+       [dbo].[usp_Role] (Procedure)
+       [dbo].[usp_Role_Transaction] (Procedure)
+       [dbo].[usp_Organization_Transaction] (Procedure)
+       [dbo].[usp_spa_User] (Procedure)
+       [dbo].[usp_spa_User_HasScheduleExamine] (Procedure)
+       [dbo].[usp_User] (Procedure)
+       [dbo].[usp_User_ChangePassword] (Procedure)
+       [dbo].[usp_User_HasScheduleExamine] (Procedure)
+       [dbo].[usp_Users_Transaction] (Procedure)
+       [dbo].[usp_UserRole_Transaction] (Procedure)
+
+The type for column Name in table [dbo].[Role] is currently  NVARCHAR (256) NOT NULL but is being changed to  NVARCHAR (128) NOT NULL. Data loss could occur.
+The column [dbo].[Users].[Code] on table [dbo].[Users] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+The column [dbo].[Users].[HomePhone] on table [dbo].[Users] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+The column [dbo].[Users].[Status] on table [dbo].[Users] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+The column DoB on table [dbo].[Users] must be changed from NULL to NOT NULL. If the table contains data, the ALTER script may not work. To avoid this issue, you must add values to this column for all rows or mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+The column Image on table [dbo].[Users] must be changed from NULL to NOT NULL. If the table contains data, the ALTER script may not work. To avoid this issue, you must add values to this column for all rows or mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+The type for column Image in table [dbo].[Users] is currently  NVARCHAR (MAX) NULL but is being changed to  VARCHAR (256) NOT NULL. Data loss could occur.
+The column Name on table [dbo].[Users] must be changed from NULL to NOT NULL. If the table contains data, the ALTER script may not work. To avoid this issue, you must add values to this column for all rows or mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+The type for column OrganizationId in table [dbo].[Users] is currently  INT NOT NULL but is being changed to  SMALLINT NOT NULL. Data loss could occur.
+The column Tags on table [dbo].[Users] must be changed from NULL to NOT NULL. If the table contains data, the ALTER script may not work. To avoid this issue, you must add values to this column for all rows or mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+

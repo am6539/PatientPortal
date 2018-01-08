@@ -1,0 +1,107 @@
+﻿using PatientPortal.CMS.Models;
+using PatientPortal.CMS.Utility;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.CMS.Controllers
+{
+    public class ApprovePostController : Controller
+    {
+        // GET: ApprovePost
+        public ActionResult Index(string languageCode)
+        {
+            try
+            {
+                languageCode = ConfigurationManager.AppSettings["AdminLanguageCode"];
+
+                var listCatg = APIHelper.Get<List<CategoryViewModel>>($"api/Category");
+                if (listCatg != null)
+                    ViewData["ListCategory"] = listCatg;
+
+                var results = APIHelper.Get<List<PostListViewModel>>($"api/Post?languageCode={languageCode}");
+
+                return View(results);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        // GET: ApprovePost/Details/5
+        public ActionResult Details(int id)
+        {
+            return View();
+        }
+
+        // GET: ApprovePost/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: ApprovePost/Create
+        [HttpPost]
+        public ActionResult Create(FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add insert logic here
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: ApprovePost/Edit/5
+        public ActionResult Edit(int id)
+        {
+            return View();
+        }
+
+        // POST: ApprovePost/Edit/5
+        [HttpPost]
+        public ActionResult Edit(int id, FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add update logic here
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: ApprovePost/Delete/5
+        public ActionResult Delete(int id)
+        {
+            return View();
+        }
+
+        // POST: ApprovePost/Delete/5
+        [HttpPost]
+        public ActionResult Delete(int id, FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add delete logic here
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+    }
+}

@@ -1,0 +1,98 @@
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Http;
+using AutoMapper;
+using PatientPortal.IRepository.CORE;
+using PatientPortal.Domain.Models.CORE;
+using PatientPortal.Provider.Models;
+using PatientPortal.API.Core.Models;
+using System;
+
+namespace PatientPortal.API.Core.Controllers
+{
+    //[RoutePrefix("api/OfferAdvise")]
+
+    [AuthorizeRoles]
+    public class OfferAdviseController : ApiController
+    {
+        private readonly IOfferAdviseRepo _offeradvise;
+
+        /// <summary>
+        /// Init
+        /// </summary>
+        /// <param name="offeradvise"></param>
+        public OfferAdviseController(IOfferAdviseRepo offeradvise)
+        {
+            this._offeradvise = offeradvise;
+        }
+
+        #region GET
+        /// <summary>
+        /// Get all
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<List<OfferAdviseViewModel>> Get(string patientId, byte status)
+        {
+            List<string> list = new List<string> { "id", "PatientId", "Status" };
+            var para = APIProvider.APIDefaultParameter(list, 0, patientId, status);
+
+            var source = await _offeradvise.Query(para);
+            var dest = Mapper.Map<List<OfferAdviseViewModel>>(source);
+
+            return (dest == null ? new List<OfferAdviseViewModel>() : dest);
+        }
+
+
+        /// <summary>
+        /// Filter by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<OfferAdviseViewModel> Get(byte id)
+        {
+            List<string> list = new List<string> { "id" };
+            var para = APIProvider.APIGeneratorParameter(list, id);
+
+            var source = await _offeradvise.SingleQuery(para);
+            var dest = Mapper.Map<OfferAdviseViewModel>(source);
+
+            return (dest == null ? new OfferAdviseViewModel() : dest);
+        }
+
+
+        /// <summary>
+        /// Check exist data
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<bool> CheckExist(string name, byte id)
+        {
+            var list = this.RequestContext.RouteData.Values.Keys;
+            var para = APIProvider.APIGeneratorParameter(list, id);
+
+            return await _offeradvise.CheckExist(para);
+        }
+        #endregion
+
+        #region POST
+
+        /// <summary>
+        /// Transaction data: Insert/Update/Delete
+        /// </summary>
+        /// <param name="offeradviseModel"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<int> Transaction(OfferAdviseViewModel offeradviseModel, char action)
+        {
+            var data = Mapper.Map<OfferAdviseEdit>(offeradviseModel);
+            data.IdNotificate = Guid.NewGuid().ToString();
+            return await _offeradvise.Transaction(data, action);
+        }
+        #endregion
+    }
+}

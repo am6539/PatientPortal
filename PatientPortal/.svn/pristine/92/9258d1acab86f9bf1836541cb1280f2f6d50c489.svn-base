@@ -1,0 +1,45 @@
+﻿using AutoMapper;
+using PatientPortal.API.Core.Models;
+using PatientPortal.Domain.Common;
+using PatientPortal.IRepository.CORE;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Http;
+using PatientPortal.Domain.Models.CORE;
+
+namespace PatientPortal.API.Core.Controllers
+{
+    public class ScheduleController : ApiController
+    {
+        private readonly IScheduleRepo _scheduleRepo;
+
+        public ScheduleController(IScheduleRepo scheduleRepo)
+        {
+            this._scheduleRepo = scheduleRepo;
+        }
+
+        [HttpGet]
+        public async Task<List<ScheduleViewModel>> GetSchedule()
+        {
+            Dictionary<string, object> param = new Dictionary<string, object>();
+            param.Add("Id", 0);
+
+            var source = await _scheduleRepo.Query(param);
+            var dest = Mapper.Map<List<ScheduleViewModel>>(source);
+
+            return dest;
+        }
+
+        [HttpPost]
+        public async Task<int> InsertSchedule(ScheduleViewModel data)
+        {
+            var param = Mapper.Map<Schedule>(data);
+            var result = await _scheduleRepo.Transaction(param, ValueConstant.INSERT);
+            return result;
+        }
+    }
+}

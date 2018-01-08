@@ -1,0 +1,72 @@
+﻿using PatientPortal.DataAccess.Repo.Wrapper;
+using PatientPortal.Domain.Common;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.DataAccess.Wrapper
+{
+    public class AdapterPattern: IAdapterPattern
+    {
+        /// <summary>
+        /// Simple transaction - return dynamic value. Example: Bool, Int, Entity or other type of object
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="Q"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="proc"></param>
+        /// <param name="action"></param>
+        /// <param name="instance"></param>
+        /// <param name="ignoreParas"></param>
+        /// <param name="queryOption"></param>
+        /// <returns></returns>
+        public async Task<Q> Transaction<T, Q>(T obj, string proc, char action, short instance, string ignoreParas, DataConfigutation.DapperQueryOption queryOption)
+        {
+            return await new Lib.DataGenerator().CommitData<T, Q>(obj, proc, action, instance, ignoreParas, queryOption);
+        }
+
+        /// <summary>
+        /// Transaction: return collection of objects
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="Q"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="proc"></param>
+        /// <param name="instance"></param>
+        /// <param name="ignoreParas"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<Q>> Transaction<T, Q>(T obj, string proc, short instance, string ignoreParas)
+        {
+            return await new Lib.DataGenerator().CommitData<T, Q>(obj, proc, instance, ignoreParas);
+        }
+
+        /// <summary>
+        /// Query: Return collection of objects
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="proc"></param>
+        /// <param name="instance"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<T>> ExecuteQuery<T>(Dictionary<string, dynamic> obj, string proc, short instance = 1)
+        {
+            return await new Lib.DataGenerator().QueryData<T>(obj, proc, instance);
+        }
+
+        /// <summary>
+        /// Query: return dynamic value of object
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="proc"></param>
+        /// <param name="instance"></param>
+        /// <param name="queryOption"></param>
+        /// <returns></returns>
+        public async Task<T> ExecuteQuery<T>(Dictionary<string, dynamic> obj, string proc, short instance, DataConfigutation.DapperQueryOption queryOption)
+        {
+            return await new Lib.DataGenerator().QueryData<T>(obj, proc, instance, queryOption);
+        }
+    }
+}

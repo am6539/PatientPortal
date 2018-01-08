@@ -1,0 +1,32 @@
+﻿@model PatientPortal.CMS.Models.WorkflowStateViewModel
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>Ngôn ngữ: @Html.DisplayFor(model => model.Name)</h3>
+</div>
+
+@using (Html.BeginForm("Delete", "WorkflowState", FormMethod.Post, new { @class = "modal-form form-horizontal" }))
+{
+    @Html.HiddenFor(model => model.Id)
+    <div class="modal-body">
+        <div class="row-fluid">
+            <div class="control-group">
+                Bạn có thực sự muốn xóa ?
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-danger" type="submit"><i class="fa fa-check"> Xóa</i></button>
+        <button class="btn" type="button" id="approve-btn" data-dismiss="modal" aria-hidden="true"><i class="fa fa-long-arrow-right"> Hủy</i></button>
+    </div>
+}
+<script type="text/javascript">
+    $(function () {
+        $('#approve-btn').click(function () {
+            $('#modal-container').modal('hide');
+        });
+    });
+</script>
+
+

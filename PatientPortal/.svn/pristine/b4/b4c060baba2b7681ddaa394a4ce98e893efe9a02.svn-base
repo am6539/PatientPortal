@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].[BlockedIpHandler]
+(
+	[Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY, 
+    [IP] VARCHAR(50) NOT NULL, 
+    [Note] NVARCHAR(150) NOT NULL, 
+    [IsLocked] BIT NOT NULL
+)

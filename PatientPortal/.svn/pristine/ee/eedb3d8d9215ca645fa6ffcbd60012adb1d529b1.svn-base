@@ -1,0 +1,95 @@
+﻿
+using PatientPortal.CMS.Common;
+using PatientPortal.CMS.Models;
+using PatientPortal.CMS.Utility;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.CMS.Controllers
+{
+    public class LinkBuildingController : Controller
+    {
+        // GET: Language
+        public ActionResult Index()
+        {
+            var results = new LinkBuildingModel();
+            try
+            {
+                var list = APIHelper.Get<List<LinkBuildingViewModel>>($"api/LinkBuilding");
+                if (list == null) list = ApplicationHelper.GetObject<List<LinkBuildingViewModel>>();
+
+                var data = new LinkBuildingViewModel();
+                results.lstLinkBuildingViewModel = list;
+                results.LinkBuildingViewModel = data;
+
+                TempData["Data"] = list;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(ex.Message);
+                throw ex;
+            }
+            return View(results);
+        }
+
+        #region Create
+        public ActionResult Create()
+        {
+            return PartialView("_Create");
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Create(LinkBuildingViewModel model)
+        {
+            if (model == null) return null; 
+
+            if (ModelState.IsValid)
+            {
+                bool result = await Save(model, ValueConstant.ACTION_INSERT);
+                if (result)
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, "Thêm thành công");
+                }
+                else
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, "Có lỗi phát sinh khi thêm liên kết website");
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var links = new LinkBuildingModel();
+                links.lstLinkBuildingViewModel = (List<LinkBuildingViewModel>)TempData["Data"];
+                links.LinkBuildingViewModel = model;
+
+                TempData["Data"] = links.lstLinkBuildingViewModel;
+                //TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, "Thêm không thành công");
+                return View("Index", links);
+            }
+
+        }
+        #endregion
+
+        #region API Transaction
+        public async Task<bool> Save(LinkBuildingViewModel moxxxxdel, string action)
+        {
+            var result = true;
+            try
+            {
+                result = await APIHelper.TransactionAsyncResult<LinkBuildingViewModel>(moxxxxdel, "api/LinkBuilding?action=" + action + "");
+            }
+            catch (Exception e)
+            {
+                LogHelper.WriteLog(e.Message);
+                ModelState.AddModelError("", e.Message);
+            }
+            return result;
+        }
+        #endregion
+    }
+}

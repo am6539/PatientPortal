@@ -1,0 +1,23 @@
+﻿using PatientPortal.IRepository.SPA;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using PatientPortal.DataAccess.Repo.SPA;
+using PatientPortal.Domain.Models.SPA;
+
+namespace PatientPortal.Repositoty.SPA
+{
+    public class CategoryRepoImpl : ICategoryRepo
+    {
+        private ICategory _iCategory;
+
+        public CategoryRepoImpl(ICategory iCategory)
+        {
+            this._iCategory = iCategory;
+        }
+
+        public async Task<IEnumerable<Category>> Query(Dictionary<string, dynamic> para)
+        {
+            return await _iCategory.Query(para);
+        }
+    }
+}

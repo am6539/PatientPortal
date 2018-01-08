@@ -1,0 +1,15 @@
+﻿CREATE PROC [dbo].[usp_ArticleComment] (@ArticleId INT = 0)
+AS BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+
+	BEGIN TRY
+		SELECT * FROM [dbo].[ArticleComment] WHERE [ArticleId] = @ArticleId
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0 
+		BEGIN
+			RETURN NULL
+		END
+	END CATCH
+END

@@ -1,0 +1,40 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h4 class="modal-title">Thông tin đặt hẹn</h4>
+</div>
+
+<div class="modal-body">
+    <div class="row-fluid">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-sm-3" for="StatusFast">Tình trạng:</label>
+                <div class="col-sm-9">
+                    @Html.DropDownList("StatusFast", new SelectList(new[]{
+                        new SelectListItem { Text = "Mới đặt hẹn", Value = "1" },
+                        new SelectListItem { Text = "Đã khám", Value = "2" },
+                        new SelectListItem { Text = "Đã hủy", Value = "3" }
+                    }, "Value", "Text"), new { @class = "chosen-select", @id="StatusFast", @data_placeholder = "Meta Robots Advanced" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer" style="text-align: center">
+    <button class="btn btn-success" type="submit" onclick="onConfirmFast()"><i class="fa fa-trash"> Xác nhận</i></button>
+    <button class="btn" type="button" id="btn-dismiss" data-dismiss="modal" aria-hidden="true"><i class="fa fa-long-arrow-right"></i> Thoát</button>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#btn-dismiss').click(function () {
+            $('#modal-container').modal('hide');
+        });
+    });
+    var config = {
+        '.chosen-select': {}
+    }
+    for (var selector in config) {
+        $(selector).chosen(config[selector]);
+    }
+</script>

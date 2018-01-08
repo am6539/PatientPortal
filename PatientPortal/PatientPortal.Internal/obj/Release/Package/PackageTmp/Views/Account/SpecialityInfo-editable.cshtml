@@ -1,0 +1,263 @@
+﻿@using PatientPortal.Provider.Helpers;
+@{
+    ViewBag.Title = "Thông tin bác sĩ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet" />
+<link href="~/Libs/x-editable/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css" rel="stylesheet" />
+<link href="~/Libs/x-editable/select2/select2.css" rel="stylesheet" />
+<link href="~/Libs/x-editable/select2/select2-bootstrap.css" rel="stylesheet" />
+    }
+
+<div class="card">
+    @Html.Raw(TempData["Alert"])
+    <div class="card-title">@Html.ITitle("Thông tin bác sĩ", "address-card-o")</div>
+    <div class="card-content">
+        <div class="form-horizontal" id="profileEdit">
+            <div class="form-group" id="alertResult">
+                <div class="alert alert-danger alert-dismissible" style="display: none" id="alertError">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Có lỗi xảy ra!</strong> Vui lòng nhập đầy đủ thông tin.
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-2">Chuyên môn:</label>
+                <div class="col-xs-10">
+                    <a href="#" id="speciality"></a>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-2">Bằng cấp: <a href="#" id="pencilDegrees"><i class="fa fa-pencil" style="padding-right: 5px"></i>[sửa]</a></label>
+                <div class="col-xs-10">
+                    <div id="noteDegrees" data-pk="1" data-type="wysihtml5" data-toggle="manual" data-title="Enter notes" data-placement="top" class="editable" tabindex="-1" data-original-title="" title="">
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-2">Kinh nghiệm: <a href="#" id="pencilTraining"><i class="fa fa-pencil" style="padding-right: 5px"></i>[sửa]</a></label>
+                <div class="col-xs-10">
+                    <div id="noteTraining" data-pk="1" data-type="wysihtml5" data-toggle="manual" data-title="Enter notes" data-placement="top" class="editable" tabindex="-1" data-original-title="" title="">
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-2">Nơi làm việc:</label>
+                <div class="col-xs-10">
+                    <a href="#" id="office"></a>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-2">Ngày làm việc:</label>
+                <div class="col-xs-10">
+                    <a href="#" id="workdays"></a>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-2">Chuyên khoa:</label>
+                <div class="col-xs-10">
+                    <a href="#" id="department" data-type="select2" data-pk="1" data-value="BS" data-title="chọn bác sĩ"></a>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-2"></label>
+                <div class="col-xs-10">
+                    <button type="submit" class="btn btn-success btn-sm" onclick="update()">Cập nhật</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+<script src="~/Libs/x-editable/bootstrap-editable/js/jquery.mockjax.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+<script src="~/Libs/x-editable/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js"></script>
+<script src="~/Libs/x-editable/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.min.js"></script>
+<script src="~/Libs/x-editable/inputs-ext/wysihtml5/wysihtml5.js"></script>
+<script src="~/Libs/x-editable/select2/select2.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.fn.editable.defaults.mode = 'inline';
+        });
+            
+            var doctorProfile = {
+                UserId: '',
+                Speciality: '',
+                Degrees: '',
+                Training: '',
+                Office: '',
+                Workdays: '',
+                DepartmentId: 0
+            };
+            $('#speciality').editable({
+                type: 'text',
+                pk: 1,
+                title: 'Chuyên môn',
+                success: function(response, newValue) {
+                    doctorProfile.Speciality = newValue; //update backbone model
+                }
+            });
+            $('#speciality').editable('option', 'validate', function (v) {
+                if ($.trim(v) == '') { return 'Vui lòng nhập chuyên môn!'; }
+            });
+
+            $('#pencilDegrees').click(function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                $('#noteDegrees').editable('toggle');
+            });
+            $('#noteDegrees').editable('option', 'validate', function (v) {
+                if ($.trim(v) == '') { return 'Vui lòng nhập bằng cấp!'; }
+            });
+
+            $('#pencilTraining').click(function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                $('#noteTraining').editable('toggle');
+            });
+            $('#noteTraining').editable('option', 'validate', function (v) {
+                if ($.trim(v) == '') { return 'Vui lòng nhập kinh nghiệm!'; }
+            });
+        
+            $('#office').editable({
+                type: 'text',
+                pk: 1,
+                title: 'Nơi làm việc',
+                success: function(response, newValue) {
+                    doctorProfile.Office = newValue; //update backbone model
+                }
+            });
+            $('#office').editable('option', 'validate', function (v) {
+                if ($.trim(v) == '') { return 'Vui lòng Nơi làm việc!'; }
+            });
+
+            //Load department
+            var model = @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(ViewBag.Departments)));
+            var profile = @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(ViewBag.Profile)));
+        
+            var departments = [];
+            if(model.length > 0){
+                $.each(model, function (i, item) {
+                    departments.push({ id: item.Id, text: item.Name });
+                });
+            }
+
+            //Init department select
+            $('#department').editable({
+                source: departments,
+                select2: {
+                    width: 200,
+                    placeholder: 'Chọn chuyên khoa',
+                    allowClear: true
+                },
+                success:function(response,value){
+                    departments.DepartmentId = value;
+                }
+            });
+            $('#department').editable('option', 'validate', function (v) {
+                if ($.trim(v) == '') { return 'Vui lòng chọn chuyên khoa!'; }
+            });
+
+            if(profile != null){
+                doctorProfile.UserId = profile.UserId;
+                doctorProfile.Speciality = profile.Speciality;
+                doctorProfile.Degrees = profile.Degrees;
+                doctorProfile.Training = profile.Training;
+                doctorProfile.Office = profile.Office;
+                doctorProfile.Workdays = profile.Workdays;
+                doctorProfile.DepartmentId = profile.DepartmentId;
+
+                setValuetoview();
+            }
+
+            function setValuetoview(){
+                $('#speciality').editable('setValue',doctorProfile.Speciality);
+                $('#office').editable('setValue',doctorProfile.Office);
+                $('#workdays').editable('setValue',doctorProfile.Workdays);
+                $('#noteDegrees').editable('setValue',doctorProfile.Degrees);
+                $('#noteTraining').editable('setValue',doctorProfile.Training);
+                $('#department').editable('setValue',doctorProfile.DepartmentId);
+            }
+
+            $('#profileEdit').on('hidden', function (e, reason) {
+                if (reason === 'save' || reason === 'nochange') {
+                    var $next = $(this).closest('tr').next().find('.editable');
+                    if ($('#autoopen').is(':checked')) {
+                        setTimeout(function () {
+                            $next.editable('show');
+                        }, 300);
+                    } else {
+                        $next.focus();
+                    }
+                }
+            });
+
+
+            $('#workdays').editable({
+                type: 'text',
+                pk: 1,
+                title: 'Ngày làm việc',
+                success: function(response, newValue) {
+                    doctorProfile.Workdays = newValue; //update backbone model
+                }
+            });
+            $('#workdays').editable('option', 'validate', function (v) {
+                if ($.trim(v) == '') { return 'Vui lòng nhập Ngày làm việc!'; }
+            });
+
+            function update(){
+                $('#workdays').editable('option', 'validate', function (v) {
+                    if ($.trim(v) == '') { return 'Vui lòng nhập Ngày làm việc!'; }
+                });
+                doctorProfile.Degrees = $('#noteDegrees').wysihtml5()[0].innerHTML;
+                doctorProfile.Training = $('#noteTraining').wysihtml5()[0].innerHTML;
+                if(doctorProfile.UserId != '' && doctorProfile.Speciality != ''
+                    && doctorProfile.Degrees != '' && doctorProfile.Training != ''
+                    && doctorProfile.Office != '' && doctorProfile.Workdays != ''
+                    && doctorProfile.DepartmentId != 0){
+                    callbackService();
+                }
+                else{
+                    renderAlert('alert alert-danger alert-dismissible', '<strong>Có lỗi xảy ra!</strong> Vui lòng nhập đầy đủ thông tin.');
+                }
+            }
+
+            function callbackService(){
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("SpecialityInfo")',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(doctorProfile),
+                    success: function(result) {
+                        if(result){
+                            window.location.href = '@Url.Action("DoctorProfile")';
+                            renderAlert('alert alert-success alert-dismissible', '<strong>Cập nhật thành công!</strong>');
+                        }
+                        else{
+                            renderAlert('alert alert-danger alert-dismissible', '<strong>Có lỗi xảy ra!</strong> Vui lòng nhập đầy đủ thông tin.');
+                        }
+                    },
+                    error: function (xhr, status, p3, p4){
+                        var err = "Error " + " " + status + " " + p3 + " " + p4;
+                        if (xhr.responseText && xhr.responseText[0] == "{")
+                            err = JSON.parse(xhr.responseText).Message;
+                        console.log(err);
+                    }
+                });
+
+                function renderAlert(className, textMessage){
+                    var htmlAlert ="<div class='"
+                        + className + "' style='display: none' id='alert'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" 
+                        + textMessage + "</div>";
+                    $("#alertResult").html(htmlAlert);
+                    
+                    $('#alert').fadeTo(1000, 1000).slideUp(1000, function(){
+                        $('#alert').slideUp(1000);
+                    });
+                }
+            }
+    </script>
+    }

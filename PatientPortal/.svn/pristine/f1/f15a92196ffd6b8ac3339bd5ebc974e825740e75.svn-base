@@ -1,0 +1,27 @@
+﻿
+@model PatientPortal.Internal.Models.Permission.PermissionViewModel
+
+@using (Html.BeginForm("Create", "Language", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="form-group" style="display: none">
+        @Html.LabelFor(m => m.Id, new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.Id, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @placeholder = "Nhập tên" })
+            @Html.ValidationMessageFor(model => model.Name, null, new { @class = "field-validation-error" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3"></label>
+        <div class="col-md-9">
+            <button type="submit" class="btn btn-success btn-sm" style="width:100%;"><i class="fa fa-check" aria-hidden="true"></i> Thêm ngôn ngữ</button>
+        </div>
+    </div>
+}

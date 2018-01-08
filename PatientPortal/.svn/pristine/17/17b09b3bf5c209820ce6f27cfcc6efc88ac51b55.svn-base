@@ -1,0 +1,72 @@
+﻿"use strict";
+
+var appManagement = angular.module('MyApp', ['ngResource', 'ngRoute', 'ngSanitize', 'ngCookies']).run(function ($rootScope) {
+    $rootScope.title = "FIS Health Medical Center";
+})
+    .config([
+        "$routeProvider", "$locationProvider", '$httpProvider', '$qProvider',
+        function ($routeProvider, $locationProvider, $httpProvider, $qProvider) {
+            $locationProvider.html5Mode(true).hashPrefix('!'); //the hashPrefix is for SEO
+            $qProvider.errorOnUnhandledRejections(false);
+
+            $routeProvider
+            .when('/', {
+                templateUrl: '/www/index.html',
+                controller: 'indexController'
+            })
+            .when('/index/:menu', {
+                templateUrl: '/www/index.html',
+                controller: 'indexController'
+            })
+            .when('/appointment', {
+                templateUrl: '/www/app/template/appointment/appointment.template.html',
+                controller: 'appointmentController'
+            })
+            .when('/detail/:id', {
+                templateUrl: '/www/app/template/post/details.template.html',
+                controller: 'detailController'
+            })
+            .otherwise('/');
+        }
+    ]);
+
+appManagement.filter('jsonDate', ['$filter', function ($filter) {
+    return function (input, format) {
+        return (input) ? $filter('date')(parseInt(input.substr(6)), format) : '';
+    };
+}]).filter("trustUrl", ['$sce', function ($sce) {//url video angular
+    return function (recordingUrl) {
+        return $sce.trustAsResourceUrl(recordingUrl);
+    };
+}]).filter("dateFilter", function () {//2017-05-04T08:30:00 -> 04-05-2017
+    return function (item) {
+        if (item != null) {
+            return new Date(item.split('T')[0]);
+        }
+        return "";
+    }
+});
+
+appManagement.directive('showtab',
+    function () {
+        return {
+            link: function (scope, element, attrs) {
+                element.click(function (e) {
+                    e.preventDefault();
+                    $(element).tab('show');
+                });
+            }
+        };
+    });
+appManagement.directive('scrollOnClick', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, $elm, attrs) {
+            var idToScroll = attrs.href;
+            $elm.on('click', function (e) {
+                e.preventDefault();
+                $("html, body").animate({ scrollTop: $(this.hash).offset().top-5 }, "slow");
+            });
+        }
+    }
+});

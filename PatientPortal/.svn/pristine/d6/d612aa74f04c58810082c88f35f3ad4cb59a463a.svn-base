@@ -1,0 +1,56 @@
+﻿'use strict';
+
+angular.
+module('spaApp').controller('MainController', ['$scope', "HomePageServices", "Params", 'CategoryService', 'ContactService', 'PostService',
+    function MainController($scope, HomePageServices, Params, CategoryService, ContactService, PostService) {
+    // get danh muc Post
+        HomePageServices.getListPost({ languageCode: 'vi', priority: Params.hotpriority, categoryId: Params.postParentCategoryId },
+        function (data) {
+            $scope.lstPost = data;
+        });
+
+        ContactService.get(function (data) {
+            $scope.contact = data;
+        });
+
+
+        CategoryService.query(function (data) {
+            var roots = nested(data);
+            var i = getIndexValue(roots, Params.postParentCategoryId);
+            var j = getIndexValue(roots, Params.aboutParentCategoryId);
+            if (i < roots.length + 1) {
+                $scope.categories = roots[i];
+            }
+        });
+
+        PostService.queryPostByCategory({ languageCode: Params.languageCode, priority: 0, categoryId: Params.aboutParentCategoryId }, function (data) {
+            $scope.abouts = data;
+        });
+
+        function getIndexValue(arr, value) {
+            var result = arr.length + 1;
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i].Id == value) {
+                    result = i;
+                }
+            }
+            return result;
+        }
+
+        function nested(nodes) {
+            var map = {}, node, roots = [];
+            for (var i = 0; i < nodes.length; i += 1) {
+                node = nodes[i];
+                node.children = [];
+                map[node.Id] = i; // use map to look-up the parents
+                if (node.ParentId != 0) {
+                    nodes[map[node.ParentId]].children.push(node);
+                } else {
+                    roots.push(node);
+                }
+            }
+            return roots;
+        }
+    }
+]);
+

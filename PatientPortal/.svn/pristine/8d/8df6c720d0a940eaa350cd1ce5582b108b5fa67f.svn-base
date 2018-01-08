@@ -1,0 +1,12 @@
+﻿using PatientPortal.Domain.Models.CORE;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace PatientPortal.IRepository.CORE
+{
+    public interface IAppointmentRepo
+    {
+        Task<List<Appointment>> Query(Dictionary<string, object> param);
+        Task<bool> Transaction(Appointment data, char action);
+    }
+}

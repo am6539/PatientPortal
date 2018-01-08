@@ -1,0 +1,55 @@
+﻿using AutoMapper;
+using PatientPortal.API.CMS.ViewModels;
+using PatientPortal.IRepository.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+
+namespace PatientPortal.API.CMS.Controllers
+{
+    public class AdvertiseController : ApiController
+    {
+        private readonly IAdvertiseRepo _advertise;
+        public AdvertiseController(IAdvertiseRepo advertise)
+        {
+            this._advertise = advertise;
+        }
+
+        public List<AdvertiseViewModel> Get()
+        {
+            //Mapping
+            var source = _advertise.GetAll();
+            List<AdvertiseViewModel> dest = Mapper.Map<List<AdvertiseViewModel>>(source);
+
+            return dest;
+        }
+
+
+        public AdvertiseViewModel GetById(byte Id)
+        {
+            //Mapping
+            var source = _advertise.Get(Id);
+            AdvertiseViewModel dest = Mapper.Map<AdvertiseViewModel>(source);
+
+            return dest;
+        }
+
+        [HttpPost]
+        public bool Transaction(AdvertiseViewModel advertiseModel, char action)
+        {
+            var category = Mapper.Map<Domain.Models.CMS.Advertise>(advertiseModel);
+            var data = new List<Domain.Models.CMS.Advertise>();
+            data.Add(category);
+            return _advertise.Transaction(data, action);
+        }
+
+        public bool CheckExist(string name, byte Id)
+        {
+            //Mapping
+            return _advertise.CheckExist(name, Id);
+        }
+    }
+}

@@ -1,0 +1,8 @@
+﻿function HomePageController($scope, HomePage) {
+    //$scope.sliders = HomePage.querySlider(function (data) {
+    //    $scope.sliders = data;
+    //});
+    $scope.sliders = [{ Title: 'A', Description: 'A', Image: 'app/images/slider/img1.jpg' },
+        { Title: 'B', Description: 'B', Image: 'app/images/slider/img2.jpg' },
+        { Title: 'C', Description: 'C', Image: 'app/images/slider/img3.jpg' }];
+}

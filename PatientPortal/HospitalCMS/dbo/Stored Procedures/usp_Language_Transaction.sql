@@ -1,0 +1,47 @@
+﻿CREATE PROCEDURE [dbo].[usp_Language_Transaction]
+	@Action CHAR(1) = 'I',
+	@Id TINYINT = 1,
+	@Code NVARCHAR(50) = '',
+	@Name NVARCHAR(50) = '',
+	@Icon VARBINARY(MAX)
+AS BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+
+	DECLARE @return bit = 1
+	BEGIN TRY
+		BEGIN TRAN;
+		
+		IF @Action = 'I' --INSERT
+		BEGIN
+			INSERT [dbo].[Language]([Name], [Code], [Icon])
+			VALUES(@Name, @Code, @Icon)
+		END
+
+		IF @Action = 'U' --UPDATE
+		BEGIN
+			UPDATE [dbo].[Language]
+			SET [Name] = @Name, [Code] = @Code, [Icon] = @Icon
+			WHERE [Id] = @Id  
+		END
+
+		IF @Action = 'D' --DELETE
+		BEGIN
+			IF NOT EXISTS( SELECT TOP 1 1 FROM [dbo].[PostTrans] WHERE [LanguageId] = @Id)
+			BEGIN
+				DELETE FROM [dbo].[Language] WHERE [Id] = @Id
+			END
+		END
+
+		COMMIT TRAN;
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0 
+		BEGIN
+			ROLLBACK TRAN;
+			SET  @return = 0
+		END
+	END CATCH
+	SELECT @return
+	
+END

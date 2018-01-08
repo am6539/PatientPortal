@@ -1,0 +1,80 @@
+﻿using System.Collections.Generic;
+using System.Web.Http;
+using PatientPortal.IRepository.CMS;
+using AutoMapper;
+using PatientPortal.API.CMS.ViewModels;
+using PatientPortal.Domain.Utilities;
+using PatientPortal.Provider.Models;
+using System.Threading.Tasks;
+
+namespace PatientPortal.API.CMS.Controllers
+{
+    public class GalleryController : ApiController
+    {
+        private readonly IGalleryRepo _gallery;
+        public GalleryController(IGalleryRepo gallery)
+        {
+            this._gallery = gallery;
+        }
+
+
+        // GET api/values
+        ///[Filters.DeflateCompression]
+        public async Task<List<GalleryViewModel>> Get()
+        {
+            //Mapping
+            IList<string> list = new List<string> { "id" };
+            var para = APIProvider.APIDefaultParameter(list, string.Empty);
+
+            var source = await _gallery.Query(para);
+            List<GalleryViewModel> dest = Mapper.Map<List<GalleryViewModel>>(source);
+
+            return dest;
+        }
+
+        /// <summary>
+        /// Get by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Category view model</returns>
+        // GET api/values/5
+        public async Task<GalleryViewModel> GetById(string id)
+        {
+            List<string> list = new List<string> { "id" };
+            var para = APIProvider.APIDefaultParameter(list, id);
+
+            var source = await _gallery.SingleQuery(para);
+            GalleryViewModel dest = Mapper.Map<GalleryViewModel>(source);
+            return dest;
+        }
+
+        /// <summary>
+        /// Action: Insert/Update/Delete 
+        /// </summary>
+        /// <param name="model">object "model"</param>
+        /// <param name="action">Action: 'I' - Insert; 'U'- Update; 'D'- Delete</param>
+        /// <returns>Result: Success- true; Fail- false</returns>
+        [HttpPost]
+        public async Task<bool> Transaction(GalleryViewModel model, char action)
+        {
+            var obj = Mapper.Map<Domain.Models.CMS.Gallery>(model);
+            return await _gallery.Transaction(obj, action);
+        }
+
+        /// <summary>
+        /// Check name is existed
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="id"></param>
+        /// <returns>If existed: true - else: false</returns>
+        [HttpGet]
+        public async Task<bool> CheckExist(string name, byte id)
+        {
+            //var list = this.RequestContext.RouteData.Values.Keys;
+            var list = new List<string> { nameof(name), nameof(id) };
+            var para = APIProvider.APIGeneratorParameter(list,name, id);
+
+            return await _gallery.CheckExist(para);
+        }
+    }
+}

@@ -1,0 +1,37 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Routing;
+
+namespace PatientPortal.SPA.CMS
+{
+    public class RouteConfig
+    {
+        public static void RegisterRoutes(RouteCollection routes)
+        {
+            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            routes.MapRoute(
+                name: "Default",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+            );
+
+            //// Here go the routes that you still want to be able to hit
+            //routes.MapRoute(
+            //    name: "DefaultAll",
+            //    url: "{controller}/{action}/{id}",
+            //    defaults: new { controller = "Hittable", action = "Index" }
+            //);
+
+            //// Everything else will hit Home/Index which serves up the root angular app page
+            //routes.MapRoute(
+            //    name: "Default",
+            //    url: "{*anything}", // THIS IS THE MAGIC!!!!
+            //    defaults: new { controller = "Home", action = "Index" }
+            //);
+        }
+    }
+}

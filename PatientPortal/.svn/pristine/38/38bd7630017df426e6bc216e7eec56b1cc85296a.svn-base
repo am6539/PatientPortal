@@ -1,0 +1,6 @@
+﻿@using PatientPortal.Utility.Files
+@model PatientPortal.Domain.Models.AUTHEN.IUserSession 
+
+<a href="#0">
+    <img src="@FileManagement.ImageBase64(Model.Image)" /> @Model.UserName
+</a>

@@ -1,0 +1,21 @@
+﻿<ul class="gallery gallery_4_columns">
+    <li ng-repeat="item in doctors" class="pediatric-clinic gallery_box" id="gallery-item-{{ $index }}">
+        <img src="{{ item.Image }}" alt="" />
+        <div class="description">
+            <h3>
+                Bác sĩ
+            </h3>
+            <h5>
+                {{ item.Name }}
+            </h5>
+        </div>
+        <ul class="controls">
+            <li>
+                <a href="#gallery-details-{{ $index }}" class="open_details"></a>
+            </li>
+            <li>
+                <a href="{{ item.Image }}" rel="gallery_item_{{ $index }}_main" class="fancybox open_lightbox"></a>
+            </li>
+        </ul>
+    </li>
+</ul>

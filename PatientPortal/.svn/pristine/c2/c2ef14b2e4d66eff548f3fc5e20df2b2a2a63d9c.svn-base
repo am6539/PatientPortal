@@ -1,0 +1,99 @@
+﻿using Newtonsoft.Json;
+using PatientPortal.CMS.Models;
+using PatientPortal.CMS.Utility;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using WebApiContrib.Formatting;
+
+namespace PatientPortal.CMS.Controllers
+{
+    public class CategoryController : Controller
+    {
+        #region original code
+
+        //#region declare variables
+        //HttpClient client = new HttpClient { BaseAddress = new Uri("http://localhost:9502/") };
+        //#endregion
+
+        // GET: Category
+        //public ActionResult Index()
+        //{
+        //    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/x-protobuf"));
+        //    try
+        //    {
+        //        HttpResponseMessage response = client.GetAsync("api/category").Result;
+        //        if (response.IsSuccessStatusCode && response.Content != null)
+        //        {
+        //            // Parse the response body. Blocking!
+        //            var data = response.Content.ReadAsAsync<List<CategoryViewModel>>(new[] { new ProtoBufFormatter() }).Result;
+        //            ViewData["Categories"] = data;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        throw ex;
+        //    }
+        //    return View();
+        //}
+        #endregion
+        public ActionResult Index()
+        {
+            var data = new List<CategoryViewModel>();
+            try
+            {
+                data = APIHelper.Get<List<CategoryViewModel>>($"api/category");
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return View(data);
+        }
+
+        public PartialViewResult AddCategoryPartialView()
+        {
+            return PartialView("AddCategoryPartialView", new CategoryViewModel());
+        }
+
+        HttpClient client = new HttpClient { BaseAddress = new Uri("http://localhost:9502/") };
+        [HttpPost]
+        public ActionResult SaveChange(CategoryViewModel category)
+        {
+            if (category == null)
+            {
+                return null;
+            }
+            SaveCategory(category);
+            return PartialView("AddCategoryPartialView", new CategoryViewModel());
+        }
+
+        public async Task<CategoryViewModel> SaveCategory(CategoryViewModel category)
+        {
+            var result = new CategoryViewModel();
+            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/x-protobuf"));
+            try
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(category), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync("api/category/CategoryTransaction", content); ;
+                if (response.IsSuccessStatusCode && response.Content != null)
+                {
+                    // Parse the response body. Blocking!
+                    result = response.Content.ReadAsAsync<CategoryViewModel>(new[] { new ProtoBufFormatter() }).Result;
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("", e.Message);
+            }
+            return result;
+        }
+    }
+}

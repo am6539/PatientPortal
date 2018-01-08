@@ -1,0 +1,23 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Create
+       [dbo].[DoctorProfile] (Table)
+       [dbo].[OfferAdvise] (Table)
+       [dbo].[OfferAdvise].[IX_OfferAdvise_PatientId] (Index)
+       [dbo].[SystemNotification] (Table)
+       [dbo].[SystemNotificationUsers] (Table)
+       [dbo].[UserNotification] (Table)
+       [dbo].[usp_Appointment_Dashboard] (Procedure)
+     Alter
+       [dbo].[usp_OfferAdvise_Transaction] (Procedure)
+
+** Supporting actions

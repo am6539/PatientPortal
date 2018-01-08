@@ -1,0 +1,139 @@
+﻿
+<style>
+    .column {
+        flex: 1;
+        height : 100%;
+        display:flex;
+        flex-wrap:wrap;
+    }
+    .column1{
+      width: 30%;
+      height: 50%;
+    }
+    .column2{
+        width: 70%;
+      height: 50%;
+    }
+    .user-title{
+        color: #008445;
+    }
+</style>
+
+<link href="assets/css/site/menuPage.css" rel="stylesheet" />
+<div class="brd-wrap" ng-include="'app/shared/template-include/submenu.template.html'">
+</div>
+
+<div class="top-content">
+    <div class="content container">
+        <div class="row">
+            <div class="content-bg">
+                <div id="ctl00_divCenter" class="col-left">
+                    <div class="content-bg2">
+                        <div class='Module Module-259'>
+                            <div id="ctl00_mainContent_ctl00_NewsView1_pnlInnerWrap">
+                                <div class="news">
+                                        <div class="column contact-item" ng-repeat="item in profiles">
+                                            <div class="column1">
+                                                <img alt="" src="{{item.Image}}" class="color" /><br />
+                                                <br />
+                                                <span style="color: #008445;"><strong>BS. {{item.Name}}</strong></span>
+                                                <br />
+                                                    Giám Đốc Điều Hành<br />
+                                                <br />
+                                            </div>
+
+                                            <div class="column2">
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="user-title">
+                                                                <strong>
+                                                                    Chuyên khoa
+                                                                </strong>
+                                                            </td>
+                                                            <td ng-bind-html="item.Speciality"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="user-title">
+                                                                <strong>
+                                                                    Chứng nhận
+                                                                </strong>
+                                                            </td>
+                                                            <td ng-bind-html="item.Degrees"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="user-title">
+                                                                <strong>
+                                                                    Kinh nghiệm
+                                                                </strong>
+                                                            </td>
+                                                            <td ng-bind-html="item.Training"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="user-title">
+                                                                <strong>
+                                                                    Phòng ban
+                                                                </strong>
+                                                            </td>
+                                                            <td ng-bind-html="item.Office"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="user-title">
+                                                                <strong>
+                                                                    Lịch làm việc
+                                                                </strong>
+                                                            </td>
+                                                            <td ng-bind-html="item.Workdays"></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div id="ctl00_divRight" class="col-right cmszone" ng-include="'app/shared/template-include/contact-hotline.template.html'">
+                    <!--<div class='Module Module-257'>
+                        <div class="left-menu">
+                            <ul class="noli">
+                                <li><a href="/saigon/gioi-thieu-chung" target="_self" title="Giới thiệu chung">Giới thiệu chung</a></li>
+                                <li class="active"><a class="active" href="/saigon/ban-lanh-dao" target="_self" title="Ban lãnh đạo">Ban lãnh đạo</a></li>
+                            </ul>
+                        </div>
+                    </div><div class='Module Module-258'>
+                        <div class="fb-page" data-href="#" data-tabs="Facebook" data-width="231" data-small-header="false" data-adapt-container-width="false" data-hide-cover="false" data-show-facepile="true">
+                            <div class="fb-xfbml-parse-ignore">
+                            <blockquote cite="#">
+                            <a href="#">BV Hoàn Mỹ Sài Gòn</a></blockquote></div>
+                        </div>
+                        <div class="emhotline">
+                            Cấp cứu<span>(028) 3995 9860</span>
+                        </div>
+                        <a href="#" target="_blank">
+                            <img src="../../../assets/images/adv/KS-ngoai-tru.png" alt="Khao-sat-ngoai-tru" />
+                        </a>
+                        <a href="#" target="_blank">
+                            <img src="../../../assets/images/adv/KS-noi-tru.png" alt="Khao-sat-noi-tru" />
+                        </a>
+                    </div><div class='Module Module-795'>
+                        <div class="cc-wrap">
+                            <h4>
+                                <a href="/saigon/cau-chuyen-benh-nhan">Câu chuyện bệnh nhân</a>
+                            </h4>
+                            <table></table>
+                        </div>
+                    </div>
+                    <div class='rmodule Module Module-568'>
+                        <img alt="" src="../../../assets/images/adv/kham suc khoe HMSG2.jpg" style="border: 0px none; margin: 0px; padding: 0px; font-size: 0px; color: transparent; vertical-align: middle; max-width: 100%; font-family: Arial,sans-serif; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px;" />
+                    </div>-->
+                </div>
+                <div class="clear">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

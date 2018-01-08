@@ -1,0 +1,6 @@
+﻿angular.module('spaApp')
+    .controller('AboutController', ['$scope', 'Params', 'AboutService', '$route',
+        function AboutController($scope, Params, AboutService, $route) {
+            
+        }
+    ]);

@@ -1,0 +1,33 @@
+﻿using PatientPortal.CMS.Common;
+using PatientPortal.CMS.Models;
+using PatientPortal.CMS.Utility;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.CMS.Utility
+{
+    public static class ImageUpload
+    {
+        public static void Upload(HttpPostedFileBase fileUpload, string pathString)
+        {
+            if (fileUpload != null)
+            {
+                var fileName = Path.GetFileName(fileUpload.FileName);
+
+                //Lưu đường dẫn của file
+                var path = Path.Combine(HttpContext.Current.Server.MapPath(pathString), fileName);
+
+                //Kiểm tra hình ảnh đã tồn tại chưa
+                if (!System.IO.File.Exists(path))
+                {
+                    fileUpload.SaveAs(path);
+                }
+            }
+        }
+    }
+}

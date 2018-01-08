@@ -1,0 +1,140 @@
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+
+namespace PatientPortal.API.Identity.Models
+{
+    public class PermissionRoleManager
+    {
+        private PermissionRoleStore _permissionRoleStore;
+        private ApplicationDbContext _db;
+        private ApplicationUserManager _userManager;
+        private ApplicationRoleManager _roleManager;
+
+        public PermissionRoleManager()
+        {
+            _db = HttpContext.Current
+                .GetOwinContext().Get<ApplicationDbContext>();
+            _userManager = HttpContext.Current
+                .GetOwinContext().GetUserManager<ApplicationUserManager>();
+            _roleManager = HttpContext.Current
+                .GetOwinContext().Get<ApplicationRoleManager>();
+            _permissionRoleStore = new PermissionRoleStore(_db);
+        }
+
+        public IQueryable<PermissionRole> PermissionRoles
+        {
+            get
+            {
+                return _permissionRoleStore.PermissionRoles;
+            }
+        }
+
+        /// <summary>
+        /// Create new Permission Async
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public async Task<IdentityResult> CreatePermissionAsync(PermissionRole obj)
+        {
+            await _permissionRoleStore.CreateAsync(obj);
+            return IdentityResult.Success;
+        }
+
+
+        /// <summary>
+        /// Create new Permission
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public IdentityResult CreatePermission(PermissionRole obj)
+        {
+            _permissionRoleStore.Create(obj);
+            return IdentityResult.Success;
+        }
+
+        public List<PermissionRole> GetAll()
+        {
+            return _permissionRoleStore.GetAll();
+        }
+
+        public async Task<List<PermissionRole>> GetAllAsync()
+        {
+            return await _permissionRoleStore.GetAllAsync();
+        }
+
+        public async Task<PermissionRole> FindByIdAsync(string id)
+        {
+            return await _permissionRoleStore.FindByIdAsync(id);
+        }
+
+        /// <summary>
+        /// Find by Permission Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public PermissionRole FindById(string id)
+        {
+            return _permissionRoleStore.FindById(id);
+        }
+        
+        /// <summary>
+        /// Delete Permission Async
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        public async Task<IdentityResult> DeletePermissionRoleAsync(string roleId)
+        {
+            var permission = await this.FindByIdAsync(roleId);
+            // Remove the permission itself:
+            if (IsExistInRoles(roleId))
+            { 
+                _db.PermissionRoles.Remove(permission);
+                await _db.SaveChangesAsync();
+                return IdentityResult.Success;
+            }
+            return IdentityResult.Success;
+        }
+
+        /// <summary>
+        /// Delete Permission
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        public IdentityResult DeletePermissionRole(string roleId)
+        {
+            var permission = this.FindById(roleId);
+            if (permission == null)
+            {
+                throw new ArgumentNullException(nameof(roleId));
+            }
+
+            // Remove the permission itself:
+            if (!IsExistInRoles(roleId))
+            {
+                _db.PermissionRoles.Remove(permission);
+                _db.SaveChanges();
+                return IdentityResult.Success;
+            }
+            else
+                return IdentityResult.Failed("Is NULL!");
+            
+        }
+        
+        /// <summary>
+        /// Check Exist Permission
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        public bool IsExistInRoles(string roleId)
+        {
+            var ret = (from p in this.PermissionRoles where p.RoleId.Equals(roleId) select p.RoleId).Any();
+            return ret;
+        }
+
+    }
+}

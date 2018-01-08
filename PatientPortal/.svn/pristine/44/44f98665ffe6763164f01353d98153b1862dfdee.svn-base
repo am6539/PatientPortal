@@ -1,0 +1,17 @@
+﻿
+appManagement.factory('PostService', ['$resource', 'Params',
+    function ($resource, Params) {
+        return $resource(Params.rootUrl + 'api/SPAPost', {}, {
+            query: {
+                method: 'GET',
+                url: Params.rootUrl + 'api/SPAPost/:Id?languageCode=:languageCode',
+                params: {
+                    Id: '@Id', languageCode: '@languageCode'
+                }
+            },
+            get: {
+                method: "GET", url: Params.rootUrl + 'api/SPAPost/:Id',
+                params: { Id: '@Id' }
+            }
+        });
+}]);

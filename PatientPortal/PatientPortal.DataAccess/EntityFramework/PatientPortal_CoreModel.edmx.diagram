@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9e323fcb3ec14f5fb77bbe17dbe38159" Name="Diagram1" ZoomLevel="55">
+        <EntityTypeShape EntityType="HospitalCoreModel.Appointment" Width="1.5" PointX="10.75" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalCoreModel.Article" Width="1.5" PointX="5.25" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalCoreModel.ArticleComment" Width="1.5" PointX="7.5" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalCoreModel.Group" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalCoreModel.MailSetting" Width="1.5" PointX="0.75" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalCoreModel.Message" Width="1.5" PointX="6" PointY="16.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalCoreModel.MessageContent" Width="1.5" PointX="8.25" PointY="17" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalCoreModel.MessageFolder" Width="1.5" PointX="3.75" PointY="17" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalCoreModel.MessageRecipient" Width="1.5" PointX="8.25" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalCoreModel.Module" Width="1.5" PointX="8" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalCoreModel.OfferAdvise" Width="1.5" PointX="5.25" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalCoreModel.Organization" Width="1.5" PointX="0.75" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalCoreModel.Permission" Width="1.5" PointX="10.25" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalCoreModel.Role" Width="1.5" PointX="8" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalCoreModel.Setting" Width="1.5" PointX="12.75" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalCoreModel.sysdiagram" Width="1.5" PointX="12.75" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalCoreModel.UserGroup" Width="1.5" PointX="5.25" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalCoreModel.UserRole" Width="1.5" PointX="10.25" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalCoreModel.User" Width="1.5" PointX="3" PointY="7.625" IsExpanded="true" />
+        <AssociationConnector Association="HospitalCoreModel.FK_Article_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalCoreModel.FK_ArticleComment_Article" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalCoreModel.FK_UserGroup_Group" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalCoreModel.FK_Message_MessageFolder" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalCoreModel.FK_MessageContent_Message" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalCoreModel.FK_MessageRecipient_Message" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalCoreModel.FK_MessageRecipient_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalCoreModel.FK_Permission_Module" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalCoreModel.FK_OfferAdvise_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalCoreModel.FK_Users_Organization" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalCoreModel.FK_Permission_Role" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalCoreModel.FK_UserRole_Role" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalCoreModel.FK_UserGroup_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalCoreModel.FK_UserRole_Users" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

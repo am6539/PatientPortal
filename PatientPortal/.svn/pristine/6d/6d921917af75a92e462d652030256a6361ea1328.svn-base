@@ -1,0 +1,75 @@
+﻿using AutoMapper;
+using PatientPortal.API.CMS.ViewModels;
+using PatientPortal.IRepository.CMS;
+using System.Collections.Generic;
+using System.Web.Http;
+
+namespace PatientPortal.API.CMS.Controllers
+{
+    public class LinkBuildingController : ApiController
+    {
+        /// <summary>
+        /// declare variables
+        /// </summary>
+        private readonly ILinkBuildingRepo _link;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="link"></param>
+        public LinkBuildingController(ILinkBuildingRepo link)
+        {
+            this._link = link;
+        }
+
+        #region API Function
+        public List<LinkBuildingViewModel> GetAll()
+        {
+            var source = _link.GetAll();
+            List<LinkBuildingViewModel> dest = Mapper.Map<List<LinkBuildingViewModel>>(source);
+
+            return dest;
+        }
+
+        /// <summary>
+        /// Get Link by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Category view model</returns>
+        // GET api/values/5
+        public LinkBuildingViewModel GetById(short id)
+        {
+            var source = _link.GetById(id);
+            LinkBuildingViewModel dest = Mapper.Map<LinkBuildingViewModel>(source);
+            return dest;
+        }
+
+        /// <summary>
+        /// Action: Insert/Update/Delete Link
+        /// </summary>
+        /// <param name="model">object "LinkBuildingViewModel"</param>
+        /// <param name="action">Action: 'I' - Insert; 'U'- Update; 'D'- Delete</param>
+        /// <returns>Result: Success- true; Fail- false</returns>
+        [HttpPost]
+        public bool LinkBuildingTransaction(LinkBuildingViewModel model, char action)
+        {
+            var category = Mapper.Map<Domain.Models.CMS.LinkBuilding>(model);
+            var data = new List<Domain.Models.CMS.LinkBuilding>();
+            data.Add(category);
+            return _link.LinkBuildingTransaction(data, action);
+        }
+
+        /// <summary>
+        /// Check title is existed
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="id"></param>
+        /// <returns>If existed: true - else: false</returns>
+        [HttpGet]
+        public bool CheckExistTitle(string title, short id)
+        {
+            return _link.CheckExistTitle(title, id);
+        }
+        #endregion
+    }
+}

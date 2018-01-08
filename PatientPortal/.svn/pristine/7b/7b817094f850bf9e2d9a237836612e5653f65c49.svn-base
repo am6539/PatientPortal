@@ -1,0 +1,65 @@
+﻿@model IList<PatientPortal.CMS.Models.CategoryViewModel>
+@{
+    ViewBag.Title = "Danh mục";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    <link href="~/Content/checkbox.css" rel="stylesheet" />
+    <style>
+        .checkbox-mark div {
+            float: none;
+        }
+    </style>
+}
+<div class="card">
+
+    <div class="card-title">@ViewBag.Title</div>
+    <div class="card-actionbar">
+        <a href="#" class="btn btn-success btn-sm addCategory" data-toggle="modal" data-target="#categoriesModal"><span class="fa fa-plus"></span> Thêm nhóm bài viết</a>
+    </div>
+    <div class="modal fade" id="categoriesModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-url='@Url.Action("AddCategoryPartialView")'>
+        <div id='addcategoryContainer'>
+        </div>
+    </div>
+    <div id="panelCategoryBody" class="card-content table-actionbar-top">
+        @Html.Partial("CategoryListPartial", Model)
+    </div>
+</div>
+<!-- Modal xóa nhóm bài viết -->
+<div class="modal fade" id="deleteCateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <h4 class="modal-title" id="myModalLabel">Bạn có muốn xóa nhóm bài viết này?</h4>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-warning">Đồng ý</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+
+        $('.addCategory').click(function () {
+            var url = $('#categoriesModal').data('url');
+
+            $.get(url, function (data) {
+                $('#addcategoryContainer').html(data);
+
+                $('#categoriesModal').modal('show');
+            });
+        });
+
+        function GetCategoriesBy(parentId) {
+            var urlCategoryList = "@Url.Action("CategoryListPartial", "Category")?parentId=" + parentId + "";
+            $('#panelCategoryBody').load(urlCategoryList);
+        };
+    </script>
+}
+
+

@@ -1,0 +1,137 @@
+﻿/// <reference path="D:\TAM\PROJECT\Patient_Project_2017_23_06\PatientPortal.SPA\PatientPortal.SPA\assets/js/jquery.fancybox-1.3.4.pack.js" />
+
+angular.module('spaApp')
+    .service('LoadJsService', function () {
+        this.calJquery = function loadScript() {
+            var script = document.createElement("script")
+            script.type = "text/javascript";
+            script.src = 'assets/js/jquery-1.12.4.min.js';
+            document.getElementsByTagName("head")[0].appendChild(script);
+        }
+        this.calJqueryMigrate = function loadScript() {
+            var script = document.createElement("script")
+            script.type = "text/javascript";
+            script.src = 'assets/js/jquery-migrate-1.4.1.min.js';
+            document.getElementsByTagName("head")[0].appendChild(script);
+        }
+        this.calJqueryBa = function loadScript() {
+            var script = document.createElement("script")
+            script.type = "text/javascript";
+            script.src = 'assets/js/jquery.ba-bbq.js';
+            document.getElementsByTagName("head")[0].appendChild(script);
+        }
+        this.calJqueryUI = function loadScript() {
+            var script = document.createElement("script")
+            script.type = "text/javascript";
+            script.src = 'assets/js/jquery-ui-1.9.2.custom.min.js';
+            document.getElementsByTagName("head")[0].appendChild(script);
+        }
+        this.calJqueryEA = function loadScript() {
+            var script = document.createElement("script")
+            script.type = "text/javascript";
+            script.src = 'assets/js/jquery.easing.1.3.js';
+            document.getElementsByTagName("head")[0].appendChild(script);
+        }
+        this.calJqueryCaRoul = function loadScript() {
+            var script = document.createElement("script")
+            script.type = "text/javascript";
+            script.src = 'assets/js/jquery.carouFredSel-5.6.4-packed.js';
+            document.getElementsByTagName("head")[0].appendChild(script);
+        }
+        this.calJquerySliderControl = function loadScript() {
+            var script = document.createElement("script")
+            script.type = "text/javascript";
+            script.src = 'assets/js/jquery.sliderControl.js';
+            document.getElementsByTagName("head")[0].appendChild(script);
+        }
+        this.calJquerySlider = function loadScript() {
+            var script = document.createElement("script")
+            script.type = "text/javascript";
+            script.src = 'assets/js/slider.js';
+            document.getElementsByTagName("head")[0].appendChild(script);
+        }
+        this.calJqueryAccordion = function loadScript() {
+            var script = document.createElement("script")
+            script.type = "text/javascript";
+            script.src = 'assets/js/accordion.js';
+            document.getElementsByTagName("head")[0].appendChild(script);
+        }
+        this.calJqueryTimeago = function loadScript() {
+            var script = document.createElement("script")
+            script.type = "text/javascript";
+            script.src = 'assets/js/jquery.timeago.js';
+            document.getElementsByTagName("head")[0].appendChild(script);
+        }
+        this.calJqueryHint = function loadScript() {
+            var script = document.createElement("script")
+            script.type = "text/javascript";
+            script.src = 'assets/js/jquery.hint.js';
+            document.getElementsByTagName("head")[0].appendChild(script);
+        }
+        this.calJqueryIO = function loadScript() {
+            var script = document.createElement("script")
+            script.type = "text/javascript";
+            script.src = 'assets/js/jquery.isotope.min.js';
+            document.getElementsByTagName("head")[0].appendChild(script);
+        }
+        this.calJqueryIOMas = function loadScript() {
+            var script = document.createElement("script")
+            script.type = "text/javascript";
+            script.src = 'assets/js/jquery.isotope.masonry.js';
+            document.getElementsByTagName("head")[0].appendChild(script);
+        }
+        this.calJqueryFanc = function loadScript() {
+            var script = document.createElement("script")
+            script.type = "text/javascript";
+            script.src = 'assets/js/jquery.fancybox-1.3.4.pack.js';
+            document.getElementsByTagName("head")[0].appendChild(script);
+        }
+        this.calJqueryQtip = function loadScript() {
+            var script = document.createElement("script")
+            script.type = "text/javascript";
+            script.src = 'assets/js/jquery.qtip.min.js';
+            document.getElementsByTagName("head")[0].appendChild(script);
+        }
+        this.calJqueryBlockUI = function loadScript() {
+            var script = document.createElement("script")
+            script.type = "text/javascript";
+            script.src = 'assets/js/jquery.blockUI.js';
+            document.getElementsByTagName("head")[0].appendChild(script);
+        }
+        this.callJquery = function loadScript() {
+            var script = document.createElement("script")
+            script.type = "text/javascript";
+            script.src = 'assets/js/jquery-1.12.4.min.js';
+            document.getElementsByTagName("head")[0].appendChild(script);
+        }
+        this.callJqueryUI = function loadScript() {
+            var script = document.createElement("script")
+            script.type = "text/javascript";
+            script.src = 'assets/js/jquery-ui-1.9.2.custom.min.js';
+            document.getElementsByTagName("head")[0].appendChild(script);
+        }
+        this.callJqueryBootstrap = function loadScript() {
+            var script = document.createElement("script")
+            script.type = "text/javascript";
+            script.src = 'assets/libs/bower_components/bootstrap/dist/js/bootstrap.js';
+            document.getElementsByTagName("head")[0].appendChild(script);
+        }
+        this.callJqueryMain = function loadScript() {
+            var script = document.createElement("script")
+            script.type = "text/javascript";
+            script.src = 'assets/js/main.js';
+            document.getElementsByTagName("head")[0].appendChild(script);
+        }
+        this.callJqueryLayoutPicker = function loadScript() {
+            var script = document.createElement("script")
+            script.type = "text/javascript";
+            script.src = 'assets/layout_picker/layout_picker.js';
+            document.getElementsByTagName("head")[0].appendChild(script);
+        }
+        this.callJqueryGalerry = function loadScript() {
+            var script = document.createElement("script")
+            script.type = "text/javascript";
+            script.src = 'assets/js/galerry.js';
+            document.getElementsByTagName("head")[0].appendChild(script);
+        }
+    });

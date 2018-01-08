@@ -1,0 +1,132 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Http;
+using AutoMapper;
+using PatientPortal.API.Core.Models;
+using PatientPortal.IRepository.CORE;
+using PatientPortal.Domain.Models.CORE;
+using PatientPortal.Provider.Models;
+
+namespace PatientPortal.API.Core.Controllers
+{
+    [RoutePrefix("api/Survey")]
+    public class SurveyController : ApiController
+    {
+        private readonly ISurveyRepo _survey;
+
+        /// <summary>
+        /// Init
+        /// </summary>
+        /// <param name="survey"></param>
+        public SurveyController(ISurveyRepo survey)
+        {
+            this._survey = survey;
+        }
+
+        #region GET
+        /// <summary>
+        /// Get all
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<List<SurveyViewModel>> Get()
+        {
+            try
+            {
+                var list = new List<string> { "Id" };
+                var para = APIProvider.APIDefaultParameter(list, "");
+
+                var source = await _survey.Query(para);
+                var dest = Mapper.Map<List<SurveyViewModel>>(source);
+
+                return dest;
+            }
+            catch (Exception ex)
+            {
+                throw ex.GetBaseException();
+            }
+        }
+
+
+        /// <summary>
+        /// Filter by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<SurveyViewModel> Get(string id)
+        {
+            try
+            {
+                var listId = new List<string> { "Id" };
+                var listSurveyId = new List<string> { "SurveyId" };
+                var listQuestionId = new List<string> { "QuestionId" };
+
+                var paraId = APIProvider.APIGeneratorParameter(listId, id);
+                var paraSurveyId = APIProvider.APIGeneratorParameter(listSurveyId, id);
+
+                //Get & Map survey
+                var source = await _survey.SingleQuery(paraId);
+                var dest = Mapper.Map<SurveyViewModel>(source);
+                
+                //Get & Map questions of survey
+                var questions = await _survey.QuestionsQuery(paraSurveyId);
+                dest.SurveyQuestionsModel = Mapper.Map<List<SurveyQuestionsViewModel>>(questions);
+
+                //Get & Map answers of question
+                foreach (var surveyquestion in dest.SurveyQuestionsModel)
+                {
+                    var paraQuestionId = APIProvider.APIGeneratorParameter(listQuestionId, surveyquestion.Id);
+                    var answers = await _survey.AnswersQuery(paraQuestionId);
+                    surveyquestion.SurveyAnswersModel = Mapper.Map<List<SurveyAnswersViewModel>>(answers);
+                }
+                return dest;
+            }
+            catch (Exception ex)
+            {
+                throw ex.GetBaseException();
+            }
+        }
+        #endregion
+
+        #region POST
+
+        /// <summary>
+        /// Transaction data: Insert/Update/Delete
+        /// </summary>
+        /// <param name="surveyModel"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<int> Transaction(SurveyViewModel surveyModel, char action)
+        {
+            try
+            {
+                var questions = surveyModel.SurveyQuestionsModel;
+                var data = Mapper.Map<Survey>(surveyModel);
+                var result = await _survey.Transaction(data, action);
+
+                foreach (var question in questions)
+                {
+                    var dataQ = Mapper.Map<SurveyQuestions>(question);
+                    await _survey.QuestionTransaction(dataQ, action);
+
+                    var answers = question.SurveyAnswersModel;
+                    foreach (var answer in answers)
+                    {
+                        var dataA = Mapper.Map<SurveyAnswers>(answer);
+                        await _survey.AnswerTransaction(dataA, action);
+                    }
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex.GetBaseException();
+            }
+        }
+        #endregion
+    }
+}

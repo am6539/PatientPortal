@@ -1,0 +1,56 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using AutoMapper;
+using PatientPortal.Domain.Models.CMS;
+using PatientPortal.API.CMS.ViewModels;
+
+namespace PatientPortal.API.CMS
+{
+    public class AutoMapperConfig
+    {
+        public static void Configure()
+        {
+            Mapper.Initialize(x =>
+            {
+                x.AddProfile<DomainToViewModelMappingProfile>();
+                x.AddProfile<ViewModelToDomainMappingProfile>();
+            });
+        }
+    }
+
+    public class DomainToViewModelMappingProfile : Profile
+    {
+        public DomainToViewModelMappingProfile()
+        {
+            CreateMap<Category, CategoryViewModel>();
+            CreateMap<Workflow, WorkflowViewModel>();
+            CreateMap<Language, LanguageViewModel>();
+            CreateMap<WorkflowState, WorkflowStateViewModel>();
+            CreateMap<Post, PostViewModel>();
+            CreateMap<PostEdit, PostTransViewModel>();
+            CreateMap<WorkflowNavigation, WorkflowNavigationViewModel>();
+            CreateMap<PostList, PostListViewModel>();
+            CreateMap<PostSEO, PostSEOViewModel>();
+            CreateMap<PostStateHistory, PostStateHistoryViewModel>();
+            CreateMap<PostTran, PostTranViewModel>();
+        }
+    }
+    public class ViewModelToDomainMappingProfile : Profile
+    {
+        public ViewModelToDomainMappingProfile()
+        {
+            CreateMap<CategoryViewModel, Category>();
+            CreateMap<WorkflowViewModel, Workflow>();
+            CreateMap<Post, PostViewModel>();
+            CreateMap<PostEdit, PostTransViewModel>();
+            CreateMap<WorkflowStateViewModel, WorkflowStateEdit>();
+            CreateMap<WorkflowNavigationViewModel, WorkflowNavigationEdit>();
+            CreateMap<PostListViewModel, PostList>();
+            CreateMap<PostSEOViewModel, PostSEO>();
+            CreateMap<PostStateHistoryViewModel, PostStateHistory>();
+            CreateMap<PostTranViewModel, PostTran>();
+        }
+    }
+}

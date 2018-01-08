@@ -1,0 +1,658 @@
+﻿<!DOCTYPE html>
+<html ng-app="spaApp">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<base href="/">
+
+	<!--css-->
+	<!--<link href=".bin/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />-->
+	<link href=".bin/bower_components/font-awesome-4.6.3/css/font-awesome.css" rel="stylesheet" />
+
+	<link href="app/css/reset.css" rel="stylesheet" />
+	<link href="app/css/superfish.css" rel="stylesheet" />
+	<link href="app/css/fancybox/jquery.fancybox.css" rel="stylesheet" />
+	<link href="app/css/jquery.qtip.css" rel="stylesheet" />
+	<link href="app/css/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
+	<link href="app/css/style.css" rel="stylesheet" />
+	<link href="app/css/responsive.css" rel="stylesheet" />
+	<link href="app/css/animations.css" rel="stylesheet" />
+	<link rel="shortcut icon" href="app/images/favicon.ico" />
+    <link href="app/layout_picker/layout_picker.css" rel="stylesheet" />
+	<!--end css-->
+
+	<title>Bệnh viện đa khoa Bình Định</title>
+	<meta charset="utf-8" />
+
+	<!--Theme script-->
+	<script src="app/js/jquery-1.12.4.min.js"></script>
+	<script src="app/js/jquery-migrate-1.4.1.min.js"></script>
+	<script src="app/js/jquery.ba-bbq.min.js"></script>
+	<script src="app/js/jquery-ui-1.9.2.custom.min.js"></script>
+	<script src="app/js/jquery.easing.1.3.js"></script>
+	<script src="app/js/jquery.carouFredSel-5.6.4-packed.js"></script>
+	<script src="app/js/jquery.sliderControl.js"></script>
+	<script src="app/js/jquery.timeago.js"></script>
+	<script src="app/js/jquery.hint.js"></script>
+	<script src="app/js/jquery.isotope.min.js"></script>
+	<script src="app/js/jquery.isotope.masonry.js"></script>
+	<script src="app/js/jquery.fancybox-1.3.4.pack.js"></script>
+	<script src="app/js/jquery.qtip.min.js"></script>
+	<script src="app/js/jquery.blockUI.js"></script>
+	<script src="app/js/main.js"></script>
+    <script src="app/layout_picker/layout_picker.js"></script>
+	<!--end theme script-->
+
+</head>
+<body ng-controller="MainController">
+	<div id="cssawards"><a target="_blank" href="http://www.cssawards.net/medicenter/">MediCenter</a></div>
+	<div class="site_container">
+		<div class="header_container">
+			<div class="header clearfix">
+				<div class="header_left">
+					<a href="index.html" title="MEDICENTER">
+						<img src="app/images/header_logo.png" alt="logo" />
+						<span class="logo">medicenter</span>
+					</a>
+				</div>
+				<ul class="sf-menu header_right">
+					<li class="submenu selected">
+						<a href="#" title="HOME">
+							HOME
+						</a>
+						<ul>
+							<li class='selected'>
+								<a href="index.html" title="Home Style 1">
+									Home Style 1
+								</a>
+							</li>
+							<li>
+								<a href="home_2.html" title="Home Style 2">
+									Home Style 2
+								</a>
+							</li>
+							<li>
+								<a href="home_3.html" title="Home Style 3">
+									Home Style 3
+								</a>
+							</li>
+							<li>
+								<a href="?page=home_4" title="Home Style 3">
+									Home Style 4
+								</a>
+							</li>
+							<li>
+								<a href="?page=home_5" title="Home Style 5">
+									Home Style 5
+								</a>
+							</li>
+							<li>
+								<a href="?page=home_small_slider" title="Home Small Slider">
+									Home Small Slider
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li class="submenu">
+						<a href="#" title="BLOG">
+							BLOG
+						</a>
+						<ul>
+							<li>
+								<a href="blog.html" title="Blog with sidebar">
+									Blog with sidebar
+								</a>
+							</li>
+							<li>
+								<a href="#" title="Blog 2 columns">
+									Blog 2 columns
+								</a>
+								<ul>
+									<li>
+										<a href="blog_2_columns.html" title="Right Sidebar">
+											Right sidebar
+										</a>
+									</li>
+									<li>
+										<a href="blog_2_columns_left_sidebar.html" title="Left Sidebar">
+											Left sidebar
+										</a>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<a href="?page=post" title="SINGLE POST">
+									Single post
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li class="submenu">
+						<a href="#" title="PAGES">
+							PAGES
+						</a>
+						<ul>
+							<li>
+								<a href="/about" title="About">
+									About
+								</a>
+							</li>
+							<li>
+								<a href="doctors.html" title="Our Doctors">
+									Our Doctors
+								</a>
+							</li>
+							<li>
+								<a href="medical_care.html" title="Medical Care">
+									Medical Care
+								</a>
+							</li>
+							<li>
+								<a href="#" title="Shortcodes">
+									Shortcodes
+								</a>
+								<ul class="wide">
+									<li>
+										<a href="?page=shortcodes#features-style" title="Features Styles">
+											Features Styles
+										</a>
+									</li>
+									<li>
+										<a href="?page=shortcodes#carousel" title="Carousel">
+											Carousel
+										</a>
+									</li>
+									<li>
+										<a href="?page=shortcodes#testimonials-announcement" title="Testimonials &amp; Announcement">
+											Testimonials &amp; Announcement
+										</a>
+									</li>
+									<li>
+										<a href="?page=shortcodes#accordiontab-notifications" title="Accordion &amp; Notifications">
+											Accordion &amp; Notifications
+										</a>
+									</li>
+									<li>
+										<a href="?page=shortcodes#tabs-quote" title="Tabs &amp; Quote">
+											Tabs &amp; Quote
+										</a>
+									</li>
+									<li>
+										<a href="?page=shortcodes#lists" title="Lists">
+											Lists
+										</a>
+									</li>
+									<li>
+										<a href="?page=shortcodes#icons" title="Icons">
+											Icons
+										</a>
+									</li>
+									<li>
+										<a href="?page=shortcodes#buttons-headings" title="Buttons &amp; Headings">
+											Buttons &amp; Headings
+										</a>
+									</li>
+									<li>
+										<a href="?page=shortcodes#columns" title="Columns &amp; Code">
+											Columns &amp; Code
+										</a>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<a href="?page=404" title="404 Not Found">
+									404 Not Found
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li class="submenu wide">
+						<a href="#" title="DEPARTMENTS">
+							DEPARTMENTS
+						</a>
+						<ul>
+							<li>
+								<a href="departments.html" title="Primary Health Care">
+									Primary Health Care
+								</a>
+							</li>
+							<li>
+								<a href="departments.html#laryngological-clinic" title="Laryngological Clinic">
+									Laryngological Clinic
+								</a>
+							</li>
+							<li>
+								<a href="departments.html#pediatric-clinic" title="Pediatric Clinic">
+									Pediatric Clinic
+								</a>
+							</li>
+							<li>
+								<a href="departments.html#ophthalmology-clinic" title="Ophthalmology Clinic">
+									Ophthalmology Clinic
+								</a>
+							</li>
+							<li>
+								<a href="departments.html#outpatient-surgery" title="Outpatient Surgery">
+									Outpatient Surgery
+								</a>
+							</li>
+							<li>
+								<a href="departments.html#dental-clinic" title="Dental Clinic">
+									Dental Clinic
+								</a>
+							</li>
+							<li>
+								<a href="departments.html#gynaecological-clinic" title="Gynaecological Clinic">
+									Gynaecological Clinic
+								</a>
+							</li>
+							<li>
+								<a href="departments.html#outpatient-rehabilitation" title="Outpatient Rehabilitation">
+									Outpatient Rehabilitation
+								</a>
+							</li>
+							<li>
+								<a href="departments.html#cardiac-clinic" title="Cardiac Clinic">
+									Cardiac Clinic
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li class="submenu wide">
+						<a href="#" title="Timetable">
+							TIMETABLE
+						</a>
+						<ul class="timetable_submenu">
+							<li>
+								<a href="timetable.html" title="All Departments">
+									All Departments
+								</a>
+							</li>
+							<li>
+								<a href="timetable.html#cardiac-clinic" title="Cardiac Clinic">
+									Cardiac Clinic
+								</a>
+							</li>
+							<li>
+								<a href="timetable.html#primary-health-care" title="Primary Health Care">
+									Primary Health Care
+								</a>
+							</li>
+							<li>
+								<a href="timetable.html#laryngological-clinic" title="Laryngological Clinic">
+									Laryngological Clinic
+								</a>
+							</li>
+							<li>
+								<a href="timetable.html#pediatric-clinic" title="Pediatric Clinic">
+									Pediatric Clinic
+								</a>
+							</li>
+							<li>
+								<a href="timetable.html#ophthalmology-clinic" title="Ophthalmology Clinic">
+									Ophthalmology Clinic
+								</a>
+							</li>
+							<li>
+								<a href="timetable.html#outpatient-surgery" title="Outpatient Surgery">
+									Outpatient Surgery
+								</a>
+							</li>
+							<li>
+								<a href="timetable.html#dental-clinic" title="Dental Clinic">
+									Dental Clinic
+								</a>
+							</li>
+							<li>
+								<a href="timetable.html#gynaecological-clinic" title="Gynaecological Clinic">
+									Gynaecological Clinic
+								</a>
+							</li>
+							<li>
+								<a href="timetable.html#outpatient-rehabilitation" title="Outpatient Rehabilitation">
+									Outpatient Rehabilitation
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li class="submenu">
+						<a href="#" title="Gallery">
+							GALLERY
+						</a>
+						<ul style="margin-left: -100px;">
+							<li>
+								<a href="gallery_2_columns.html" title="2 Columns">
+									2 Columns
+								</a>
+							</li>
+							<li>
+								<a href="gallery_3_columns.html" title="3 Columns">
+									3 Columns
+								</a>
+							</li>
+							<li>
+								<a href="gallery_4_columns.html" title="4 Columns">
+									4 Columns
+								</a>
+							</li>
+							<li>
+								<a href="gallery_with_sidebar.html" title="With Sidebar">
+									With Sidebar
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="contact.html" title="CONTACT">
+							CONTACT
+						</a>
+					</li>
+				</ul>
+				<div class="mobile_menu">
+					<select>
+						<option value="?page=home">HOME</option>
+						<option value="?page=home" selected='selected'>- Home Style 1</option>
+						<option value="?page=home_2">- Home Style 2</option>
+						<option value="?page=home_3">- Home Style 3</option>
+						<option value="?page=home_4">- Home Style 4</option>
+						<option value="?page=home_5">- Home Style 5</option>
+						<option value="?page=home_small_slider">- Home Small Slider</option>
+						<option value="blog.html">BLOG</option>
+						<option value="blog.html">- Blog with sidebar</option>
+						<option value="?page=blog_2_columns">- Blog 2 columns</option>
+						<option value="blog_2_columns.html">-- Right sidebar</option>
+						<option value="blog_2_columns_left_sidebar.html">-- Left sidebar</option>
+						<option value="?page=post">- Single post</option>
+						<option value="?page=about">PAGES</option>
+						<option value="about.html">- About</option>
+						<option value="?page=doctors">- Our Doctors</option>
+						<option value="?page=medical_care">- Medical Care</option>
+						<option value="?page=shortcodes">- Shortcodes</option>
+						<option value="?page=shortcodes#features-style">-- Features Style</option>
+						<option value="?page=shortcodes#carousel">-- Carousel</option>
+						<option value="?page=shortcodes#testimonials-announcement">-- Testimonials &amp; Announcement</option>
+						<option value="?page=shortcodes#accordiontab-notifications">-- Accordion &amp; Notifications</option>
+						<option value="?page=shortcodes#tabs-quote">-- Tabs &amp; Quote</option>
+						<option value="?page=shortcodes#lists">-- Lists</option>
+						<option value="?page=shortcodes#icons">-- Icons</option>
+						<option value="?page=shortcodes#buttons-headings">-- Buttons &amp; Headings</option>
+						<option value="?page=shortcodes#columns">-- Columns &amp; Code</option>
+						<option value="?page=404">-- 404 Not Found</option>
+						<option value="?page=departments">DEPARTMENTS</option>
+						<option value="departments.html">- Primary Health Care</option>
+						<option value="departments.html#pediatric-clinic">- Pediatric Clinic</option>
+						<option value="?page=departments#outpatient-surgery">- Outpatient Surgery</option>
+						<option value="?page=departments#gynaecological-clinic">- Gynaecological Clinic</option>
+						<option value="?page=departments#cardiac-clinic">- Cardiac Clinic</option>
+						<option value="?page=departments#laryngological-clinic">- Laryngological Clinic</option>
+						<option value="?page=departments#ophthalmology-clinic">- Ophthalmology Clinic</option>
+						<option value="?page=departments#dental-clinic">- Dental Clinic</option>
+						<option value="?page=departments#outpatient-rehabilitation">- Outpatient Rehabilitation</option>
+						<option value="?page=timetable">TIMETABLE</option>
+						<option value="?page=timetable#all-departments">- All Departments</option>
+						<option value="?page=timetable#primary-health-care">- Primary Health Care</option>
+						<option value="?page=timetable#pediatric-clinic">- Pediatric Clinic</option>
+						<option value="?page=timetable#outpatient-surgery">- Outpatient Surgery</option>
+						<option value="?page=timetable#gynaecological-clinic">- Gynaecological Clinic</option>
+						<option value="?page=timetable#cardiac-clinic">- Cardiac Clinic</option>
+						<option value="?page=timetable#laryngological-clinic">- Laryngological Clinic</option>
+						<option value="?page=timetable#ophthalmology-clinic">- Ophthalmology Clinic</option>
+						<option value="?page=timetable#dental-clinic">- Dental Clinic</option>
+						<option value="?page=timetable#outpatient-rehabilitation">- Outpatient Rehabilitation</option>
+						<option value="?page=gallery_2_columns">GALLERY</option>
+						<option value="?page=gallery_2_columns">- 2 Columns</option>
+						<option value="?page=gallery_3_columns">- 3 Columns</option>
+						<option value="?page=gallery_4_columns">- 4 Columns</option>
+						<option value="?page=gallery_with_sidebar">- With Sidebar</option>
+						<option value="contact.html">CONTACT</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		
+		<!--<div ui-view class="caroufredsel_wrapper caroufredsel_wrapper_slider"></div>-->
+        <ng-view></ng-view>
+		<!--<div class="caroufredsel_wrapper caroufredsel_wrapper_slider">
+			<home-page>
+
+			</home-page>
+		</div>-->
+		<div class="footer_container">
+			<div class="footer">
+				<ul class="footer_banner_box_container clearfix">
+					<li class="footer_banner_box super_light_blue animated_element animation-fadeIn duration-500">
+						<h2>
+							Health Insurance
+						</h2>
+						<p>
+							<a class="icon_small_arrow right_white" href="#">Here in medicenter we have individual</a>
+						</p>
+					</li>
+					<li class="footer_banner_box light_blue animated_element animation-slideRight duration-800 delay-250">
+						<h2>
+							Medical Records
+						</h2>
+						<p>
+							<a class="icon_small_arrow right_white" href="#">Here in medicenter we have individual</a>
+						</p>
+					</li>
+					<li class="footer_banner_box blue animated_element animation-slideRight200 duration-800 delay-500">
+						<h2>
+							Online Bill Pay
+						</h2>
+						<p>
+							<a class="icon_small_arrow right_white" href="#">Here in medicenter we have individual</a>
+						</p>
+					</li>
+				</ul>
+				<div class="footer_box_container clearfix">
+					<div class="footer_box">
+						<h3 class="box_header">
+							Medicenter Clinic
+						</h3>
+						<p class="info">
+							Mauris adipiscing mauris fringilla turpis interdum sed pulvinar nisi malesuada individual.
+						</p>
+						<ul class="footer_contact_info_container clearfix">
+							<li class="footer_contact_info_row">
+								<div class="footer_contact_info_left">
+									Medicenter Clinic
+								</div>
+							</li>
+							<li class="footer_contact_info_row">
+								<div class="footer_contact_info_left">
+									33 Farlane Street
+								</div>
+								<div class="footer_contact_info_right">
+									+123 655 655
+								</div>
+							</li>
+							<li class="footer_contact_info_row">
+								<div class="footer_contact_info_left">
+									Keilor East
+								</div>
+								<div class="footer_contact_info_right">
+									+123 755 755
+								</div>
+							</li>
+							<li class="footer_contact_info_row">
+								<div class="footer_contact_info_left">
+									VIC 3033, Australia
+								</div>
+								<div class="footer_contact_info_right">
+									<a href="mailto:medicenter@mail.com" title="Send Email">
+										medicenter@mail.com
+									</a>
+								</div>
+							</li>
+						</ul>
+						<ul class="social_icons clearfix">
+							<li>
+								<a class="social_icon facebook" href="http://facebook.com/QuanticaLabs" title="" target="_blank">
+									&nbsp;
+								</a>
+							</li>
+							<li>
+								<a class="social_icon twitter" href="https://twitter.com/QuanticaLabs" title="" target="_blank">
+									&nbsp;
+								</a>
+							</li>
+							<li>
+								<a class="social_icon googleplus" href="#" title="">
+									&nbsp;
+								</a>
+							</li>
+							<li>
+								<a class="social_icon mail" href="mailto:medicenter@mail.com" title="">
+									&nbsp;
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="footer_box">
+						<div class="clearfix">
+							<div class="header_left">
+								<h3 class="box_header">
+									Latest Posts
+								</h3>
+							</div>
+							<div class="header_right">
+								<a href="#" id="footer_recent_posts_prev" class="scrolling_list_control_left icon_small_arrow left_white"></a>
+								<a href="#" id="footer_recent_posts_next" class="scrolling_list_control_right icon_small_arrow right_white"></a>
+							</div>
+						</div>
+						<div class="scrolling_list_wrapper">
+							<ul class="scrolling_list footer_recent_posts">
+								<li class="icon_small_arrow right_white">
+									<a href="?page=post">
+										Mauris adipiscing mauris fringilla turpis interdum sed pulvinar nisi malesuada.
+									</a>
+									<abbr title="29 May 2012" class="timeago">29 May 2012</abbr>
+								</li>
+								<li class="icon_small_arrow right_white">
+									<a href="?page=post">
+										Lorem ipsum dolor sit amat velum.
+									</a>
+									<abbr title="04 Apr 2012" class="timeago">04 Apr 2012</abbr>
+								</li>
+								<li class="icon_small_arrow right_white">
+									<a href="?page=post">
+										Mauris adipiscing mauris fringilla turpis interdum sed pulvinar nisi malesuada.
+									</a>
+									<abbr title="02 Feb 2012" class="timeago">02 Feb 2012</abbr>
+								</li>
+								<li class="icon_small_arrow right_white">
+									<a href="?page=post">
+										Lorem ipsum dolor sit amat velum, consectetur adipiscing elit.
+									</a>
+									<abbr title="24 Jan 2011" class="timeago">24 Jan 2011</abbr>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="footer_box last">
+						<div class="clearfix">
+							<div class="header_left">
+								<h3 class="box_header">
+									Latest Tweets
+								</h3>
+							</div>
+							<div class="header_right">
+								<a href="#" id="latest_tweets_prev" class="scrolling_list_control_left icon_small_arrow left_white"></a>
+								<a href="#" id="latest_tweets_next" class="scrolling_list_control_right icon_small_arrow right_white"></a>
+							</div>
+						</div>
+						<div class="scrolling_list_wrapper">
+							<ul class="scrolling_list latest_tweets">
+								<li class="icon_small_arrow right_white"><p>We've released new version (v3.3) of our Dynamic #Step Process #Panels #WP #Tabs Plugin. Please check at #CodeCanyon <a href="https://t.co/5Lmc0tcJOI" target="_blank">t.co/5Lmc0tcJOI</a><abbr title="2017-05-24T11:10:45+00:00" class="timeago">Wed May 24 11:10:45 +0000 2017</abbr></p></li>
+								<li class="icon_small_arrow right_white"><p>We've released new version (v9.4) of our MediCenter #Medic #Health #WordPress Theme. Please check at #ThemeForest <a href="https://t.co/BIO54EthRz" target="_blank">t.co/BIO54EthRz</a><abbr title="2017-05-11T14:40:45+00:00" class="timeago">Thu May 11 14:40:45 +0000 2017</abbr></p></li>
+								<li class="icon_small_arrow right_white"><p>We've released new version (v3.1.1) of our Pressroom #News #Magazine #WordPress Theme. Please check at #ThemeForest <a href="https://t.co/sNBlrJJ7Ce" target="_blank">t.co/sNBlrJJ7Ce</a><abbr title="2017-05-11T10:59:12+00:00" class="timeago">Thu May 11 10:59:12 +0000 2017</abbr></p></li>
+								<li class="icon_small_arrow right_white"><p>We've released new version(v3.8.1) of our Renovate #Construction #Renovation #WordPress Theme. Check at #ThemeForest <a href="https://t.co/SqpmUycaL2" target="_blank">t.co/SqpmUycaL2</a><abbr title="2017-05-11T10:55:01+00:00" class="timeago">Thu May 11 10:55:01 +0000 2017</abbr></p></li>
+								<li class="icon_small_arrow right_white"><p>We've released new version(v3.6.1) of our #Car Service #Mechanic #Auto #Shop #WordPress Theme. Check at #ThemeForest <a href="https://t.co/uxaMcQBN52" target="_blank">t.co/uxaMcQBN52</a><abbr title="2017-05-11T10:53:50+00:00" class="timeago">Thu May 11 10:53:50 +0000 2017</abbr></p></li>
+								<li class="icon_small_arrow right_white"><p>We've released new version (v11.3) of our GymBase #Gym #Fitness #WordPress Theme. Please check at #ThemeForest <a href="https://t.co/feUKVKecHY" target="_blank">t.co/feUKVKecHY</a><abbr title="2017-05-10T12:44:38+00:00" class="timeago">Wed May 10 12:44:38 +0000 2017</abbr></p></li>
+								<li class="icon_small_arrow right_white"><p>We've released new version (v3.1) of our Pressroom #News #Magazine #WordPress Theme. Please check at #ThemeForest <a href="https://t.co/sNBlrJJ7Ce" target="_blank">t.co/sNBlrJJ7Ce</a><abbr title="2017-05-10T12:43:20+00:00" class="timeago">Wed May 10 12:43:20 +0000 2017</abbr></p></li>
+								<li class="icon_small_arrow right_white"><p>We've released new version(v3.8) of our Renovate #Construction #Renovation #WordPress Theme. Check at #ThemeForest <a href="https://t.co/SqpmUycaL2" target="_blank">t.co/SqpmUycaL2</a><abbr title="2017-05-10T12:41:51+00:00" class="timeago">Wed May 10 12:41:51 +0000 2017</abbr></p></li>
+								<li class="icon_small_arrow right_white"><p>We've released new version (v3.6) of our #Car Service #Mechanic #Auto #Shop #WordPress Theme. Check at #ThemeForest <a href="https://t.co/uxaMcQBN52" target="_blank">t.co/uxaMcQBN52</a><abbr title="2017-05-10T12:39:26+00:00" class="timeago">Wed May 10 12:39:26 +0000 2017</abbr></p></li>
+								<li class="icon_small_arrow right_white"><p>We've released new version (v9.3) of our MediCenter #Medic #Health #WordPress Theme. Please check at #ThemeForest <a href="https://t.co/BIO54EthRz" target="_blank">t.co/BIO54EthRz</a><abbr title="2017-04-14T14:05:55+00:00" class="timeago">Fri Apr 14 14:05:55 +0000 2017</abbr></p></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="copyright_area clearfix">
+					<div class="copyright_left">
+						© Copyright - <a href="https://themeforest.net/item/medicenter-responsive-medical-health-template/4000598?ref=QuanticaLabs" title="MediCenter Template" target="_blank">MediCenter Template</a> by <a href="http://quanticalabs.com" title="QuanticaLabs" target="_blank">QuanticaLabs</a>
+					</div>
+					<div class="copyright_right">
+						<a class="scroll_top icon_small_arrow top_white" href="#top" title="Scroll to top">Top</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="layout_picker">
+		<div class="layout_picker_icon">
+			&nbsp;
+		</div>
+		<div class="layout_picker_content">
+			<ul>
+				<li class="layout_picker_header">
+					LAYOUT
+				</li>
+				<li>
+					<a href="#" id="layout_picker_fw" class="selected">
+						Wide
+					</a>
+				</li>
+				<li>
+					<a href="#" id="layout_picker_bx">
+						Boxed
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<!--end body-->
+	<!--global script-->
+	<!--<script src=".bin/bower_components/jquery/dist/jquery.min.js"></script>-->
+	
+	<script src=".bin/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+	<script src=".bin/bower_components/angular/angular.js"></script>
+	<script src=".bin/bower_components/angular-resource/angular-resource.js"></script>
+	<script src=".bin/bower_components/angular-route/angular-route.js"></script>
+	<script src=".bin/bower_components/angular-animate/angular-animate.min.js"></script>
+	<script src=".bin/bower_components/angular-aria/angular-aria.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.min.js"></script>
+	<script src=".bin/bower_components/oclazyload/dist/ocLazyLoad.min.js"></script>
+	<!--end global script-->
+	<!--app script-->
+	<!--app config-->
+	<script src="app/app.module.js"></script>
+	<script src="app/app.config.js"></script>
+	<script src="app/app.controller.js"></script>
+	<!--end app config-->
+	<!--core script-->
+	<script src="app/core/core.module.js"></script>
+	<script src="app/core/params/params.module.js"></script>
+	<script src="app/core/params/params.service.js"></script>
+
+	<script src="app/core/homepage/homepage.module.js"></script>
+	<script src="app/core/homepage/homepage.service.js"></script>
+	<script src="app/core/about/about.module.js"></script>
+	<script src="app/core/about/about.service.js"></script>
+
+	<!--end core script-->
+	<!--modules-->
+	<script src="app/home-page/home-page.module.js"></script>
+	<script src="app/home-page/home-page.controller.js"></script>
+	<script src="app/home-page/home-page.component.js"></script>
+
+	<script src="app/about/about.module.js"></script>
+	<script src="app/about/about.controller.js"></script>
+	<script src="app/about/about.component.js"></script>
+	<!--end modules-->
+	<!--end app script-->
+</body>
+</html>

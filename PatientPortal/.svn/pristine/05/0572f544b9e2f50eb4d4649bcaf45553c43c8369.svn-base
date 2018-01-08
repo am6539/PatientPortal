@@ -1,0 +1,36 @@
+﻿using System.Web.Http;
+using System.Web.Mvc;
+using System.Web.Optimization;
+using System.Web.Routing;
+using log4net;
+using System;
+using System.Threading;
+using PatientPortal.Domain.LogManager;
+
+namespace PatientPortal.API.CMS
+{
+    public class WebApiApplication : System.Web.HttpApplication
+    {
+        protected void Application_Start()
+        {
+            AreaRegistration.RegisterAllAreas();
+            GlobalConfiguration.Configure(WebApiConfig.Register);
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
+            //Automapper
+            AutoMapperConfig.Configure();
+            //Autofac
+            //AutofacConfig.RegisterDependencies();
+            //Log4Net
+            log4net.Config.XmlConfigurator.Configure();
+        }
+        protected void Application_Error(Object sender, EventArgs e)
+        {
+            Exception ex = Server.GetLastError();
+            if (ex is ThreadAbortException)
+                return;
+            Logger.LogError(ex);
+        }
+    }
+}

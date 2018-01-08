@@ -1,0 +1,14 @@
+﻿CREATE PROCEDURE [dbo].[usp_OfferAdvise]
+	@Id TINYINT
+AS
+	IF(@Id > 0)
+	BEGIN
+		SELECT * FROM [dbo].[OfferAdvise]
+		WHERE [Id] = @Id
+	END
+	ELSE
+	BEGIN
+		SELECT * FROM [dbo].[OfferAdvise]
+		ORDER BY [Id]
+	END
+RETURN 0

@@ -1,0 +1,58 @@
+﻿using System.Collections.Generic;
+using System.Web.Http;
+using PatientPortal.IRepository.CMS;
+using AutoMapper;
+using PatientPortal.API.CMS.ViewModels;
+using PatientPortal.Domain.Utilities;
+
+namespace PatientPortal.API.CMS.Controllers
+{
+    public class SliderController : ApiController
+    {
+        private readonly ISliderRepo _slider;
+        public SliderController(ISliderRepo slider)
+        {
+            this._slider = slider;
+        }
+
+
+        // GET api/values
+        ///[Filters.DeflateCompression]
+        public List<SliderViewModel> Get()
+        {
+            //Mapping
+          var source = _slider.GetAll();
+            List<SliderViewModel> dest = Mapper.Map<List<SliderViewModel>>(source);
+
+            return dest;
+        }
+
+        /// <summary>
+        /// Get by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Category view model</returns>
+        // GET api/values/5
+        public SliderViewModel GetById(short id)
+        {
+            var source = _slider.GetById(id);
+            SliderViewModel dest = Mapper.Map<SliderViewModel>(source);
+            return dest;
+        }
+
+        /// <summary>
+        /// Action: Insert/Update/Delete 
+        /// </summary>
+        /// <param name="categoryModel">object "model"</param>
+        /// <param name="action">Action: 'I' - Insert; 'U'- Update; 'D'- Delete</param>
+        /// <returns>Result: Success- true; Fail- false</returns>
+        [HttpPost]
+        public bool Transaction(SliderViewModel model, char action)
+        {
+            var obj = Mapper.Map<Domain.Models.CMS.Slider>(model);
+            var data = new List<Domain.Models.CMS.Slider>();
+            data.Add(obj);
+            return _slider.Transaction(data, action);
+        }
+    }
+}

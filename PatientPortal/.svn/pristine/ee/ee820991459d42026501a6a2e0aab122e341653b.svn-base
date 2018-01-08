@@ -1,0 +1,49 @@
+﻿using System.Web.Http;
+using AutoMapper;
+using PatientPortal.Provider.Models;
+using System.Threading.Tasks;
+using PatientPortal.IRepository.CORE;
+using PatientPortal.API.Core.Models;
+
+namespace PatientPortal.API.Core.Controllers
+{
+    [AuthorizeRoles]
+    public class SettingController : ApiController
+    {
+        private readonly ISettingRepo _setting;
+        public SettingController(ISettingRepo setting)
+        {
+            this._setting = setting;
+        }
+
+        /// <summary>
+        /// Get by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Category view model</returns>
+        // GET api/values/5
+        [HttpGet]
+        public async Task<SettingViewModel> GetById(byte id)
+        {
+            var list = this.RequestContext.RouteData.Values.Keys;
+            var para = APIProvider.APIGeneratorParameter(list, id);
+
+            var source = await _setting.SingleQuery(para);
+            var dest = Mapper.Map<SettingViewModel>(source);
+            return dest;
+        }
+
+        /// <summary>
+        /// Action: Insert/Update/Delete 
+        /// </summary>
+        /// <param name="model">object "model"</param>
+        /// <param name="action">Action: 'I' - Insert; 'U'- Update; 'D'- Delete</param>
+        /// <returns>Result: Success- true; Fail- false</returns>
+        [HttpPost]
+        public async Task<bool> Transaction(SettingViewModel model, char action)
+        {
+            var obj = Mapper.Map<Domain.Models.CORE.Setting>(model);
+            return await _setting.Transaction(obj, action);
+        }
+    }
+}

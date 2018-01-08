@@ -1,0 +1,31 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.CMS.Models.UserInfoBindingModel
+@{
+    ViewBag.Title = "Thông tin cá nhân";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var dob = (Model.DoB != null ? (DateTime)Model.DoB : DateTime.Now);
+    var age = (DateTime.Now.Year - dob.Year);
+    if (dob > DateTime.Now.AddYears(-age)) { age--; }
+    var Descpt = (Model.Gender == 1 ? "Nam" : "Nữ") + ", " + age.ToString() + " tuổi";
+    var DOB = " Ngày sinh: " + dob.ToString("dd/MM/yyyy");
+}
+
+<div class="card">
+    <div class="card-title">@Html.ITitle("Hồ sơ cá nhân", "address-card-o")</div>
+    <div class="card-content">
+        @Html.Raw(TempData["Alert"])
+        <h3 style="color:gray;">@Model.Name</h3>
+        <label>@Descpt</label><span>@DOB</span>
+        <hr />
+        <div class="pull-left">
+            <p><label>Email:</label> @Model.Email </p>
+            <p><label>Địa chỉ:</label> @Model.Address </p>
+            <p><label>Điện thoại:</label> @Model.PhoneNumber </p>
+            <p><label>CMND/Passport:</label> @Model.PersonalId &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label>Số BHYT:</label> @Model.InsuranceId</p>
+        </div>
+        <div class="pull-right">
+            <a class="btn btn-sm btn-primary" href="@Url.Action("ChangePassword","Account")">Đổi mật khẩu</a>
+            <a class="btn btn-sm btn-primary" href="@Url.Action("PersonalInfo","Account")">Cập nhật thông tin cá nhân</a>
+        </div>
+    </div>
+</div>

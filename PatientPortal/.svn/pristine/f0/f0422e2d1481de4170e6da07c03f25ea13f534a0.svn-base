@@ -1,0 +1,44 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.Internal.Models.InternalProfileBindingModel
+@{
+    ViewBag.Title = "Thông tin cá nhân";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var dob = (Model.UserInfo.DoB != null ? (DateTime)Model.UserInfo.DoB : DateTime.Now);
+    var age = (DateTime.Now.Year - dob.Year);
+    if (dob > DateTime.Now.AddYears(-age)) { age--; }
+    var Descpt = (Model.UserInfo.Gender == 1 ? "Nam" : "Nữ") + ", " + age.ToString() + " tuổi";
+    var DOB = " Ngày sinh: " + dob.ToString("dd/MM/yyyy");
+}
+
+<div class="card">
+    <div class="card-title">@Html.ITitle("Hồ sơ cá nhân", "address-card-o")</div>
+    <div class="card-content">
+        @Html.Raw(TempData["Alert"])
+        <div class="pull-left">
+            <h3 style="color:gray;">@Model.UserInfo.Name</h3>
+            <label>@Descpt</label><span>@DOB</span>
+        </div>
+        <div class="pull-right">
+            <a class="btn btn-sm btn-primary" href="@Url.Action("ChangePassword","Account")">Đổi mật khẩu</a>
+            <a class="btn btn-sm btn-primary" href="@Url.Action("PersonalInfo","Account")">Cập nhật thông tin cá nhân</a>
+            <a class="btn btn-sm btn-primary" href="@Url.Action("SpecialityInfo","Account")">Cập nhật thông tin chuyên môn</a>
+        </div>
+        <div class="clearfix"></div>
+        <hr />
+        <div class="col-md-6">
+            <p><label>Email:</label> @Model.UserInfo.Email </p>
+            <p><label>Địa chỉ:</label> @Model.UserInfo.Address </p>
+            <p><label>Điện thoại:</label> @Model.UserInfo.PhoneNumber </p>
+            <p><label>CMND/Passport:</label> @Model.UserInfo.PersonalId</p>
+            <p><label>Số BHYT:</label> @Model.UserInfo.InsuranceId</p>
+        </div>
+        <div class="col-md-6">
+            <p><label>Chuyên môn:</label> @Model.DoctorInfo.Speciality</p>
+            <p><label>Bằng cấp:</label> @Model.DoctorInfo.Degrees</p>
+            <p><label>Kinh nghiệm:</label> @Model.DoctorInfo.Training</p>
+            <p><label>Nơi làm việc:</label> @Model.DoctorInfo.Office</p>
+            <p><label>Chuyên khoa:</label> @ViewBag.DepartmentName</p>
+            <p><label>Thời gian làm việc:</label> @Model.DoctorInfo.Workdays</p>
+        </div>
+    </div>
+</div>

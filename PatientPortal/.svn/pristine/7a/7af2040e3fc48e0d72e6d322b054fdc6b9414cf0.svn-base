@@ -1,0 +1,10 @@
+﻿CREATE PROCEDURE [dbo].[usp_WorkflowState_CheckIsActive]
+	@Id SMALLINT
+AS
+BEGIN
+	DECLARE @return BIT = 0;
+	IF(EXISTS(SELECT TOP 1 1 FROM [dbo].[WorkflowState] WHERE [Id] = @Id and [IsActive] = 1))
+		SET @return = 1
+
+	SELECT @return
+END

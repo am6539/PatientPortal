@@ -1,0 +1,30 @@
+﻿using ProtoBuf;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.CMS.Models
+{
+    [ProtoContract]
+    public partial class LanguageViewModel
+    {
+        [ProtoMember(1)]
+        public byte Id { get; set; }
+
+        [ProtoMember(2)]
+        [Display(Name = "Ký hiệu")]
+        [Remote("CheckExist", "Language", HttpMethod = "POST", AdditionalFields = "Id", ErrorMessage = "Ký hiệu đã tồn tại. Vui lòng chọn tên khác.")]
+        [Required(ErrorMessage = "Bạn cần nhập ký hiệu.")]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Editable(true)]
+        public string Code { get; set; }
+
+        [ProtoMember(3)]
+        [Display(Name = "Tên ngôn ngữ")]
+        [Required(ErrorMessage = "Bạn cần nhập tên ngôn ngữ.")]
+        public string Name { get; set; }
+    }
+}

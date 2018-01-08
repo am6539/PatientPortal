@@ -1,0 +1,101 @@
+﻿using System.Collections.Generic;
+using System.Web.Http;
+using PatientPortal.IRepository.CMS;
+using AutoMapper;
+using PatientPortal.API.CMS.ViewModels;
+using PatientPortal.Domain.Utilities;
+using PatientPortal.Provider.Models;
+using System.Threading.Tasks;
+
+namespace PatientPortal.API.CMS.Controllers
+{
+    public class CategoryController : ApiController
+    {
+        private readonly ICategoryRepo _category;
+        public CategoryController(ICategoryRepo category)
+        {
+            this._category = category;
+        }
+
+
+        // GET api/values
+        ///[Filters.DeflateCompression]
+        public async Task<List<CategoryViewModel>> Get()
+        {
+            List<string> list = new List<string> { "id", "parentId" };
+            var para = APIProvider.APIDefaultParameter(list, 0, 0);
+
+            var source = await _category.Query(para);
+            List<CategoryViewModel> dest = Mapper.Map<List<CategoryViewModel>>(source);
+
+            return dest;
+        }
+
+        // GET api/values
+        ///[Filters.DeflateCompression]
+        public async Task<List<CategoryViewModel>> GetByParentId(byte parentId)
+        {
+            var list = this.RequestContext.RouteData.Values.Keys;
+            var para = APIProvider.APIGeneratorParameter(list, parentId);
+
+            //Mapping
+            var source = await _category.Query(para);
+            List<CategoryViewModel> dest = Mapper.Map<List<CategoryViewModel>>(source);
+
+            return dest;
+        }
+
+        /// <summary>
+        /// Get Category by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Category view model</returns>
+        // GET api/values/5
+        public async Task<CategoryViewModel> GetById(byte id)
+        {
+            List<string> list = new List<string> { "id", "parentId" };
+            var para = APIProvider.APIDefaultParameter(list, id, 0);
+
+            var source = await _category.SingleQuery(para);
+            CategoryViewModel dest = Mapper.Map<CategoryViewModel>(source);
+            return dest;
+        }
+
+        /// <summary>
+        /// Action: Insert/Update/Delete Category
+        /// </summary>
+        /// <param name="categoryModel">object "CategoryViewModel"</param>
+        /// <param name="action">Action: 'I' - Insert; 'U'- Update; 'D'- Delete</param>
+        /// <returns>Result: Success- true; Fail- false</returns>
+        [HttpPost]
+        public async Task<bool> Transaction(CategoryViewModel categoryModel, char action)
+        {
+            var category = Mapper.Map<Domain.Models.CMS.Category>(categoryModel);
+            return await _category.Transaction(category, action);
+        }
+
+        /// <summary>
+        /// Check name is existed
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="id"></param>
+        /// <returns>If existed: true - else: false</returns>
+        [HttpGet]
+        public async Task<bool> CheckExistName(string name, byte id)
+        {
+            var list = this.RequestContext.RouteData.Values.Keys;
+            var para = APIProvider.APIGeneratorParameter(list, name, id);
+
+            return await _category.CheckExist(para);
+        }
+
+        [HttpGet]
+        [Route("category/CheckIsUsed/{id}")]
+        public async Task<bool> CheckIsUsed(byte id)
+        {
+            var list = this.RequestContext.RouteData.Values.Keys;
+            var para = APIProvider.APIGeneratorParameter(list, id);
+            return await _category.CheckIsUsed(para);
+        }
+    }
+}

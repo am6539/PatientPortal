@@ -1,0 +1,93 @@
+﻿using AutoMapper;
+using PatientPortal.API.SPA.Common;
+using PatientPortal.API.SPA.ViewModels;
+using PatientPortal.Domain;
+using PatientPortal.IRepository.SPA;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Http;
+using static PatientPortal.Domain.EnumUserConstants;
+
+namespace PatientPortal.API.SPA.Controllers
+{
+    public class UserController : ApiController
+    {
+        private readonly IUserRepo _iUserRepo;
+        private readonly string PATH_IMG_AVATAR = ConfigurationManager.AppSettings["web:internal"];
+
+        public UserController(IUserRepo iUserRepo)
+        {
+            this._iUserRepo = iUserRepo;
+        }
+
+       public async Task<List<UserViewModel>> Get(string search)
+       {
+            IList<string> list = new List<string> { "search"};
+            var para = APIProvider.APIDefaultParameter(list, search);
+            var source = await _iUserRepo.GetUserHaveScheduleExamine(para);
+            List<UserViewModel> dest = Mapper.Map<List<UserViewModel>>(source);
+            return dest;
+        }
+
+        [HttpGet]
+        public async Task<HttpResponseMessage> GetDoctorList(byte pageIndex, byte numberInPage, string search = null)
+        {
+            IList<string> list = new List<string> { "search", "type", "pageIndex", "numberInPage" };
+            Dictionary<string, dynamic> para = null;
+            para = APIProvider.APIDefaultParameter(list, search, USER_TYPE.USER, pageIndex, numberInPage);
+            var source = await _iUserRepo.GetDoctorList(para);
+            var lstTemp = new List<UserProfileViewModel>();
+            var results = new UserPagingViewModel();
+            if(source != null)
+            {
+                foreach(var item in source.Item1)
+                {
+                    var doctor = new UserProfileViewModel()
+                    {
+                        UserId = item.UserId,
+                        Name = item.Name,
+                        Image = PATH_IMG_AVATAR + item?.Image,
+                        Description = item.Description,
+                        UserName = item.UserName,
+                    };
+                    lstTemp.Add(doctor);
+                }
+                results.UserListViewModels = lstTemp;
+                results.TotalItem = source.Item2;
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, results);
+        }
+
+        public async Task<UserViewModel> GetById(string id)
+        {
+            IList<string> list = new List<string> { "Id", "Search" };
+            var para = APIProvider.APIDefaultParameter(list, id, "");
+            var source = await _iUserRepo.Get(para);
+            UserViewModel dest = Mapper.Map<UserViewModel>(source);
+
+            return dest;
+        }
+
+        public async Task<UserProfileViewModel> GetUserProfile(string userId)
+        {
+            try
+            {
+                IList<string> list = new List<string> { "userId", "tabCode" };
+                var para = APIProvider.APIDefaultParameter(list, userId, "");
+                var source = await _iUserRepo.GetUserProfile(para);
+                var dest = Mapper.Map<UserProfileViewModel>(source);
+
+                return dest;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+    }
+}

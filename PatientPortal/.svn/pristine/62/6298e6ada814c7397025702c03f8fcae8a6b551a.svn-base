@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html ng-app="spaApp">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--css-->
+    <link href=".bin/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href=".bin/bower_components/font-awesome-4.6.3/css/font-awesome.css" rel="stylesheet" />
+    <!--end css-->
+
+    <title></title>
+	<meta charset="utf-8" />
+</head>
+<body ng-controller="MainController as main">
+    ssfsf
+    <div ng-view class="view-frame"></div>
+
+    <!--global script-->
+    <script src=".bin/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src=".bin/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src=".bin/bower_components/angular/angular.js"></script>
+    <script src=".bin/bower_components/angular-resource/angular-resource.js"></script>
+    <script src=".bin/bower_components/angular-route/angular-route.js"></script>
+    <!--end global script-->
+    
+    <!--app script-->
+        <!--app config-->
+    <script src="app/app.module.js"></script>
+    <script src="app/app.config.js"></script>
+    <script src="app/app.controller.js"></script>
+    <!--end app config-->
+
+        <!--core script-->
+    <script src="app/core/core.module.js"></script>
+    <script src="app/core/params/params.module.js"></script>
+    <script src="app/core/params/params.service.js"></script>
+        <!--end core script-->
+
+        <!--modules-->
+
+        <!--end modules-->
+    <!--end app script-->
+</body>
+</html>

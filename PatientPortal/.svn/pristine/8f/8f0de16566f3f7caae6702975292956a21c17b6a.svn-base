@@ -1,0 +1,36 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.Internal.Models.Schedule.CreateScheduleViewModel
+<!-- Modal create new schedule -->
+<div class="modal" id="modalNew" tabindex="-1" role="dialog" aria-labelledby="modalNew" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="text-danger fa fa-times"></i></button>
+                <h4 id="modalTitle" class="modal-title"><i class="text-muted fa fa-info-circle"></i></h4>
+            </div>
+
+            <div id="modalBody" class="modal-body">
+                <div class="col-md-12 form-group">
+                    @Html.ITextAreaFor(m => m.Detail, 5, "Ghi chú duyệt")
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 col-sm-3 col-xs-4">Thời gian đặt hẹn: </label>
+                    <div class="col-md-6 col-sm-6 col-xs-5">
+                        @Html.TextBoxFor(m => m.Start, new { @class = "form-control", @id = "dateAppointment" })
+                        @Html.ValidationMessageFor(m => m.Start, null, new { @class = "field-validation-error" })
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-3">
+                        <select class="form-control" id="timeAppointment" onchange="changeTime(this.value)"></select>
+                        @Html.HiddenFor(m => m.End, new { @id = "timeAppointmentChoose" })
+                        @Html.ValidationMessageFor(m => m.End, null, new { @class = "field-validation-error" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-danger" data-dismiss="modal"><i class="fa fa-long-arrow-right" aria-hidden="true"> Đóng</i></button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal create new schedule-->

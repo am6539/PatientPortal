@@ -1,0 +1,26 @@
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using PatientPortal.Internal.Models;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+
+namespace PatientPortal.Internal.Controllers
+{
+    public class AppointmentController : Controller
+    {
+        private static string controllerName = "Appointment";
+        // GET: Appointment
+        public async Task<ActionResult> Index()
+        {
+            var apiUrl = "Appointment/GetItems";
+            var model = await APIProvider.Get<List<AppointmentLogViewModel>>(apiUrl, APIConstant.API_Resource_CORE);
+            return View(model);
+        }
+
+        public ActionResult Details()
+        {
+            return PartialView();
+        }
+    }
+}

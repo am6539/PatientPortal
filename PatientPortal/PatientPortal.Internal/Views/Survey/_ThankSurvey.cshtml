@@ -1,0 +1,53 @@
+﻿@using PatientPortal.Provider.Helpers
+<style>
+    .modal-body {
+        height: 450px;
+        min-height: 450px;
+        overflow: auto;
+    }
+    .thanksbox {
+        font-size: 20pt;
+        margin-top: 80px;
+    }
+    .imgbox {
+        text-align: center;
+    }
+</style>
+
+<div>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+</div>
+<div class="modal-form form-horizontal">
+    <div class="modal-header">
+        <div class="row-fluid text-center">
+            <div class="control-group">
+                @Html.ITitle("Khảo Sát", TitleBar.View, "h3")
+            </div>
+        </div>
+    </div>
+    <div class="modal-body" style="margin-bottom: 50px;">
+        <div class="row-fluid">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="control-group">
+                    <div class="thanksbox">
+                        <div>Cảm ơn bạn đã điền vào bản khảo sát này</div>
+                        <div>Phản hồi của bạn được đánh giá cao!</div>
+                        <div class="imgbox"><img src="~/img/smiley.png" width="200" /></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="modal-footer">
+        <button id="btnCloseSurvey" class="btn btn-success" type="button"><i class="fa fa-check"> Đóng</i></button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#btnCloseSurvey').click(function () {
+            $('#modal-container').modal('hide');
+        });
+    });
+</script>

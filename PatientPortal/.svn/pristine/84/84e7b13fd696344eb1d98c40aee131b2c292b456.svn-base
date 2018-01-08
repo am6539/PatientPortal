@@ -1,0 +1,105 @@
+﻿
+@{
+    ViewBag.Title = "Danh mục bài viết";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <link href="~/Content/checkbox.css" rel="stylesheet" />
+    <style>
+        .checkbox-mark div {
+            float: none;
+        }
+    </style>
+}
+
+<div class="card">
+    <div class="card-title">@ViewBag.Title</div>
+    <div class="card-content">
+        <div class="card-actionbar"><a href="#" class="btn btn-success btn-sm" data-toggle="modal" data-target="#categoriesModal"><span class="fa fa-plus"></span> Thêm nhóm bài viết</a></div>
+        <table id="table_id" class="table table-striped table-bordered dataTable no-footer" cellspacing="0" role="grid" aria-describedby="example_info" style="width: 100%;">
+            <thead>
+                <tr role="row">
+                    <th class="sorting_asc" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: auto" aria-sort="ascending">STT</th>
+                    <th style="display: none">Id</th>
+                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: auto">Tên nhóm bài viết</th>
+                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: auto; text-align: center">Trạng thái</th>
+                    <th style="width: 15%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ var i = 0; }
+                @foreach (var item in ViewData["Categories"] as IList<PatientPortal.CMS.Models.CategoryViewModel>)
+                {
+                    i++;
+                    <tr role="row">
+                        <td class="sorting_1">@i</td>
+                        <td style="display: none">@item.Id</td>
+                        <td class="">@item.Name</td>
+                        <td class="">
+                            <div class="checkbox-mark">
+                                <div class="checkbox-square">
+                                    <input type="checkbox" value="None" id="chkSquare" name="check" checked />
+                                    <label for="chkSquare"></label>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-view btn-warning" title="Cập nhật" data-toggle="modal" data-target="#categoriesModal" style="padding:1px 5px 1px 5px;"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                            <a href="#" class="btn btn-sm btn-delete btn-danger" title="Xóa" data-toggle="modal" data-target="#deleteCateModal" style="padding:1px 5px 1px 5px;"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+<!-- Modal Nhóm bài viết -->
+<div class="modal fade" id="categoriesModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Nhóm bài viết</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Tên bài viết</label>
+                        <div class="col-md-9">
+                            <input class="form-control" placeholder="Nhập tên bài viết">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Trạng thái</label>
+                        <div class="col-md-9">
+                            <input type="checkbox" checked />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal xóa nhóm bài viết -->
+<div class="modal fade" id="deleteCateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <h4 class="modal-title" id="myModalLabel">Bạn có muốn xóa nhóm bài viết này?</h4>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-warning">Đồng ý</button>
+            </div>
+        </div>
+    </div>
+</div>
+

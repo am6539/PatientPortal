@@ -1,0 +1,13 @@
+﻿using PatientPortal.Domain.Models.CORE;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace PatientPortal.DataAccess.Repo.Core
+{
+    public interface IAppointment
+    {
+        Task<List<Appointment>> Query(Dictionary<string, object> param);
+        Task<List<Schedule>> GetScheduleExamine(Dictionary<string, object> param);
+        Task<int> Transaction(AppointmentEdit data, char action);
+    }
+}

@@ -1,0 +1,36 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.Provider.Common
+{
+    public class AppConfig
+    {
+        public AppConfig()
+        {
+            //APP
+            HostAddress_Internal = ConfigurationManager.AppSettings["webapp:cms"];
+            HostAddress_Patient = ConfigurationManager.AppSettings["webapp:patient"];
+            HostAddress_CMS = ConfigurationManager.AppSettings["webapp:cms"];
+            HostAddress_SPA = ConfigurationManager.AppSettings["webapp:spa"];
+
+            //API
+            HostAddress_API_SPA = ConfigurationManager.AppSettings["webapi:spa"];
+            HostAddress_API_Core = ConfigurationManager.AppSettings["webapi:core"];
+            HostAddress_API_CMS = ConfigurationManager.AppSettings["webapi:cms"];
+            HostAddress_API_Authorize = ConfigurationManager.AppSettings["webapi:authorize"];
+        }
+
+        public static string HostAddress_Internal { get; set; }
+        public static string HostAddress_CMS { get; set; }
+        public static string HostAddress_Patient { get; set; }
+        public static string HostAddress_SPA { get; set; }
+        public static string HostAddress_API_SPA { get; set; }
+        public static string HostAddress_API_Core { get; set; }
+        public static string HostAddress_API_CMS { get; set; }
+        public static string HostAddress_API_Authorize { get; set; }
+    }
+}

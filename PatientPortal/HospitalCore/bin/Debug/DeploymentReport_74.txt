@@ -1,0 +1,33 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       [dbo].[Department]
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       The column [dbo].[Department].[Img] on table [dbo].[Department] must be added, but the column has no default value and
+         does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must
+         either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults
+         as a deployment option.
+
+** User actions
+     Table rebuild
+       [dbo].[Department] (Table)
+     Create
+       [dbo].[DoctorProfile] (Table)
+       [dbo].[usp_DoctorProfile] (Procedure)
+       [dbo].[usp_DoctorProfile_Transaction] (Procedure)
+       [dbo].[usp_spa_DepartmentServices] (Procedure)
+     Alter
+       [dbo].[usp_Department_Transaction] (Procedure)
+
+** Supporting actions
+     Refresh
+       [dbo].[usp_Department] (Procedure)
+       [dbo].[usp_Department_Available] (Procedure)
+       [dbo].[usp_Department_CheckExistName] (Procedure)
+       [dbo].[usp_spa_Department] (Procedure)
+
+The column [dbo].[Department].[Img] on table [dbo].[Department] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+

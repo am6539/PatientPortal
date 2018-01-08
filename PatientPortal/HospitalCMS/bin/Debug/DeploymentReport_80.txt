@@ -1,0 +1,21 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Create
+       [dbo].[Workflow] (Table)
+       [dbo].[WorkflowNavigation] (Table)
+       [dbo].[WorkflowState] (Table)
+       [dbo].[WorkflowState].[idxWorkflowStateWorkflow] (Index)
+       [dbo].[FK_WorkflowNavigation_WorkflowState] (Foreign Key)
+       [dbo].[FK_WorkflowNavigation_WorkflowState1] (Foreign Key)
+       [dbo].[FK_WorkflowState_Workflow] (Foreign Key)
+
+** Supporting actions

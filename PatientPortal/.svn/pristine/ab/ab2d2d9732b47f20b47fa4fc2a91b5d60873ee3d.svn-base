@@ -1,0 +1,10 @@
+﻿using PatientPortal.Domain.Models.CORE;
+using System.Threading.Tasks;
+
+namespace PatientPortal.DataAccess.Repo.CORE
+{
+    public interface IAppointmentLog
+    {
+        Task<bool> Transaction(AppointmentLogEdit data, char action);
+    }
+}

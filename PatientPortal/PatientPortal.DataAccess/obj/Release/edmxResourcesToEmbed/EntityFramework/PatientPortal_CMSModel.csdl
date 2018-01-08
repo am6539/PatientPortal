@@ -1,0 +1,283 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HospitalCMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Image" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+    <Property Name="Handler" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Sort" Type="Byte" Nullable="false" />
+    <Property Name="ParentId" Type="Byte" Nullable="false" />
+    <NavigationProperty Name="Posts" Relationship="HospitalCMSModel.FK_Post_Category" FromRole="Category" ToRole="Post" />
+  </EntityType>
+  <EntityType Name="Language">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Code" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="PostTrans" Relationship="Self.FK_PostTrans_Language" FromRole="Language" ToRole="PostTrans" />
+  </EntityType>
+  <EntityType Name="PostSEO">
+    <Key>
+      <PropertyRef Name="PostId" />
+    </Key>
+    <Property Name="PostId" Type="Int32" Nullable="false" />
+    <Property Name="Title" Type="String" MaxLength="71" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="160" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Canonical" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="BreadcrumbsTitle" Type="String" MaxLength="71" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="MetaRobotIndex" Type="Byte" Nullable="false" />
+    <Property Name="MetaRobotFollow" Type="Byte" Nullable="false" />
+    <Property Name="MetaRobotAdvanced" Type="Byte" Nullable="false" />
+    <NavigationProperty Name="Post" Relationship="HospitalCMSModel.FK_PostSEO_Post" FromRole="PostSEO" ToRole="Post" />
+  </EntityType>
+  <EntityType Name="PostStateHistory">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PostId" Type="Int32" Nullable="false" />
+    <Property Name="WorkflowStateId" Type="Byte" Nullable="false" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="Note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CreatedDate" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Post" Relationship="HospitalCMSModel.FK_PostStateHistory_Post" FromRole="PostStateHistory" ToRole="Post" />
+  </EntityType>
+  <EntityType Name="PostTran">
+    <Key>
+      <PropertyRef Name="PostId" />
+      <PropertyRef Name="LanguageId" />
+    </Key>
+    <Property Name="PostId" Type="Int32" Nullable="false" />
+    <Property Name="LanguageId" Type="Byte" Nullable="false" />
+    <Property Name="Title" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Tag" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Language" Relationship="Self.FK_PostTrans_Language" FromRole="PostTrans" ToRole="Language" />
+    <NavigationProperty Name="Post" Relationship="HospitalCMSModel.FK_PostTrans_Post" FromRole="PostTran" ToRole="Post" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_PostTrans_Language">
+    <End Role="Language" Type="Self.Language" Multiplicity="1" />
+    <End Role="PostTrans" Type="Self.PostTran" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Language">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PostTrans">
+        <PropertyRef Name="LanguageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="HospitalCMSEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Categories" EntityType="Self.Category" />
+    <EntitySet Name="Languages" EntityType="Self.Language" />
+    <EntitySet Name="PostSEOs" EntityType="Self.PostSEO" />
+    <EntitySet Name="PostStateHistories" EntityType="Self.PostStateHistory" />
+    <EntitySet Name="PostTrans" EntityType="Self.PostTran" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <AssociationSet Name="FK_PostTrans_Language" Association="Self.FK_PostTrans_Language">
+      <End Role="Language" EntitySet="Languages" />
+      <End Role="PostTrans" EntitySet="PostTrans" />
+    </AssociationSet>
+    <EntitySet Name="Workflows" EntityType="HospitalCMSModel.Workflow" />
+    <EntitySet Name="WorkflowNavigations" EntityType="HospitalCMSModel.WorkflowNavigation" />
+    <EntitySet Name="WorkflowStates" EntityType="HospitalCMSModel.WorkflowState" />
+    <AssociationSet Name="FK_WorkflowState_Workflow" Association="HospitalCMSModel.FK_WorkflowState_Workflow">
+      <End Role="Workflow" EntitySet="Workflows" />
+      <End Role="WorkflowState" EntitySet="WorkflowStates" />
+    </AssociationSet>
+    <AssociationSet Name="FK_WorkflowNavigation_WorkflowState" Association="HospitalCMSModel.FK_WorkflowNavigation_WorkflowState">
+      <End Role="WorkflowState" EntitySet="WorkflowStates" />
+      <End Role="WorkflowNavigation" EntitySet="WorkflowNavigations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_WorkflowNavigation_WorkflowState1" Association="HospitalCMSModel.FK_WorkflowNavigation_WorkflowState1">
+      <End Role="WorkflowState" EntitySet="WorkflowStates" />
+      <End Role="WorkflowNavigation" EntitySet="WorkflowNavigations" />
+    </AssociationSet>
+    <EntitySet Name="Posts" EntityType="HospitalCMSModel.Post" />
+    <AssociationSet Name="FK_Post_Category" Association="HospitalCMSModel.FK_Post_Category">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="Post" EntitySet="Posts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Post_WorkflowState" Association="HospitalCMSModel.FK_Post_WorkflowState">
+      <End Role="WorkflowState" EntitySet="WorkflowStates" />
+      <End Role="Post" EntitySet="Posts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PostSEO_Post" Association="HospitalCMSModel.FK_PostSEO_Post">
+      <End Role="Post" EntitySet="Posts" />
+      <End Role="PostSEO" EntitySet="PostSEOs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PostStateHistory_Post" Association="HospitalCMSModel.FK_PostStateHistory_Post">
+      <End Role="Post" EntitySet="Posts" />
+      <End Role="PostStateHistory" EntitySet="PostStateHistories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PostTrans_Post" Association="HospitalCMSModel.FK_PostTrans_Post">
+      <End Role="Post" EntitySet="Posts" />
+      <End Role="PostTran" EntitySet="PostTrans" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Workflow">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="WorkflowStates" Relationship="HospitalCMSModel.FK_WorkflowState_Workflow" FromRole="Workflow" ToRole="WorkflowState" />
+  </EntityType>
+  <EntityType Name="WorkflowNavigation">
+    <Key>
+      <PropertyRef Name="WorkflowStateId" />
+      <PropertyRef Name="NextWorkflowStateId" />
+    </Key>
+    <Property Name="WorkflowStateId" Type="Int16" Nullable="false" />
+    <Property Name="NextWorkflowStateId" Type="Int16" Nullable="false" />
+    <Property Name="IsUsed" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="WorkflowState" Relationship="HospitalCMSModel.FK_WorkflowNavigation_WorkflowState" FromRole="WorkflowNavigation" ToRole="WorkflowState" />
+    <NavigationProperty Name="WorkflowState1" Relationship="HospitalCMSModel.FK_WorkflowNavigation_WorkflowState1" FromRole="WorkflowNavigation" ToRole="WorkflowState" />
+  </EntityType>
+  <EntityType Name="WorkflowState">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="WorkflowId" Type="Byte" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Workflow" Relationship="HospitalCMSModel.FK_WorkflowState_Workflow" FromRole="WorkflowState" ToRole="Workflow" />
+    <NavigationProperty Name="WorkflowNavigations" Relationship="HospitalCMSModel.FK_WorkflowNavigation_WorkflowState" FromRole="WorkflowState" ToRole="WorkflowNavigation" />
+    <NavigationProperty Name="WorkflowNavigations1" Relationship="HospitalCMSModel.FK_WorkflowNavigation_WorkflowState1" FromRole="WorkflowState" ToRole="WorkflowNavigation" />
+    <NavigationProperty Name="Posts" Relationship="HospitalCMSModel.FK_Post_WorkflowState" FromRole="WorkflowState" ToRole="Post" />
+  </EntityType>
+  <Association Name="FK_WorkflowState_Workflow">
+    <End Type="HospitalCMSModel.Workflow" Role="Workflow" Multiplicity="1" />
+    <End Type="HospitalCMSModel.WorkflowState" Role="WorkflowState" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Workflow">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="WorkflowState">
+        <PropertyRef Name="WorkflowId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_WorkflowNavigation_WorkflowState">
+    <End Type="HospitalCMSModel.WorkflowState" Role="WorkflowState" Multiplicity="1" />
+    <End Type="HospitalCMSModel.WorkflowNavigation" Role="WorkflowNavigation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WorkflowState">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="WorkflowNavigation">
+        <PropertyRef Name="WorkflowStateId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_WorkflowNavigation_WorkflowState1">
+    <End Type="HospitalCMSModel.WorkflowState" Role="WorkflowState" Multiplicity="1" />
+    <End Type="HospitalCMSModel.WorkflowNavigation" Role="WorkflowNavigation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WorkflowState">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="WorkflowNavigation">
+        <PropertyRef Name="NextWorkflowStateId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Post">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Image" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="false" />
+    <Property Name="Author" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="WorkflowStateId" Type="Int16" Nullable="false" />
+    <Property Name="CategoryId" Type="Byte" Nullable="false" />
+    <Property Name="Status" Type="Byte" Nullable="false" />
+    <Property Name="CreatedDate" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+    <Property Name="ModifiedDate" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="MdifiedBy" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Category" Relationship="HospitalCMSModel.FK_Post_Category" FromRole="Post" ToRole="Category" />
+    <NavigationProperty Name="WorkflowState" Relationship="HospitalCMSModel.FK_Post_WorkflowState" FromRole="Post" ToRole="WorkflowState" />
+    <NavigationProperty Name="PostSEO" Relationship="HospitalCMSModel.FK_PostSEO_Post" FromRole="Post" ToRole="PostSEO" />
+    <NavigationProperty Name="PostStateHistories" Relationship="HospitalCMSModel.FK_PostStateHistory_Post" FromRole="Post" ToRole="PostStateHistory" />
+    <NavigationProperty Name="PostTrans" Relationship="HospitalCMSModel.FK_PostTrans_Post" FromRole="Post" ToRole="PostTran" />
+  </EntityType>
+  <Association Name="FK_Post_Category">
+    <End Type="HospitalCMSModel.Category" Role="Category" Multiplicity="1" />
+    <End Type="HospitalCMSModel.Post" Role="Post" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Post">
+        <PropertyRef Name="CategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Post_WorkflowState">
+    <End Type="HospitalCMSModel.WorkflowState" Role="WorkflowState" Multiplicity="1" />
+    <End Type="HospitalCMSModel.Post" Role="Post" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WorkflowState">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Post">
+        <PropertyRef Name="WorkflowStateId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PostSEO_Post">
+    <End Type="HospitalCMSModel.Post" Role="Post" Multiplicity="1" />
+    <End Type="HospitalCMSModel.PostSEO" Role="PostSEO" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Post">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PostSEO">
+        <PropertyRef Name="PostId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PostStateHistory_Post">
+    <End Type="HospitalCMSModel.Post" Role="Post" Multiplicity="1" />
+    <End Type="HospitalCMSModel.PostStateHistory" Role="PostStateHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Post">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PostStateHistory">
+        <PropertyRef Name="PostId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PostTrans_Post">
+    <End Type="HospitalCMSModel.Post" Role="Post" Multiplicity="1" />
+    <End Type="HospitalCMSModel.PostTran" Role="PostTran" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Post">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PostTran">
+        <PropertyRef Name="PostId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

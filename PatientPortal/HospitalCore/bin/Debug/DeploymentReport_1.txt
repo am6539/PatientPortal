@@ -1,0 +1,36 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Create
+       [dbo].[IntList] (User-Defined Table Type)
+       [dbo].[Message].[idxMessageFolder] (Index)
+       [dbo].[Message].[idxMessageReceiver] (Index)
+       [dbo].[Message].[idxMessageSender] (Index)
+       [dbo].[FK_Message_Receiver] (Foreign Key)
+       [dbo].[FK_Message_Sender] (Foreign Key)
+       [dbo].[usp_ArticleComment] (Procedure)
+       [dbo].[usp_ArticleComment_Transaction] (Procedure)
+       [dbo].[usp_Group] (Procedure)
+       [dbo].[usp_Group_Transaction] (Procedure)
+       [dbo].[usp_Login] (Procedure)
+       [dbo].[usp_MailSetting] (Procedure)
+       [dbo].[usp_Message] (Procedure)
+       [dbo].[usp_Message_Transaction] (Procedure)
+       [dbo].[usp_MessageFolder] (Procedure)
+       [dbo].[usp_MessageFolder_Transaction] (Procedure)
+       [dbo].[usp_UserGroup_Transaction] (Procedure)
+       [dbo].[usp_UserRole_Transaction] (Procedure)
+     Alter
+       [dbo].[MessageRecipient] (Table)
+       [dbo].[usp_Appointment_Transaction] (Procedure)
+       [dbo].[usp_Article_Transaction] (Procedure)
+
+** Supporting actions

@@ -1,0 +1,53 @@
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using ProtoBuf;
+using System.Collections.Generic;
+using System.Web.Mvc;
+
+namespace PatientPortal.Internal.Models
+{
+
+    public class ModuleModel
+    {
+    public ModuleViewModel module { get; set; }
+    public List<ModuleViewModel> lstModule { get; set; }
+    }
+    [ProtoContract]
+    public class ModuleViewModel
+    {
+        public ModuleViewModel()
+        {
+            Title = Handler = ClassName = string.Empty;
+            Sort = 1;
+            Group = "1";
+        }
+
+        [ProtoMember(1)]
+        public short Id { get; set; }
+        [ProtoMember(2)]
+        [Display(Name = "Tiêu đề")]
+        [Remote("CheckExist", "Module", HttpMethod = "POST", AdditionalFields = "Id", ErrorMessage = "Tên đã tồn tại. Vui lòng nhập lại.")]
+        [Required(ErrorMessage = "Bạn cần nhập tiêu đề.")]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        public string Title { get; set; }
+        [ProtoMember(3)]
+        [Display(Name = "URL")]
+        //[Required(ErrorMessage = "Bạn cần nhập thông tin URL.")]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        public string Handler { get; set; }
+        [ProtoMember(4)]
+        [Display(Name = "Sắp xếp")]
+        public byte Sort { get; set; }
+        [ProtoMember(5)]
+        [Display(Name = "Chức năng")]
+        public short ParentId { get; set; }
+        [ProtoMember(6)]
+        [Display(Name = "Nhóm")]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        public string Group { get; set; }
+        [ProtoMember(7)]
+        [Display(Name = "CSS Class")]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        public string ClassName { get; set; }
+    }
+}

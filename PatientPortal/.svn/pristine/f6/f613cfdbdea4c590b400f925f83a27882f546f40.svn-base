@@ -1,0 +1,45 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model List<PatientPortal.PatientServices.Models.OfferAdviseViewModel>
+<style>
+    .not-active {
+   pointer-events: none;
+   cursor: default;
+}
+</style>
+<table id="table_id" class="table table-striped table-bordered dataTable no-footer" cellspacing="0" role="grid" aria-describedby="example_info" style="width: 100%;">
+    <thead>
+        <tr role="row">
+            <th aria-sort="ascending">STT</th>
+            <th style="display: none">Id</th>
+            <th>Ngày</th>
+            <th>Ý kiến đóng góp</th>
+            <th style="width: 17%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ var i = 1; }
+        @foreach (var item in Model)
+        {
+            <tr role="row">
+                <td class="sorting_1">@i</td>
+                <td style="display: none">@item.Id</td>
+                <td align="center" valign="middle">@Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.Date))</td>
+                <td>@item.Detail</td>
+                <td>
+                    @Html.IGridButton(@Url.Action("Edit", new { id = item.Id }), ActionButton.Edit)
+                    @if (item.IsRead)
+                    {
+                        @Html.IGridButton(@Url.Action("Delete", new { id = item.Id }), ActionButton.Delete, null, new { @class= "not-active" })
+                    }
+                    else
+                    {
+                        @Html.IGridButton(@Url.Action("Delete", new { id = item.Id }), ActionButton.Delete)
+                    }
+                </td>
+            </tr>
+            i++;
+        }
+    </tbody>
+</table>
+
+

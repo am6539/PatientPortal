@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CMS;
+
+namespace PatientPortal.IRepository.CMS
+{
+    public interface ICategoryRepo
+    {
+        List<Category> GetAll(byte id);
+        Category GetById(byte id);
+        bool Transaction(List<Category> data, char action);
+        List<Category> GetAllByParentId(byte parentId);
+        bool CheckExist(string name, byte id);
+        bool CheckIsUsed(byte id);
+    }
+}

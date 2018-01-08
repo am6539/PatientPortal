@@ -1,0 +1,10 @@
+﻿angular.module('spaApp').factory('HomePageService', ['$resource', 'Params',
+    function ($resource, Params) {
+        return $resource(Params.rootUrl + 'User', {}, {
+            querySlider: {
+                method: 'GET',
+                url: Params.rootUrl + 'Slider/Get',
+                isArray: true
+            }
+        });
+    }]);

@@ -1,0 +1,18 @@
+﻿using PatientPortal.Domain.Models.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.DataAccess.Repo.CMS
+{
+    public interface ICategory
+    {
+        List<Category> GetAll(byte id);
+        List<Category> GetAllByParentId(byte parentId);
+        Category GetById(byte id);
+        bool CategoryTransaction(List<Category> data, char action);
+        bool CheckExistName(string name, byte id);
+    }
+}

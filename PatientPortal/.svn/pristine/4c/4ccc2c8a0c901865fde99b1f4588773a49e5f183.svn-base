@@ -1,0 +1,17 @@
+﻿using PatientPortal.Domain.Models.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.IRepository.CMS
+{
+    public interface ILinkBuildingRepo
+    {
+        List<LinkBuilding> GetAll();
+        LinkBuilding GetById(short id);
+        bool LinkBuildingTransaction(List<LinkBuilding> data, char action);
+        bool CheckExistTitle(string title, short id);
+    }
+}

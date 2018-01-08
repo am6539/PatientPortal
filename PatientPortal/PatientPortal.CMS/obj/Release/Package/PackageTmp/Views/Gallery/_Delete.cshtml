@@ -1,0 +1,16 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.CMS.Models.GalleryViewModel
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    @Html.ITitle("Tài nguyên thư viện", TitleBar.Delete)
+</div>
+
+@using (Html.IBeginForm("Delete", "Gallery"))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+    @Html.IGroupModalMessage()
+    @Html.IGroupModalSubmitButton("Xóa dữ liệu")
+}
+

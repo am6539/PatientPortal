@@ -1,0 +1,88 @@
+﻿using ProtoBuf;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace PatientPortal.PatientServices.Models
+{
+    [ProtoContract]
+    public class ArticleCommentViewModel
+    {
+        [ProtoMember(1)]
+        public short Id { get; set; }
+
+        [ProtoMember(2)]
+        public int ArticleId { get; set; }
+
+        [ProtoMember(3)]
+        [DataType(DataType.Date)]
+        [Display(Name = "Ngày")]
+        [Required(ErrorMessage = "Bạn cần nhập nội dung")]
+        public DateTime Date { get; set; }
+
+        [ProtoMember(4)]
+        [Display(Name = "Nội dung")]
+        public string Detail { get; set; }
+
+        [ProtoMember(5)]
+        public string CreatedUser { get; set; }
+
+        [ProtoMember(6)]
+        public byte Status { get; set; }
+
+        [ProtoMember(7)]
+        public string Author { get; set; }
+
+        [ProtoMember(8)]
+        public byte[] ImageProfile { get; set; }
+    }
+
+    [ProtoContract]
+    public class ArticleViewModel
+    {
+        [ProtoMember(1)]
+        public int Id { get; set; }
+
+        [ProtoMember(2)]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        [Display(Name = "Ngày")]
+        public DateTime Date { get; set; }
+
+        [ProtoMember(3)]
+        [Display(Name = "Tiêu đề")]
+        [Required(ErrorMessage = "Bạn cần nhập tiêu đề")]
+        public string Title { get; set; }
+
+        [ProtoMember(4)]
+        [Display(Name = "Nội dung")]
+        [Required(ErrorMessage = "Bạn cần nhập nội dung")]
+        public string Detail { get; set; }
+
+        [ProtoMember(5)]
+        public string PatientId { get; set; }
+
+        [ProtoMember(6)]
+        public byte Status { get; set; }
+
+        [ProtoMember(7)]
+        public bool IsClosed { get; set; }
+
+        [ProtoMember(8)]
+        public int CountComments { get; set; }
+
+        [ProtoMember(9)]
+        public string AuthorName { get; set; }
+
+        [ProtoMember(10)]
+        public byte[] ImageProfile { get; set; }
+
+    }
+
+    public class ArticlesModel
+    {
+        public ArticleViewModel ArticleViewModel { get; set; }
+        public List<ArticleCommentViewModel> lstArticleCommentModel { get; set; }
+        public ArticleCommentViewModel ArticleCommentModel { get; set; }
+    }
+}

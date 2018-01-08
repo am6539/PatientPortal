@@ -1,0 +1,39 @@
+﻿using AutoMapper;
+using PatientPortal.API.CMS.ViewModels;
+using PatientPortal.IRepository.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+
+namespace PatientPortal.API.CMS.Controllers
+{
+    public class LanguageController : ApiController
+    {
+        /// <summary>
+        /// declare variables
+        /// </summary>
+        private readonly ILanguageRepo _language;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="language"></param>
+        public LanguageController(ILanguageRepo language)
+        {
+            this._language = language;
+        }
+
+        #region API Function
+        public List<LanguageViewModel> GetAll()
+        {
+            var source = _language.GetAll();
+            List<LanguageViewModel> dest = Mapper.Map<List<LanguageViewModel>>(source);
+
+            return dest;
+        }
+        #endregion
+    }
+}

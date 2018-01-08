@@ -1,0 +1,34 @@
+﻿CREATE PROC [dbo].[usp_Dashboard_Counter]
+AS BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+
+	BEGIN TRY
+		-- POSTS
+		SELECT WorkflowStateId INTO #TmpPost FROM [dbo].[Post] WHERE [Status] = 1
+		IF @@ROWCOUNT <> 0
+		BEGIN
+			-- QUERY RESULT
+			SELECT COUNT(WorkflowStateId) AS [ToTal], 'Total Post' AS [Name], 1 AS [BoxNumber]-- TOTAL POST
+			FROM #TmpPost
+			UNION ALL
+			SELECT COUNT(WorkflowStateId) AS [ToTal], 'Total Post Just Created' AS [Name], 2 AS [BoxNumber] -- TOTAL POST JUST CREATED
+			FROM #TmpPost WHERE [WorkflowStateId] = 0
+			UNION ALL
+			SELECT COUNT(WorkflowStateId) AS [ToTal], 'Total Post Pending Approval' AS [Name], 3 AS [BoxNumber] -- TOTAL POST PENDING APPROVAL
+			FROM #TmpPost WHERE [WorkflowStateId] = 1
+			UNION ALL
+			SELECT COUNT(WorkflowStateId) AS [ToTal], 'Total Post Pending Publication' AS [Name], 4 AS [BoxNumber]  -- TOTAL POST PENDING PUBLICATION
+			FROM #TmpPost WHERE [WorkflowStateId] = 2
+		END
+		-- DROP TABLE TMP
+		DROP TABLE #TmpPost
+
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0 
+		BEGIN
+			RETURN NULL
+		END
+	END CATCH
+END

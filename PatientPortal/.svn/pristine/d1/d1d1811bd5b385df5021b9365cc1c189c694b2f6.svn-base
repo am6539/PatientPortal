@@ -1,0 +1,33 @@
+﻿using PatientPortal.DataAccess.Repo.CORE;
+using System;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CORE;
+using PatientPortal.DataAccess.Repo.Wrapper;
+using PatientPortal.Domain.LogManager;
+using PatientPortal.Domain.Common;
+
+namespace PatientPortal.DataAccess.CORE
+{
+    public class AppointmentLogImpl : IAppointmentLog
+    {
+        private readonly IAdapterPattern _adapterPattern;
+        public AppointmentLogImpl(IAdapterPattern adapterPattern)
+        {
+            this._adapterPattern = adapterPattern;
+        }
+
+        public async Task<bool> Transaction(AppointmentLogEdit data, char action)
+        {
+            try
+            {
+                var val = await _adapterPattern.SingleTransaction<AppointmentLogEdit, bool>(data, "usp_Appointment_Transaction", action, DataConfiguration.instanceCore);
+                return val;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                return false;
+            }
+        }
+    }
+}

@@ -1,0 +1,109 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CMS;
+using PatientPortal.Domain.Utilities;
+using System.Transactions;
+using PatientPortal.DataAccess.Dapper;
+using Dapper;
+using PatientPortal.DataAccess.Repo.CMS;
+
+namespace PatientPortal.DataAccess.CMS
+{
+    public class DepartmentImpl : IDepartment
+    {
+        public List<Department> GetAll()
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                { 
+                    DapperConfiguration.OpenConnection(1);
+
+                    var data = DapperConfiguration.db.Query<Department>("usp_Department", new {Id = 0},
+                        commandType: System.Data.CommandType.StoredProcedure).ToList();
+
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+                    
+                }
+                catch(Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Department get data: " + ex.Message);
+                    return null;
+                }
+            }
+        }
+
+        public Department GetById(byte id)
+        {
+            using(var scope = new TransactionScope())
+            {
+                try
+                {
+                    DapperConfiguration.OpenConnection(1);
+                    var data = DapperConfiguration.db.Query<Department>("usp_Department",
+                        new { Id = id},
+                        commandType: System.Data.CommandType.StoredProcedure).FirstOrDefault();
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Department get by Id:" + ex.Message);
+                    return null;
+                }
+            }
+        }
+
+        public bool Transaction(List<Department> data, char action)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    var val = new Lib.DataGenerator().CommitData<Department>(data, "usp_Department_Transaction", action);
+                    scope.Complete();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Feature Transaction: " + ex.Message);
+                    return false;
+                }
+            }
+        }
+        
+        public bool CheckExist(string name, byte id)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    DapperConfiguration.OpenConnection(1);
+
+                    var data = DapperConfiguration.db.Query<bool>("usp_Department_CheckExistName",
+                        new { Name = name , Id = id },
+                        commandType: System.Data.CommandType.StoredProcedure).FirstOrDefault();
+
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Department get data: " + ex.Message);
+                    return false;
+                }
+            }
+        }
+    }
+}

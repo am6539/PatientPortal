@@ -1,0 +1,7 @@
+﻿'use strict';
+
+angular.
+module('spaPHCN').controller('MainController', ['$scope', "HomePageServices", "Params",
+    function MainController($scope, HomePageServices, Params) {
+    }
+]);

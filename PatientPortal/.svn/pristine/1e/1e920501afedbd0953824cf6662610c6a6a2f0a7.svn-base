@@ -1,0 +1,6 @@
+﻿CREATE TABLE [dbo].[MedicalRecord]
+(
+	[Id] INT NOT NULL PRIMARY KEY, 
+    [PatientId] VARCHAR(20) NOT NULL, 
+    [Date] SMALLDATETIME NOT NULL
+)

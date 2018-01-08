@@ -1,0 +1,150 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using PatientPortal.Internal.Models;
+using PatientPortal.Internal.Models.Schedule;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using PatientPortal.Utility.Application;
+using PatientPortal.Utility.Common;
+using PatientPortal.Domain.Models.AUTHEN;
+using System.Web;
+using Microsoft.Owin.Security;
+using PatientPortal.Domain.LogManager;
+using static PatientPortal.Utility.Application.ApplicationGenerator;
+
+namespace PatientPortal.Internal.Controllers
+{
+    [Authorize]
+    [AppHandleError]
+    public class AppointmentController : Controller
+    {
+        #region Authentication Manager
+        private readonly IUserSession _userSession;
+        private IAuthenticationManager AuthenticationManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().Authentication;
+            }
+        }
+
+        public AppointmentController(IUserSession userSession)
+        {
+            _userSession = userSession;
+        }
+        #endregion
+        // GET: Appointment
+        public async Task<ActionResult> Index()
+        {
+            try
+            {
+                const string apiUrl = "AppointmentLog";
+                var model = await APIProvider.Authorize_Get<List<AppointmentLogViewModel>>(_userSession.BearerToken, apiUrl, APIConstant.API_Resource_CORE, ARS.Get);
+                return View(model);
+            }
+            catch (HttpException ex)
+            {
+                Logger.LogError(ex);
+                int statusCode = ex.GetHttpCode();
+                if (statusCode == 401)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(FuntionType.Department, APIConstant.ACTION_ACCESS);
+                    return new HttpUnauthorizedResult();
+                }
+
+                throw ex;
+            }
+        }
+
+        private async Task<UserViewModel> GetPhysician(string physicianId)
+        {
+            var id = physicianId;
+            var apiUrl = APIProvider.APIGenerator("User", new List<string> { nameof(id) }, false, id);
+            var doctor = await APIProvider.Authorize_Get<UserViewModel>(_userSession.BearerToken, apiUrl, APIConstant.API_Resource_CORE, ARS.Get);
+            if (doctor == null) doctor = ApplicationGenerator.GetObject<UserViewModel>();
+            return doctor;
+        }
+
+        public async Task<ActionResult> Details(Guid id)
+        {
+            var apiUrl = "AppointmentLog/" + id;
+            var model = await APIProvider.Authorize_Get<AppointmentLogViewModel>(_userSession.BearerToken, apiUrl, APIConstant.API_Resource_CORE, ARS.Detail);
+            if (model != null)
+            {
+                model.StatusName = (model.Status == 1) ? "Mới đặt hẹn" : (model.Status == 2) ? "Đã khám" : (model.Status == 3) ? "Đã hủy" : "";
+                var physician = await GetPhysician(model.PhysicianId);
+                model.PhysicianName = physician.Name;
+
+                var result = TimeSpan.FromMinutes(model.Time);
+                var fromTimeString = result.ToString("hh':'mm");
+                model.TimeString = fromTimeString;
+            }
+            return PartialView(model);
+        }
+
+        public async Task<ActionResult> SearchAppointment(int? status, DateTime? fromDate, DateTime? toDate)
+        {
+            long fDate = 0;
+            long tDate = 0;
+            if (fromDate != null)
+            {
+                fDate = fromDate.Value.Ticks;
+            }
+            if (toDate != null)
+            {
+                tDate = toDate.Value.Ticks;
+            }
+            var apiUrl = $"AppointmentLog?status={status}&fromDate={fDate}&toDate={tDate}";
+            var model = await APIProvider.Authorize_Get<AppointmentLogViewModel>(_userSession.BearerToken, apiUrl, APIConstant.API_Resource_Authencation, ARS.Statistic);
+            return PartialView("Details", model);
+        }
+
+        public async Task<ActionResult> ConfirmAppointment(AppointmentLogViewModel item)
+        {
+            var strUrl = APIProvider.APIGenerator("AppointmentLog", "Confirm", APIConstant.ACTION_UPDATE);
+            var result = await APIProvider.Authorize_DynamicTransaction<AppointmentLogViewModel, bool>(item, _userSession.BearerToken, strUrl, APIConstant.API_Resource_CORE, ARS.IgnoredARS);
+            if (result)
+            {
+                
+            }
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult ConfirmFastPartial()
+        {
+            return PartialView("ConfirmFastPartial");
+        }
+
+        public async Task<ActionResult> ApprovedBook(string ids, string status)
+        {
+            ids = ids.Replace("[", "").Replace("]", "").Replace("\"", "");
+            if (ids.Length > 0)
+            {
+               // ids = ids.Replace("[", "").Replace("]", "").Replace("\"", "");
+                //var strUrl = $"AppointmentLog/ConfirmFast?ids={ids}&status={status}";
+                string apiUrl = APIProvider.APIGenerator("AppointmentLog/ApprovedBook", new List<string> { nameof(ids), nameof(status) }, true, ids, status);
+
+                var result = await APIProvider.Authorize_Get<bool>(_userSession.BearerToken, apiUrl, APIConstant.API_Resource_CORE, ARS.IgnoredARS);
+                if (result)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_CONFIRM, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_CONFIRM, ApplicationGenerator.TypeResult.FAIL));
+
+            }
+            else
+            {
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, "Bạn chưa chọn danh sách các phiếu đặt lịch hẹn cần xác nhận");
+            }
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Book(byte status)
+        {
+            ViewBag.Status = status;
+            return PartialView("_Book");
+        }
+    }
+}

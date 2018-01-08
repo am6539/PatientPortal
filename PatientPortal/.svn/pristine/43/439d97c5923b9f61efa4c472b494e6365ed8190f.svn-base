@@ -1,0 +1,23 @@
+﻿
+@model List<PatientPortal.CMS.Models.SystemNotificationViewModel>
+
+@if (Model != null)
+{
+        <div id="notificationTitle">Thông báo</div>
+
+        <div id="notificationsBody" class="notifications">
+            <ul>
+                @foreach (var item in Model)
+                {
+                    <li>
+                        <div class="noti-item">
+                            <a>
+                                <span id="@item.Id" hidden>@item.IsRead</span>@item.Detail
+                            </a>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+        <div id="notificationFooter">@Html.ActionLink("Xem tất cả", "Index", "UserNotification")</div>
+}

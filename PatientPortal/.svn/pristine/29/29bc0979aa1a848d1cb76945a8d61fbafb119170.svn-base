@@ -1,0 +1,10 @@
+﻿@model List<PatientPortal.CMS.Models.CategoryViewModel>
+
+<div class="treeview">
+    @if (Model != null && Model.Count() > 0)
+    {
+        <ul>
+            @Treeview.GetTreeView(Model, Model.FirstOrDefault().ParentId)
+        </ul>
+    }
+</div>

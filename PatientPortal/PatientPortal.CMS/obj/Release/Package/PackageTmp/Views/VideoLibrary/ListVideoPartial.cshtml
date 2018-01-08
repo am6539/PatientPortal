@@ -1,0 +1,49 @@
+﻿@model IEnumerable<PatientPortal.CMS.Models.FileViewModel>
+
+<div class="content">
+    <div class="left-content">
+        <div class="searchbar">
+            <div class="search-left">
+                <p>Danh mục video</p>
+            </div>
+            <div class="search-right">
+                <form>
+                    <input type="text"><input type="submit" value="">
+                </form>
+            </div>
+            <div class="clear"> </div>
+        </div>
+        <div class="box">
+            <div class="grids">
+                @if (Model != null)
+                {
+                    foreach (var image in Model)
+                    {
+                        <div class="grid">
+                            <a href="#" data-toggle="modal" data-target="#viewVideo">
+                                <img src="@image.Url" data-source="@image.Url">
+                            </a>
+                            <div class="grid-info">
+                                <div class="video-share">
+                                    <ul>
+                                        <li><a href="#"><img src="~/img/likes.png" title="thích"></a></li>
+                                        <li><a href="#"><img src="~/img/link.png" title="Link"></a></li>
+                                        <li><a href="#"><img src="~/img/views.png" title="lượt xem"></a></li>
+                                    </ul>
+                                </div>
+                                <div class="video-watch">
+                                    <a href="#">Xem</a>
+                                </div>
+                                <div class="clear"> </div>
+                            </div>
+                        </div>
+                    }
+                }
+                
+            </div>
+            <div class="clear"> </div>
+            
+            </div>
+        </div>
+        <div class="clear"> </div>
+</div>

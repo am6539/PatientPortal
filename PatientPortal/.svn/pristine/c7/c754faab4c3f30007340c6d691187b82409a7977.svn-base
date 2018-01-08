@@ -1,0 +1,30 @@
+﻿using PatientPortal.IRepository.CORE;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CORE;
+using PatientPortal.DataAccess.Repo.CORE;
+
+namespace PatientPortal.Repositoty.CORE
+{
+    public class AppointmentLogRepoImpl : IAppointmentLogRepo
+    {
+        IAppointmentLog _appointment;
+        public AppointmentLogRepoImpl(IAppointmentLog appointment)
+        {
+            this._appointment = appointment;
+        }
+
+        public async Task<List<Schedule>> GetScheduleExamine(Dictionary<string, object> param)
+        {
+            return await _appointment.GetScheduleExamine(param);
+        }
+
+        public async Task<bool> Transaction(AppointmentLogEdit data, char action)
+        {
+            return await _appointment.Transaction(data, action);
+        }
+    }
+}

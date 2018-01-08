@@ -1,0 +1,206 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data.SqlClient;
+using System.Reflection;
+using System.ComponentModel;
+using System.Data;
+using PatientPortal.Domain.Utilities;
+using System.Transactions;
+using PatientPortal.DataAccess.Dapper;
+using Dapper;
+
+namespace PatientPortal.DataAccess.Lib
+{
+    public class DataGenerator
+    {
+        public DynamicParameters DataTableToSqlParameterArray(DataTable table, char action, ref string para)
+        {
+            var param = new DynamicParameters();
+            param.Add("@Action", action);
+            para = " @Action";
+
+            foreach (DataRow dtRow in table.Rows)
+            {
+                foreach (DataColumn dtCol in table.Columns)
+                {
+                    string name = "@" + dtCol.Caption;
+                    object value = dtRow[dtCol].GetType() == typeof(string) ? dtRow[dtCol].ToString().GetStringOrDBNull() : dtRow[dtCol];
+                    para = para + (para.Length < 1 ? "" : ",") + name;
+                    param.Add(name, value);
+                }
+            }
+
+            return param;
+        }
+        public SqlParameter[] DataTableToSqlParameterArray(Dictionary<string, object> parameters)
+        {
+            var sqlParameterCollection = new List<SqlParameter>();
+            foreach (var parameter in parameters)
+            {
+                sqlParameterCollection.Add(new SqlParameter(parameter.Key, parameter.Value));
+            }
+            return sqlParameterCollection.ToArray();
+        }
+
+        public DataTable CreateDataTable<T>(IList<T> data, string ignoreParas = "")
+        {
+            PropertyDescriptorCollection properties =
+                TypeDescriptor.GetProperties(typeof(T));
+            DataTable table = new DataTable();
+            foreach (PropertyDescriptor prop in properties)
+                if (!prop.PropertyType.FullName.Contains("ICollection") && !prop.PropertyType.FullName.Contains("PatientPortal"))
+                {
+                    if(ignoreParas.Length < 1 || !ignoreParas.Contains(prop.Name)) //Ignore para
+                        table.Columns.Add(prop.Name, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
+                }
+            foreach (T item in data)
+            {
+                DataRow row = table.NewRow();
+                foreach (PropertyDescriptor prop in properties)
+                {
+                    if (ignoreParas.Length < 1 || !ignoreParas.Contains(prop.Name)) //Ignore para
+                    {
+                        if (prop.PropertyType.FullName == "System.String")
+                            row[prop.Name] = prop.GetValue(item) ?? string.Empty;
+                        else
+                        if (!prop.PropertyType.FullName.Contains("ICollection") && !prop.PropertyType.FullName.Contains("PatientPortal"))
+                            row[prop.Name] = prop.GetValue(item) ?? DBNull.Value;
+                    }
+                }
+                table.Rows.Add(row);
+            }
+            return table;
+        }
+        //public DataTable CreateDataTable<T>(IEnumerable<T> list)
+        //{
+        //    Type type = typeof(T);
+        //    var properties = type.GetProperties();
+
+        //    DataTable dataTable = new DataTable();
+        //    foreach (PropertyInfo info in properties)
+        //    {
+        //        dataTable.Columns.Add(new DataColumn(info.Name, Nullable.GetUnderlyingType(info.PropertyType) ?? info.PropertyType));
+        //    }
+
+        //    foreach (T entity in list)
+        //    {
+        //        object[] values = new object[properties.Length];
+        //        for (int i = 0; i < properties.Length; i++)
+        //        {
+        //            values[i] = properties[i].GetValue(entity);
+        //        }
+
+        //        dataTable.Rows.Add(values);
+        //    }
+
+        //    return dataTable;
+        //}
+        public virtual bool CommitData<T>(List<T> list, string proc, char action, short instance = 1, string ignoreParas = "")
+        {
+            string fields = string.Empty;
+            DataTable table = CreateDataTable(list, ignoreParas);
+            var para = DataTableToSqlParameterArray(table, action, ref fields);
+
+            try
+            {
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    try
+                    {
+                        DapperConfiguration.OpenConnection(instance);
+
+                        var data = DapperConfiguration.db.Query<bool>(proc, para, commandType: System.Data.CommandType.StoredProcedure).FirstOrDefault();
+
+                        DapperConfiguration.CloseConnection();
+
+                        scope.Complete();
+                        return data;
+                    }
+                    catch (Exception ex)
+                    {
+                        LogHelper.WriteLog("Execute Procedure SQL: " + proc + " > " + ex.Message);
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog("Execute Procedure SQL: " + proc + " > " + ex.Message);
+                return false;
+            }
+        }
+
+        public virtual Q DynamicCommitData<T,Q>(List<T> list, string proc, char action, short instance = 1, string ignoreParas = "")
+        {
+            string fields = string.Empty;
+            DataTable table = CreateDataTable(list, ignoreParas);
+            var para = DataTableToSqlParameterArray(table, action, ref fields);
+
+            try
+            {
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    try
+                    {
+                        DapperConfiguration.OpenConnection(instance);
+
+                        var data = DapperConfiguration.db.Query<Q>(proc, para, commandType: System.Data.CommandType.StoredProcedure).FirstOrDefault();
+
+                        DapperConfiguration.CloseConnection();
+
+                        scope.Complete();
+                        return data;
+                    }
+                    catch (Exception ex)
+                    {
+                        LogHelper.WriteLog("Execute Procedure SQL: " + proc + " > " + ex.Message);
+                        return default(Q);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog("Execute Procedure SQL: " + proc + " > " + ex.Message);
+                return default(Q);
+            }
+        }
+
+        public virtual T TCommitData<T>(List<T> list, string proc, char action, short instance = 1, string ignoreParas = "")
+        {
+            string fields = string.Empty;
+            DataTable table = CreateDataTable(list, ignoreParas);
+            var para = DataTableToSqlParameterArray(table, action, ref fields);
+
+            try
+            {
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    try
+                    {
+                        DapperConfiguration.OpenConnection(instance);
+
+                        var data = (T)DapperConfiguration.db.Query<T>(proc, para, commandType: System.Data.CommandType.StoredProcedure);
+
+                        DapperConfiguration.CloseConnection();
+
+                        scope.Complete();
+                        return data;
+                    }
+                    catch (Exception ex)
+                    {
+                        LogHelper.WriteLog("Execute Procedure SQL: " + proc + " > " + ex.Message);
+                        return default(T);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog("Execute Procedure SQL: " + proc + " > " + ex.Message);
+                return default(T);
+            }
+        }
+    }
+}

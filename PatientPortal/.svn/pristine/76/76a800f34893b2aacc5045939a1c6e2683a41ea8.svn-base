@@ -1,0 +1,59 @@
+﻿using PatientPortal.DataAccess.Repo.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CMS;
+using System.Transactions;
+using PatientPortal.DataAccess.Dapper;
+using Dapper;
+using PatientPortal.Domain.Utilities;
+
+namespace PatientPortal.DataAccess.CMS
+{
+    public class WorkflowImpl : IWorkflow
+    {
+        public List<Workflow> GetAll()
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    DapperConfiguration.OpenConnection(1);
+
+                    var data = DapperConfiguration.db.Query<Workflow>("usp_Workflow", commandType: System.Data.CommandType.StoredProcedure).ToList();
+
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Category get data: " + ex.Message);
+                    return null;
+                }
+            }
+        }
+
+        public bool WorkflowTransaction(List<Workflow> data, char action)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    var val = new Lib.DataGenerator().CommitData<Workflow>(data, "usp_Workflow_Transaction", action);
+                    scope.Complete();
+                    return val;
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute CategoryTransaction: " + ex.Message);
+                    return false;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,194 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using PatientPortal.PatientServices.Common;
+using PatientPortal.PatientServices.Models.OfferAdvise;
+using PatientPortal.PatientServices.Utility;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using PatientPortal.Domain.LogManager;
+
+namespace PatientPortal.PatientServices.Controllers
+{
+    [Authorize]
+    public class OfferAdviseController : Controller
+    {
+        private static string controllerName = string.Empty;
+
+        // GET: OfferAdvise
+        public async Task<ActionResult> Index()
+        {
+            TempData["Alert"] = null;
+            var model = new OfferAdviseModel();
+            try
+            {
+                //Call API Provider
+                controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                var list = await APIProvider.Get<List<OfferAdviseViewModel>>(controllerName, APIConstant.API_Resource_CORE);
+
+                model.lstOfferAdviseViewModel = list.OrderBy(x => x.Id).ToList();
+                model.OfferAdviseViewModel = new OfferAdviseViewModel();
+
+                //Category List
+                ViewBag.Categories = list;
+                TempData["Data"] = list;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw ex.GetBaseException();
+            }
+            return View(model);
+        }
+
+        #region Create
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Create(OfferAdviseViewModel model)
+        {
+            model.PatientId = "81d165d1-c1c6-4db5-9ac5-d02ec698b399";
+            model.Date = DateTime.Now;
+            if (ModelState.IsValid)
+            {
+                string strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_INSERT);
+                var result = await APIProvider.DynamicTransaction<OfferAdviseViewModel, int>(model, strUrl, APIConstant.API_Resource_CORE);
+
+                if (result > 0)
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var offeradvise = new OfferAdviseModel();
+                if (TempData["Data"] == null)
+                {
+                    offeradvise.lstOfferAdviseViewModel = await APIProvider.Get<List<OfferAdviseViewModel>>(controllerName, APIConstant.API_Resource_CORE);
+                    TempData["Data"] = offeradvise.lstOfferAdviseViewModel;
+                }
+                else
+                {
+                    offeradvise.lstOfferAdviseViewModel = (List<OfferAdviseViewModel>)TempData["Data"];
+                }
+
+                offeradvise.OfferAdviseViewModel = model;
+
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.FAIL));
+                return View("Index", offeradvise);
+            }
+        }
+        #endregion
+
+        #region Edit
+
+        [HttpGet]
+        public async Task<ActionResult> Edit(short id)
+        {
+            OfferAdviseViewModel model;
+            try
+            {
+                //Call API Provider
+                var strUrl = controllerName + APIProvider.APIGenerator(this, this.RouteData.Values["action"].ToString(), id);
+                model = await APIProvider.Get<OfferAdviseViewModel>(strUrl, APIConstant.API_Resource_CORE);
+                if (model.Tag != string.Empty)
+                    ViewBag.Tags = model.Tag;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw ex.GetBaseException();
+            }
+            return View(model);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Edit(OfferAdviseViewModel model)
+        {
+            model.Date = DateTime.Now;
+            if (ModelState.IsValid)
+            {
+                //Call API Provider 
+                var strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_UPDATE);
+                var result = await APIProvider.DynamicTransaction<OfferAdviseViewModel, int>(model, strUrl, APIConstant.API_Resource_CORE);
+
+                if (result > 0)
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.FAIL));
+                if(model.Tag != null)
+                {
+                    ViewBag.Tags = model.Tag;
+                }
+                return View(model);
+            }
+        }
+        #endregion
+
+        #region Delete
+        public ActionResult ViewConfirmDelete(OfferAdviseViewModel model)
+        {
+            return PartialView("_ConfirmDelete", model);
+        }
+        [HttpPost]
+        public async Task<ActionResult> Delete(int id)
+        {
+            try
+            {
+                //Call API Provider - Get data
+                var apiUrl = controllerName + APIProvider.APIGenerator(this, this.RouteData.Values["action"].ToString(), id);
+                var model = await APIProvider.Get<OfferAdviseViewModel>(apiUrl, APIConstant.API_Resource_CORE);
+
+                //Call API Provider - Transaction
+                apiUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_DELETE);
+                var result = await APIProvider.DynamicTransaction<OfferAdviseViewModel, int>(model, apiUrl, APIConstant.API_Resource_CORE);
+
+                if (result > 0)
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_DELETE, RenderMessage.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_DELETE, RenderMessage.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                return View("Index");
+            }
+        }
+        #endregion
+
+        #region Check exist
+        //[HttpPost]
+        //[AllowAnonymous]
+        public async Task<JsonResult> CheckExist(string name, byte id)
+        {
+
+            //Call API Provider - Get data
+            string apiUrl = APIProvider.APIGenerator(this, this.RouteData.Values["action"].ToString(), name, id);
+            var isExist = await APIProvider.Get<bool>(apiUrl);
+
+            return Json(!isExist, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+    }
+}

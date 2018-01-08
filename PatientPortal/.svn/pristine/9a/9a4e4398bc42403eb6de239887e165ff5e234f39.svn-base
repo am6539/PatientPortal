@@ -1,0 +1,35 @@
+﻿CREATE TABLE [dbo].[Users] (
+    [Id] [nvarchar](128) NOT NULL,
+	[Email] [nvarchar](256) UNIQUE NULL,
+	[EmailConfirmed] [bit] NOT NULL,
+	[PasswordHash] [nvarchar](max) NULL,
+	[SecurityStamp] [nvarchar](max) NULL,
+	[PhoneNumber] [nvarchar](max) NULL,
+	[PhoneNumberConfirmed] [bit] NOT NULL,
+	[TwoFactorEnabled] [bit] NOT NULL,
+	[LockoutEndDateUtc] [datetime] NULL,
+	[LockoutEnabled] [bit] NOT NULL,
+	[AccessFailedCount] [int] NOT NULL,
+	[UserName] [nvarchar](256) NOT NULL,
+    [OrganizationId] SMALLINT NOT NULL, 
+    [Tags] NVARCHAR(250) NOT NULL, 
+    [HomePhone] VARCHAR(20) NOT NULL, 
+    [IsAdmin] BIT NOT NULL, 
+    [IsDoctor] BIT NOT NULL, 
+    [Gender] TINYINT NOT NULL, 
+    [Code] CHAR(20) NOT NULL, 
+    [Name] NVARCHAR(100) NOT NULL, 
+    [PatientId] NVARCHAR(128) NULL, 
+    [DoB] DATE NOT NULL, 
+    [Image] VARCHAR(256) NOT NULL, 
+    [Status] BIT NOT NULL, 
+    CONSTRAINT [PK_USERS] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_Users_Organization] FOREIGN KEY ([OrganizationId]) REFERENCES [dbo].[Organization] ([Id]),
+    CONSTRAINT [UQ__USERS__A9D1053429B4C0C0] UNIQUE NONCLUSTERED ([Email] ASC)
+);
+
+
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [idxUserAccess]
+    ON [dbo].[Users]([Code] ASC, [Email] ASC);
+

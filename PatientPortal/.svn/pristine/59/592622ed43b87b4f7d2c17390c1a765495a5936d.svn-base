@@ -1,0 +1,128 @@
+﻿@using System.Globalization
+@model List<PatientPortal.Internal.Models.AppointmentLogViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <link href="~/Libs/DataTable/jquery.dataTables.css" rel="stylesheet" />
+    <style>
+        .bg-green {
+            background: #1ABB9C !important;
+            border: 1px solid #1ABB9C !important;
+            color: #fff;
+        }
+
+        .bg-orange {
+            background: #F39C12 !important;
+            border: 1px solid #F39C12 !important;
+            color: #fff;
+        }
+
+        .bg-blue {
+            background: #337ab7 !important;
+            border: 1px solid #337ab7 !important;
+            color: #fff;
+        }
+    </style>
+}
+
+<div class="card">
+    <div class="card-title">DANH SÁCH TẤT CẢ CÁC ĐẶT HẸN KHÁM BỆNH</div>
+    @*<div class="card-actionbar">
+        <div class="col-md-3 filter-drop-categories">
+            <select id="Status" data-placeholder="Chọn tình trạng lịch hẹn ..." class="chosen-select" tabindex="2">
+                <option value=""></option>
+                <option value="1">Mới đặt hẹn</option>
+                <option value="2">Đã khám</option>
+                <option value="3">Đã hủy</option>
+            </select>
+        </div>
+        <div class="col-md-3 filter-drop-categories">
+            <input type="text" class="form-control" id="Start">
+        </div>
+        <div class="col-md-3 filter-drop-categories">
+            <input type="text" class="form-control" id="End">
+        </div>
+        <div class="col-md-3 filter-drop-categories">
+            <button type="submit" class="btn btn-default"><i class="fa fa-search" fa-search aria-hidden="true"> Tìm kiếm</i></button>
+        </div>
+    </div>*@
+    <div class="card-content table-actionbar-top">
+        <table id="table_id" class="table table-responsive table-bordered">
+            <thead>
+                <tr>
+                    <td title="Time"></td>
+                    <td>
+                        Ngày
+                    </td>
+                    <td>
+                        Bệnh nhân
+                    </td>
+                    <td>
+                        Số điện thoại
+                    </td>
+                    <td>
+                        Bác sĩ
+                    </td>
+                    <td>
+                        Tình trạng
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    foreach (var item in Model)
+                    {
+                    var result = TimeSpan.FromMinutes(item.Time);
+                    var fromTimeString = result.ToString("hh':'mm");
+                        <tr role="row">
+                            <td>@Html.ActionLink(fromTimeString, "Details", "Appointment", new { id = item.Id }, new { @class = "modal-link", @style = "padding:1px 5px 1px 5px;" })</td>
+                            <td>@item.Date.ToString("dd/M/yyyy", CultureInfo.InvariantCulture)</td>
+                            <td>@item.PatientName</td>
+                            <td>@item.PatientPhone</td>
+                            <td>@item.PhysicianName</td>
+                            <td style="text-align: center">
+                                <small class="badge bg-green">@item.StatusName</small>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Libs/DataTable/jquery.dataTables.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //Setting table
+            $('#table_id').DataTable({
+                "language": {
+                    url: '/Libs/Datatable/Vietnamese.json'
+                }
+            });
+        });
+        var config = {
+            '.chosen-select': {}
+        }
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
+        $("#Start").datetimepicker({
+            format: 'DD/MM/YYYY',
+            locale: 'vi',
+            //minDate: Date.now(),
+        });
+
+        $("#End").datetimepicker({
+            format: 'DD/MM/YYYY',
+            locale: 'vi',
+            //minDate: Date.now(),
+        });
+    </script>
+}
+

@@ -1,0 +1,41 @@
+﻿using AutoMapper;
+using PatientPortal.Domain.Models.CMS;
+using PatientPortal.IRepository.CMS;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Http;
+
+namespace PatientPortal.API.CMS.Controllers
+{
+    public class DashboardController : ApiController
+    {
+        /// <summary>
+        /// Declare variable
+        /// </summary>
+        /// 
+        IPostRepo _postRepo;
+
+        /// <summary>
+        /// Constructor DashboardController
+        /// </summary>
+        /// <param name="postRepo"></param>
+        public DashboardController(IPostRepo postRepo)
+        {
+            this._postRepo = postRepo;
+        }
+        //[Route("api/Dashboard/Counter")]
+        //[HttpGet]
+        //// GET: api/Post/GetAll
+        //public async Task<IEnumerable<Counter>> Counter()
+        //{
+        //    //var data = await _postRepo.Query(null);
+
+        //    //return data;
+        //}
+    }
+}

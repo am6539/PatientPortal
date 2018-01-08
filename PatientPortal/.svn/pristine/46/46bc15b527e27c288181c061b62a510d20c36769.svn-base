@@ -1,0 +1,42 @@
+﻿using PatientPortal.DataAccess.Repo.CORE;
+using PatientPortal.DataAccess.Repo.Wrapper;
+using PatientPortal.Domain.Common;
+using PatientPortal.Domain.Models.CORE;
+using PatientPortal.Domain.Utilities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.DataAccess.CORE
+{
+    public class ScheduleImpl: ISchedule
+    {
+        private readonly IAdapterPattern _adapterPattern;
+
+        public ScheduleImpl(IAdapterPattern adapterPattern)
+        {
+            this._adapterPattern = adapterPattern;
+        }
+
+        /// <summary>
+        /// Get Schedule
+        /// </summary>
+        /// <param name="param">Dictionary</param>
+        /// <returns>List Schedule</returns>
+        public async Task<List<Schedule>> Query(Dictionary<string, object> param)
+        {
+            try
+            {
+                var data = await _adapterPattern.ExecuteQuery<Schedule>(param, "usp_Group", DataConfiguration.instanceCore);
+                return data.ToList();
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog("Execute Appointment get data: " + ex.Message);
+                return null;
+            }
+        }
+    }
+}

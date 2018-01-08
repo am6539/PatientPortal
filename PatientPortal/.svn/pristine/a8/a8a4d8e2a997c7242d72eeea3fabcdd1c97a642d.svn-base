@@ -1,0 +1,93 @@
+﻿using AutoMapper;
+using PatientPortal.API.Core.Models;
+using PatientPortal.Domain.Models.CORE;
+using PatientPortal.IRepository.CORE;
+using PatientPortal.Provider.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Http;
+
+namespace PatientPortal.API.Core.Controllers
+{
+    public class AppointmentController : ApiController
+    {
+        private readonly IAppointmentRepo _appointment;
+
+        #region Constructor
+        public AppointmentController(IAppointmentRepo appointment)
+        {
+            this._appointment = appointment;
+        }
+        #endregion
+
+        #region API function
+
+        /// <summary>
+        /// Get all appointment
+        /// </summary>
+        /// <returns>list of appointment</returns>
+        [HttpGet]
+        public async Task<List<AppointmentViewModel>> Get()
+        {
+            Dictionary<string, dynamic> para = new Dictionary<string, dynamic>();
+            para.Add("Id", 0);
+
+            var source = await _appointment.Query(para);
+            List<AppointmentViewModel> dest = Mapper.Map<List<AppointmentViewModel>>(source);
+
+            return dest;
+        }
+
+        /// <summary>
+        /// Get appointment by Id
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<List<AppointmentViewModel>> Get(int id)
+        {
+            Dictionary<string, dynamic> para = new Dictionary<string, dynamic>();
+            para.Add("id", id);
+
+            var source = await _appointment.Query(para);
+            List<AppointmentViewModel> dest = Mapper.Map<List<AppointmentViewModel>>(source);
+
+            return dest;
+        }
+
+        /// <summary>
+        /// Transaction data: Insert/Update/Delete
+        /// </summary>
+        /// <param name="appointmentModel"> object appointment</param>
+        /// <param name="action">Insert: I, Update: U, Delete: d</param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<int> Transaction(AppointmentEditModel appointmentModel, char action)
+        {
+            var data = Mapper.Map<AppointmentEdit>(appointmentModel);
+            return await _appointment.Transaction(data, action);
+        }
+
+        public async Task<List<ScheduleViewModel>> GetScheduleExamine(int userId, string start)
+        {
+            IList<string> list = new List<string> { "userId", "start" };
+            var para = APIProvider.APIDefaultParameter(list, userId, start);
+
+            var source = await _appointment.GetScheduleExamine(para);
+            var dest = Mapper.Map<List<ScheduleViewModel>>(source);
+
+            return dest;
+        }
+
+        [HttpGet]
+        [Route("Appointment/GetItems")]
+        public async Task<List<AppointmentLogViewModel>> GetItems()
+        {
+            var source = await _appointment.Query();
+            var dest = Mapper.Map<List<AppointmentLogViewModel>>(source);
+
+            return dest;
+        }
+        #endregion
+    }
+}

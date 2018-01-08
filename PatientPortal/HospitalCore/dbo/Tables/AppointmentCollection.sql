@@ -1,0 +1,20 @@
+﻿CREATE TABLE [dbo].[AppointmentCollection]
+(
+	[Id] INT NOT NULL PRIMARY KEY, 
+    [Date]         DATE  NOT NULL,
+    [Time]         INT       NOT NULL,
+	[AppointmentNo] SMALLINT NOT NULL,
+    [PatientName] NVARCHAR(50) NOT NULL, 
+    [PatientAddress] NVARCHAR(150) NOT NULL, 
+    [PatientEmail] VARCHAR(256) NULL, 
+    [PatientPhone] VARCHAR(20) NULL, 
+	[PatientGender] TINYINT NOT NULL,
+    [PatientDoB] DATE NULL,
+	[Status]       TINYINT        NOT NULL,
+);
+GO
+CREATE NONCLUSTERED INDEX [idxAppointmentCollection]
+    ON [dbo].[AppointmentCollection]([Date],[AppointmentNo],[PatientName] ASC);
+GO
+
+

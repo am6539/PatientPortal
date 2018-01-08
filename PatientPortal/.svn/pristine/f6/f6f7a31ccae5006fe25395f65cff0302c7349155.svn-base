@@ -1,0 +1,118 @@
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Http;
+using AutoMapper;
+using PatientPortal.IRepository.CORE;
+using PatientPortal.Domain.Models.CORE;
+using PatientPortal.Provider.Models;
+using PatientPortal.Provider.Common;
+using PatientPortal.API.Core.Models;
+using System.Linq;
+
+namespace PatientPortal.API.Core.Controllers
+{
+    [RoutePrefix("api/Module")]
+    [AuthorizeRoles]
+    public class ModuleController : ApiController
+    {
+        private readonly IModuleRepo _module;
+
+        /// <summary>
+        /// Init
+        /// </summary>
+        /// <param name="offeradvise"></param>
+        public ModuleController(IModuleRepo module)
+        {
+            _module = module;
+        }
+
+        #region GET
+        /// <summary>
+        /// Get all
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<List<ModuleViewModel>> Get()
+        {
+            List<string> list = new List<string> { "id" };
+            var para = APIProvider.APIDefaultParameter(list, 0);
+            var source = await _module.Query(para);
+            var dest = Mapper.Map<List<ModuleViewModel>>(source);
+
+            return dest;
+        }
+
+
+        /// <summary>
+        /// Filter by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<ModuleViewModel> Get(byte id)
+        {
+            List<string> list = new List<string> { "id" };
+            var para = APIProvider.APIGeneratorParameter(list, id);
+
+            var source = await _module.SingleQuery(para);
+            var dest = Mapper.Map<ModuleViewModel>(source);
+
+            return dest;
+        }
+
+        [HttpGet]
+        [Route("Initial")]
+        public async Task<List<ModuleViewModel>> Initial(string group)
+        {
+            //1 - CMS, 2 - Patient Services, 3 - Internal Services
+            if (Request.Headers.UserAgent.Count > 0)
+            {
+                //IEnumerable<string> headerValues = Request.Headers.GetValues(APIConstant.XAuthorizeHeader);
+                //var userId = headerValues.FirstOrDefault();
+                var userId = Request.Headers.UserAgent.FirstOrDefault();
+
+                List<string> list = new List<string> { "Group", "Userid", "DefaultRoleInitial" };
+                var para = APIProvider.APIGeneratorParameter(list, group, userId.ToString(), APIConstant.DefaultRoleInitial);
+
+                var source = await _module.Initial(para);
+                var dest = Mapper.Map<List<ModuleViewModel>>(source);
+                if (dest == null) dest = new List<ModuleViewModel>();
+
+                return dest;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Check exist data
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<bool> CheckExist(string title, short id)
+        {
+            List<string> list = new List<string> {"title", "id" };
+            var para = APIProvider.APIGeneratorParameter(list, title, id);
+
+            return await _module.CheckExist(para);
+        }
+        #endregion
+
+        #region POST
+
+        /// <summary>
+        /// Transaction data: Insert/Update/Delete
+        /// </summary>
+        /// <param name="module"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<bool> Transaction(ModuleViewModel module, char action)
+        {
+            var data = Mapper.Map<Module>(module);
+            return await _module.Transaction(data, action);
+        }
+        #endregion
+    }
+}

@@ -1,0 +1,11 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.Internal.Models.RoleViewModel
+
+@using (Html.IBeginForm("Create", "Role"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.IGroupSubmitButton("Thêm nhóm tài khoản")
+    @Html.HiddenFor(m => m.Id)
+    @Html.IGroupTextBoxFor(m => m.Name, true, 12, "Tên nhóm tài khoản")
+}

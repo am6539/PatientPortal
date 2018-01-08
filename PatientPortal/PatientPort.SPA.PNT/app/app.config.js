@@ -1,0 +1,39 @@
+﻿"use strict";
+
+angular.module('MyApp')
+    .run(function ($rootScope) {
+    $rootScope.title = "FIS Health Medical Center";
+}).config([
+        "$routeProvider", "$locationProvider", '$httpProvider', '$qProvider',
+        function ($routeProvider, $locationProvider, $httpProvider, $qProvider) {
+            $locationProvider.html5Mode(true).hashPrefix('!'); //the hashPrefix is for SEO
+            $qProvider.errorOnUnhandledRejections(false);
+
+            $routeProvider
+            .when('/', {
+                templateUrl: '/app/components/home-page/home-page.template.html',
+                controller: 'HomePageController'
+            })
+            .when('/index/:menu', {
+                templateUrl: '/app/components/home-page/home-page.template.html',
+                controller: 'HomePageController'
+            })
+            .when('/appointment', {
+                templateUrl: '/app/components/appointment/appointment.template.html',
+                controller: 'appointmentController'
+            })
+            .when('/detail/:id', {
+                templateUrl: '/app/components/post-detail/post-detail.template.html',
+                controller: 'detailController'
+            })
+            .when('/child-dept/:id', {
+                templateUrl: '/app/components/child-departments/child-department.template.html',
+                controller: 'ChildDepartmentController'
+            })
+            .when('/rss', {
+                templateUrl: '/app/components/rss/rss.template.html',
+                controller: 'RSSController'
+            })
+            .otherwise('/');
+        }
+    ]);

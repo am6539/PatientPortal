@@ -1,0 +1,77 @@
+﻿@model PatientPortal.CMS.Models.CategoryViewModel
+@{
+    ViewBag.Title = "Cập nhật danh mục";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+
+    <div class="card-title">@ViewBag.Title</div>
+    <div class="card-content">
+        @using (Html.BeginForm("Edit", "Category", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal" }))
+        {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="form-group" style="display: none" >
+                    @Html.LabelFor(m => m.Id, new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(m => m.Id, new { @class = "form-control" })
+                        @Html.HiddenFor(m => m.Image)
+                        @Html.HiddenFor(m => m.ParentId)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Name, new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @placeholder = "Nhập tên nhóm bài viết" })
+                        @Html.ValidationMessageFor(m => m.Name)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3">Url: </label>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(m => m.Handler, new { @class = "form-control", @placeholder = "Url", @disabled = "disabled" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3"></label>
+                    <div class="col-md-9">
+                        <input type="file" name="fileUpload">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Sort, new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(m => m.Sort, new { @class = "form-control", @type = "number", @min = "0" })
+                        @Html.ValidationMessageFor(m => m.Sort)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ParentId, new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.DropDownList("Category", (IEnumerable<SelectListItem>)ViewBag.Categories, new { @class = "form-control chosen-select" })
+                        @Html.ValidationMessageFor(m => m.ParentId)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3"></label>
+                    <div class="col-md-9">
+                        <button type="submit" class="btn btn-success btn-sm" name="action:Save"><i class="fa fa-floppy-o" aria-hidden="true"></i> Cập nhật</button>
+                        <button type="submit" class="btn btn-default btn-danger" name="action:Delete"> Xóa</button>
+                        <a class="btn btn-default btn-sm" href="@Url.Action("Index", "Category")" > Hủy bỏ</a>
+                    </div>
+                </div>
+            if (TempData["Success"] != null)
+            {
+                <div class="form-group">
+                    <div class="alert alert-success">
+                        <strong>@TempData["Success"].ToString()</strong>
+                    </div>
+                </div>
+            }
+        }
+
+    </div>
+</div>
+

@@ -1,0 +1,107 @@
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PatientPortal.Domain.Models.CORE;
+using PatientPortal.DataAccess.CORE;
+using PatientPortal.IDataAccess.CORE;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.UnitTest.Core
+{
+    [TestClass]
+    public class SettingUnitTest
+    {
+        public ISetting _settingImpl;
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            _settingImpl = new SettingImpl();
+        }
+
+        [TestMethod]
+        public void SettingGetAll()
+        {
+            var count = _settingImpl.GetAll().Count;
+            Assert.IsTrue(count > 0);
+        }
+
+        [TestMethod]
+        public void SettingInsert()
+        {
+            var list = new List<Setting>() {
+                new Setting {
+                    Title = "setting",
+                    Description = "",
+                    Keyword = "",
+                    Membership = true,
+                    DefaultRole = 1,
+                    LoginURL = ""
+                }
+            };
+            var flag = _settingImpl.Transaction(list, 'I');
+            Assert.IsTrue(flag);
+        }
+
+        [TestMethod]
+        public void SettingUpdate()
+        {
+            var list = _settingImpl.GetAll();
+            var listUpdate = new List<Setting>();
+            if (list.Count > 0)
+            {
+                listUpdate.Add(list.LastOrDefault());
+            }
+            else
+            {
+                var listInsert = new List<Setting>() {
+                    new Setting {
+                        Title = "setting1",
+                        Description = "",
+                        Keyword = "",
+                        Membership = true,
+                        DefaultRole = 1,
+                        LoginURL = ""
+                    }
+                };
+                _settingImpl.Transaction(listInsert, 'I');
+                list = _settingImpl.GetAll();
+                listUpdate.Add(list.LastOrDefault());
+            }
+            
+            var flag = _settingImpl.Transaction(listUpdate, 'U');
+            Assert.IsTrue(flag);
+        }
+
+        [TestMethod]
+        public void SettingDelete()
+        {
+            var list = _settingImpl.GetAll();
+            var listUpdate = new List<Setting>();
+            if (list.Count > 0)
+            {
+                listUpdate.Add(list.LastOrDefault());
+            }
+            else
+            {
+                var listInsert = new List<Setting>() {
+                    new Setting {
+                        Title = "setting1",
+                        Description = "",
+                        Keyword = "",
+                        Membership = true,
+                        DefaultRole = 1,
+                        LoginURL = ""
+                    }
+                };
+                _settingImpl.Transaction(listInsert, 'I');
+                list = _settingImpl.GetAll();
+                listUpdate.Add(list.LastOrDefault());
+            }
+
+            var flag = _settingImpl.Transaction(listUpdate, 'D');
+            Assert.IsTrue(flag);
+        }
+    }
+}

@@ -1,0 +1,92 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       [dbo].[Users]
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       The column [dbo].[Setting].[AppointmentEndTime] on table [dbo].[Setting] must be added, but the column has no default
+         value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue
+         you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of
+         smart-defaults as a deployment option.
+       The column [dbo].[Setting].[AppointmentStartTime] on table [dbo].[Setting] must be added, but the column has no default
+         value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue
+         you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of
+         smart-defaults as a deployment option.
+       The column [dbo].[Users].[AccessFailedCount] on table [dbo].[Users] must be added, but the column has no default value
+         and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must
+         either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults
+         as a deployment option.
+       The column [dbo].[Users].[EmailConfirmed] on table [dbo].[Users] must be added, but the column has no default value and
+         does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must
+         either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults
+         as a deployment option.
+       The column [dbo].[Users].[LockoutEnabled] on table [dbo].[Users] must be added, but the column has no default value and
+         does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must
+         either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults
+         as a deployment option.
+       The column [dbo].[Users].[PhoneNumberConfirmed] on table [dbo].[Users] must be added, but the column has no default
+         value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue
+         you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of
+         smart-defaults as a deployment option.
+       The column [dbo].[Users].[TwoFactorEnabled] on table [dbo].[Users] must be added, but the column has no default value
+         and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must
+         either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults
+         as a deployment option.
+       The column [dbo].[Users].[UserName] on table [dbo].[Users] must be added, but the column has no default value and does
+         not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either:
+         add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a
+         deployment option.
+
+** User actions
+     Drop
+       [dbo].[DF__USERS__Gender__108B795B] (Default Constraint)
+       [dbo].[DF__USERS__Status__117F9D94] (Default Constraint)
+     Alter
+       [dbo].[AppointmentLog] (Table)
+       [dbo].[Setting] (Table)
+       [dbo].[usp_Setting_Transaction] (Procedure)
+       [dbo].[usp_spa_User] (Procedure)
+       [dbo].[usp_spa_User_HasScheduleExamine] (Procedure)
+       [dbo].[usp_User] (Procedure)
+       [dbo].[usp_User_HasScheduleExamine] (Procedure)
+       [dbo].[usp_Users_Transaction] (Procedure)
+       [dbo].[usp_Schedule] (Procedure)
+       [dbo].[usp_ScheduleExamine] (Procedure)
+       [dbo].[usp_spa_Schedule] (Procedure)
+     Table rebuild
+       [dbo].[Users] (Table)
+
+** Supporting actions
+     Drop
+       [dbo].[AppointmentLog].[idxAppointmentLogPhysician] (Index)
+       [dbo].[FK_UserGroup_Users] (Foreign Key)
+       [dbo].[FK_UserRole_Users] (Foreign Key)
+       [dbo].[FK_Users_Organization] (Foreign Key)
+     Create
+       [dbo].[AppointmentLog].[idxAppointmentLogPhysician] (Index)
+       [dbo].[Users].[idxUserAccess] (Index)
+       [dbo].[FK_UserGroup_Users] (Foreign Key)
+       [dbo].[FK_UserRole_Users] (Foreign Key)
+       [dbo].[FK_Users_Organization] (Foreign Key)
+     Refresh
+       [dbo].[usp_AppointmentLog] (Procedure)
+       [dbo].[usp_AppointmentLog_Transaction] (Procedure)
+       [dbo].[usp_Setting] (Procedure)
+       [dbo].[usp_Login] (Procedure)
+       [dbo].[usp_Organization_Transaction] (Procedure)
+       [dbo].[usp_User_ChangePassword] (Procedure)
+
+The column [dbo].[Setting].[AppointmentEndTime] on table [dbo].[Setting] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+The column [dbo].[Setting].[AppointmentStartTime] on table [dbo].[Setting] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+The column [dbo].[Users].[AccessFailedCount] on table [dbo].[Users] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+The column [dbo].[Users].[EmailConfirmed] on table [dbo].[Users] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+The column [dbo].[Users].[LockoutEnabled] on table [dbo].[Users] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+The column [dbo].[Users].[PhoneNumberConfirmed] on table [dbo].[Users] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+The column [dbo].[Users].[TwoFactorEnabled] on table [dbo].[Users] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+The column [dbo].[Users].[UserName] on table [dbo].[Users] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+The column DateOfBirth on table [dbo].[Users] must be changed from NULL to NOT NULL. If the table contains data, the ALTER script may not work. To avoid this issue, you must add values to this column for all rows or mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+The column HomePhone on table [dbo].[Users] must be changed from NULL to NOT NULL. If the table contains data, the ALTER script may not work. To avoid this issue, you must add values to this column for all rows or mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+The column Image on table [dbo].[Users] must be changed from NULL to NOT NULL. If the table contains data, the ALTER script may not work. To avoid this issue, you must add values to this column for all rows or mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+

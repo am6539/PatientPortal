@@ -1,0 +1,9 @@
+﻿'use strict';
+
+angular.
+module('MyApp').controller('MainController', ['$scope','$rootScope', "Params", 'MetaService',
+    function MainController($scope, $rootScope, Params, MetaService) {
+        $rootScope.metaservice = MetaService;
+    }
+]);
+

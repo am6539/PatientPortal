@@ -1,0 +1,70 @@
+﻿CREATE PROC [dbo].[usp_Article_Transaction]
+(
+	@Action CHAR(1) = 'I',
+	@Id INT = 1,
+	@Date datetime,
+	@Title NVARCHAR(150) = '',
+	@Detail NVARCHAR(1000) = '',
+	@PatientId NVARCHAR(128) = 0,
+	@Status TINYINT = 1,
+	@IsClosed BIT
+)
+AS BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+	DECLARE @return INT = 0
+	DECLARE @CurrentDate SMALLDATETIME
+
+	BEGIN TRY
+		BEGIN TRAN;
+			SET @CurrentDate = GETDATE()
+
+			IF @Action = 'I' --INSERT
+			BEGIN
+				INSERT [dbo].[Article]
+				VALUES(@CurrentDate, @Title, @Detail, @PatientId, @Status, @IsClosed)
+
+				SET @return = SCOPE_IDENTITY()
+			END
+
+			IF @Action = 'U' --UPDATE
+			BEGIN
+				IF NOT EXISTS(SELECT TOP 1 1 FROM [dbo].[ArticleComment] WHERE [ArticleId] = @Id)
+				BEGIN
+					UPDATE [dbo].[Article]
+					SET [Title] = @Title, [Detail] = @Detail, [Status] = @Status, [IsClosed] = @IsClosed
+					WHERE [Id] = @Id  
+
+					SET @return = @Id
+				END
+				ELSE
+					SET @return = 0
+			END
+
+			IF @Action = 'D' --DELETE
+			BEGIN
+				IF NOT EXISTS(SELECT TOP 1 1 FROM [dbo].[ArticleComment] WHERE [ArticleId] = @Id)
+				BEGIN	
+					-- Article Comment Table
+					DELETE FROM [dbo].[ArticleComment] WHERE [ArticleId] = @Id
+
+					-- Article Table
+					DELETE FROM [dbo].[Article] WHERE [Id] = @Id
+
+					SET @return = @Id
+				END
+				ELSE
+					SET @return = 0
+			END
+
+			COMMIT TRAN;
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0 
+		BEGIN
+			ROLLBACK TRAN;
+			SET  @return = 0
+		END
+	END CATCH
+	SELECT @return;
+END

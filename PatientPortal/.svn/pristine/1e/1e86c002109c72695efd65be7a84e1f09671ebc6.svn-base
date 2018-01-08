@@ -1,0 +1,123 @@
+﻿
+@{
+    ViewBag.Title = "Đặt lịch khám";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model PatientPortal.PatientServices.Models.AppointmentModel
+
+@section styles{
+    <style>
+        .modal-body {
+            max-height: calc(100vh - 150px);
+            overflow-y: auto;
+        }
+    </style>
+}
+<div class="card">
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#appointment">Thông tin cuộc hẹn</a></li>
+        <li><a data-toggle="tab" href="#infoAppointment">Thông tin cá nhân</a></li>
+        <li><a data-toggle="tab" href="#checkandConfirm">Kiểm tra và xác nhận</a></li>
+    </ul>
+    <div class="tab-content">
+        @Html.Partial("_Appointment", Model)
+    </div>
+</div>
+
+@*<div id="collapseThongTinModal" class="modal fade" tabindex="-1" role="dialog" style="display: none">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Thông tin bác sĩ</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3 col-sm-3 col-xs-3">
+                        <div class="profile_pic">
+                            <img src="~/img/picture.jpg" style="width: 100%" />
+                        </div>
+                    </div>
+                    <div class="col-md-9 col-sm-9 col-xs-9">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                <span class="blue"><b>Chuyên khoa:</b></span>
+                            </div>
+                            <div class="col-md-9 col-sm-9 col-xs-9">
+                                - A <br />
+                                - B <br />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <span class="blue"><b>Ngôn ngữ:</b></span>
+                            </div>
+                            <div class="col-md-9">
+                                <p>Tiếng Việt - Tiếng mẹ đẻ, Tiếng Anh - Lưu loát</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <span class="blue"><b>Chứng nhận:</b></span>
+                            </div>
+                            <div class="col-md-9">
+                                <p><b>Trường y:</b> Đại học y dược TP Hồ Chí Minh</p>
+                                <p>
+                                    <b>Bằng cấp chuyên môn:</b> <br />
+                                    - Chuyên khoa cấp I, khoa Da liễu, Đại học Y dược, Tp Hồ Chí Minh, Việtnam, 1988<br />
+                                    - Chuyên khoa cấp II, khoa Da liễu, Đại học Y dược, Tp Hồ Chí Minh, Việtnam, 1996<br />
+                                    - Thạc sĩ y khoa, Đại học Y dược, Tp Hồ Chí Minh, Việtnam, 1997<br />
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <table style="width: 90%; margin-top: 20px; margin-left: 20px; margin-right: 20px" class="table table-bordered table-hover">
+                        <thead>
+                            <tr style="background-color: #c7c7c7; height: 20px">
+                                <td>Ngày</td>
+                                <td>Thời gian</td>
+                                <td>Địa điểm</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom: 1px dotted #C6B4B4;">
+                                <td>Thứ 2</td>
+                                <td>8:00 - 18:00</td>
+                                <td>Bệnh viện A</td>
+                            </tr>
+                            <tr>
+                                <td>Thứ 3</td>
+                                <td>8:00 - 18:00</td>
+                                <td>Bệnh viện A</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>*@
+ <!--Modal confirm-->
+<div id="modal-container" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+<script>
+        function makeAppointmentDoctor(Id) {
+            $(".tab-content").load("/Appointment/AppointmentPartial/" + Id, function (responseTxt, statusTxt, xhr) {
+                if (statusTxt == "error")
+                    alert("Lỗi: " + xhr.status + ": " + xhr.statusText);
+                else
+                {
+                    $("#doctorSelected").hide(500);
+                    $("#searchDoctor").show(500);
+                    $("#quickviewProfile").show(500);
+                }
+            });
+        }
+</script>

@@ -1,0 +1,10 @@
+﻿angular.module('spaApp')
+    .controller('PostsController', ['$scope', 'PostService',
+        function PostsController($scope, PostService) {
+            PostService.queryPost({ languageCode: 'vi' }, function (data) {
+                $scope.posts = data;
+            });
+      //      $scope.posts = [{ Title: 'A', Description: 'A', Image: 'assets/img/slider/img1.jpg' },
+      //{ Title: 'B', Description: 'B', Image: 'assets/img/slider/img2.jpg' },
+      //{ Title: 'C', Description: 'C', Image: 'assets/img/slider/img3.jpg' }];
+        }]);

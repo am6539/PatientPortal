@@ -1,0 +1,51 @@
+﻿using PatientPortal.IRepository.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CMS;
+using PatientPortal.DataAccess.Repo.CMS;
+
+namespace PatientPortal.Repositoty.CMS
+{
+    public class LanguageRepoImpl : ILanguageRepo
+    {
+        /// <summary>
+        /// declare variables
+        /// </summary>
+        ILanguage _language;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="language"></param>
+        public LanguageRepoImpl(ILanguage language)
+        {
+            this._language = language;
+        }
+
+        public bool CheckExist(byte Id, string name)
+        {
+            return _language.CheckExist(Id, name);
+        }
+
+
+        #region Function
+
+        /// <summary>
+        /// Get all languages
+        /// </summary>
+        /// <returns>list languages</returns>
+        public List<Language> GetAll()
+        {
+            return _language.GetAll();
+        }
+
+        public bool LanguageTransaction(List<Language> data, char action)
+        {
+            return _language.LanguageTransaction(data, action);
+        }
+        #endregion
+    }
+}

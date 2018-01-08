@@ -1,0 +1,35 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using StackExchange.Redis;
+
+namespace PatientPortal.Domain.Caching.Redis
+{
+    public class RedisConfig
+    {
+        public static Lazy<ConfigurationOptions> configOptions = new Lazy<ConfigurationOptions>(() =>
+        {
+            var configOptions = new ConfigurationOptions();
+            configOptions.EndPoints.Add("localhost:6379");
+            configOptions.ClientName = "SafeRedisConnection";
+            configOptions.ConnectTimeout = 100000;
+            configOptions.SyncTimeout = 100000;
+            configOptions.AbortOnConnectFail = false;
+            return configOptions;
+        });
+
+        private static Lazy<ConnectionMultiplexer> conn
+            = new Lazy<ConnectionMultiplexer>(
+                () => ConnectionMultiplexer.Connect(configOptions.Value));
+
+        public static ConnectionMultiplexer RedisSafeConn
+        {
+            get
+            {
+                return conn.Value;
+            }
+        }
+    }
+}

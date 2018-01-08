@@ -1,0 +1,39 @@
+﻿
+@model PatientPortal.CMS.Models.LinkBuildingViewModel
+
+@using (Html.BeginForm("Create", "LinkBuilding", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal" }))
+            {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Title, new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.HiddenFor(m => m.Id, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.Title, new { @class = "form-control", @placeholder = "Tiêu đề liên kết website" })
+            @Html.ValidationMessageFor(model => model.Title, null, new { @class = "field-validation-error" })
+        </div>
+    </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(m => m.Url, new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.Url, new { @class = "form-control", @placeholder = "Địa chỉ URL" })
+            @Html.ValidationMessageFor(model => model.Title, null, new { @class = "field-validation-error" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.IsUsed, new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.CheckBoxFor(m => m.IsUsed)
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-3"></label>
+        <div class="col-md-9">
+            <button type="submit" class="btn btn-success btn-sm" style="width:100%;"><i class="fa fa-check" aria-hidden="true"></i> Thêm liên kết website</button>
+        </div>
+    </div>
+}

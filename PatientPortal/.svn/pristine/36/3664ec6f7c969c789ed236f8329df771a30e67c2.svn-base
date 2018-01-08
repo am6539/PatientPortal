@@ -1,0 +1,35 @@
+﻿CREATE PROCEDURE [dbo].[usp_SystemNotification_Transaction]
+	@Action CHAR(1) = 'I',
+	@Id INT,
+	@Detail NVARCHAR(300) = '',
+	@Time VARCHAR(8),
+	@SendFrom NVARCHAR(128),
+	@Link NVARCHAR(256)
+AS
+BEGIN
+DECLARE @result INT = 0
+	BEGIN TRY
+		BEGIN TRAN
+			IF(@Action = 'I')
+			BEGIN
+				INSERT INTO [dbo].[SystemNotification](Detail, [Time], [SendFrom], [Link]) 
+				VALUES(@Detail, @Time, @SendFrom, @Link)
+				SET @result = 1
+			END
+			ELSE
+			BEGIN
+				UPDATE [dbo].[SystemNotification]
+				SET		Detail = @Detail, [Time] = @Time, [SendFrom] = @SendFrom, [Link] = @Link
+				WHERE Id = @Id
+				SET @result = 1
+			END
+		COMMIT TRAN
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0
+		BEGIN
+			ROLLBACK TRAN
+			RETURN @result
+		END
+	END CATCH
+END

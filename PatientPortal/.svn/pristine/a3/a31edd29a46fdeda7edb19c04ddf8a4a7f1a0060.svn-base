@@ -1,0 +1,107 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using PatientPortal.Domain.Models.CMS;
+using PatientPortal.Domain.Utilities;
+using System.Transactions;
+using PatientPortal.DataAccess.Dapper;
+using Dapper;
+using PatientPortal.DataAccess.Repo.CMS;
+
+namespace PatientPortal.DataAccess.CMS
+{
+    public class SliderImpl : ISlider
+    {
+        public List<Slider> GetAll()
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                { 
+                    DapperConfiguration.OpenConnection(1);
+
+                    var data = DapperConfiguration.db.Query<Slider>("usp_Slider", new {Id = 0},
+                        commandType: System.Data.CommandType.StoredProcedure).ToList();
+
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+                    
+                }
+                catch(Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Slider get data: " + ex.Message);
+                    return null;
+                }
+            }
+        }
+
+        public Slider GetById(short id)
+        {
+            using(var scope = new TransactionScope())
+            {
+                try
+                {
+                    DapperConfiguration.OpenConnection(1);
+                    var data = DapperConfiguration.db.Query<Slider>("usp_Slider",
+                        new { Id = id},
+                        commandType: System.Data.CommandType.StoredProcedure).FirstOrDefault();
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Slider get by Id:" + ex.Message);
+                    return null;
+                }
+            }
+        }
+
+        public bool Transaction(List<Slider> data, char action)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    var val = new Lib.DataGenerator().CommitData<Slider>(data, "usp_Slider_Transaction", action);
+                    scope.Complete();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Slider Transaction: " + ex.Message);
+                    return false;
+                }
+            }
+        }
+        
+        public bool CheckExist(string title, short id)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    DapperConfiguration.OpenConnection(1);
+
+                    var data = DapperConfiguration.db.Query<bool>("usp_Slider_CheckExistTitle",
+                        new { Title = title , Id = id },
+                        commandType: System.Data.CommandType.StoredProcedure).FirstOrDefault();
+
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Slider get data: " + ex.Message);
+                    return false;
+                }
+            }
+        }
+    }
+}

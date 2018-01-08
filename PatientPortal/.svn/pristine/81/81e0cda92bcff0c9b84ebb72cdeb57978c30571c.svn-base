@@ -1,0 +1,128 @@
+﻿using PatientPortal.CMS.Common;
+using ProtoBuf;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.CMS.Models
+{
+    [ProtoContract]
+    public class PostViewModel
+    {
+        public PostViewModel() {
+
+            //POST
+            Image = (ValueConstant.PATH_IMAGE_DEFAULT).Replace("~","");
+            PublishDate = DateTime.Now;
+            Author = "FIS";
+            Status = 1; //Editor
+            Type = 1; //Bản tin
+
+            //SEO
+            TitleSEO = DescriptionSEO = Canonical = BreadcrumbsTitle = string.Empty;
+
+            //TRANS
+            TitleTrans = DescriptionTrans = Detail = Tag = string.Empty;
+
+        }
+
+        // Post
+        [ProtoMember(1, IsRequired = false)]
+        public int Id { get; set; }
+        [ProtoMember(2)]
+        [Display(Name = "Ảnh đại diện")]
+        public string Image { get; set; }
+        [ProtoMember(3)]
+        [Display(Name = "Ngày xuất bản")]
+        public DateTime PublishDate { get; set; }
+        [ProtoMember(4)]
+        [Display(Name = "Nguồn")]
+        public string Author { get; set; }
+        [ProtoMember(5)]
+        public byte WorkflowStateId { get; set; }
+        [ProtoMember(6)]
+        [Required(ErrorMessage ="Bạn chưa chọn chuyên mục bản tin")]
+        [Display(Name = "Chuyên mục")]
+        public byte CategoryId { get; set; }
+        [ProtoMember(7)]
+        [Display(Name = "Tình trạng")]
+        public byte Status { get; set; }
+        [ProtoMember(8)]
+        [Display(Name = "Ngày tạo")]
+        public int CreatedBy { get; set; }
+        [ProtoMember(9)]
+        [Display(Name = "Ngày sửa")]
+        public int ModifiedBy { get; set; }
+        [ProtoMember(10)]
+        [Display(Name = "Ngôn ngữ")]
+        public byte LanguageId { get; set; }
+        [ProtoMember(11)]
+        [Display(Name = "Nhóm tin")]
+        public byte Priority { get; set; }
+        [ProtoMember(12)]
+        [Display(Name = "Ngày hết hạn")]
+        public DateTime ExpiredDate { get; set; }
+        [ProtoMember(13)]
+        [Display(Name = "Loại tin")]
+        public byte Type { get; set; }
+
+        // Post SEO
+        [ProtoMember(14)]
+        [Display(Name = "SEO Title")]
+        public string TitleSEO { get; set; }
+        [ProtoMember(15)]
+        [Display(Name = "SEO Description")]
+        public string DescriptionSEO { get; set; }
+        [ProtoMember(16)]
+        [Display(Name = "Conoical URL")]
+        public string Canonical { get; set; }
+        [ProtoMember(17)]
+        [Display(Name = "Breadcrumbs Title")]
+        public string BreadcrumbsTitle { get; set; }
+        [ProtoMember(18)]
+        [Display(Name = "MetaRobot Index")]
+        public byte MetaRobotIndex { get; set; }
+        [ProtoMember(19)]
+        [Display(Name = "MetaRobot Follow")]
+        public byte MetaRobotFollow { get; set; }
+        [ProtoMember(20)]
+        [Display(Name = "MetaRobot Advanced")]
+        public byte MetaRobotAdvanced { get; set; }
+
+        // PostTrans
+        [ProtoMember(21)]
+        [Required(ErrorMessage = "Bạn chưa nhập tiêu đề bài viết")]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Display(Name = "Tiêu đề")]
+        public string TitleTrans { get; set; }
+        [ProtoMember(22)]
+        [Display(Name = "Chuyên mục")]
+        public string CategoryName { get; set; }
+        [ProtoMember(23)]
+        [AllowHtml]
+        [Required(ErrorMessage = "Bạn chưa nhập nội dung trích dẫn")]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Display(Name = "Trích dẫn")]
+        public string DescriptionTrans { get; set; }
+        [ProtoMember(24)]
+        [Display(Name = "Nội dung")]
+        [AllowHtml]
+        [Required(ErrorMessage = "Bạn chưa nhập nội dung bài viết")]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        public string Detail { get; set; }
+        [ProtoMember(25)]
+        [Display(Name = "Chỉ mục")]
+        public string Tag { get; set; }
+
+        //parameter PostStateHistory
+        [ProtoMember(26)]
+        [Display(Name = "Người tạo")]
+        public int UserId { get; set; }
+        [ProtoMember(27)]
+        [Display(Name = "Ghi chú duyệt")]
+        public string Note { get; set; }
+    }
+}

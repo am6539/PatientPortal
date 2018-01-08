@@ -1,0 +1,81 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using System.Web.Security;
+using Microsoft.AspNet.Identity.Owin;
+using PatientPortal.API.Identity.Common;
+
+namespace PatientPortal.API.Identity.Models
+{
+    [AttributeUsageAttribute(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
+    public class PortalAuthorizationAttribute : AuthorizeAttribute
+    {
+        //Custom named parameters for annotation
+        public string ResourceKey { get; set; }
+        public string OperationKey { get; set; }
+
+        protected override bool AuthorizeCore(HttpContextBase httpContext)
+        {
+            bool authorize = false;
+            //ApplicationUserManager _userManager;
+            ApplicationRoleManager _roleManager  = HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
+            PermissionManager _permissionManager = new PermissionManager();
+
+            //Check Role SystemDefault
+            var isAdminRole = System.Web.Security.Roles.IsUserInRole(ValueConstant.DefaultRoleInitial);
+            if (isAdminRole) return true;
+
+            var rd = httpContext.Request.RequestContext.RouteData;
+            OperationKey = rd.GetRequiredString("action");
+            ResourceKey = rd.GetRequiredString("controller");
+
+            string permissionName = ResourceKey + "." + OperationKey;
+
+            //Check exist permisson
+            var permission = _permissionManager.FindByName(permissionName);
+
+            if(permission != null)
+            {
+                //Current user
+                var currentUser = HttpContext.Current.User.Identity;
+
+                //Get Role By User
+                //Example: Admin, Mod, Editor, Doctor, Patient, IT, Support, Nurse...
+                string[] roles = System.Web.Security.Roles.GetRolesForUser(currentUser.Name);
+
+                foreach(var role in roles)
+                {
+                    var data = _roleManager.FindByName(role);
+                    if (_permissionManager.GetPermissionRoles(data.Id, permission.Id))
+                    {
+                        authorize = true;
+                        break;
+                    }
+                }
+            }
+            return authorize;
+        }
+
+        //Called when access is denied
+        protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
+        {
+            //User isn't logged in
+            if (!filterContext.HttpContext.User.Identity.IsAuthenticated)
+            {
+                base.HandleUnauthorizedRequest(filterContext);
+            }
+            //User is logged in but has no access
+            else
+            {
+                filterContext.Result = new HttpUnauthorizedResult();
+            }
+        }
+        public override void OnAuthorization(AuthorizationContext filterContext)
+        {
+            base.OnAuthorization(filterContext);
+        }
+    }
+}

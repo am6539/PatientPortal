@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html lang="en" ng-app="MyApp">
+<head>
+    <meta charset="utf-8">
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="keywords" content="đặt lịch, lịch khám, appointment" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="author" content="">
+    <title>{{title}}</title>
+    <link rel="shortcut icon" src="favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/images/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/images/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/images/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="assets/images/ico/apple-touch-icon-57-precomposed.png">
+
+    <link href="assets/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="assets/css/animate.min.css" rel="stylesheet" />
+    <link href="assets/css/owl.carousel.css" rel="stylesheet" />
+    <link href="assets/css/owl.transitions.css" rel="stylesheet" />
+    <link href="assets/css/prettyPhoto.css" rel="stylesheet" />
+    <link href="assets/css/main.css" rel="stylesheet" />
+    <link href="assets/css/responsive.css" rel="stylesheet" />
+</head>
+
+<body id="home" class="homepage">
+
+    <div class="view-container">
+        <ng-view>
+            
+        </ng-view>
+    </div>
+
+    <footer id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    &copy; 2016 FIS Health Medical Center. Designed by <a target="_blank" href="#" title="">CRD Team</a>
+                </div>
+                <div class="col-sm-6">
+                    <ul class="social-icons">
+                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                        <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+                        <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+                        <li><a href="#"><i class="fa fa-behance"></i></a></li>
+                        <li><a href="#"><i class="fa fa-flickr"></i></a></li>
+                        <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+                        <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                        <li><a href="#"><i class="fa fa-github"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer><!--/#footer-->
+
+    <!--<script src="assets/bower_components/jquery/dist/jquery.min.js"></script>-->
+    <script src="assets/js/jquery.js"></script>
+    <script src="assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="assets/bower_components/angular/angular.min.js"></script>
+    <script src="assets/bower_components/angular-route/angular-route.min.js"></script>
+    <script src="assets/bower_components/angular-resource/angular-resource.min.js"></script>
+    <script src="assets/bower_components/angular-animate/angular-animate.min.js"></script>
+    <script src="assets/bower_components/angular-aria/angular-aria.min.js"></script>
+    <script src="assets/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="assets/bower_components/angular-ui/build/angular-ui.min.js"></script>
+
+    <script src="assets/js/owl.carousel.min.js"></script>
+    <script src="assets/js/mousescroll.js"></script>
+    <script src="assets/js/smoothscroll.js"></script>
+    <script src="assets/js/jquery.prettyPhoto.js"></script>
+    <script src="assets/js/jquery.isotope.min.js"></script>
+    <script src="assets/js/jquery.inview.min.js"></script>
+    <script src="assets/js/wow.min.js"></script>
+    <script src="assets/js/main.js"></script>
+
+    <!--app config-->
+    <script src="app/app.module.js"></script>
+    <script src="app/app.config.js"></script>
+    <script src="app/app.controller.js"></script>
+
+    <!--function-->
+    <script src="app/shared/function.array.js"></script>
+
+    <!--directive-->
+    <script src="app/shared/directive/site.directive.js"></script>
+
+    <!--filter-->
+    <script src="app/shared/filter/date.filter.js"></script>
+
+    <!--service-->
+    <script src="app/shared/service/params.service.js"></script>
+    <script src="app/shared/service/meta.service.js"></script>
+
+    <!--components-->
+        <!--service-->
+    <script src="app/components/appointment/appointment.service.js"></script>
+    <script src="app/components/home-page/home-page.service.js"></script>
+    <script src="app/components/post-detail/post-detail.service.js"></script>
+
+        <!--controller-->
+    <script src="app/components/appointment/appointment.controller.js"></script>
+    <script src="app/components/home-page/home-page.controller.js"></script>
+    <script src="app/components/post-detail/post-detail.controller.js"></script>
+</body>
+</html>

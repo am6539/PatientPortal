@@ -1,0 +1,292 @@
+﻿using PatientPortal.Internal.Common;
+using PatientPortal.Internal.Models;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using PatientPortal.Utility.Application;
+using PatientPortal.Domain.LogManager;
+using PatientPortal.Utility.Files;
+
+namespace PatientPortal.Internal.Controllers
+{
+    [Authorize]
+    public class DepartmentController : Controller
+    {
+        private static string controllerName = string.Empty;
+
+        #region Get List
+        // GET: Feature
+        public async Task<ActionResult> Index()
+        {
+            var results = new DepartmentModel();
+            try
+            {
+                //Call API Provider
+                controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                var list = await APIProvider.Get<List<DepartmentViewModel>>(controllerName, APIConstant.API_Resource_CORE);
+
+                var model = new DepartmentViewModel();
+
+                results.lstDepartmentViewModel = (list == null? new List<DepartmentViewModel>() : list);
+                results.DepartmentViewModel = model;
+
+                TempData["Data"] = list;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw ex;
+            }
+            return View(results);
+        }
+        #endregion
+
+        #region Create
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Create(DepartmentViewModel model, HttpPostedFileBase fileUpload)
+        {
+            if (ModelState.IsValid)
+            {
+                if (fileUpload != null) model.Img = fileUpload.FileName;
+
+                //Call API Provider
+                string strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_INSERT);
+                var result = await APIProvider.DynamicTransaction<DepartmentViewModel, bool>(model, strUrl, APIConstant.API_Resource_CORE);
+
+                if (result)
+                {
+                    if (fileUpload != null)
+                    {
+                        FileManagement.UploadImage(fileUpload, ValueConstant.IMAGE_DEPARTMENT_PATH);
+                    }
+
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var department = new DepartmentModel();
+                department.lstDepartmentViewModel = (List<DepartmentViewModel>)TempData["Data"];
+
+                if (department.lstDepartmentViewModel == null) department.lstDepartmentViewModel = ApplicationGenerator.GetObject<List<DepartmentViewModel>>();
+                department.DepartmentViewModel = model;
+                
+                //TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                return View("Index", department);
+            }
+        }
+        #endregion
+
+        #region Edit
+
+        [HttpGet]
+        public async Task<ActionResult> Edit(short id)
+        {
+            var model = new DepartmentViewModel();
+            try
+            {
+                //Call API Provider
+                string strUrl = APIProvider.APIGenerator(this, this.RouteData.Values["action"].ToString(), id);
+                model = await APIProvider.Get<DepartmentViewModel>(controllerName + strUrl, APIConstant.API_Resource_CORE);
+                ViewBag.Img = Path.Combine(ValueConstant.IMAGE_DEPARTMENT_PATH, model.Img);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw ex;
+            }
+            return View(model);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Edit(DepartmentViewModel model, HttpPostedFileBase fileUpload)
+        {
+            if (ModelState.IsValid)
+            {
+                if (fileUpload != null) model.Img = fileUpload.FileName;
+
+                //Call API Provider
+                string strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_UPDATE);
+                var result = await APIProvider.DynamicTransaction<DepartmentViewModel, bool>(model, strUrl, APIConstant.API_Resource_CORE);
+
+                if (result)
+                {
+                    if (fileUpload != null)
+                    {
+                        FileManagement.UploadImage(fileUpload, ValueConstant.IMAGE_DEPARTMENT_PATH);
+                    }
+
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+               // TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.FAIL));
+                return View();
+            }
+        }
+        #endregion
+
+        #region Delete
+        public ActionResult Delete(DepartmentViewModel model)
+        {
+            //Call API Provider
+           // string strUrl = APIProvider.APIGenerator(this, this.RouteData.Values["action"].ToString(), id);
+          //  var model = await APIProvider.Get<DepartmentViewModel>(controllerName + strUrl);
+            return PartialView("_Delete", model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Delete(short id)
+        {
+            try
+            {
+                var model = new DepartmentViewModel();
+                model.Id = id;
+
+                //Call API Provider
+                string strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_DELETE);
+                var result = await APIProvider.DynamicTransaction<DepartmentViewModel, bool>(model, strUrl, APIConstant.API_Resource_CORE);
+
+                if (result)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_DELETE, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_DELETE, ApplicationGenerator.TypeResult.FAIL));
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_DELETE, ApplicationGenerator.TypeResult.FAIL));
+                Logger.LogError(ex);
+                return RedirectToAction("Index");
+            }
+        }
+
+        #endregion
+
+        #region Check exist
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<JsonResult> CheckExist(string name, short id)
+        {
+
+            //Call API Provider
+            string strUrl = APIProvider.APIGenerator(controllerName, new List<string> { nameof(id), nameof(name) }, false , id, name.Trim());
+            var isExist = await APIProvider.Get<bool>(strUrl, APIConstant.API_Resource_CORE);
+
+            return Json(!isExist, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
+        #region Services
+        public async Task<ActionResult> Services(short departmentId)
+        {
+            var results = new DepartmentServicesModel();
+            results.Services = new DepartmentServicesViewModel();
+            try
+            {
+                //Call API Provider
+                string strUrl = APIProvider.APIGenerator(controllerName, new List<string> { "id" }, false, departmentId);
+                var department = await APIProvider.Get<DepartmentViewModel>(strUrl, APIConstant.API_Resource_CORE);
+
+                //Call API Provider
+                strUrl = APIProvider.APIGenerator("DepartmentServices", new List<string> { nameof(departmentId) }, true, departmentId);
+                var list = await APIProvider.Get<List<DepartmentServicesViewModel>>(strUrl, APIConstant.API_Resource_CORE);
+                if (list == null) list = new List<DepartmentServicesViewModel>();
+                results.lstServices = list;
+                ViewData["Department"] = department.Name;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw ex;
+            }
+            return View(results);
+        }
+        public async Task<ActionResult> ServicesCreate(DepartmentServicesViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //Call API Provider
+                string strUrl = APIProvider.APIGenerator("DepartmentServices", APIConstant.ACTION_INSERT);
+                var result = await APIProvider.DynamicTransaction<DepartmentServicesViewModel, bool>(model, strUrl, APIConstant.API_Resource_CORE);
+
+                if (result)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                }
+                return RedirectToAction("Services", new {departmentId = model.DepartmentId });
+            }
+            else
+            {
+                return View("Index", model);
+            }
+        }
+
+        public ActionResult ServicesDelete(DepartmentServicesViewModel model)
+        {
+            return PartialView("_ServicesDelete", model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ServicesDelete(short id, short departmentId)
+        {
+            try
+            {
+                var model = new DepartmentServicesViewModel();
+                model.Id = id;
+                model.DepartmentId = departmentId;
+
+                //Call API Provider
+                string strUrl = APIProvider.APIGenerator("DepartmentServices", APIConstant.ACTION_DELETE);
+                var result = await APIProvider.DynamicTransaction<DepartmentServicesViewModel, bool>(model, strUrl, APIConstant.API_Resource_CORE);
+
+                if (result)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_DELETE, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_DELETE, ApplicationGenerator.TypeResult.FAIL));
+                }
+
+                return RedirectToAction("Services", new { departmentId = departmentId });
+            }
+            catch (Exception ex)
+            {
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_DELETE, ApplicationGenerator.TypeResult.FAIL));
+                Logger.LogError(ex);
+                return RedirectToAction("Services", new { departmentId = departmentId });
+            }
+        }
+        #endregion
+    }
+}

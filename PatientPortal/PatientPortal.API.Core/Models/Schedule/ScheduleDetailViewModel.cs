@@ -1,0 +1,33 @@
+﻿using ProtoBuf;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.API.Core.Models
+{
+    [ProtoContract]
+    public class ScheduleDetailViewModel
+    {
+        [ProtoMember(1)]
+        public int Id { get; set; }
+        [ProtoMember(2)]
+        public string Title { get; set; }
+        [ProtoMember(3)]
+        public byte Priority { get; set; }
+        [ProtoMember(4)]
+        public string Detail { get; set; }
+        [ProtoMember(5)]
+        public bool IsAlarm { get; set; }
+        [ProtoMember(6)]
+        public DateTime Start { get; set; }
+        [ProtoMember(7)]
+        public DateTime End { get; set; }
+        [ProtoMember(8)]
+        public string Color { get; set; }
+        [ProtoMember(9)]
+        public bool IsExamine { get; set; }
+        [ProtoMember(10)]
+        public string UserId { get; set; }
+    }
+}

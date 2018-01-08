@@ -1,0 +1,197 @@
+﻿using AutoMapper;
+using PatientPortal.API.SPA.Common;
+using PatientPortal.API.SPA.ViewModels;
+using PatientPortal.IRepository.SPA;
+using PatientPortal.IRepository.Wrapper;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Http;
+
+namespace PatientPortal.API.SPA.Controllers
+{
+    public class SPAPostController : ApiController
+    {
+        private readonly string NUM_TOP = ConfigurationManager.AppSettings["numbLoadPost"];
+        private readonly string PATH_IMG_POST = ConfigurationManager.AppSettings["web:cms"];
+        private readonly IPostRepo _iPostRepo;
+        private readonly IAdapterPatternRepo _adapterPatternRepo;
+
+        public SPAPostController(IPostRepo iPostRepo, IAdapterPatternRepo adapterPatternRepo)
+        {
+            this._iPostRepo = iPostRepo;
+            this._adapterPatternRepo = adapterPatternRepo;
+        }
+
+        [HttpGet]
+        public async Task<HttpResponseMessage> GetListPost(string languageCode, POSTSORT_TYPE priority = POSTSORT_TYPE.NEW, byte categoryId = 0)
+        {
+            try
+            {
+                //Dictionary<string, object> para = new Dictionary<string, dynamic>();
+                //var data =  await _iPostRepo.GetAll(languageCode, (int)CategoryId.Posts, NUM_TOP, (byte)priority);
+                List<string> list = new List<string> { "LanguageCode", "CategoryId", "numTop", "priority" };
+                Dictionary<string, dynamic> para = null;
+                if (categoryId == 0)
+                {
+                    para = APIProvider.APIDefaultParameter(list, languageCode, (int)CategoryId.Posts, NUM_TOP, (byte)priority);
+                }
+                else
+                {
+                    para = APIProvider.APIDefaultParameter(list, languageCode, categoryId, NUM_TOP, (byte)priority);
+                }
+                
+                var data = await _iPostRepo.Query(para);
+                var lstPost = Mapper.Map<List<PostListViewModel>>(data);
+                var results = new List<PostListViewModel>();
+                if (lstPost != null)
+                {
+                    foreach (var item in lstPost)
+                    {
+                        var post = new PostListViewModel()
+                        {
+                            Id = item.Id,
+                            CategoryId = item.CategoryId,
+                            PublishDate = item.PublishDate,
+                            Image = item.Image!= ""?(PATH_IMG_POST + item?.Image.Remove(0, 1)): null,
+                            Author = item.Author,
+                            TitleTran = item.TitleTran,
+                            DescriptionTrans = item.DescriptionTrans,
+                            CategoryName = item.CategoryName,
+                            WorkflowStateId = item.WorkflowStateId,
+                            WorkflowStateName = item.WorkflowStateName
+                        };
+                        results.Add(post);
+                    }
+                }
+                
+                return Request.CreateResponse(HttpStatusCode.OK, results);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public async Task<HttpResponseMessage> Get(int Id)
+        {
+            try
+            {
+                List<string> list = new List<string> { "Id" };
+                var para = APIProvider.APIDefaultParameter(list, Id);
+
+
+                var data = await _iPostRepo.SingleQuery(para);
+                //var data = _iPostRepo.Get(Id);
+                var result = Mapper.Map<PostViewModel>(data);
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        public async Task<HttpResponseMessage> GetPosts(int Id, string languageCode)
+        {
+            try
+            {
+                var result = new PostsViewModel();
+                //var list = await _iPostRepo.GetAll(languageCode, (int)CategoryId.Posts, NUM_TOP, (byte)POSTSORT_TYPE.NEW);
+
+                List<string> list = new List<string> { "LanguageCode", "CategoryId", "numTop", "priority" };
+                var para = APIProvider.APIDefaultParameter(list, languageCode, (int)CategoryId.Posts, NUM_TOP, POSTSORT_TYPE.NEW);
+
+                //var data = _iPostRepo.Query(para);
+                //var post = _iPostRepo.Get(Id);
+
+                var paraDetail = APIProvider.APIDefaultParameter(new List<string> { "id" }, Id);
+
+                var data = await _iPostRepo.SingleQuery(para);
+
+
+                result.lstPostListViewModel = Mapper.Map<List<PostListViewModel>>(list);
+                result.PostViewModel = Mapper.Map<PostViewModel>(paraDetail);
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public async Task<HttpResponseMessage> GetPostAbout(string languageCode)
+        {
+            try
+            {
+                List<string> list = new List<string> { "LanguageCode", "CategoryId", "numTop", "priority" };
+                var para = APIProvider.APIDefaultParameter(list, languageCode, (int)CategoryId.Posts, NUM_TOP, POSTSORT_TYPE.NEW);
+                var data = await _iPostRepo.Query(para);
+
+                var lstPost = Mapper.Map<List<PostListViewModel>>(data);
+                return Request.CreateResponse(HttpStatusCode.OK, lstPost);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public async Task<HttpResponseMessage> GetPaging(string languageCode, byte pageIndex, byte numberInPage, POSTSORT_TYPE priority = POSTSORT_TYPE.NEW, byte categoryId = 0, string Search = null)
+        {
+            List<string> list = new List<string> { "LanguageCode", "CategoryId", "pageIndex", "numberInPage", "priority", "Search" };
+            Dictionary<string, dynamic> para = null;
+
+            //get all posts by post category
+            if (categoryId == 0)
+            {
+                para = APIProvider.APIDefaultParameter(list, languageCode, (byte)CategoryId.Posts, pageIndex, numberInPage, (byte)priority, Search);
+            }
+            else //get all posts by category
+            {
+                para = APIProvider.APIDefaultParameter(list, languageCode, categoryId, pageIndex, numberInPage, (byte)priority, Search);
+            }
+
+            var data = await _iPostRepo.QueryPaging(para);
+
+            var results = new PostPagingViewModel();
+            if (data == null)
+            {
+                results = null;
+                return Request.CreateResponse(HttpStatusCode.OK, results);
+            }
+            var lstPost = Mapper.Map<List<PostListViewModel>>(data.Item1);
+
+            var listTemp = new List<PostListViewModel>();
+            foreach (var item in lstPost)
+            {
+                var image = item.Image.Contains("News_default") == true? null: PATH_IMG_POST + item?.Image.Remove(0, 1);
+                var post = new PostListViewModel()
+                {
+                    Id = item.Id,
+                    CategoryId = item.CategoryId,
+                    PublishDate = item.PublishDate,
+                    Image = image,
+                    Author = item.Author,
+                    TitleTran = item.TitleTran,
+                    DescriptionTrans = item.DescriptionTrans,
+                    CategoryName = item.CategoryName,
+                    WorkflowStateId = item.WorkflowStateId,
+                    WorkflowStateName = item.WorkflowStateName
+                };
+                listTemp.Add(post);
+            }
+            results.PostListViewModels = listTemp;
+            results.TotalItem = data.Item2;
+            return Request.CreateResponse(HttpStatusCode.OK, results);
+        }
+    }
+}

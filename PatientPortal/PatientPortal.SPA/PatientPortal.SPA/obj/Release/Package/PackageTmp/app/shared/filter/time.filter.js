@@ -1,0 +1,93 @@
+﻿angular.module('spaApp').filter("dateFilter", function () {//2017-05-04T08:30:00 -> 04-05-2017
+    return function (item) {
+        if (item != null) {
+            return new Date(item.split('T')[0]);
+        }
+        return "";
+    }
+});
+
+angular.module('spaApp').filter('dateEnNiceFilter', ['$filter', function ($filter) {
+    return function (date) {
+        var convertedDate = new Date(date);
+        return $filter('date')(convertedDate, 'dd MMM yyyy');
+    }
+
+}]);
+
+angular.module('spaApp').filter("dateNiceFilter", function () {//2017-05-04T08:30:00 -> 04 TH05 2017
+    return function (item) {
+        if (item != null) {
+            var fullDate = item.split('T')[0];
+            var arrDate = fullDate.split('-');
+            var year = arrDate[0].substring(2, 4);
+            var date = arrDate[2];
+            switch (arrDate[1]) {
+                case '01': {
+                    var result = date + ' T01 ' + year;
+                    return result;
+                    break;
+                }
+                case '02': {
+                    var result = date + ' T02 ' + year;
+                    return result;
+                    break;
+                }
+                case '03': {
+                    var result = date + ' T03 ' + year;
+                    return result;
+                    break;
+                }
+                case '04': {
+                    var result = date + ' T04 ' + year;
+                    return result;
+                    break;
+                }
+                case '05': {
+                    var result = date + ' T05 ' + year;
+                    return result;
+                    break;
+                }
+                case '06': {
+                    var result = date + ' T06 ' + year;
+                    return result;
+                    break;
+                }
+                case '07': {
+                    var result = date + ' T07 ' + year;
+                    return result;
+                    break;
+                }
+                case '08': {
+                    var result = date + ' T08 ' + year;
+                    return result;
+                    break;
+                }
+                case '09': {
+                    var result = date + ' T09 ' + year;
+                    return result;
+                    break;
+                }
+                case '10': {
+                    var result = date + ' T10 ' + year;
+                    return result;
+                    break;
+                }
+                case '11': {
+                    var result = date + ' T11 ' + year;
+                    return result;
+                    break;
+                }
+                case '12': {
+                    var result = date + ' T12 ' + year;
+                    return result;
+                    break;
+                }
+                default: {
+                    return "";
+                }
+            }
+        }
+        return "";
+    }
+});

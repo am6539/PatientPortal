@@ -1,0 +1,34 @@
+﻿using AutoMapper;
+using PatientPortal.API.SPA.ViewModels;
+using PatientPortal.IRepository.SPA;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Http;
+
+namespace PatientPortal.API.SPA.Controllers
+{
+    public class ScheduleController : ApiController
+    {
+        private readonly IScheduleRepo _iSchedule;
+        public ScheduleController(IScheduleRepo iSchedule)
+        {
+            this._iSchedule = iSchedule;
+        }
+
+        public async Task<List<ScheduleViewModel>> GetScheduleExamine(int userId, string start)
+        {
+            IList<string> list = new List<string> { "userId", "start" };
+            var para = APIProvider.APIDefaultParameter(list, userId, start);
+
+            var source = await _iSchedule.GetScheduleExamine(para);
+            var dest = Mapper.Map<List<ScheduleViewModel>>(source);
+
+            return dest;
+        }
+    }
+}

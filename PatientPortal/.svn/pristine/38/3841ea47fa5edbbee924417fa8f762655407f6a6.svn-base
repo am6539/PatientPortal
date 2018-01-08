@@ -1,0 +1,52 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.Internal.Common
+{
+    public class ValueConstant
+    {
+        //Value path image Upload
+        public const string ROOT_FOLDER = "Assets";
+        public const string ROOT_FOLDER_VIDEO = "Videos";
+        public const string IMAGE_PATH = "~\\Assets\\images";
+        public const string IMAGE_POST_FULL_PATH = "~\\Assets\\images\\Posts";
+        public const string VIDEO_PATH = "~\\Assets\\Videos";
+        public const string LOGS_PATH = "~\\Assets\\Logs\\";
+        public const string IMAGE_POST_PATH = "\\Posts\\";
+        public const string IMAGE_DEFAULT = "News_default.png";
+        public const string FOLDER_SEPARATOR = "\\";
+        public const string PATH_IMAGE_UPLOAD_DEFAULT = "~\\Assets\\images\\Posts\\News_default.png";
+        public const string IMAGE_CATEGORY_PATH = "~\\Assets\\images\\Category";
+        public const string IMAGE_FEATURE_PATH = "~\\Assets\\images\\Feature";
+        public const string IMAGE_SLIDER_PATH = "~\\Assets\\images\\Slider";
+        public const string IMAGE_DEPARTMENT_PATH = "~\\Assets\\images\\Department";
+        public const string IMAGE_ADVERTISE_PATH = "~\\Assets\\images\\Advertise";
+        public const string NEW_FOLDER_NAME = "NewNode";
+        public const string THUMBNAIL_VIDEO_FOLDER = "~\\Assets\\ThumbnailVideo\\";
+
+        // Register info
+        public const string PATH_IMAGE_DEFAULT = "/Assets/Avatar/user_default.jpg";
+        public const string PATH_AVATAR = "/Assets/Avatar/";
+
+        // Change password
+        public const string INCORRECT_PASSWORD = "Incorrect password.";
+
+        // Appointment don't have physicianId
+        public const string PHYSICIAN_EMPTY = "Chưa xác định";
+
+        public enum ArticleStatus : byte
+        {
+            JustCreated = 1,
+            Approved = 2,
+            MoveToTrash = 3
+        }
+    }
+
+    public enum UserStatus
+    {
+        Success = 1,
+        IsUsed = 2,
+    }
+}

@@ -1,0 +1,14 @@
+﻿CREATE TABLE [dbo].[Permission] (
+    [RoleId]    SMALLINT NOT NULL,
+    [ModuleId]  SMALLINT NOT NULL,
+    [IsRead]    BIT      NOT NULL,
+    [IsWrite]   BIT      NOT NULL,
+    [IsCreate]  BIT      NOT NULL,
+    [IsModify]  BIT      NOT NULL,
+    [IsDestroy] BIT      NOT NULL,
+    [IsPrint]   BIT      NOT NULL,
+    CONSTRAINT [PK_Permission] PRIMARY KEY CLUSTERED ([RoleId] ASC, [ModuleId] ASC),
+    CONSTRAINT [FK_Permission_Module] FOREIGN KEY ([ModuleId]) REFERENCES [dbo].[Module] ([Id]),
+    CONSTRAINT [FK_Permission_Role] FOREIGN KEY ([RoleId]) REFERENCES [dbo].[Role] ([Id])
+);
+

@@ -1,0 +1,146 @@
+﻿<link href="../../../assets/css/paging.css" rel="stylesheet" />
+
+<div class="page relative">
+    <div class="page_layout page_margin_top clearfix">
+        <div class="page_header clearfix">
+            <div class="page_header_left">
+                <h1 class="page_title">ĐỘI NGŨ BÁC SĨ</h1>
+                <ul class="bread_crumb">
+                    <li>
+                        <a href="/" title="Trang chủ">
+                            TRANG CHỦ
+                        </a>
+                    </li>
+                    <li class="separator icon_small_arrow right_gray">
+                        &nbsp;
+                    </li>
+                    <li>
+                        Đội ngũ bác sĩ
+                    </li>
+                </ul>
+            </div>
+            <div class="page_header_right">
+                <form class="search">
+                    <input class="search_input" type="text" ng-model="searchValue" value="Nhập bác sĩ cần tìm" placeholder="Nhập bác sĩ cần tìm" />
+                </form>
+            </div>
+        </div>
+
+        <div class="clearfix page_margin_top">
+            <ul class="gallery_item_details_list clearfix page_margin_top">
+                <li ng-repeat="item1 in doctors | unique:'Name'" id="gallery-details-{{ $index }}" class="gallery_item_details clearfix">
+                    <div class="columns no_width">
+                        <div class="column_left">
+                            <div class="gallery_box">
+                                <ul class="image_carousel">
+                                    <li class="current_slide">
+                                        <img src="{{ item1.Image }}" alt="" />
+                                        <ul class="controls">
+                                            <li>
+                                                <a href="{{ item1.Image }}" rel="gallery_item_1" class="fancybox open_lightbox"></a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="column_right">
+                            <div class="details_box">
+                                <h2>
+                                    {{ item1.Name }}
+                                </h2>
+                                <p>
+                                    {{ item1.Description }}
+                                </p>
+                                <h3 class="box_header margin_top_10">
+                                    Did you know that?
+                                </h3>
+                                <h3 class="sentence">
+                                    Scientists estimate that laughing 100 times is equivalent to a 10-minute workout on a rowing machine.
+                                </h3>
+                                <ul class="controls page_margin_top">
+                                    <li>
+                                        <a href="#gallery-details-close" class="close"></a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="prev icon_small_arrow left_black"></a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="next icon_small_arrow right_black"></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <ul class="tabs_navigation isotope_filters page_margin_top clearfix">
+                <li>
+                    <a class="selected" href="#filter=*" title="All Departments">
+                        Tất cả
+                    </a>
+                </li>
+                <li>
+                    <a href="#filter=.primary-health-care" title="Primary Health Care">
+                        Khoa chấn thương chỉnh hình
+                    </a>
+                </li>
+                <li>
+                    <a href="#filter=.pediatric-clinic" title="Pediatric Clinic">
+                        Khoa nội
+                    </a>
+                </li>
+                <li>
+                    <a href="#filter=.outpatient-surgery" title="Outpatient Surgery">
+                        Khoa ngoại
+                    </a>
+                </li>
+                <li>
+                    <a href="#filter=.cardiac-clinic" title="Cardiac Clinic">
+                        Khoa răng hàm mặt
+                    </a>
+                </li>
+            </ul>
+            <ul class="gallery gallery_4_columns">
+                <li ng-repeat="item in doctors" class="pediatric-clinic gallery_box" id="gallery-item-{{ $index }}">
+                    <img src="{{ item.Image }}" alt="" />
+                    <div class="description">
+                        <h3>
+                            Bác sĩ
+                        </h3>
+                        <h5>
+                            {{ item.Name }}
+                        </h5>
+                    </div>
+                    <ul class="controls">
+                        <li>
+                            <a href="#gallery-details-{{ $index }}" class="open_details"></a>
+                        </li>
+                        <li>
+                            <a href="{{ item.Image }}" rel="gallery_item_{{ $index }}_main" class="fancybox open_lightbox"></a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul ng-if="pager.pages.length" class="pagination page_margin_top newpostpagination">
+                <li ng-class="{disabled:pager.currentPage == 1}">
+                    <a ng-click="setPage(1)">Trang đầu</a>
+                </li>
+                <li ng-class="{disabled:pager.currentPage == 1}">
+                    <a ng-click="setPage(pager.currentPage - 1)">Trang trước</a>
+                </li>
+                <li ng-repeat="page in pager.pages" ng-class="{active:pager.currentPage === page}">
+                    <a ng-click="setPage(page)">{{page}}</a>
+                </li>
+                <li ng-class="{disabled:pager.currentPage === pager.totalPages}">
+                    <a ng-click="setPage(pager.currentPage + 1)">Trang tiếp</a>
+                </li>
+                <li ng-class="{disabled:pager.currentPage == pager.totalPages}">
+                    <a ng-click="setPage(vm.pager.totalPages)">Trang cuối</a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>

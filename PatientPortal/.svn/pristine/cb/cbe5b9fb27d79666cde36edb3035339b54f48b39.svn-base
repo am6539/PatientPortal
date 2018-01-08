@@ -1,0 +1,31 @@
+﻿using ProtoBuf;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.Internal.Models
+{
+    [ProtoContract]
+    public class SystemNotificationViewModel
+    {
+        public SystemNotificationViewModel()
+        {
+            Detail = Link = string.Empty;
+        } 
+        [ProtoMember(1)]
+        public int Id { get; set; }
+        [Display(Name = "Nội dung thông báo")]
+        [Required(ErrorMessage = "Bạn cần nhập nội dung thông báo")]
+        [ProtoMember(2)]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        public string Detail { get; set; }
+        [Display(Name = "Liên kết")]
+        [ProtoMember(3)]
+        public string SendFrom { get; set; }
+        [ProtoMember(4)]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        public string Link { get; set; }
+    }
+}

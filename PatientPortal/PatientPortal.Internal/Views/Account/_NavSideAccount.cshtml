@@ -1,0 +1,18 @@
+﻿@using PatientPortal.Utility.Files
+@model PatientPortal.Domain.Models.AUTHEN.UserCache
+
+<img src="@Model.Image" style="width:150px; height:150px; border:2px solid #5c637c" class="img-circle" />
+<div class="icon">
+    <a href="#" class="icon1"><i class="fa fa-link"></i></a>
+    <a href="#" class="icon2"><i class="fa fa-plus"></i></a>
+</div>
+<div class="box-content">
+    <h3 class="title">@Model.UserName</h3>
+    <span class="post">@Model.PatientId</span>
+</div>
+<script type="text/javascript">
+    if (localStorage) {
+        localStorage.setItem("u-key", "@Model.UserId");
+        localStorage.setItem("u-name", "@Model.UserName");
+    }
+</script>

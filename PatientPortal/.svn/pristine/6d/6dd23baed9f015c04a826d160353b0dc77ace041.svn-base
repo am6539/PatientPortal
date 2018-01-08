@@ -1,0 +1,38 @@
+﻿@model List<PatientPortal.CMS.Models.CategoryViewModel>
+
+<div class="treeview">
+    @if (Model != null && Model.Count() > 0)
+    {
+        <ul>
+            @GetTreeView(Model, Model.FirstOrDefault().ParentId)
+        </ul>
+    }
+</div>
+
+@helper GetTreeView(List<PatientPortal.CMS.Models.CategoryViewModel> siteMenu, int parentID)
+{
+foreach (var i in siteMenu.Where(a => a.ParentId == parentID))
+{
+        <li>
+            @{var isHaveChild = siteMenu.Any(a => a.ParentId == i.Id);}
+            @if (isHaveChild)
+            {
+                <span class="collapse collapsible"><i class="fa fa-caret-right" aria-hidden="true"></i></span>
+            }
+            else
+            {
+                <span style="width:15px; display:inline-block"><span>...</span></span>
+            }
+            <a href="#" class="viewCategory" onclick="viewCategory(@i.Id)">
+                @i.Name
+        </a>
+        @if (isHaveChild)
+        {
+            <ul>
+                GetTreeView(siteMenu, i.Id)
+                @* Recursive  Call for Populate Sub items here*@
+            </ul>
+        }
+    </li>
+                }
+}

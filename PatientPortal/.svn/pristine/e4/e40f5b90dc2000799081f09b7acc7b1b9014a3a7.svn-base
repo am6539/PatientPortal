@@ -1,0 +1,10 @@
+﻿'use strict';
+
+angular.module('spaPHCN')
+    .controller("DoctorListController", [
+    "$scope", "$location", "$route", "Params",
+    function ($scope, $location, $route, Params) {
+
+        $scope.subTitle = "Danh sách bác sĩ";
+        
+    }]);

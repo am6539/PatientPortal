@@ -1,0 +1,102 @@
+﻿@model PatientPortal.CMS.Models.CategoriesModel
+@{
+    ViewBag.Title = "Danh mục";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    <link href="~/Content/checkbox.css" rel="stylesheet" />
+    <link href="~/Libs/Chosen/css/chosen.css" rel="stylesheet" />
+
+    <style>
+        .checkbox-mark div {
+            float: none;
+        }
+    /*Here We will add some css for style our treeview*/
+    .collapse {
+        width: 15px;
+        background-repeat: no-repeat;
+        background-position: -36px -17px;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .expand {
+        width: 15px;
+        background-repeat: no-repeat;
+        background-position: -50px -17px;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .treeview ul {
+        font: 14px Arial, Sans-Serif;
+        margin: 0px;
+        padding-left: 20px;
+        list-style: none;
+    }
+
+    .treeview > li > a {
+        font-weight: bold;
+    }
+
+    .treeview li {
+    }
+
+    .treeview li a {
+        padding: 4px;
+        font-size: 12px;
+        display: inline-block;
+        text-decoration: none;
+        width: auto;
+    }
+</style>
+}
+<div class="card">
+
+    <div class="card-title">@ViewBag.Title</div>
+    <div class="card-content">
+        <div class="col-md-5">
+            <div id="panelAddCategory">
+                @Html.Partial("_AddNewCategory", Model.CategoryViewModel)
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div id="panelCategoryList">
+                @Html.Partial("_CategoryList", Model.CategoryViewModelList)
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <!--Chosen-->
+<script src="~/Libs/Chosen/js/chosen.jquery.min.js"></script>
+<script type="text/javascript">
+    var config = {
+      '.chosen-select'           : {},
+      '.chosen-select-deselect'  : {allow_single_deselect:true},
+      '.chosen-select-no-single' : {disable_search_threshold:10},
+      '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+      '.chosen-select-width'     : {width:"95%"}
+    }
+    for (var selector in config) {
+      $(selector).chosen(config[selector]);
+    }
+
+    $(document).ready(function () {
+        $(".treeview li>ul").css('display', 'none'); // Hide all 2-level ul
+        $(".collapsible").click(function (e) {
+            e.preventDefault();
+            $(this).toggleClass("collapse expand");
+            $(this).closest('li').children('ul').slideToggle();
+        });
+    });
+
+    function viewCategory(id) {
+        var urlCategoryList = "@Url.Action("Edit", "Category")/" + id + "";
+        window.location.href = urlCategoryList;
+    }
+</script>
+}
+
+

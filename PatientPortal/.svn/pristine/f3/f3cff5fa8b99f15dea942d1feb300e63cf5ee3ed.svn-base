@@ -1,0 +1,52 @@
+﻿CREATE PROCEDURE [dbo].[usp_PostTrans_Transaction]
+	@Action CHAR = 'I',
+	@PostId	INT,
+    @LanguageId  TINYINT  = 1,
+    @Title       NVARCHAR (256),
+    @Description NVARCHAR (1000),
+    @Detail      NVARCHAR (MAX),
+    @Tag         NVARCHAR (60)
+AS BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+
+	DECLARE @return bit = 1
+	BEGIN TRY
+		BEGIN TRAN;
+		
+		IF @Action = 'I' --INSERT
+		BEGIN
+			INSERT [dbo].[PostTrans](PostId, LanguageId, Title, [Description], Detail, Tag)
+			VALUES(@PostId, @LanguageId, @Title, @Description, @Detail, @Tag)
+		END
+
+		IF @Action = 'U' --UPDATE
+		BEGIN
+			UPDATE [dbo].[PostTrans]
+			SET Title = @Title,
+				[Description] = @Description,
+				Detail = @Detail,
+				Tag = @Tag
+			WHERE [PostId] = @PostId AND [LanguageId] = @LanguageId  
+		END
+
+		IF @Action = 'D' --DELETE
+		BEGIN
+			IF NOT EXISTS( SELECT TOP 1 1 FROM [dbo].[PostTrans] WHERE [LanguageId] = @LanguageId AND [PostId] = @PostId)
+			BEGIN
+				DELETE FROM [dbo].[PostTrans] WHERE [PostId] = @PostId AND [LanguageId] = @LanguageId  
+			END
+		END
+
+		COMMIT TRAN;
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0 
+		BEGIN
+			ROLLBACK TRAN;
+			SET  @return = 0
+		END
+	END CATCH
+	SELECT @return
+	
+END

@@ -1,0 +1,80 @@
+﻿using ProtoBuf;
+using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
+
+namespace PatientPortal.CMS.Models
+{
+    [ProtoContract]
+    public partial class ConfigurationViewModel
+    {
+        [ProtoMember(1)]
+        public byte Id { get; set; }
+
+        [ProtoMember(2)]
+        [Display(Name = "Tên bệnh viện")]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Required(ErrorMessage = "Bạn cần nhập tên bệnh viện")]
+        public string Name { get; set; }
+
+        [ProtoMember(3)]
+        [Required(ErrorMessage = "Bạn cần nhập địa chỉ")]
+        [Display(Name = "Địa chỉ")]
+        public string Address { get; set; }
+
+        [ProtoMember(4)]
+        [Display(Name = "Điện thoại")]
+        [Required(ErrorMessage = "Bạn cần nhập số điện thoại")]
+        public string Phone { get; set; }
+
+        [ProtoMember(5)]
+        [Display(Name = "Fax")]
+        [Required(ErrorMessage = "Bạn cần nhập Fax")]
+        public string Fax { get; set; }
+
+        [ProtoMember(6)]
+        [Required(ErrorMessage = "Bạn cần nhập Hotline")]
+        [Display(Name = "Hotline")]
+        public string Hotline { get; set; }
+
+
+        [ProtoMember(7)]
+        [Display(Name = "GoogleMap")]
+        [AllowHtml]
+        public string GoogleMap { get; set; }
+
+        [ProtoMember(8)]
+        [Display(Name = "Google Engine Script")]
+        [AllowHtml]
+        public string GoogleEngineScript { get; set; }
+
+        [ProtoMember(9)]
+        [Display(Name = "Gửi email duyệt tin")]
+        public bool IsSendEmailWF { get; set; }
+        [ProtoMember(10)]
+        [Display(Name = "Thời gian làm việc")]
+        public string OpeningHours { get; set; }
+
+        [ProtoMember(11)]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+        [ProtoMember(12)]
+        public string Youtube { get; set; }
+        [ProtoMember(13)]
+        public string Twitter { get; set; }
+        [ProtoMember(14)]
+        public string Facebook { get; set; }
+        [ProtoMember(15)]
+        public string Google { get; set; }
+        [ProtoMember(16)]
+        public string Slogan { get; set; }
+        [ProtoMember(17)]
+        [Display(Name = "Tiêu đề")]
+        public string SEOTitle { get; set; }
+        [ProtoMember(18)]
+        [Display(Name = "Mô tả")]
+        public string SEODescription { get; set; }
+        [ProtoMember(19)]
+        [Display(Name = "Từ khóa")]
+        public string SEOKeyword { get; set; }
+    }
+}

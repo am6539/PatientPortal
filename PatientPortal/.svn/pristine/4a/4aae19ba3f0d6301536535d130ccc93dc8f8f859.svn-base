@@ -1,0 +1,291 @@
+﻿using PatientPortal.Domain;
+using PatientPortal.PatientServices.Models;
+using PatientPortal.PatientServices.Utility;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using PatientPortal.Domain.LogManager;
+using PatientPortal.PatientServices.Models.Appointment;
+
+namespace PatientPortal.PatientServices.Controllers
+{
+    public class AppointmentController : Controller
+    {
+        private static string controllerName = string.Empty;
+        private static string controllerUser = "User";
+        //private static string controllerSchedule = "Schedule";
+
+        // GET: Appointment
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Init appointment
+        /// </summary>
+        /// <returns></returns>
+        public async Task<ActionResult> Make()
+        {
+            //get list of doctors
+            controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+
+            string search = "";
+            var doctorList = await GetListDoctor(search);
+            ViewBag.Doctors = doctorList;
+
+            //Init appointment
+            var appointmentModel = new AppointmentLogEditModel() { PatientId = 5 };
+            return View(appointmentModel);
+        }
+
+        /// <summary>
+        /// View List of doctor
+        /// </summary>
+        /// <param name="search"></param>
+        /// <returns></returns>
+        public async Task<ActionResult> ViewDoctorList(string search)
+        {
+            var doctorSchedules = new List<UserViewModel>();
+            //get list doctor
+            var doctors = await GetListDoctor(search);
+            if (doctors == null) doctors = ApplicationHelper.GetObject<List<UserViewModel>>();
+
+            return PartialView("_DoctorList", doctors);
+        }
+
+
+        /// <summary>
+        /// View Doctor detail
+        /// </summary>
+        /// <param name="doctorId"></param>
+        /// <returns></returns>
+        public async Task<ActionResult> DoctorDetail(int doctorId)
+        {
+            int Id = doctorId;
+            var doctor = await GetDoctorDetail(Id);
+            if (doctor == null) doctor = ApplicationHelper.GetObject<UserViewModel>();
+            return PartialView("_QuickViewDoctorProfile", doctor);
+        }
+
+        /// <summary>
+        /// View doctor detail & schedule
+        /// </summary>
+        /// <param name="doctorId"></param>
+        /// <returns></returns>
+        public async Task<ActionResult> DoctorSchedule(int doctorId)
+        {
+            //get doctor
+            int id = doctorId;
+            var doctor = await GetDoctorDetail(id);
+            if (doctor == null) doctor = ApplicationHelper.GetObject<UserViewModel>();
+
+            var model = new ScheduleUserViewModel();
+
+            //get schedule of doctor
+            var userId = doctor.Id;
+            var start = DateTime.Now;
+            string apiUrlSchedule = APIProvider.APIGenerator(controllerName, new List<string> { nameof(userId),
+                nameof(start) }, true, userId, start.ToString("yyyy-MM-dd"));
+            var schedule = await APIProvider.Get<List<ScheduleViewModel>>(apiUrlSchedule, APIConstant.API_Resource_CORE);
+            
+            model.UserViewModel = doctor;
+            model.lstScheduleViewModel = schedule;
+            
+            return PartialView("_DoctorDetail", model);
+        }
+
+        /// <summary>
+        /// View Appoiment
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public async Task<ActionResult> AppointmentPartial(int Id)
+        {
+            var appointment = new AppointmentLogEditModel() { PatientId = 5 };
+            appointment.PhysicianId = Id;
+            appointment.PatientId = 5;
+
+            string search = "";
+            var doctorList = await GetListDoctor(search);
+            ViewBag.Doctors = doctorList;
+
+            return PartialView("_Appointment", appointment);
+        }
+
+        /// <summary>
+        /// information of patient that ordered an appointment
+        /// </summary>
+        /// <param name="patientId"></param>
+        /// <returns></returns>
+        public async Task<ActionResult> InfoOrder(int patientId)
+        {
+            int id = patientId;
+            string apiUrl = APIProvider.APIGenerator(controllerUser, new List<string> { nameof(id) }, false, id);
+            var patient = await APIProvider.Get<UserViewModel>(apiUrl, APIConstant.API_Resource_CORE);
+
+            return PartialView("_InfoOrder", patient);
+        }
+
+        /// <summary>
+        /// confirm appointment
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ActionResult> ConfirmAppointment(AppointmentLogEditModel model)
+        {
+            model.Id = Guid.NewGuid();
+            if (ModelState.IsValid)
+            {
+                TimeSpan time = TimeSpan.Parse(model.TimeString);
+                model.Time = (int)time.Ticks;
+
+                string search = "";
+                var doctorList = await GetListDoctor(search);
+
+                ViewBag.Doctors = doctorList;
+                model.Status = 1;
+                model.PhysicianIdTemp = model.PhysicianId;
+                return PartialView("_Appointment", model);
+            }
+            else
+            {
+                string search = "";
+                var doctorList = await GetListDoctor(search);
+
+                ViewBag.Doctors = doctorList;
+                return PartialView("_Appointment", model);
+            }
+        }
+
+        /// <summary>
+        /// Save an appointment is confirmed
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ActionResult> ApplyAppointment(AppointmentLogEditModel model)
+        {
+            TimeSpan time = TimeSpan.Parse(model.TimeString);
+            model.Time = (int)time.Ticks;
+            model.PhysicianId = model.PhysicianIdTemp;
+
+            if (ModelState.IsValid)
+            {
+                model.Status = 1;
+                await Save(model, APIConstant.ACTION_INSERT);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                string search = "";
+                var doctorList = await GetListDoctor(search);
+
+                ViewBag.Doctors = doctorList;
+                return PartialView("_Appointment", model);
+            }
+        }
+
+        /// <summary>
+        /// Get default doctor after search by tags
+        /// </summary>
+        /// <param name="search"></param>
+        /// <returns></returns>
+        public async Task<JsonResult> GetDefaultDoctorByTag(string search)
+        {
+            var list = await GetListDoctor(search) as List<UserViewModel>;
+            var data = list.FirstOrDefault();
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// Get List of doctor
+        /// </summary>
+        /// <param name="search"></param>
+        /// <returns></returns>
+        private async Task<List<UserViewModel>> GetListDoctor(string search)
+        {
+            byte type = (byte)EnumUserConstants.Type.ISDOCTOR;
+            string apiUrl = APIProvider.APIGenerator(controllerUser, new List<string> { nameof(search), nameof(type) }, true, search, type);
+            var list = await APIProvider.Get<List<UserViewModel>>(apiUrl, APIConstant.API_Resource_CORE);
+            if (list == null) list = ApplicationHelper.GetObject<List<UserViewModel>>();
+
+            return list;
+        }
+
+        /// <summary>
+        /// Get doctor by Id
+        /// </summary>
+        /// <param name="doctorId"></param>
+        /// <returns></returns>
+        private async Task<UserViewModel> GetDoctorDetail(int doctorId)
+        {
+            int id = doctorId;
+            string apiUrl = APIProvider.APIGenerator(controllerUser, new List<string> { nameof(id) }, false, id);
+            var doctor = await APIProvider.Get<UserViewModel>(apiUrl, APIConstant.API_Resource_CORE);
+            if (doctor == null) doctor = ApplicationHelper.GetObject<UserViewModel>();
+            return doctor;
+        }
+
+        /// <summary>
+        /// Save appointment
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        private async Task<int> Save(AppointmentLogEditModel model, string action)
+        {
+            int result = 0;
+            try
+            {
+                string strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_INSERT);
+                result = await APIProvider.DynamicTransaction<AppointmentLogEditModel, int>(model, strUrl, APIConstant.API_Resource_CORE);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                Logger.LogError(ex);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Get examine time of a doctor(valid examine time of a doctor)
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="startTime"></param>
+        /// <returns></returns>
+        public async Task<JsonResult> GetExamineTime(int userId, long startTime)
+        {
+            DateTime date = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            DateTime start = date.AddMilliseconds(startTime).ToLocalTime();
+            //var start = Convert.ToDateTime(startTime);
+            var lstAvaiableTime = new List<string>();
+
+            if (start == DateTime.MinValue && start == DateTime.MinValue)
+            {
+                start = DateTime.Now.AddDays(-2);
+            }
+            controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+            string apiUrlSchedule = APIProvider.APIGenerator(controllerName, new List<string> { nameof(userId),
+                nameof(start) }, true, userId, start.ToString("yyyy-MM-dd"));
+            var schedule = await APIProvider.Get<List<ScheduleViewModel>>(apiUrlSchedule, APIConstant.API_Resource_CORE);
+            if (schedule.Count > 0)
+            {
+                var timeSchedule = schedule.FirstOrDefault();
+                lstAvaiableTime.Add(timeSchedule.Start.Hour.ToString() + ":" + timeSchedule.Start.Minute.ToString());
+                while (timeSchedule.Start <= timeSchedule.End)
+                {
+                    timeSchedule.Start = timeSchedule.Start.AddMinutes(15);
+                    lstAvaiableTime.Add(timeSchedule.Start.Hour.ToString() + ":" + timeSchedule.Start.Minute.ToString());
+                }
+            }
+            return Json(lstAvaiableTime, JsonRequestBehavior.AllowGet);
+        }
+    }
+}

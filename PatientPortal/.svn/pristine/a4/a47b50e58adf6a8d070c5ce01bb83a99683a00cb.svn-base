@@ -1,0 +1,62 @@
+﻿using PatientPortal.DataAccess.Repo.CORE;
+using PatientPortal.DataAccess.Repo.Wrapper;
+using PatientPortal.Domain.Common;
+using PatientPortal.Domain.Models.CORE;
+using PatientPortal.Domain.Utilities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.DataAccess.CORE
+{
+    public class ScheduleImpl: ISchedule
+    {
+        private readonly IAdapterPattern _adapterPattern;
+
+        public ScheduleImpl(IAdapterPattern adapterPattern)
+        {
+            this._adapterPattern = adapterPattern;
+        }
+
+        /// <summary>
+        /// Get Schedule
+        /// </summary>
+        /// <param name="param">Dictionary</param>
+        /// <returns>List Schedule</returns>
+        public async Task<List<Schedule>> Query(Dictionary<string, object> param)
+        {
+            try
+            {
+                var data = await _adapterPattern.ExecuteQuery<Schedule>(param, "usp_Group", DataConfiguration.instanceCore);
+                return data.ToList();
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog("Execute Appointment get data: " + ex.Message);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Trasaction of Schedule
+        /// </summary>
+        /// <param name="data">Object Schedule</param>
+        /// <param name="action">I: Insert, U: Update, D: Delete</param>
+        /// <returns>true/false</returns>
+        public async Task<bool> Transaction(Schedule data, char action)
+        {
+            try
+            {
+                var val = await _adapterPattern.SingleTransaction<Schedule, bool>(data, "usp_Group_Transaction", action, DataConfiguration.instanceCore);
+                return val;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog("Execute Appointment Transaction: " + ex.Message);
+                return false;
+            }
+        }
+    }
+}

@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - CMS - Patient Portal</title>
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#5373F4">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#5373F4">
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="#5373F4">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("styles", required: false)
+    <link href="~/Libs/pnotify/pnotify.custom.min.css" rel="stylesheet" />
+    <link href="~/Content/notification.css" rel="stylesheet" />
+</head>
+<body>
+    <header class="cd-main-header">
+        <a href="@Url.Action("Index","Home")" class="cd-logo">
+            <span class="fa fa-globe fa-2x"></span> CMS
+        </a>
+        <div class="navicon">
+            <span class="navicon-breadcrumb">@ViewBag.Title</span>
+        </div>
+        <div class="cd-search is-hidden">
+            <form action="#0">
+                <input type="search" placeholder="Tìm kiếm...">
+            </form>
+        </div> <!-- cd-search -->
+        <a href="#0" class="cd-nav-trigger"><span></span></a>
+        <nav class="cd-nav">
+            <ul class="cd-top-nav">
+                <li>
+                    @Html.Action("_Notification", "Home")
+                    @*<a href="#0" id="notificationLink"><span class="fa fa-bell"></span><span class="badge bg-orange" id="numberNoti">0</span></a>*@
+                </li>
+                <li><a href="#0"><span class="fa fa-envelope-o"></span></a></li>
+                <li class="has-children account">
+                    @Html.Action("_NavAccount", "Account")
+                    <ul>
+                        <li>
+                            <a href="@Url.Action("Overview", "Account")"><i class="fa fa-info-circle" aria-hidden="true"> Thông tin cá nhân</i></a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("LogOff", "Account")"><i class="fa fa-sign-out" aria-hidden="true"> Đăng xuất</i></a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header> <!-- .cd-main-header -->
+    <main class="cd-main-content">
+        <nav class="cd-side-nav">
+            <div class="wrapper-user">
+                <div class="icon-user">
+                    <div class="box">
+                        @Html.Action("_NavSideAccount", "Account")
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="welcome-note">
+                </div>
+            </div>
+            @Html.Action("_Nav", "Module")
+            <ul>
+                <li class="cd-label">Action</li>
+                <li class="action-btn"><a href="@Url.Action("Index","CMSPost")">Đăng bản tin</a></li>
+            </ul>
+        </nav>
+        <div class="content-wrapper">
+            <div class="content-render">
+                @RenderBody()
+            </div>
+        </div> <!-- .content-wrapper -->
+    </main> <!-- .cd-main-content -->
+
+    <!--Back to top-->
+    <div class="fis_backtop"><i class="fa fa-chevron-up"></i></div>
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @Scripts.Render("~/bundles/app")
+        @RenderSection("scripts", required: false)
+
+    <!--Modal confirm-->
+    <div id="modal-container" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-content">
+        </div>
+    </div>
+    <script src="~/Libs/pnotify/pnotify.custom.min.js"></script>
+    <script src="~/Scripts/signalR.client.systemnotification.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('body').on('click', '.modal-link', function (e) {
+                e.preventDefault();
+                $(this).attr('data-target', '#modal-container');
+                $(this).attr('data-toggle', 'modal');
+            });
+            // Attach listener to .modal-close-btn  so that when the button is pressed the modal dialog disappears
+            $('body').on('click', '.modal-close-btn', function () {
+                $('#modal-container').modal('hide');
+            });
+            //clear modal cache, so that new content can be loaded
+            $('#modal-container').on('hidden.bs.modal', function () {
+                $(this).removeData('bs.modal');
+            });
+            $('#CancelModal').on('click', function () {
+                return false;
+            });
+
+            function HideModal() {
+                $('#modal-container').modal('hide');
+            }
+        });
+        $(document).ready(function () {
+            $("#notificationLink").click(function () {
+                $("#notificationContainer").fadeToggle(300);
+                $("#notification_count").fadeOut("slow");
+                return false;
+            });
+
+            //Document Click
+            $(document).click(function () {
+                $("#notificationContainer").hide();
+            });
+            //Popup Click
+            $("#notificationContainer").click(function () {
+                return false
+            });
+
+        });
+        function listNoti() {
+            $.ajax({
+                async: true,
+                type: "GET",
+                url: "/Home/GetListNotification",
+                success: function (result) {
+                    $('#notificationContainer').html(result);
+
+                    //hide notification number
+                    $("#numberNoti").fadeOut("slow");
+                }
+            });
+        }
+    </script>
+</body>
+</html>

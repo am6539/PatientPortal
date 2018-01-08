@@ -1,0 +1,142 @@
+﻿using PatientPortal.Domain;
+using PatientPortal.Domain.LogManager;
+using PatientPortal.Domain.Models.AUTHEN;
+using PatientPortal.Internal.Common;
+using PatientPortal.Internal.Models;
+using PatientPortal.Internal.Models.Schedule;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using PatientPortal.Utility.Application;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using static PatientPortal.Utility.Application.ApplicationGenerator;
+
+namespace PatientPortal.Internal.Controllers
+{
+    [Authorize]
+    [AppHandleError]
+    public class ScheduleController : Controller
+    {
+        private static string controllerName = string.Empty;
+        private static string controllerUser = "User";
+        private readonly IUserSession _userSession;
+
+        public ScheduleController(IUserSession userSession)
+        {
+            _userSession = userSession;
+        }
+
+        // GET: Schedule
+        public async Task<ActionResult> Index(ScheduleMultipleViewModel data)
+        {
+            try
+            {
+                byte type = (byte)EnumUserConstants.UserType.ISDOCTOR;
+                string search = "";
+                string apiUrl = APIProvider.APIGenerator(controllerUser, new List<string> { nameof(search), nameof(type) }, true, search, type);
+                var doctorList = await APIProvider.Authorize_Get<List<UserViewModel>>(_userSession.BearerToken, apiUrl, APIConstant.API_Resource_CORE, ARS.Get);
+                if (doctorList == null)
+                    doctorList = ApplicationGenerator.GetObject<List<UserViewModel>>();
+                ViewBag.Users = doctorList;
+
+                if (data.ScheduleFilter == null)
+                    data.ScheduleFilter = new ScheduleFilter();
+                var param = data.ScheduleFilter;
+                //Call API Provider
+                if (param.Start == DateTime.MinValue && param.End == DateTime.MinValue)
+                {
+                    param.Start = DateTime.Now;
+                    param.End = DateTime.Now;
+                }
+                controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                string apiUrlSchedule = APIProvider.APIGenerator(controllerName, new List<string> { nameof(param.UserId),
+                nameof(param.Start), nameof(param.End) }, true, param.UserId, param.Start.ToString("yyyy-MM-dd"), param.End.ToString("yyyy-MM-dd"));
+                var schedule = await APIProvider.Authorize_Get<List<ScheduleViewModel>>(_userSession.BearerToken, apiUrlSchedule, APIConstant.API_Resource_CORE, ARS.Get);
+                if (schedule.Count == 0)
+                    schedule = new List<ScheduleViewModel>();
+
+                ViewBag.Schedule = schedule;
+
+                var schedules = new ScheduleMultipleViewModel();
+                var model = schedules.ScheduleFilter;
+                return View(model);
+            }
+            catch (HttpException ex)
+            {
+                Logger.LogError(ex);
+                int statusCode = ex.GetHttpCode();
+                if (statusCode == 401)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(FuntionType.Department, APIConstant.ACTION_ACCESS);
+                    return new HttpUnauthorizedResult();
+                }
+
+                throw ex;
+            }
+        }
+
+        public async Task<ActionResult> Create(ScheduleMultipleViewModel param)
+        {
+            if (ModelState.IsValid)
+            {
+                controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                string strUrl = APIProvider.APIGenerator(controllerName, ValueConstant.CREATE_SCHEDULE, APIConstant.ACTION_INSERT);
+
+                var model = param.CreateScheduleViewModel;
+                model.Start = DateTime.Parse(model.StartDate + " " + model.StartTime);
+                model.End = DateTime.Parse(model.StartDate + " " + model.EndTime);
+                if(param.CreateScheduleViewModel.UserId == null)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ERROR, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                    return RedirectToAction("Index");
+                }
+                    
+                var result = await APIProvider.Authorize_DynamicTransaction<CreateScheduleViewModel, bool>(model, _userSession.BearerToken, strUrl, APIConstant.API_Resource_CORE, ARS.Insert);
+                if(result)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                return View("Index");
+            }
+        }
+
+        public async Task<ActionResult> Edit(ScheduleMultipleViewModel param)
+        {
+            if (ModelState.IsValid)
+            {
+                controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                string strUrl = APIProvider.APIGenerator(controllerName, ValueConstant.UPDATE_SCHEDULE, APIConstant.ACTION_INSERT);
+
+                var model = param.CreateScheduleViewModel;
+                var result = await APIProvider.Authorize_DynamicTransaction<CreateScheduleViewModel, bool>(model, _userSession.BearerToken, strUrl, APIConstant.API_Resource_CORE, ARS.Edit);
+
+                if (result)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.FAIL));
+                return View("Index");
+            }
+        }
+    }
+}

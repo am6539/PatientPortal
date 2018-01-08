@@ -1,0 +1,9 @@
+﻿'use strict';
+
+angular.module('spaApp', [
+    'ngAria',
+    'ngAnimate',
+    'ngRoute',
+    'ui.router',
+    'oc.lazyLoad'
+]);

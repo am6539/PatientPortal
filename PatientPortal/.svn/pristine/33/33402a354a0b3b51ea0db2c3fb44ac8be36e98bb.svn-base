@@ -1,0 +1,45 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.IRepository.CMS;
+using PatientPortal.Domain.Models.CMS;
+using PatientPortal.DataAccess.Repo.CMS;
+
+namespace PatientPortal.Repositoty.CMS
+{
+    public class SliderRepoImpl : ISliderRepo
+    {
+        ISlider _slider;
+        public SliderRepoImpl(ISlider slider)
+        {
+            this._slider = slider;
+        }
+
+        /// <summary>
+        /// Get all
+        /// </summary>
+        /// <returns>List</returns>
+        public List<Slider> GetAll()
+        {
+            return _slider.GetAll();
+        } 
+
+        public Slider GetById(short id)
+        {
+            return _slider.GetById(id);
+        }
+
+        /// <summary>
+        /// Transaction
+        /// </summary>
+        /// <param name="data">List</param>
+        /// <param name="action">I: Insert, U: Update, D: Delete</param>
+        /// <returns>true/false</returns>
+        public bool Transaction(List<Slider> data, char action)
+        {
+            return _slider.Transaction(data, action);
+        }
+    }
+}

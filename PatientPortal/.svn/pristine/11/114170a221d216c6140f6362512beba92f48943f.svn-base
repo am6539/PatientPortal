@@ -1,0 +1,226 @@
+﻿@model PatientPortal.PatientServices.Models.Article.ArticleModel
+
+@{
+    ViewBag.Title = "HỎI ĐÁP Y TẾ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+    //Set temporary Created User 
+    var tempCreatedUser = 1; 
+    
+}
+<link href="~/Content/qamedical.css" rel="stylesheet" />
+
+@Html.Raw(TempData["Alert"])
+
+<div class="card">
+   <!-- QUESTION TITLE -->
+    <div class="row single-head qa-bottom-line">
+        <div class="col-md-1 col-xs-1">
+            <span class="back">
+                <i class="fa fa-angle-double-left"></i>
+                <a href="@Url.Action("Index", "QAMedical")">Trở về</a>
+            </span>
+        </div>
+        <div class="col-md-8 col-xs-8 qa-title">
+            <span itemprop="name">@Model.ArticleViewModel.Title</span>
+        </div>
+    </div>
+    <!-- END QUESTION TITLE -->
+    <!-- QUESTION CONTENT -->
+    <div id="question_content" class="question-main-content question-item">
+        <div class="row">
+            <!-- LEFT COLUMN -->
+            <div class="col-md-1 col-xs-1">
+                <!-- INFO AUTHOR -->
+                <div class="author">
+                    <a href="https://qaengine.enginethemes.com/blog/member/marry/">
+                        <div class="author-avatar">
+                            <span itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+                                <img itemprop="image" src="https://cdn.enginethemes.com/qaengine/2015/01/12812.jpg" class="avatar" alt="">
+                            </span>
+                        </div>
+                        <div class="author-name">
+                            <span itemprop="name" class="author-name">
+                                Tường Ngân
+                            </span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <!-- /LEFT COLUMN -->
+            <!-- RIGHT COLUMN -->
+            <div class="col-md-11 col-xs-11 qa-content">
+                <!-- ARTICLE CONTENT-->
+                <div class="row question-detail">
+                    <div itemprop="text" class="col-md-11 col-xs-11 question-content">
+                        <p>
+                            <span>
+                                @Model.ArticleViewModel.Detail
+                            </span>
+                        </p>
+                    </div>
+                    <div class="col-md-1 col-xs-1 qa-edit-inline qa-detail-edit-inline">
+                        @if (Model.ArticleViewModel.CountComments == 0)
+                        {
+                            <!-- edit link -->
+                            <a class="modal-link" href="@Url.Action("ViewEditArticle", new {id = Model.ArticleViewModel.Id, ViewDetail = true})">
+                                <i class="edit-icon glyphicon glyphicon-pencil"></i>
+                            </a>
+                            <!-- delete link -->
+                            <a class="modal-link" href="@Url.Action("ViewConfirmDeleteArticle", new {id = Model.ArticleViewModel.Id})">
+                                <i class="delete-icon glyphicon glyphicon-remove"></i>
+                            </a>
+                        }
+                    </div>
+                </div>
+                <div class="row footer-question qa-bottom-line">
+                    <!-- TIME ASKED -->
+                    <div class="col-md-6 col-xs-6 question-time">
+                        <span itemprop="dateCreated" datetime="on @Model.ArticleViewModel.Date.ToString("dd/MM/yyyy")">
+                            Ngày @Model.ArticleViewModel.Date.ToString("dd/MM/yyyy")
+                        </span>
+                    </div>
+                    <!-- COMMENT SUMMARY -->
+                    <div class="col-md-6 col-xs-6 question-control">
+                        <ul>
+                            <li>
+                                <a href="#" class="show-comments active">
+                                    Trả lời (@Model.ArticleViewModel.CountComments) <i class="fa fa-comment"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+                <!-- /ARTICLE CONTENT -->
+
+                <!-- LIST ARTICLE COMMENT -->
+                @foreach (var comment in Model.ListArticleCommentViewModels)
+                {
+                    <div class="row qa-bottom-line qa-comment-item">
+                        <div class="col-md-1 col-xs-1">
+                            <!-- INFO AUTHOR -->
+                            <div class="author">
+                                <a href="">
+                                    <div class="comment-avatar">
+                                        <span itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+                                        @if (comment.CreatedUser == tempCreatedUser)
+                                        {
+                                            <img itemprop="image" src="https://cdn.enginethemes.com/qaengine/2015/01/12812.jpg" class="avatar" alt="">
+                                        }
+                                        else
+                                        {
+                                            <img itemprop="image" src="https://cdn.enginethemes.com/qaengine/2015/01/12.jpg" class="avatar" alt="">
+
+                                        }
+                                    </span>
+                                    </div>
+                                    <div class="author-name">
+                                        <span itemprop="name" class="author-name">
+                                        Tường 
+                                        </span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-10 col-xs-10 qa-content">
+                            <!-- CONTENT-->
+                            <div itemprop="text" class="comment-content">
+                                <p>
+                                    <span>
+                                    @comment.Detail
+                                </span>
+                                </p>
+                            </div>
+                            <!-- END CONTENT -->
+                            <div class="row footer-question">
+                                <!-- TIME ASKED -->
+                                <div class="col-md-6 col-xs-6 question-time">
+                                    <span itemprop="dateCreated" datetime="on @comment.Date.ToString("dd/MM/yyyy")" title="@comment.Date.ToString("HH:mm:ss")">
+                                    @comment.Date.ToString("dd/MM/yyyy")
+                                </span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-1 col-xs-1 q-right-content">
+                            @if (comment.CreatedUser == tempCreatedUser)
+                            {
+                                <div class="qa-comment-edit-inline">
+                                    <!-- edit link -->
+                                    <a class="modal-link" href="@Url.Action("ViewEditArticleComment", new {id = comment.Id, idArticle = comment.ArticleId})">
+                                        <i class="edit-icon glyphicon glyphicon-pencil"></i>
+                                    </a>
+                                    <!-- delete link -->
+                                    <a class="modal-link" href="@Url.Action("ViewConfirmDeleteComment", new {id = comment.Id, idArticle = comment.ArticleId})">
+                                        <i class="delete-icon glyphicon glyphicon-remove"></i>
+                                    </a>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                }
+                <!-- //LIST ARTICLE COMMENT -->
+
+                <!-- NEW REPLY COMMENT -->
+                <div class="row qa-bottom-line">
+                    <div class="col-md-1 col-xs-1">
+                        <!-- INFO AUTHOR -->
+                        <div class="author">
+                            <a href="https://qaengine.enginethemes.com/blog/member/marry/">
+                                <div class="comment-avatar">
+                                    <span itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+                                        <img itemprop="image" src="https://cdn.enginethemes.com/qaengine/2015/01/12812.jpg" class="avatar" alt="">
+                                    </span>
+                                </div>
+                                <div class="author-name">
+                                    <span itemprop="name" class="author-name">
+                                        Tường Ngân
+                                    </span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-11 col-xs-11 qa-content">
+                        <!-- REPLY CONTENT-->
+                        <div itemprop="text" class="comment-content">
+                            @using (Html.BeginForm("NewReplyComment", "QAMedical", FormMethod.Post, new {@id = "formReplyComment"}))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="CreatedUser" value="11"/>
+                                <input type="hidden" name="ArticleId" value="@Model.ArticleViewModel.Id"/>
+                                <textarea class="form-control" id="ReplyContent" name="ReplyContent" rows="3"></textarea>
+                                <button type="submit" class="btn btn-success" style="margin-top: 5px;">Gửi</button>
+
+                                @*<input class="form-control" type="text" id="ReplyContent" name="ReplyContent">*@
+                            }
+                        </div>
+                        <!-- /REPLY CONTENT -->
+                    </div>
+                </div>
+                <!-- //NEW REPLY COMMENT -->
+            </div>
+            <!-- /RIGHT COLUMN -->
+        </div>
+
+        <div class="clearfix"></div>
+
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+@*<script>
+
+   $('ReplyContent').keypress(function (e) {
+    // Check Enter key press
+  if (e.which == 13)
+  {
+    //Block after submit to stay
+    e.preventDefault();
+    // Manually trigger submit
+    $('form#formReplyComment').submit();
+
+  }
+});
+    </script>*@

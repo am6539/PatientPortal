@@ -1,0 +1,17 @@
+﻿<div>
+    <h4><strong>BÁC SĨ: Trịnh Xuân Thạch </strong></h4>
+    <p>Bác sĩ đa khoa, trưởng khoa chuẩn đoán hình ảnh</p>
+    <h5>Bệnh viện Phạm Ngọc Thạch</h5>
+
+    <div class="heading col col-md-4">
+        <h5>Tiểu sử</h5>
+    </div>
+
+    <div class="heading col col-md-4">
+        <h5>Trình độ chuyên môn</h5>
+    </div>
+
+    <div class="heading col col-md-4">
+        <h5>Kinh nghiệm</h5>
+    </div>
+</div>

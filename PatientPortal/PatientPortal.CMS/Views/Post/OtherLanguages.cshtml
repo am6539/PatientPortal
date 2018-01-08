@@ -1,0 +1,139 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.CMS.Models.PostTranViewModel
+@{
+    ViewBag.Title = "Ngôn ngữ khác";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+<link href="~/Libs/Chosen/css/chosen.css" rel="stylesheet" />
+<link href="~/Libs/jquery-ui/jquery-ui.css" rel="stylesheet" />
+<link href="~/Libs/TagIt/css/jquery.tagit.css" rel="stylesheet" />
+    }
+<div class="card">
+    <div class="card-title">@Html.ITitle("Ngôn ngữ khác", "file-text-o")</div>
+    <div class="card-content">
+        @using (Html.IBeginForm("PostTransUpdate", "Post", FormMethod.Post, new { @id = "form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            <div class="col-md-9">
+                <div class="form-horizontal">
+                    @Html.Raw(TempData["Alert"])
+
+                    @Html.HiddenFor(model => model.PostId)
+                    @Html.IGroupTextBoxFor(m => m.Title, true, null, null, 12)
+                    @Html.IGroupTextAreaFor(m => m.Description, true, 5, null, null, 12)
+                    @Html.IGroupTextAreaFor(m => m.Detail, true, 12, null, null, 12)
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label class="badge">Tags</label>
+                            <ul id="PostTags">
+                                @if (ViewBag.Tags != null)
+                                {
+                                    var tags = ViewBag.Tags.Split(';');
+                                    for (var i = 0; i < tags.Length; i++)
+                                    {
+                                        <li> @tags[i] </li>
+                                    }
+                                }
+                            </ul>
+                            @Html.HiddenFor(m => m.Tag)
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><label>Chức năng</label></div>
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            @Html.IGroupDropDownListFor(m => m.LanguageId, new SelectList(ViewBag.Languages, "Id", "Name"), true, null, null, 12)
+                            <hr />
+                            @Html.ISubmitButton("cập nhật")
+                            @Html.IButton(Url.Action("Index", "Post"), ActionButton.Cancel, null)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section scripts{
+<script src="~/Libs/Chosen/js/chosen.jquery.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script src="~/Libs/tinymce/tinymce.min.js"></script>
+<script src="~/Libs/TagIt/js/tag-it.js"></script>
+    <script>
+        var config = {
+            '.chosen-select': {},
+            '.chosen-select-deselect': { allow_single_deselect: true },
+            '.chosen-select-no-single': { disable_search_threshold: 10 },
+            '.chosen-select-no-results': { no_results_text: 'Không tìm thấy thông tin!' },
+            '.chosen-select-width': { width: "95%" }
+        }
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
+        $(document).ready(function () {
+            $("#PostTags").tagit();
+
+            $("#form-data").submit(function (e) {
+                //e.preventDefault();
+                var arrayTag = $("#PostTags").tagit("assignedTags");
+
+                var tags = "";
+                for (index = 0; index < arrayTag.length; ++index) {
+                    tags = tags + (tags == "" ? "" : ";") + arrayTag[index];
+                }
+
+                //alert(tags);
+                $("#Tag").val(tags);
+                return true;
+            });
+
+            tinymce.init({
+                selector: "#Detail",
+                theme: "modern",
+                paste_data_images: true,
+                images_upload_base_path: '/Assets/Images/Posts/',
+                plugins: [
+                  "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+                  "searchreplace wordcount visualblocks visualchars code fullscreen",
+                  "insertdatetime media nonbreaking save table contextmenu directionality",
+                  "emoticons template paste textcolor colorpicker textpattern"
+                ],
+                toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+                toolbar2: "print preview media | forecolor backcolor emoticons",
+                image_advtab: true,
+                file_picker_callback: function (callback, value, meta) {
+                    if (meta.filetype == 'image') {
+                        $('#upload').trigger('click');
+                        $('#upload').on('change', function () {
+                            var file = this.files[0];
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                callback(e.target.result, {
+                                    alt: ''
+                                });
+                            };
+                            reader.readAsDataURL(file);
+                        });
+                    }
+                }
+            });
+
+            $('#LanguageId').change(function () {
+                var languageId = $(this).val();
+                if (languageId != '') {
+                    var postId = $('#PostId').val();
+                    var url = '@Url.Action("OtherLanguages")';
+                    url = url + "?postId=" + $('#PostId').val() + "&languageId=" + languageId;
+                    window.location.href = url;
+                    
+                }
+            });
+        });
+    </script>
+    }

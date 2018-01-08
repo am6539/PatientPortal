@@ -1,0 +1,56 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model List<PatientPortal.CMS.Models.GalleryViewModel>
+
+<div class="card">
+    <div class="card-title">
+        @Html.ITitle("Dữ liệu", TitleBar.List)
+    </div>
+    <div class="card-content">
+        <table id="table_id" class="table table-striped table-bordered dataTable no-footer" cellspacing="0" role="grid" aria-describedby="example_info" style="width: 100%;">
+            <thead>
+                <tr role="row" class="thead-list">
+                    <th aria-sort="ascending">STT</th>
+                    <th style="display: none">Id</th>
+                    <th style="display: none">Ngày</th>
+                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: auto">Tên</th>
+                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: auto">Url</th>
+                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: auto">Hiển thị</th>
+                    <th style="width: 22%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ var i = 1; }
+                @foreach (var item in Model)
+                {
+                    <tr role="row">
+                        <td class="sorting_1">@i</td>
+                        <td style="display: none">@item.Id</td>
+                        <td class="">@item.Date</td>
+                        <td class="">@item.Title</td>
+                        @if (item.IsMultiple)
+                        {
+                            <td class="">
+                                @Html.ICheckBoxFor(m => item.IsMultiple, "IsMultiple", null, new { @disabled = "disabled"})
+                            </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+
+                        <td>
+                            @Html.IGridButton(@Url.Action("Store", new { @parentId = item.Id }), ActionButton.Detail)
+                            @Html.IGridButton(@Url.Action("Edit", new { id = item.Id }), ActionButton.Edit)
+                            @Html.IGridButton(@Url.Action("Delete", new { id = item.Id}), ActionButton.Delete)
+                        </td>
+                    </tr>
+                    i++;
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+

@@ -1,0 +1,3 @@
+﻿appManagement.controller('appointmentController', ['$scope', function ($scope) {
+    
+}]);

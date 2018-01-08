@@ -1,0 +1,11 @@
+﻿CREATE TABLE [dbo].[Article] (
+    [Id]        INT             IDENTITY (1, 1) NOT NULL,
+    [Date]      SMALLDATETIME   NOT NULL,
+    [Title]     NVARCHAR (150)  NOT NULL,
+    [Detail]    NVARCHAR (1000) NOT NULL,
+    [PatientId] INT             NOT NULL,
+    [Status]    TINYINT         NOT NULL,
+    CONSTRAINT [PK_Article] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_Article_Users] FOREIGN KEY ([PatientId]) REFERENCES [dbo].[Users] ([Id])
+);
+

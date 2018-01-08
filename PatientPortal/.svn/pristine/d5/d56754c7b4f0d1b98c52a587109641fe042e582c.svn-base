@@ -1,0 +1,339 @@
+﻿<style>
+    .homepage .brd-wrap {
+        display: block;
+    }
+
+    .homepage .hotlink {
+        position: unset;
+        bottom: -450px;
+        z-index: 2000;
+        right: 0;
+    }
+</style>
+<div class="brd-wrap">
+    <div class="container">
+        <div class="row">
+            <div class='hotlink Module Module-514'>
+                <a href="/saigon/cau-chuyen-benh-nhan">
+                    <img alt="" src="images/media/3/img-4.png" />
+                </a>
+                <a href="/saigon/dat-lich-kham">
+                    <img alt="" src="images/media/3/img1.png" />
+                </a>
+                <a href="/saigon/danh-sach-bac-si">
+                    <img alt="" src="images/media/3/img2.png" />
+                </a>
+                <a href="/saigon/hoi-dap">
+                    <img alt="" src="images/media/3/img3.png" />
+                </a>
+            </div>
+            <h2 class="crrpage-name">Tin tức</h2>
+        </div>
+    </div>
+</div>
+<div class="top-content">
+</div>
+
+<div class="content container">
+    <div class="row">
+        <div class="content-bg">
+            <div id="ctl00_divCenter" class="col-left">
+                <div class="content-bg2">
+                    <div class='Module Module-283'>
+                        <div class="news-con">
+                            <div class="post post-hasimg">
+                                <a class="post-img" target="_self" href="http://www.hoanmy.com/saigon/nguoi-hai-lan-chien-thang-ung-thu-gan" title="NGƯỜI HAI LẦN CHIẾN THẮNG UNG THƯ GAN">
+                                    <img src="assets/images/data/posts/bac-thuyet-ok-nho.png" alt="NGƯỜI HAI LẦN CHIẾN THẮNG UNG THƯ GAN">
+                                </a>
+                                <h2 class="post-title">
+                                    <a target="_self" href="http://www.hoanmy.com/saigon/nguoi-hai-lan-chien-thang-ung-thu-gan" title="NGƯỜI HAI LẦN CHIẾN THẮNG UNG THƯ GAN">NGƯỜI HAI LẦN CHIẾN THẮNG UNG THƯ GAN</a>
+                                </h2>
+                                <div class="newscat-date">
+                                    (26/06/2017)
+                                </div>
+                                <div class="newscat-desc">
+                                    <div class="autoCutStr_250">
+                                        Phát hiện bị viêm gan B cách đây 12 năm và tiếp đến là các khối u ung thư
+                                        gan trong ba năm sau đó, ít ai ngờ rằng bệnh nhân này đến giờ vẫn có
+                                        thể ngày ngày ra thăm rẫy cà phê và sống vui khỏe bên gia đình.
+                                    </div>
+                                </div>
+                                <a class="post-more" target="_self" href="post-detail.html" title="NGƯỜI HAI LẦN CHIẾN THẮNG UNG THƯ GAN">
+                                    Xem thêm
+                                </a>
+                                <div class="clear">
+                                </div>
+                            </div>
+                            <div class="post post-hasimg">
+                                <a class="post-img" target="_self" href="http://www.hoanmy.com/saigon/benh-vien-hoan-my-sai-gon-ra-mat-don-vi-u-gan-va-health-talk-hanh-trinh-quan-ly-benh-ung-thu-gan"
+                                   title="BỆNH VIỆN HOÀN MỸ SÀI GÒN RA MẮT ĐƠN VỊ U GAN VÀ HEALTH TALK HÀNH TRÌNH QUẢN LÝ BỆNH UNG THƯ GAN.">
+                                    <img src="assets/images/data/posts/20170624_012236760_ios.jpg" alt="BỆNH VIỆN HOÀN MỸ SÀI GÒN RA MẮT ĐƠN VỊ U GAN VÀ HEALTH TALK HÀNH TRÌNH QUẢN LÝ BỆNH UNG THƯ GAN.">
+                                </a>
+                                <h2 class="post-title">
+                                    <a target="_self" href="http://www.hoanmy.com/saigon/benh-vien-hoan-my-sai-gon-ra-mat-don-vi-u-gan-va-health-talk-hanh-trinh-quan-ly-benh-ung-thu-gan"
+                                       title="BỆNH VIỆN HOÀN MỸ SÀI GÒN RA MẮT ĐƠN VỊ U GAN VÀ HEALTH TALK HÀNH TRÌNH QUẢN LÝ BỆNH UNG THƯ GAN.">BỆNH VIỆN HOÀN MỸ SÀI GÒN RA MẮT ĐƠN VỊ U GAN VÀ HEALTH TALK HÀNH TRÌNH QUẢN LÝ BỆNH UNG THƯ GAN.</a>
+                                </h2>
+                                <div class="newscat-date">
+                                    (25/06/2017)
+                                </div>
+                                <div class="newscat-desc">
+                                    <div class="autoCutStr_250">
+                                        <div style="text-align: justify;"><strong style="font-family: 'Times New Roman';">Hôm qua ngày 24.06, bệnh viện Hoàn Mỹ Sài Gòn long trọng tổ chức Hội nghị khoa học “Cập nhật những tiến bộ trong chẩn đoán và điều trị U gan” với sự tham gia của chuyên gia hàng đầu trên thế giới – GS. TS. BS. Robert Gish – Cố vấn y khoa ĐH Stanford, Hoa Kỳ và tại Việt Nam – BS. Nguyễn Đình Song Huy – Trưởng đơn vị U gan BV Chợ Rẫy Tp. HCM.&nbsp;</strong></div>
+                                    </div>
+                                </div>
+                                <a class="post-more" target="_self" href="http://www.hoanmy.com/saigon/benh-vien-hoan-my-sai-gon-ra-mat-don-vi-u-gan-va-health-talk-hanh-trinh-quan-ly-benh-ung-thu-gan"
+                                   title="BỆNH VIỆN HOÀN MỸ SÀI GÒN RA MẮT ĐƠN VỊ U GAN VÀ HEALTH TALK HÀNH TRÌNH QUẢN LÝ BỆNH UNG THƯ GAN.">
+                                    Xem thêm
+                                </a>
+                                <div class="clear">
+                                </div>
+                            </div>
+                            <div class="post post-hasimg">
+                                <a class="post-img" target="_self" href="http://www.hoanmy.com/saigon/benh-vien-hoan-my-sai-gon-dong-hanh-cung-nguoi-benh-quan-ly-ung-thu-gan"
+                                   title="BỆNH VIỆN HOÀN MỸ SÀI GÒN: ĐỒNG HÀNH CÙNG NGƯỜI BỆNH QUẢN LÝ UNG THƯ GAN">
+                                    <img src="assets/images/data/posts/_mg_1468-rs.jpg" alt="BỆNH VIỆN HOÀN MỸ SÀI GÒN: ĐỒNG HÀNH CÙNG NGƯỜI BỆNH QUẢN LÝ UNG THƯ GAN">
+                                </a>
+                                <h2 class="post-title">
+                                    <a target="_self" href="http://www.hoanmy.com/saigon/benh-vien-hoan-my-sai-gon-dong-hanh-cung-nguoi-benh-quan-ly-ung-thu-gan"
+                                       title="BỆNH VIỆN HOÀN MỸ SÀI GÒN: ĐỒNG HÀNH CÙNG NGƯỜI BỆNH QUẢN LÝ UNG THƯ GAN">BỆNH VIỆN HOÀN MỸ SÀI GÒN: ĐỒNG HÀNH CÙNG NGƯỜI BỆNH QUẢN LÝ UNG THƯ GAN</a>
+                                </h2>
+                                <div class="newscat-date">
+                                    (17/06/2017)
+                                </div>
+                                <div class="newscat-desc">
+                                    <div class="autoCutStr_250">
+                                        Ngày 24/06/2017, Hội Nghị Khoa Học Chuyên Đề U Gan được diễn ra tại Bệnh
+                                        viện Hoàn Mỹ Sài Gòn với sự góp mặt của GS.TS.BS. Robert Gish, một nhà
+                                        nghiên cứu về bệnh gan nổi tiếng thế giới và đánh dấu sự kiện thành lập
+                                        Đơn Vị U Gan tại Bệnh Viện Hoàn Mỹ Sài Gòn.
+                                    </div>
+                                </div>
+                                <a class="post-more" target="_self" href="http://www.hoanmy.com/saigon/benh-vien-hoan-my-sai-gon-dong-hanh-cung-nguoi-benh-quan-ly-ung-thu-gan"
+                                   title="BỆNH VIỆN HOÀN MỸ SÀI GÒN: ĐỒNG HÀNH CÙNG NGƯỜI BỆNH QUẢN LÝ UNG THƯ GAN">
+                                    Xem thêm
+                                </a>
+                                <div class="clear">
+                                </div>
+                            </div>
+                            <div class="post post-hasimg">
+                                <a class="post-img" target="_self" href="http://www.hoanmy.com/saigon/ngay-quoc-te-dieu-dung-12-05" title="Ngày Quốc Tế Điều Dưỡng 12-05">
+                                    <img src="assets/images/data/posts/img_1082.jpg" alt="Ngày Quốc Tế Điều Dưỡng 12-05">
+                                </a>
+                                <h2 class="post-title">
+                                    <a target="_self" href="http://www.hoanmy.com/saigon/ngay-quoc-te-dieu-dung-12-05" title="Ngày Quốc Tế Điều Dưỡng 12-05">Ngày Quốc Tế Điều Dưỡng 12-05</a>
+                                </h2>
+                                <div class="newscat-date">
+                                    (15/05/2017)
+                                </div>
+                                <div class="newscat-desc">
+                                    <div class="autoCutStr_250">
+                                        Sự nghiệp bảo vệ, chăm sóc sức khỏe cũng như điều trị bệnh cho mọi người
+                                        là một nhiệm vụ cao cả và thiêng liêng. Mà để hoàn thành nhiệm vụ đó,
+                                        từ Bác Sĩ đến những người Điều Dưỡng, Nữ Hộ Sinh, Kỹ Thuật Viên và các
+                                        khối khác... phải cùng chung tay góp sức để tạo nên giá trị không chỉ
+                                        trong thăm, khám, điều trị, mà còn là Dịch Vụ Y Tế đáp ứng nhu cầu Sức
+                                        Khỏe của mỗi người.
+                                    </div>
+                                </div>
+                                <a class="post-more" target="_self" href="http://www.hoanmy.com/saigon/ngay-quoc-te-dieu-dung-12-05" title="Ngày Quốc Tế Điều Dưỡng 12-05">
+                                    Xem thêm
+                                </a>
+                                <div class="clear">
+                                </div>
+                            </div>
+                            <div class="post post-hasimg">
+                                <a class="post-img" target="_self" href="http://www.hoanmy.com/saigon/ngay-hoi-hoan-my-20-nam" title="Ngày hội Hoàn Mỹ 20 năm">
+                                    <img src="assets/images/data/posts/z.jpg" alt="Ngày hội Hoàn Mỹ 20 năm">
+                                </a>
+                                <h2 class="post-title">
+                                    <a target="_self" href="http://www.hoanmy.com/saigon/ngay-hoi-hoan-my-20-nam" title="Ngày hội Hoàn Mỹ 20 năm">Ngày hội Hoàn Mỹ 20 năm</a>
+                                </h2>
+                                <div class="newscat-date">
+                                    (27/03/2017)
+                                </div>
+                                <div class="newscat-desc">
+                                    <div class="autoCutStr_250">
+                                        <div style="text-align: justify;">
+                                            <span style="font-size: 16px;">Ngày 25/03/2017, Bệnh viện và Phòng khám Hoàn Mỹ Sài Gòn long trọng tổ chức 20 năm Ngày thành lập Tập đoàn Y khoa Hoàn Mỹ, với niềm tự hào là phòng khám đa khoa đầu tiên, là bệnh viện tư nhân đầu tiên của Tp.HCM, là cái nôi sinh ra Hệ thống Y khoa lớn nhất Việt Nam.</span><br />
+                                        </div>
+                                    </div>
+                                </div>
+                                <a class="post-more" target="_self" href="http://www.hoanmy.com/saigon/ngay-hoi-hoan-my-20-nam" title="Ngày hội Hoàn Mỹ 20 năm">
+                                    Xem thêm
+                                </a>
+                                <div class="clear">
+                                </div>
+                            </div>
+                            <div class="post post-hasimg">
+                                <a class="post-img" target="_self" href="http://www.hoanmy.com/saigon/canh-giac-voi-ha-natri-mau-cap-o-nguoi-cao-tuoi" title="Cảnh giác với hạ Natri máu cấp ở người cao tuổi">
+                                    <img src="assets/images/data/posts/dsc_2333a.jpg" alt="Cảnh giác với hạ Natri máu cấp ở người cao tuổi">
+                                </a>
+                                <h2 class="post-title">
+                                    <a target="_self" href="http://www.hoanmy.com/saigon/canh-giac-voi-ha-natri-mau-cap-o-nguoi-cao-tuoi" title="Cảnh giác với hạ Natri máu cấp ở người cao tuổi">Cảnh giác với hạ Natri máu cấp ở người cao tuổi</a>
+                                </h2>
+                                <div class="newscat-date">
+                                    (14/03/2017)
+                                </div>
+                                <div class="newscat-desc">
+                                    <div class="autoCutStr_250">
+                                        Hạ natri máu là rối loạn điện giải thường gặp nhất trong các trường hợp cấp
+                                        cứu nhưng lại dễ bị nhầm lẫn với bệnh khác và bỏ sót, dẫn đến tỉ lệ tử
+                                        vong cao đáng kể do không được điều trị kịp thời.
+                                    </div>
+                                </div>
+                                <a class="post-more" target="_self" href="http://www.hoanmy.com/saigon/canh-giac-voi-ha-natri-mau-cap-o-nguoi-cao-tuoi" title="Cảnh giác với hạ Natri máu cấp ở người cao tuổi">
+                                    Xem thêm
+                                </a>
+                                <div class="clear">
+                                </div>
+                            </div>
+                            <div class="post post-hasimg">
+                                <a class="post-img" target="_self" href="http://www.hoanmy.com/saigon/cung-benh-nhan-chien-thang-vi-khuan-da-khang" title="Cùng bệnh nhân chiến thắng vi khuẩn đa kháng">
+                                    <img src="assets/images/data/posts/nhiem-khuan-da-khang.jpg" alt="Cùng bệnh nhân chiến thắng vi khuẩn đa kháng">
+                                </a>
+                                <h2 class="post-title">
+                                    <a target="_self" href="http://www.hoanmy.com/saigon/cung-benh-nhan-chien-thang-vi-khuan-da-khang" title="Cùng bệnh nhân chiến thắng vi khuẩn đa kháng">Cùng bệnh nhân chiến thắng vi khuẩn đa kháng</a>
+                                </h2>
+                                <div class="newscat-date">
+                                    (09/03/2017)
+                                </div>
+                                <div class="newscat-desc">
+                                    <div class="autoCutStr_250">
+                                        Nhập viện với triệu chứng sốt, gắt tiểu và được xác định bị suy thận cấp
+                                        trên tiền căn bệnh tiểu đường và cao huyết áp, nhưng đó chỉ là khởi đầu
+                                        bởi mỗi ngày sức khỏe bệnh nhân C.Q.T. (Tiền Giang) càng khó lường cho
+                                        đến khi anh được phát hiện bị viêm phổi do nhiễm khuẩn đa kháng với tiên
+                                        lượng tử vong lên tới trên 90%.
+                                    </div>
+                                </div>
+                                <a class="post-more" target="_self" href="http://www.hoanmy.com/saigon/cung-benh-nhan-chien-thang-vi-khuan-da-khang" title="Cùng bệnh nhân chiến thắng vi khuẩn đa kháng">
+                                    Xem thêm
+                                </a>
+                                <div class="clear">
+                                </div>
+                            </div>
+                            <div class="post post-hasimg">
+                                <a class="post-img" target="_self" href="http://www.hoanmy.com/saigon/can-thiep-thanh-cong-2-ca-tac-100-mach-vanh-man-tinh"
+                                   title="Can thiệp thành công 2 ca tắc 100% mạch vành mạn tính">
+                                    <img src="assets/images/data/posts/gsinoue3.png" alt="Can thiệp thành công 2 ca tắc 100% mạch vành mạn tính">
+                                </a>
+                                <h2 class="post-title">
+                                    <a target="_self" href="http://www.hoanmy.com/saigon/can-thiep-thanh-cong-2-ca-tac-100-mach-vanh-man-tinh" title="Can thiệp thành công 2 ca tắc 100% mạch vành mạn tính">Can thiệp thành công 2 ca tắc 100% mạch vành mạn tính</a>
+                                </h2>
+                                <div class="newscat-date">
+                                    (01/03/2017)
+                                </div>
+                                <div class="newscat-desc">
+                                    <div class="autoCutStr_250">
+                                        Mới đây, ê-kíp các bác sĩ Khoa Tim mạch can thiệp – Bệnh viên Hoàn Mỹ Sài
+                                        Gòn đã tiến hành can thiệp thành công cho hai trường hợp bệnh nhân bị
+                                        mạch vành tắc mạn tính bằng thiết bị chuyên dụng với sự hỗ trợ của GS.BS
+                                        Naoto-Inoue, chuyên gia can thiệp tim mạch đến từ Nhật Bản.
+                                    </div>
+                                </div>
+                                <a class="post-more" target="_self" href="http://www.hoanmy.com/saigon/can-thiep-thanh-cong-2-ca-tac-100-mach-vanh-man-tinh"
+                                   title="Can thiệp thành công 2 ca tắc 100% mạch vành mạn tính">
+                                    Xem thêm
+                                </a>
+                                <div class="clear">
+                                </div>
+                            </div>
+                            <div class="post post-hasimg">
+                                <a class="post-img" target="_self" href="http://www.hoanmy.com/saigon/benh-vien-hoan-my-sai-gon-y-nghia-slogan-khoa-phong"
+                                   title="BỆNH VIỆN HOÀN MỸ SÀI GÒN - Ý NGHĨA SLOGAN KHOA PHÒNG">
+                                    <img src="assets/images/data/posts/15578776_10202607927915047_1132613195565630044_n.jpg" alt="BỆNH VIỆN HOÀN MỸ SÀI GÒN - Ý NGHĨA SLOGAN KHOA PHÒNG">
+                                </a>
+                                <h2 class="post-title">
+                                    <a target="_self" href="http://www.hoanmy.com/saigon/benh-vien-hoan-my-sai-gon-y-nghia-slogan-khoa-phong" title="BỆNH VIỆN HOÀN MỸ SÀI GÒN - Ý NGHĨA SLOGAN KHOA PHÒNG">BỆNH VIỆN HOÀN MỸ SÀI GÒN - Ý NGHĨA SLOGAN KHOA PHÒNG</a>
+                                </h2>
+                                <div class="newscat-date">
+                                    (20/12/2016)
+                                </div>
+                                <div class="newscat-desc">
+                                    <div class="autoCutStr_250">
+                                        Slogan hay còn gọi là khẩu hiệu không chỉ miêu tả đặc trưng khoa phòng mà
+                                        quan trọng nhất nó thề hiện định hướng chung, mục tiêu chung và giá trị
+                                        công việc mà các nhân viên của từng Khoa - Phòng luôn nỗ lực hướng đến.
+                                        Với tiêu chí chung của Bệnh viện Hoàn Mỹ Sài Gòn được thể hiện qua Slogan
+                                        "Chăm sóc hôm nay – Sức khỏe ngày mai", các khoa - phòng cũng có những
+                                        những mục tiêu riêng để cùng chèo lái con thuyền chung về đến điểm đích
+                                        của chất lượng dịch vụ y tế hướng đén bệnh nhân.
+                                    </div>
+                                </div>
+                                <a class="post-more" target="_self" href="http://www.hoanmy.com/saigon/benh-vien-hoan-my-sai-gon-y-nghia-slogan-khoa-phong"
+                                   title="BỆNH VIỆN HOÀN MỸ SÀI GÒN - Ý NGHĨA SLOGAN KHOA PHÒNG">
+                                    Xem thêm
+                                </a>
+                                <div class="clear">
+                                </div>
+                            </div>
+                            <div class="post post-hasimg">
+                                <a class="post-img" target="_self" href="http://www.hoanmy.com/saigon/bao-cao-giam-sat-viec-tuan-thu-cac-qui-trinh-ky-thuat-6-thang-cuoi-nam-2016-1"
+                                   title="Báo cáo giám sát việc tuân thủ các qui trình kỹ thuật 6 tháng cuối năm 2016">
+                                    <img src="assets/images/data/posts/tu_danh_gia_00.jpg" alt="Báo cáo giám sát việc tuân thủ các qui trình kỹ thuật 6 tháng cuối năm 2016">
+                                </a>
+                                <h2 class="post-title">
+                                    <a target="_self" href="http://www.hoanmy.com/saigon/bao-cao-giam-sat-viec-tuan-thu-cac-qui-trinh-ky-thuat-6-thang-cuoi-nam-2016-1"
+                                       title="Báo cáo giám sát việc tuân thủ các qui trình kỹ thuật 6 tháng cuối năm 2016">Báo cáo giám sát việc tuân thủ các qui trình kỹ thuật 6 tháng cuối năm 2016</a>
+                                </h2>
+                                <div class="newscat-date">
+                                    (15/12/2016)
+                                </div>
+                                <div class="newscat-desc">
+                                    <div class="autoCutStr_250"><span style="font-size: 11pt; font-family: 'Times New Roman';">Báo cáo giám sát việc tuân thủ các qui trình kỹ thuật 6 tháng cuối năm 2016</span></div>
+                                </div>
+                                <a class="post-more" target="_self" href="http://www.hoanmy.com/saigon/bao-cao-giam-sat-viec-tuan-thu-cac-qui-trinh-ky-thuat-6-thang-cuoi-nam-2016-1"
+                                   title="Báo cáo giám sát việc tuân thủ các qui trình kỹ thuật 6 tháng cuối năm 2016">
+                                    Xem thêm
+                                </a>
+                                <div class="clear">
+                                </div>
+                            </div>
+                            <div class="clear">
+                            </div>
+                        </div>
+                        <div id="ctl00_mainContent_ctl00_NewsList1_divPager" class="pages">
+                            <div class='modulepager'><span class="PageInfo">Trang 1 / 215</span> <span class="SelectedPage" title="Đến trang 1">1</span>                                            <a class='ModulePager' href="/Saigon/trang-tin-tuc?pagenumber=2" title="Đến trang 2">2</a>                                            <a class='ModulePager' href="/Saigon/trang-tin-tuc?pagenumber=3" title="Đến trang 3">3</a>                                            <a class='ModulePager' href="/Saigon/trang-tin-tuc?pagenumber=4" title="Đến trang 4">4</a>                                            <a class='ModulePager' href="/Saigon/trang-tin-tuc?pagenumber=5" title="Đến trang 5">5</a>                                            <a class='ModulePager' href="/Saigon/trang-tin-tuc?pagenumber=6" title="Đến trang 6">6</a>                                            <a class='ModulePager' href="/Saigon/trang-tin-tuc?pagenumber=7" title="Đến trang 7">7</a>                                            <a class='ModulePager' href="/Saigon/trang-tin-tuc?pagenumber=8" title="Đến trang 8">8</a>                                            <a class='ModulePager' href="/Saigon/trang-tin-tuc?pagenumber=9" title="Đến trang 9">9</a>                                            <a class='ModulePager' href="/Saigon/trang-tin-tuc?pagenumber=10" title="Đến trang 10">10</a>                                            <a class='ModulePager' href="/Saigon/trang-tin-tuc?pagenumber=40" title="Đến trang 40">40</a>                                            <a class='ModulePager' href="/Saigon/trang-tin-tuc?pagenumber=70" title="Đến trang 70">70</a>                                            <a class='ModulePager' href="/Saigon/trang-tin-tuc?pagenumber=110" title="Đến trang 110">110</a>                                            <a class='ModulePager' href="/Saigon/trang-tin-tuc?pagenumber=140" title="Đến trang 140">140</a>                                            <a class='ModulePager' href="/Saigon/trang-tin-tuc?pagenumber=180" title="Đến trang 180">180</a>                                            <a class='ModulePager NextPage' href="/Saigon/trang-tin-tuc?pagenumber=2" title="Chuyển đến trang 2">&rsaquo;</a>                                            <a class='ModulePager LastPage' href="/Saigon/trang-tin-tuc?pagenumber=215" title="Trang cuối">&raquo;</a>                                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+            <div id="ctl00_divRight" class="col-right cmszone">
+
+                <div class='Module Module-281'>
+                    <div class="left-menu">
+                        <ul class="noli">
+                            <li class="active"><a class="active" href="/saigon/trang-tin-tuc" target="_self" title="Tin tức">Tin tức</a></li>
+                            <li><a href="/saigon/song-khoe" target="_self" title="Sống khỏe">Sống khỏe</a></li>
+                            <li><a href="/saigon/videos" target="_self" title="Videos">Videos</a></li>
+                            <li><a href="galerry.html" target="_self" title="Tin ảnh">Tin ảnh</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class='Module Module-258'>
+                    <div class="fb-page" data-href="https://www.facebook.com/hoanmysaigon" data-tabs="Facebook" data-width="231"
+                         data-small-header="false" data-adapt-container-width="false" data-hide-cover="false" data-show-facepile="true">
+                        <div class="fb-xfbml-parse-ignore">
+                            <blockquote cite="https://www.facebook.com/hoanmysaigon"><a href="https://www.facebook.com/hoanmysaigon">BV Hoàn Mỹ Sài Gòn</a></blockquote>
+                        </div>
+                    </div>
+                    <div class="emhotline">
+                        Cấp cứu<span>(08) 3995 9860</span>
+                    </div>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSemdqrYVGswrTxbQGKUwPzImgqXa6DMt5D_wBdiPKvhbyq2FA/viewform?c=0&amp;w=1"
+                       target="_blank"><img src="http://hoanmy.com/Data/Sites/1/userfiles/56/KS-ngoai-tru.png" alt="Khao-sat-ngoai-tru" /></a>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdGUagF2UaZ2U0QkNWDXj46q8fND-aIz46VN_9tZCQCezfSEw/viewform?c=0&amp;w=1"
+                       target="_blank"><img src="http://hoanmy.com/Data/Sites/1/userfiles/56/KS-noi-tru.png" alt="Khao-sat-noi-tru" /></a>
+                </div>
+            </div>
+            <div class="clear">
+            </div>
+
+        </div>
+    </div>
+
+</div>

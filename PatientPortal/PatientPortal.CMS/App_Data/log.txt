@@ -1,0 +1,118 @@
+
+ ************* 2017-09-12 14:17:52,318 [10] ERROR MvcHandler [(null)] (D:\ProjectsFIS\PatientPortal\PatientPortal.Core\LogManager\Logger.cs:17) **************  
+ System.Web.Mvc.HttpAntiForgeryException (0x80004005): The anti-forgery cookie token and form field token do not match.
+   at System.Web.Helpers.AntiXsrf.TokenValidator.ValidateTokens(HttpContextBase httpContext, IIdentity identity, AntiForgeryToken sessionToken, AntiForgeryToken fieldToken)
+   at System.Web.Helpers.AntiXsrf.AntiForgeryWorker.Validate(HttpContextBase httpContext)
+   at System.Web.Helpers.AntiForgery.Validate()
+   at System.Web.Mvc.ValidateAntiForgeryTokenAttribute.OnAuthorization(AuthorizationContext filterContext)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAuthorizationFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__19(AsyncCallback asyncCallback, Object asyncState) 
+ 
+ ************* 2017-09-12 14:17:52,491 [10] ERROR MvcHandler [(null)] (D:\ProjectsFIS\PatientPortal\PatientPortal.Core\LogManager\Logger.cs:17) **************  
+ System.InvalidOperationException: The view '~/HttpErrors/Error' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/HttpErrors/Error
+   at System.Web.Mvc.ViewResult.FindView(ControllerContext context)
+   at System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResult(ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2d.<BeginInvokeAction>b__1d()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult) 
+ 
+ ************* 2017-09-12 14:17:52,509 [10] ERROR MvcHandler [(null)] (D:\ProjectsFIS\PatientPortal\PatientPortal.Core\LogManager\Logger.cs:17) **************  
+ System.InvalidOperationException: The view '~/HttpErrors/Error' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/HttpErrors/Error
+   at System.Web.Mvc.ViewResult.FindView(ControllerContext context)
+   at System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResult(ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeAction(IAsyncResult asyncResult)
+   at System.Web.Mvc.Controller.<BeginExecuteCore>b__1d(IAsyncResult asyncResult, ExecuteCoreState innerState)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   at System.Web.Mvc.Controller.EndExecuteCore(IAsyncResult asyncResult)
+   at System.Web.Mvc.Controller.<BeginExecute>b__15(IAsyncResult asyncResult, Controller controller)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   at System.Web.Mvc.Controller.EndExecute(IAsyncResult asyncResult)
+   at System.Web.Mvc.Controller.System.Web.Mvc.Async.IAsyncController.EndExecute(IAsyncResult asyncResult)
+   at System.Web.Mvc.MvcHandler.<BeginProcessRequest>b__5(IAsyncResult asyncResult, ProcessRequestState innerState)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   at System.Web.Mvc.MvcHandler.EndProcessRequest(IAsyncResult asyncResult)
+   at System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.EndProcessRequest(IAsyncResult result)
+   at System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously) 
+ 
+ ************* 2017-09-12 14:21:05,671 [10] ERROR MvcHandler [(null)] (D:\ProjectsFIS\PatientPortal\PatientPortal.Core\LogManager\Logger.cs:17) **************  
+ System.Exception: Et51NwhnAXX3EcwNj6IUf89i6pc7UeXc1E3fKWSWR6LwBMTrDDuD6hiO8RrpdBQ6p7SmB_wN6yMzXzGHBRlID_2F7oU_aNMWpBW_hOfSEG0qWD-h2yFrzkUhY5u-vDr3AeWFqXXM6EuluYDpl456gkpV9jjDDjjNQ7ZT6hCQA0ulU1n0V-eYK2gjaw57QgUEf8sZycdsHIlHuHKx7tFWdi81NUH5vEwfWbYrWYml_AhlKOqkA2YCtx-58P5PK9JXZYtVY6MGBNBOLZYWx6S-j0CcjRBzrOyTaEev8rtFv1AyAoDnTps44xpY56eRHqbXfRi-vN_othj1DGFoprzw3CyWz3F4gfSGP0Z5y7IwJJmwXGPsQFqpbtUXiuroWrR25PiR5PTAG6mgXNR4y1i8V2CGzOzbBTj6IanzSJOnmWG1bXd-Nr6HLkOavoNRJRiIXlMna-k0eliD2ZSJMzL5eJYiekzByGm46oqkmCAZGIT-37NMJaDldoDp2TIiBr2o 
+ 
+ ************* 2017-09-14 16:44:49,483 [10] ERROR MvcHandler [(null)] (D:\ProjectsFIS\PatientPortal\PatientPortal.Core\LogManager\Logger.cs:17) **************  
+ System.Web.HttpException (0x80004005): The controller for path '/NotFound' was not found or does not implement IController.
+   at System.Web.Mvc.DefaultControllerFactory.GetControllerInstance(RequestContext requestContext, Type controllerType)
+   at System.Web.Mvc.DefaultControllerFactory.CreateController(RequestContext requestContext, String controllerName)
+   at System.Web.Mvc.MvcHandler.ProcessRequestInit(HttpContextBase httpContext, IController& controller, IControllerFactory& factory)
+   at System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContextBase httpContext, AsyncCallback callback, Object state)
+   at System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContext httpContext, AsyncCallback callback, Object state)
+   at System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.BeginProcessRequest(HttpContext context, AsyncCallback cb, Object extraData)
+   at System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously) 
+ 
+ ************* 2017-09-14 16:44:49,483 [11] ERROR MvcHandler [(null)] (D:\ProjectsFIS\PatientPortal\PatientPortal.Core\LogManager\Logger.cs:17) **************  
+ System.Web.HttpException (0x80004005): The controller for path '/NotFound' was not found or does not implement IController.
+   at System.Web.Mvc.DefaultControllerFactory.GetControllerInstance(RequestContext requestContext, Type controllerType)
+   at System.Web.Mvc.DefaultControllerFactory.CreateController(RequestContext requestContext, String controllerName)
+   at System.Web.Mvc.MvcHandler.ProcessRequestInit(HttpContextBase httpContext, IController& controller, IControllerFactory& factory)
+   at System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContextBase httpContext, AsyncCallback callback, Object state)
+   at System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContext httpContext, AsyncCallback callback, Object state)
+   at System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.BeginProcessRequest(HttpContext context, AsyncCallback cb, Object extraData)
+   at System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously) 
+ 
+ ************* 2017-09-14 16:44:49,483 [12] ERROR MvcHandler [(null)] (D:\ProjectsFIS\PatientPortal\PatientPortal.Core\LogManager\Logger.cs:17) **************  
+ System.Web.HttpException (0x80004005): The controller for path '/NotFound' was not found or does not implement IController.
+   at System.Web.Mvc.DefaultControllerFactory.GetControllerInstance(RequestContext requestContext, Type controllerType)
+   at System.Web.Mvc.DefaultControllerFactory.CreateController(RequestContext requestContext, String controllerName)
+   at System.Web.Mvc.MvcHandler.ProcessRequestInit(HttpContextBase httpContext, IController& controller, IControllerFactory& factory)
+   at System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContextBase httpContext, AsyncCallback callback, Object state)
+   at System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContext httpContext, AsyncCallback callback, Object state)
+   at System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.BeginProcessRequest(HttpContext context, AsyncCallback cb, Object extraData)
+   at System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously) 
+ 
+ ************* 2017-09-14 16:46:15,175 [11] ERROR MvcHandler [(null)] (D:\ProjectsFIS\PatientPortal\PatientPortal.Core\LogManager\Logger.cs:17) **************  
+ System.Web.HttpException (0x80004005): The controller for path '/NotFound' was not found or does not implement IController.
+   at System.Web.Mvc.DefaultControllerFactory.GetControllerInstance(RequestContext requestContext, Type controllerType)
+   at System.Web.Mvc.DefaultControllerFactory.CreateController(RequestContext requestContext, String controllerName)
+   at System.Web.Mvc.MvcHandler.ProcessRequestInit(HttpContextBase httpContext, IController& controller, IControllerFactory& factory)
+   at System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContextBase httpContext, AsyncCallback callback, Object state)
+   at System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContext httpContext, AsyncCallback callback, Object state)
+   at System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.BeginProcessRequest(HttpContext context, AsyncCallback cb, Object extraData)
+   at System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously) 
+ 
+ ************* 2017-09-14 16:46:15,175 [9] ERROR MvcHandler [(null)] (D:\ProjectsFIS\PatientPortal\PatientPortal.Core\LogManager\Logger.cs:17) **************  
+ System.Web.HttpException (0x80004005): The controller for path '/NotFound' was not found or does not implement IController.
+   at System.Web.Mvc.DefaultControllerFactory.GetControllerInstance(RequestContext requestContext, Type controllerType)
+   at System.Web.Mvc.DefaultControllerFactory.CreateController(RequestContext requestContext, String controllerName)
+   at System.Web.Mvc.MvcHandler.ProcessRequestInit(HttpContextBase httpContext, IController& controller, IControllerFactory& factory)
+   at System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContextBase httpContext, AsyncCallback callback, Object state)
+   at System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContext httpContext, AsyncCallback callback, Object state)
+   at System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.BeginProcessRequest(HttpContext context, AsyncCallback cb, Object extraData)
+   at System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously) 
+ 
+ ************* 2017-09-14 16:46:15,178 [16] ERROR MvcHandler [(null)] (D:\ProjectsFIS\PatientPortal\PatientPortal.Core\LogManager\Logger.cs:17) **************  
+ System.Web.HttpException (0x80004005): The controller for path '/NotFound' was not found or does not implement IController.
+   at System.Web.Mvc.DefaultControllerFactory.GetControllerInstance(RequestContext requestContext, Type controllerType)
+   at System.Web.Mvc.DefaultControllerFactory.CreateController(RequestContext requestContext, String controllerName)
+   at System.Web.Mvc.MvcHandler.ProcessRequestInit(HttpContextBase httpContext, IController& controller, IControllerFactory& factory)
+   at System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContextBase httpContext, AsyncCallback callback, Object state)
+   at System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContext httpContext, AsyncCallback callback, Object state)
+   at System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.BeginProcessRequest(HttpContext context, AsyncCallback cb, Object extraData)
+   at System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously) 
+ 
+ ************* 2017-09-14 17:53:40,795 [9] ERROR MvcHandler [(null)] (D:\ProjectsFIS\PatientPortal\PatientPortal.Core\LogManager\Logger.cs:17) **************  
+ System.Exception: sH4wptiz80j9482A5lXnhBMNzBmytPJfQAhCF-T0zQnALc5LunXVc0BF9GPI1oSswKsA_WTe3MefH9imBZusm3IcYG2aTbaibavQ9W795bj7oPkPxIaCG581DGXJFC6X-y3dWNKWi2MR2R8C-4VkZkznJg-6mEFZ0gRLSjtWnw2Nac04d2yIitDXBCfahTl05W_L3l8iCxJ87O-Pouzqaut__6KlRfmJisaBb_K8n98amOUPOegsx1KGsx6hU8Ju42hmqX6sYAm2r8r9bEy8mHoi0Q-XeKdQn0TzF2V9IaFGpGf5Njcb6MCmoQ0VwIcPuIUqMImT25uBlCV-Mt2ns4KEXxcWeBkywoXYXMUfYiDAwq-bVGCtAE4hggd4bMQY9obeaUPBe_NdiuJoAOSrqY88c-4A4LxJ_IiN2gOFRTM6QPnMyS-kOvlnlSBfRklEoueIOLb0wKXYHaIDBItzfm-luJc4b-J6Vq24HjJ09A9GqV6OKUc2LMlqN8LFSNRL 
+ 

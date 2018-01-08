@@ -1,0 +1,57 @@
+﻿appManagement.controller('appointmentController', ['$scope', 'AppointmentService', function ($scope, AppointmentService) {
+    $scope.model = new Object();
+
+    $scope.initAppointment = function () {
+        $scope.renderTimeDefault();
+    }
+
+    //get doctor
+    $scope.getDoctor = function () {
+        AppointmentService.queryDoctors({ search: ""}, function (data) {
+            $scope.doctors = data;
+        });
+    }
+
+    //change doctor select option
+    $scope.changeDoctor = function (value) {
+        if (value != null) {
+            AppointmentService.getDoctor({ id: value }, function (data) {
+                $scope.doctor = data;
+                $("#quickviewProfile").show(500);
+            });
+        } else {
+            $("#quickviewProfile").hide(500);
+        }
+    }
+
+    $scope.makeAppointment = function (model) {
+
+    }
+
+    //show doctor detail
+    $scope.viewDoctorProfile = function (id) {
+        var startTime = Date.parse(new Date());
+        AppointmentService.queryScheduleExamine({ userId: id, startTime: startTime }, function (data) {
+            $scope.schedules = data;
+            $('#collapseThongTinModal').modal('toggle');
+        });
+    }
+
+    //Init time 
+    $scope.renderTimeDefault = function () {
+        $scope.giohens = getGioKham();
+        $scope.getDoctor();
+    }
+    function getGioKham() {
+        var now = moment().hours(8).minutes(0).seconds(0).milliseconds(0);
+        var max = moment().hours(19).minutes(0).seconds(0).milliseconds(0);
+        var gio = [];
+        var duration = moment.duration({ 'minutes': 15 });
+        now = now.add(duration);
+        while (now < max) {
+            gio.push(now.format('hh:mm'));
+            now = now.add(duration);
+        }
+        return gio;
+    }
+}]);

@@ -1,0 +1,83 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model List<PatientPortal.Internal.Models.ArticleViewModel>
+@{
+    ViewBag.Title = "Hỏi đáp y tế";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var activeTab1 = "";
+    var activeTab2 = "";
+    if (ViewBag.TypePage == 0)
+    {
+        activeTab1 = "active";
+    }
+    else if (ViewBag.TypePage == 1)
+    {
+        activeTab2 = "active";
+    }
+}
+
+<link href="~/Content/qamedical.css" rel="stylesheet" />
+<div class="card">
+    @Html.Raw(TempData["Alert"])
+    <div class="card-title">
+        @Html.ITitle("Hỏi đáp y tế", "question")
+    </div>
+    <div class="card-content">
+        <div class="row" id="qa-question-group">
+            <div class="col-md-6 col-xs-6 sort-questions">
+                <ul>
+                    <li>
+                        <a class="@activeTab1" href="@Url.Action("Index")">Mới nhất
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="@activeTab2" href="@Url.Action("Index", new {type=1})">Chưa trả lời</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div id="qa-question">
+            @foreach (var item in Model)
+            {
+                <div class="post">
+                    <div class="post-heading">
+
+                        <div class="pull-left image">
+                            @if (item.ImageProfile != null)
+                {
+                                <img src="@Url.Content(item.ImageProfile)" class="img-circle avatar" alt="user profile image">
+                            }
+                            else
+                            {
+                                <img src="~/img/user_1.jpg" class="img-circle avatar" alt="user profile image">
+                            }
+                        </div>
+                        <div class="pull-left meta">
+                            <div class="title h5">
+                               
+                            </div>
+                            <h6 class="text-muted time">@Convert.ToString(string.Format("{0:dd/MM/yyyy hh:mm:ss tt}", item.Date))</h6>
+                        </div>
+                        <div class="pull-right">
+                            <div class="col-md-1 col-xs-1 q-right-content">
+                                <ul class="question-statistic">
+                                    <li>
+                                        <a href="@Url.Action("Details", new { id = item.Id })">
+                                            <span class="question-views">
+                                                @item.CountComments
+                                            </span>trả lời
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-description">
+                        <p>@item.Title</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>

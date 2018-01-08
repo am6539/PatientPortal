@@ -1,0 +1,17 @@
+﻿CREATE TABLE [dbo].[Setting] (
+	[Id]          TINYINT        IDENTITY (1, 1) NOT NULL,
+	[Title]       NVARCHAR (70)  NOT NULL, -- SEO Meta
+	[Description] NVARCHAR (150) NOT NULL, -- SEO Meta
+	[Keyword]     NVARCHAR (150) NOT NULL, -- SEO Meta
+	[Membership]  BIT            NOT NULL, -- Mac dinh nhom tai khoan
+	[DefaultRole] NVARCHAR(128)       NOT NULL, 
+	[LoginURL]    VARCHAR (256)  NOT NULL, 
+	[LockedIPNoteDefault] NVARCHAR(150) NOT NULL, --Thong bao chan IP
+	[IsSaveCanceledAppointment] BIT NOT NULL, -- Cho pheo luu nhung Dat lich hen duoc Huy (default 1 = true)
+	[AppointmentIntervalTime] TINYINT NOT NULL , -- Thoi gian moi lan kham benh
+	[AppointmentStartTime] INT NOT NULL , -- Thoi gian bat dau kham benh
+	[AppointmentEndTime] INT NOT NULL , -- Thoi gian ket thuc kham benh
+	
+	CONSTRAINT [PK_Setting] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+

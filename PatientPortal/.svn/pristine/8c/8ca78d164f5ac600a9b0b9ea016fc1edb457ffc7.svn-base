@@ -1,0 +1,4 @@
+﻿'use strict';
+
+// Define the `aboutList` module
+angular.module('about', ['core.about']);

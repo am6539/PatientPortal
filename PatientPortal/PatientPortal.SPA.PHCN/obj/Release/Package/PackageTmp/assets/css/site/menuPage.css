@@ -1,0 +1,13 @@
+﻿.homepage .brd-wrap {
+        display: block;
+    }
+
+    .homepage .hotlink {
+        position: unset;
+        bottom: -450px;
+        z-index: 2000;
+        right: 0;
+    }
+.brd-wrap{
+    background: #2698D6;
+}

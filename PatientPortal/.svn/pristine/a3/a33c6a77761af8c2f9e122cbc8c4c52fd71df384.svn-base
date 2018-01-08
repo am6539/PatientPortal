@@ -1,0 +1,49 @@
+﻿using PatientPortal.PatientServices.Models;
+using PatientPortal.PatientServices.Utility;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using PatientPortal.Domain.LogManager;
+using PatientPortal.Domain;
+using PatientPortal.PatientServices.Models.Schedule;
+
+namespace PatientPortal.PatientServices.Controllers
+{
+    public class ScheduleController : Controller
+    {
+        private static string controllerName = string.Empty;
+        private static string controllerUser = "User";
+
+        // GET: Schedule
+        public async Task<ActionResult> Index()
+        {
+            byte type = (byte)EnumUserConstants.Type.ISDOCTOR;
+            string search = "";
+            string apiUrl = APIProvider.APIGenerator(controllerUser, new List<string> { nameof(search), nameof(type) }, true, search, type);
+            var doctorList = await APIProvider.Get<List<UserViewModel>>(apiUrl, APIConstant.API_Resource_CORE);
+            if (doctorList == null)
+                doctorList = ApplicationHelper.GetObject<List<UserViewModel>>();
+            ViewBag.Users = doctorList;
+
+            var model = new ScheduleFilter();
+            return View(model);
+        }
+
+        public async Task<JsonResult> GetSchedule(ScheduleFilter param)
+        {
+            //Call API Provider
+            controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+            string apiUrl = APIProvider.APIGenerator(controllerName, new List<string> { nameof(param.UserId) }, true, param.UserId);
+            var schedule = await APIProvider.Get<List<ScheduleViewModel>>(apiUrl, APIConstant.API_Resource_CORE);
+            if (schedule == null)
+                schedule = new List<ScheduleViewModel>();
+
+            return Json(schedule, JsonRequestBehavior.AllowGet);
+        }
+    }
+}

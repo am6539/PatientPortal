@@ -1,0 +1,17 @@
+﻿'use strict';
+
+angular.module('spaPHCN').factory('MetaPostService', function () {
+    var canonical = '';
+    var breadcrumbsTitle = '';
+    var robots = '';
+    return {
+        set: function (newCanonical, newBreadcrumbsTitle, newMetaRobots) {
+            canonical = newCanonical;
+            breadcrumbsTitle = newBreadcrumbsTitle;
+            robots = newMetaRobots;
+        },
+        metaCanonical: function () { return canonical; },
+        metaBreadcrumbsTitle: function () { return breadcrumbsTitle; },
+        metaRobots: function () { return robots; }
+    }
+});

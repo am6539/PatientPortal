@@ -1,0 +1,187 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using PatientPortal.Domain.LogManager;
+using PatientPortal.Internal.Models.Survey;
+using PatientPortal.Internal.Utility;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using PatientPortal.Utility.Application;
+using PatientPortal.Utility.Common;
+
+namespace PatientPortal.Internal.Controllers
+{
+    public class SurveyController : Controller
+    {
+        private const string ControllerName = "Survey";
+        // GET: Survey
+        public async Task<ActionResult> Index()
+        {
+            var model = await APIProvider.Get<List<SurveyModel>>(ControllerName, APIConstant.API_Resource_CORE);
+            if (model == null) model = ApplicationHelper.GetObject<List<SurveyModel>>();
+            return View(model);
+        }
+
+        public ActionResult Create()
+        {
+            var model = new SurveyModel();
+            model.IsActive = false;
+            model.IsBranding = false;
+            model.IsPublic = false;
+            model.IsSurveyInvite = false;
+            model.SurveyQuestionsModel = new List<SurveyQuestionsModel>();
+            foreach (var item in model.SurveyQuestionsModel)
+            {
+                item.SurveyAnswersModel = new List<SurveyAnswersModel>();
+            }
+            
+            return PartialView("_Create", model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Create(SurveyModel model)
+        {
+            var questions = model.SurveyQuestionsModel;
+            foreach (var question in questions)
+            {
+                //TODO: question for survey code here
+                question.SurveyId = model.Id;
+
+                //TODO: answer for question code here
+                var answers = question.SurveyAnswersModel;
+                if (question.SurveyAnswersModel == null)
+                {
+                    answers = new List<SurveyAnswersModel>
+                    {
+                        new SurveyAnswersModel()
+                    };
+                }
+                var answerId = 1;
+                foreach (var answer in answers)
+                {
+                    answer.Id = (byte)answerId;
+                    answer.QuestionId = question.Id;
+                    answerId++;
+                }
+
+                //Update answers for question
+                question.SurveyAnswersModel = answers;
+            }
+            if (ModelState.IsValid)
+            {
+                var strUrl = APIProvider.APIGenerator(ControllerName, APIConstant.ACTION_INSERT);
+                var result = await APIProvider.DynamicTransaction<SurveyModel, int>(model, strUrl, APIConstant.API_Resource_CORE);
+
+                if (result > 0)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var offeradvise = new List<SurveyModel>();
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                return View("Index", offeradvise);
+            }
+        }
+
+        public async Task<ActionResult> Edit(string id)
+        {
+            var strUrl = APIProvider.APIGenerator(this, this.RouteData.Values["action"].ToString(), id);
+            var model = await APIProvider.Get<SurveyModel>(ControllerName + strUrl, APIConstant.API_Resource_CORE);
+            if (model == null) model = ApplicationHelper.GetObject<SurveyModel>();
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(SurveyModel model)
+        {
+            var strUrl = APIProvider.APIGenerator(ControllerName, APIConstant.ACTION_UPDATE);
+            var result = await APIProvider.DynamicTransaction<SurveyModel, int>(model, strUrl, APIConstant.API_Resource_CORE);
+            if (result > 0)
+            {
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.SUCCESS));
+            }
+            else
+            {
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ISUSED, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.ISUSED));
+            }
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Delete()
+        {
+            return PartialView("_Delete");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Delete(string id)
+        {
+            try
+            {
+                var model = new SurveyModel {Id = id};
+                //Call API Provider
+                var strUrl = APIProvider.APIGenerator(ControllerName, APIConstant.ACTION_DELETE);
+                var result = await APIProvider.DynamicTransaction<SurveyModel, int>(model, strUrl, APIConstant.API_Resource_CORE);
+                if (result > 0)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_DELETE, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ISUSED, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_DELETE, ApplicationGenerator.TypeResult.ISUSED));
+                }
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                return View("Index");
+            }
+        }
+
+        public ActionResult PreviewSurvey(SurveyModel model)
+        {
+            var questions = model.SurveyQuestionsModel;
+            if (questions == null)
+            {
+                questions = new List<SurveyQuestionsModel>();
+            }
+            foreach (var question in questions)
+            {
+                if (question.Question == null) question.Question = " ";
+                question.SurveyId = model.Id;
+                var answers = question.SurveyAnswersModel;
+                if (answers == null)
+                {
+                    answers = new List<SurveyAnswersModel>
+                    {
+                        new SurveyAnswersModel()
+                    };
+                }
+                var i = 1;
+                foreach (var answer in answers)
+                {
+                    if (answer.Answer == null) answer.Answer = " ";
+                    answer.QuestionId = question.Id;
+                    answer.Id = (byte)i;
+                    i++;
+                }
+                question.SurveyAnswersModel = answers;
+            }
+
+            return PartialView("_PreviewSurvey", model);
+        }
+
+        public ActionResult ThankSurvey()
+        {
+            return PartialView("_ThankSurvey");
+        }
+    }
+}

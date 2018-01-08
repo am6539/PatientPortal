@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].[LinkBuilding]
+(
+	[Id] SMALLINT IDENTITY(1,1) NOT NULL PRIMARY KEY, 
+    [Title] NVARCHAR(150) NOT NULL, 
+    [Url] VARCHAR(256) NOT NULL, 
+    [IsUsed] BIT NOT NULL
+)

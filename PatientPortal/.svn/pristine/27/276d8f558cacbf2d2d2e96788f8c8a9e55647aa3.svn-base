@@ -1,0 +1,27 @@
+﻿using ProtoBuf;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.CMS.Models
+{
+    [ProtoContract]
+    public class LinkBuildingViewModel
+    {
+        [ProtoMember(1)]
+        public short Id { get; set; }
+        [ProtoMember(2)]
+        [Display(Name = "Tiêu đề")]
+        [Required(ErrorMessage = "Xin vui lòng nhập tiêu đề")]
+        public string Title { get; set; }
+        [ProtoMember(3)]
+        [Display(Name = "URL")]
+        [Required(ErrorMessage = "Xin vui lòng nhập địa chỉ liên kết website")]
+        public string Url { get; set; }
+        [ProtoMember(4)]
+        [Display(Name = "Hiển thị")]
+        public bool IsUsed { get; set; }
+    }
+}

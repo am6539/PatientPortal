@@ -1,0 +1,25 @@
+﻿CREATE PROCEDURE [dbo].[usp_User_HasScheduleExamine]
+	@Search nvarchar(250) = ''
+AS BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+
+	BEGIN TRY
+		SELECT DISTINCT 
+				dbo.Users.*
+		FROM    dbo.Schedule INNER JOIN
+				dbo.Users ON dbo.Schedule.UserId = dbo.Users.Id
+		WHERE   (dbo.Users.IsDoctor = 1)
+				AND (Name like '%' + @Search + '%' OR @Search is null)
+				AND (Tags like '%' + @Search + '%' OR @Search is null)
+				AND IsExamine = 1
+				AND GETDATE() >= [Start]
+
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0 
+		BEGIN
+			RETURN NULL
+		END
+	END CATCH
+END

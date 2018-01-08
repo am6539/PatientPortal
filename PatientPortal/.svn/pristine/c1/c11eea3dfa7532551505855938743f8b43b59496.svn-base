@@ -1,0 +1,9 @@
+﻿'use strict';
+
+angular.module('spaApp')
+    .controller("DepartmentController", [
+    "$scope", "$location", "$route", "Params", "DepartmentServices",
+    function ($scope, $location, $route, Params, DepartmentServices) {
+
+
+    }]);

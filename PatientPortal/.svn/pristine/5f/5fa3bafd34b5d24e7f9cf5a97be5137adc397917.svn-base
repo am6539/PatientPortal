@@ -1,0 +1,5 @@
+﻿angular.module('appTest')
+    .controller('BController', ['$scope', 'BService', '$route',
+        function BController($scope, BService, $route) {
+        }
+    ]);

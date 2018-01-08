@@ -1,0 +1,14 @@
+D:\ProjectsFIS\PatientPortal\HospitalCMS\bin\Debug\HospitalCMS.dacpac
+D:\ProjectsFIS\PatientPortal\HospitalCMS\bin\Debug\HospitalCMS.dll
+D:\ProjectsFIS\PatientPortal\HospitalCMS\bin\Debug\HospitalCMS.pdb
+D:\ProjectsFIS\PatientPortal\HospitalCMS\obj\Debug\Model.xml
+D:\ProjectsFIS\PatientPortal\HospitalCMS\obj\Debug\refactor.xml
+D:\ProjectsFIS\PatientPortal\HospitalCMS\obj\Debug\postdeploy.sql
+D:\ProjectsFIS\PatientPortal\HospitalCMS\obj\Debug\predeploy.sql
+D:\ProjectsFIS\PatientPortal\HospitalCMS\obj\Debug\HospitalCMS.dll
+D:\ProjectsFIS\PatientPortal\HospitalCMS\obj\Debug\HospitalCMS.pdb
+E:\ProjectsFIS\PatientPortal\HospitalCMS\bin\Debug\HospitalCMS.dacpac
+E:\ProjectsFIS\PatientPortal\HospitalCMS\bin\Debug\HospitalCMS.dll
+E:\ProjectsFIS\PatientPortal\HospitalCMS\bin\Debug\HospitalCMS.pdb
+E:\ProjectsFIS\PatientPortal\HospitalCMS\obj\Debug\HospitalCMS.dll
+E:\ProjectsFIS\PatientPortal\HospitalCMS\obj\Debug\HospitalCMS.pdb

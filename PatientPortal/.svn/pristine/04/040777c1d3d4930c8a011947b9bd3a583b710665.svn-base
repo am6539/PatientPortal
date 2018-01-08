@@ -1,0 +1,24 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.Internal.Models.ModuleViewModel
+
+<div class="card">
+    <div class="card-content">
+        @using (Html.IBeginForm("Create", "Module"))
+            {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            @Html.IGroupSubmitButton("Thêm chức năng")
+            @Html.HiddenFor(m => m.Id)
+            @Html.IGroupTextBoxFor(m => m.Title, true, "Tên chức năng", null, 12)
+            @Html.IGroupTextBoxFor(m => m.Handler, true, "Url", null, 12)
+            @Html.IGroupTextBoxFor(m => m.Sort, true, null, new { @type = "number", @min = "0" }, 12)
+            @Html.IGroupDropDownListFor(m => m.ParentId, new SelectList(ViewBag.Modules, "Id", "Name"), false, "Chọn chức năng", null, 12)
+            @Html.IGroupDropDownListFor(m => m.Group, new SelectList(new[] {
+                new SelectListItem { Text = "CMS", Value = "1" },
+                new SelectListItem { Text = "Patient Services", Value = "2" },
+                new SelectListItem { Text = "Internal", Value = "3" }
+            }, "Value", "Text"), true, "Thuộc cổng thông tin", null, 12)
+        }
+
+    </div>
+</div>

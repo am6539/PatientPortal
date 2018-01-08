@@ -1,0 +1,5 @@
+﻿angular.module('appTest').factory('BService', ['$resource',
+    function ($resource) {
+        return $resource('Configuration', {}, {
+        });
+    }]);

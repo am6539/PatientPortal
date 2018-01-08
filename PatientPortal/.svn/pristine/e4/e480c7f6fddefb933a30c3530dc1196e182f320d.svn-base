@@ -1,0 +1,256 @@
+﻿using PatientPortal.CMS.Common;
+using PatientPortal.CMS.Models;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using PatientPortal.Utility.Application;
+using PatientPortal.Domain.LogManager;
+using PatientPortal.Domain.Models.AUTHEN;
+using System.Web;
+using static PatientPortal.Utility.Application.ApplicationGenerator;
+//using WebMarkupMin.AspNet4.Mvc;
+
+namespace PatientPortal.CMS.Controllers
+{
+    [Authorize]
+    [AppHandleError]
+    //[CompressContent]
+    //[MinifyHtml]
+    public class WorkflowController : Controller
+    {
+        private static string controllerName = string.Empty;
+        private readonly IUserSession _userSession;
+
+        public WorkflowController(IUserSession userSession)
+        {
+            _userSession = userSession;
+        }
+
+        // GET: Workflow
+        public async Task<ActionResult> Index()
+        {
+            var results = new WorkflowsModel();
+            try
+            {
+                //Call API Provider
+                controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                var list = await APIProvider.Authorize_Get<List<WorkflowViewModel>>(_userSession.BearerToken, controllerName, APIConstant.API_Resource_CMS, ARS.Get);
+
+                var data = new WorkflowViewModel();
+                results.lstWorkflowViewModel = list;
+                results.WorkflowViewModel = data;
+
+                return View(results);
+            }
+            catch (HttpException ex)
+            {
+                Logger.LogError(ex);
+                int statusCode = ex.GetHttpCode();
+                if (statusCode == 401)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(FuntionType.Department, APIConstant.ACTION_ACCESS);
+                    return new HttpUnauthorizedResult();
+                }
+
+                throw ex;
+            }
+        }
+
+        #region Create
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Create(WorkflowViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    //Call API Provider
+                    string strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_INSERT);
+                    var result = await APIProvider.Authorize_DynamicTransaction<WorkflowViewModel, bool>(model, _userSession.BearerToken, strUrl, APIConstant.API_Resource_CMS, ARS.Insert);
+
+                    if (result)
+                    {
+                        TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.SUCCESS));
+                    }
+                    else
+                    {
+                        TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                    }
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    var workflows = new WorkflowsModel();
+                    if (TempData["Data"] != null)
+                    {
+                        workflows.lstWorkflowViewModel = (List<WorkflowViewModel>)TempData["Data"];
+                    }
+                    else
+                    {
+                        workflows.lstWorkflowViewModel = await APIProvider.Authorize_Get<List<WorkflowViewModel>>(_userSession.BearerToken, controllerName, APIConstant.API_Resource_CMS, ARS.Get);
+                    }
+
+                    if (workflows.lstWorkflowViewModel == null) workflows.lstWorkflowViewModel = ApplicationGenerator.GetObject<List<WorkflowViewModel>>();
+                    workflows.WorkflowViewModel = model;
+
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                    return View("Index", workflows);
+                }
+            }
+            catch (HttpException ex)
+            {
+                Logger.LogError(ex);
+                int statusCode = ex.GetHttpCode();
+                if (statusCode == 401)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(FuntionType.Department, APIConstant.ACTION_ACCESS);
+                    return new HttpUnauthorizedResult();
+                }
+
+                throw ex;
+            }
+        }
+        #endregion
+
+        #region Edit
+        [HttpGet]
+        public async Task<ActionResult> Edit(byte id)
+        {
+            var data = new WorkflowViewModel();
+            try
+            {
+                if (!await APIProvider.Authorization(_userSession.BearerToken, ARS.Edit))
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.FuntionType.Account, APIConstant.ACTION_UPDATE);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    //Call API Provider
+                    string strUrl = APIProvider.APIGenerator(this, this.RouteData.Values["action"].ToString(), id);
+                    data = await APIProvider.Get<WorkflowViewModel>(controllerName + strUrl);
+                    return View(data);
+                }
+                
+            }
+            catch (HttpException ex)
+            {
+                Logger.LogError(ex);
+                int statusCode = ex.GetHttpCode();
+                if (statusCode == 401)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(FuntionType.Department, APIConstant.ACTION_ACCESS);
+                    return new HttpUnauthorizedResult();
+                }
+
+                throw ex;
+            }
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Edit(WorkflowViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //Call API Provider 
+                string strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_UPDATE);
+                var result = await APIProvider.Authorize_DynamicTransaction<WorkflowViewModel, bool>(model, _userSession.BearerToken, strUrl, APIConstant.API_Resource_CMS, ARS.IgnoredARS);
+
+                if (result)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ERROR, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.ERROR));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.FAIL));
+                return View();
+            }
+        }
+        #endregion
+
+        #region Delete
+        public async Task<ActionResult> ViewConfirmDelete(WorkflowViewModel model)
+        {
+            try
+            {
+                if (!await APIProvider.Authorization(_userSession.BearerToken, ARS.Delete))
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.FuntionType.Article, APIConstant.ACTION_DELETE);
+                    return RedirectToAction("Index");
+                }
+                else
+                    return PartialView("_Delete", model);
+            }
+            catch (HttpException ex)
+            {
+                Logger.LogError(ex);
+                int statusCode = ex.GetHttpCode();
+                if (statusCode == 401)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(FuntionType.Department, APIConstant.ACTION_ACCESS);
+                    return new HttpUnauthorizedResult();
+                }
+
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Delete(byte id)
+        {
+            try
+            {
+                string apicheckIsUsedUrl = controllerName + "/CheckIsUsed/" + id;
+                var checkIsused = await APIProvider.Get<bool>(apicheckIsUsedUrl);
+
+                if (!checkIsused)
+                {
+                    var model = new WorkflowViewModel();
+                    model.Id = id;
+
+                    //Call API Provider - Transactions
+                    string apiUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_DELETE);
+                    var result = await APIProvider.Authorize_DynamicTransaction<WorkflowViewModel, bool>(model, _userSession.BearerToken, apiUrl, APIConstant.API_Resource_CMS, ARS.IgnoredARS);
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ERROR, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_DELETE, ApplicationGenerator.TypeResult.ISUSED));
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                return View();
+            }
+        }
+
+        #endregion
+
+        #region Check Exist
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<JsonResult> CheckExist(string name, byte id)
+        {
+            string apiUrl = APIProvider.APIGenerator(controllerName, new List <string> { nameof(id), nameof(name) }, false, id, name.Trim());
+            var isExist = await APIProvider.Authorize_Get<bool>(_userSession.BearerToken, apiUrl, APIConstant.API_Resource_CMS, ARS.IgnoredARS);
+
+            return Json(!isExist, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
+    }
+}

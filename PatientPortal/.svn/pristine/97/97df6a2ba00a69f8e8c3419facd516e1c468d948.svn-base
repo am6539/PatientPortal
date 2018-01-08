@@ -1,0 +1,70 @@
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Http;
+using System.Web.Http.Controllers;
+using PatientPortal.IRepository.Authorize;
+using System.Security.Claims;
+using WebMatrix.WebData;
+using PatientPortal.Provider.Common;
+
+namespace PatientPortal.API.Core.Models
+{
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
+    public class AuthorizeRolesAttribute : AuthorizeAttribute
+    {
+        public IUserAuthorizationRepo UserAuthorization { get; set; }
+
+        //Custom named parameters for annotation
+        public string ResourceKey { get; set; }
+        public string OperationKey { get; set; }
+
+        protected override bool IsAuthorized(HttpActionContext actionContext)
+        {
+            var authorize = true;
+
+            if (actionContext.Request.Headers.Contains(APIConstant.XAuthorizeHeader))
+            {
+                var userId = actionContext.Request.Headers.GetValues(APIConstant.XAuthorizeHeader).FirstOrDefault();
+                if (userId == null || userId.Length < 1)
+                    return false;
+                var rd = actionContext.Request.GetRouteData();
+                OperationKey = actionContext.ControllerContext.RouteData.Values["id"].ToString(); //actionContext.ActionDescriptor.ActionName;
+                ResourceKey = actionContext.ControllerContext.ControllerDescriptor.ControllerName;
+
+                Dictionary<string, dynamic> para = new Dictionary<string, dynamic>();
+                para.Add("UserId", userId);
+                para.Add("OperationKey", OperationKey);
+                para.Add("ResourceKey", ResourceKey);
+                para.Add("DefaultRoleInitial", APIConstant.DefaultRoleInitial);
+
+                // Get the request lifetime scope so you can resolve services.
+                var requestScope = actionContext.Request.GetDependencyScope();
+
+                // Resolve the service you want to use.
+                var service = requestScope.GetService(typeof(IUserAuthorizationRepo)) as IUserAuthorizationRepo;
+                //var task = service.CheckPermission(para);
+                authorize = Task.Run(async () => await service.CheckPermission(para)).Result;
+
+                
+            }
+            return authorize;
+        }
+
+        public override void OnAuthorization(HttpActionContext actionContext)
+        {
+            if(actionContext.Request.Headers.Authorization == null)
+            {
+                actionContext.Response = new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.Unauthorized);
+            }
+            else
+                base.OnAuthorization(actionContext);
+        }
+    }
+}

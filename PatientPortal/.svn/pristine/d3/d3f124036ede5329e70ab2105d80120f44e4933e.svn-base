@@ -1,0 +1,25 @@
+﻿@model List<PatientPortal.PatientServices.Models.UserNotificationViewModel>
+
+<a href="#0" id="notificationLink"  onclick="updateNoti()"><span class="fa fa-bell"></span></a>
+<div id="notificationContainer">
+    <div id="notificationTitle">Thông báo</div>
+
+@if (Model != null)
+{
+    <div id="notificationsBody" class="notifications">
+        <ul>
+            @foreach (var item in Model)
+            {
+                <li>
+                    <div class="noti-item">
+                        <a>
+                            <span id="@item.Id" hidden>@item.IsRead</span>@item.Detail
+                        </a>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+}
+    <div id="notificationFooter">@Html.ActionLink("Xem tất cả", "Index", "UserNotification")</div>
+</div>

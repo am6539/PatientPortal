@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.API.SPA.ViewModels
+{
+    public class AppointmentLogEditModel
+    {
+        public int Id { get; set; }
+        public DateTime Date { get; set; }
+        public int Time { get; set; }
+        public int PhysicianId { get; set; }
+        public int PatientId { get; set; }
+        public string Symptom { get; set; }
+        public byte Status { get; set; }
+    }
+}

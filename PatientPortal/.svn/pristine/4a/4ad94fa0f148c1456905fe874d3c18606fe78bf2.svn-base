@@ -1,0 +1,81 @@
+﻿@using PatientPortal.Domain.Models.CORE.Enum
+@using PatientPortal.Provider.Helpers
+@model PatientPortal.Internal.Models.Survey.SurveyModel
+
+<div class="card">
+    <div class="card-content">
+        @{
+            var index1 = 0;
+        }
+        @foreach (var question in Model.SurveyQuestionsModel)
+        {
+            var index3 = index1;
+            var isValidation = question.IsRequireds ?? false;
+            <hr style="margin-top: 50px; color: #ccc"/>
+            @Html.IGroupTextBoxFor(m => Model.SurveyQuestionsModel[index3].Question, isValidation, "Ghi câu hỏi khảo sát", null, 12)
+            @Html.HiddenFor(m => Model.SurveyQuestionsModel[index3].Id)
+            @Html.HiddenFor(m => Model.SurveyQuestionsModel[index3].SurveyId)
+            @Html.HiddenFor(m => Model.SurveyQuestionsModel[index3].Type)
+            @Html.HiddenFor(m => Model.SurveyQuestionsModel[index3].IsRequireds)
+            @Html.HiddenFor(m => Model.SurveyQuestionsModel[index3].IsRandomize)
+            var index2 = 0;
+            foreach (var answer in question.SurveyAnswersModel)
+            {
+                var index4 = index2;
+                @Html.HiddenFor(m => Model.SurveyQuestionsModel[index3].SurveyAnswersModel[index4].Id)
+                @Html.HiddenFor(m => Model.SurveyQuestionsModel[index3].SurveyAnswersModel[index4].QuestionId)
+                if (question.Type == (byte)EnumTypeControl.AreaText)
+                {
+                    @Html.IGroupTextAreaFor(m => Model.SurveyQuestionsModel[index3].SurveyAnswersModel[index4].Answer, isValidation, 5, "Vui lòng trả lời câu hỏi", null, 12)
+                }
+                if (question.Type == (byte) EnumTypeControl.TextBox)
+                {
+                    @Html.IGroupTextBoxFor(m => Model.SurveyQuestionsModel[index3].SurveyAnswersModel[index4].Answer, isValidation, "Vui lòng trả lời câu hỏi", null, 12)
+                }
+                if (question.Type == (byte) EnumTypeControl.RadioButton)
+                {
+                    <div class="col-md-12">
+                        @{
+                            var radioId = "SurveyQuestionsModel_" + index3 + "__SurveyAnswersModel_" + index4 + "__Id";
+                        }
+                        @Html.IRadioButtonFor(m => Model.SurveyQuestionsModel[index3].SurveyAnswersModel[index4].Id, radioId, answer.Answer, null)
+                    </div><div class="clearfix"></div>
+                }
+                if (question.Type == (byte) EnumTypeControl.CheckBox)
+                {
+                    <div class="col-md-12">
+                        @{
+                            var checkId = "SurveyQuestionsModel_" + index3 + "__SurveyAnswersModel_" + index4 + "__IsCheck";
+                        }
+                        @Html.ICheckBoxFor(m => Model.SurveyQuestionsModel[index3].SurveyAnswersModel[index4].IsCheck, checkId, answer.Answer, null)
+                    </div><div class="clearfix"></div>
+                }
+                if (question.Type == (byte) EnumTypeControl.NetPromoterScore)
+                {
+                    <div>
+                        <div id="nps" class="text-center">
+                            <span id="1">1</span>
+                            <span id="2">2</span>
+                            <span id="3">3</span>
+                            <span id="4">4</span>
+                            <span id="5">5</span>
+                            <span id="6">6</span>
+                            <span id="7">7</span>
+                            <span id="8">8</span>
+                            <span id="9">9</span>
+                            <span id="10">10</span>
+                        </div>
+                        <div style="float: left; padding: 10px 17px; text-align: left;">
+                            <b>@Model.SurveyQuestionsModel[index3].SurveyAnswersModel[index4].LowScore</b>
+                        </div>
+                        <div style="float: right; padding: 10px 17px; text-align: right;">
+                            <b>@Model.SurveyQuestionsModel[index3].SurveyAnswersModel[index4].HightScore</b>
+                        </div>
+                    </div>
+                }
+                index2++;
+            }
+            index1++;
+        }
+    </div>
+</div>

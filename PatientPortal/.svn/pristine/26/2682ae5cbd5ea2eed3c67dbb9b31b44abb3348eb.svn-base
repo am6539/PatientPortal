@@ -1,0 +1,22 @@
+{
+  "name": "PatientPortal.SPA.PHCN",
+  "description": "",
+  "main": "",
+  "authors": [
+    "CRD"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "font-awesome": "4.6.1"
+  }
+}

@@ -1,0 +1,16 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.Internal.Models.ModuleViewModel
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    @Html.ITitle("Chức năng", TitleBar.Delete)
+</div>
+
+@using (Html.IBeginForm("Delete", "Module"))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Id)
+    @Html.IGroupModalMessage()
+    @Html.IGroupModalSubmitButton("Xóa dữ liệu")
+}
+

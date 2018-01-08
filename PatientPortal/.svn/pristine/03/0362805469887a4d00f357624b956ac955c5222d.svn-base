@@ -1,0 +1,36 @@
+﻿CREATE PROCEDURE [dbo].[usp_CheckPermission]
+    @UserId NVARCHAR(128) = '',
+    @OperationKey VARCHAR(70) = '',
+    @ResourceKey VARCHAR(70) = '',
+    @DefaultRoleInitial NVARCHAR(256) = ''
+AS
+BEGIN
+    SET NOCOUNT ON
+    SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+
+    DECLARE @Permission NVARCHAR(128)
+    DECLARE @PermissionName NVARCHAR(30)
+    SET @PermissionName = RTRIM(@ResourceKey) + '.' + RTRIM(@OperationKey)
+
+    --CHECK ADMIN
+    IF EXISTS(SELECT TOP 1 1 FROM [dbo].[Users] WHERE [Id] = @UserId AND  [IsAdmin] = 1)
+    BEGIN
+        RETURN(1)
+    END
+    --CHECK USER IN ROLES
+    IF EXISTS(SELECT TOP 1 1 FROM [dbo].[UserRole] a LEFT JOIN [dbo].[Role] b ON a.[RoleId] = b.[Id]
+    WHERE [UserId] = @UserId AND b.[Name] = @DefaultRoleInitial)
+    BEGIN
+        RETURN(1)
+    END
+
+    -- CHECK PERMISSION
+    IF EXISTS(SELECT TOP 1 1 FROM [dbo].[UserRole] WHERE [UserId] = @UserId AND [RoleId] IN (
+    SELECT [RoleId] FROM [dbo].[PermissionRole] a LEFT JOIN [dbo].[Permission] b
+    ON a.[PermissionId] = b.[Id] WHERE b.[Name] = @PermissionName))
+    BEGIN
+        RETURN(1)
+    END
+
+    RETURN(0)
+END

@@ -1,0 +1,13 @@
+﻿@using PatientPortal.Provider.Helpers;
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    @Html.ITitle("Đặt lịch hẹn", "file-text-o", "h5")
+</div>
+@{
+    byte status = ViewBag.Status;
+    var mess = (status == 2 ? "Xác nhận đặt hẹn" : "Hủy đặt lịch hẹn");
+}
+@Html.Hidden("BookingStatus", status)
+@Html.IGroupModalMessage("Bạn có chắc muốn xác nhận đặt lịch hẹn?")
+@Html.IGroupModalSubmitButton(mess, true, null, new { @onclick = "ConfirmBook()" })
+

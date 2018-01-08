@@ -1,0 +1,47 @@
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PatientPortal.Domain.Models.CORE;
+using PatientPortal.DataAccess.CORE;
+using PatientPortal.IDataAccess.CORE;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.UnitTest.Core
+{
+    [TestClass]
+    public class ModuleUnitTest
+    {
+        public IModule _moduleImpl;
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            _moduleImpl = new ModuleImpl();
+        }
+
+        [TestMethod]
+        public void ModuleGetAll()
+        {
+            var count = _moduleImpl.GetAll().Count;
+            Assert.IsTrue(count > 0);
+        }
+
+        [TestMethod]
+        public void ModuleInsert()
+        {
+            var list = new List<Module>() {
+                new Module {
+                    Title = "Module 1",
+                    Handler = "Handler 1",
+                    Sort = 1,
+                    ParentId = 1,
+                    GroupId = 1
+                }
+            };
+
+            var flag = _moduleImpl.ModuleTransaction(list, 'I');
+            Assert.IsTrue(flag);
+        }
+    }
+}

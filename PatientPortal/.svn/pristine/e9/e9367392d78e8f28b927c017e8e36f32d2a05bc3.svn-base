@@ -1,0 +1,4 @@
+﻿'use strict';
+
+// Define the `core.homepage` module
+angular.module('core.about', ['ngResource', 'core.params']);

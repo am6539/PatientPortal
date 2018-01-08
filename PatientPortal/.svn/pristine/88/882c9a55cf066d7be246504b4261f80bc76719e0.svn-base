@@ -1,0 +1,25 @@
+﻿using PatientPortal.IRepository.SPA;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.SPA;
+
+namespace PatientPortal.Repositoty.SPA
+{
+    public class AppointmentLogRepoImpl : IAppointmentLogRepo
+    {
+        private IAppointmentLogRepo _iAppointment;
+
+        public AppointmentLogRepoImpl(IAppointmentLogRepo iAppointment)
+        {
+            this._iAppointment = iAppointment;
+        }
+
+        public async Task<bool> Transaction(AppointmentLogEdit data, char action)
+        {
+            return await _iAppointment.Transaction(data, action);
+        }
+    }
+}

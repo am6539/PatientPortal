@@ -1,0 +1,46 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.PatientServices.Models.UserInfoBindingModel
+@{
+    ViewBag.Title = "Thông tin cá nhân";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var dob = (Model.DoB != null ? (DateTime)Model.DoB : DateTime.Now);
+    var age = (DateTime.Now.Year - dob.Year);
+    if (dob > DateTime.Now.AddYears(-age)) { age--; }
+    var Descpt = (Model.Gender == 1 ? "Nam" : "Nữ") + ", " + age.ToString() + " tuổi";
+    var DOB = " Ngày sinh: " + dob.ToString("dd/MM/yyyy");
+    var Code = (@Model.PatientId == null || @Model.PatientId.Length < 1 ? "XX-XXXX-XXXXX" : @Model.PatientId);
+}
+
+<div class="card">
+    <div class="card-title">@Html.ITitle("Hồ sơ cá nhân", "address-card-o")</div>
+    <div class="card-content">
+        @Html.Raw(TempData["Alert"])
+        <div class="col-md-8">
+            <h3 style="color:gray;">@Model.Name</h3>
+            <label>@Descpt</label><span>@DOB</span>
+        </div>
+        <div class="col-md-4">
+            <a class="btn btn-sm btn-primary" href="@Url.Action("ChangePassword","Account")">Đổi mật khẩu</a>
+            <a class="btn btn-sm btn-primary" href="@Url.Action("PersonalInfo","Account")">Cập nhật thông tin cá nhân</a>
+        </div>
+        <div class="clearfix"></div>
+        <hr />
+        
+        <div class="col-md-8">
+            <p><label>Email:</label> @Model.Email </p>
+            <p><label>Địa chỉ:</label> @Model.Address </p>
+            <p><label>Điện thoại:</label> @Model.PhoneNumber </p>
+            <p><label>CMND/Passport:</label> @Model.PersonalId</p>
+            <p><label>Số BHYT:</label> @Model.InsuranceId</p>
+        </div>
+        <div class="col-md-4">
+            <div>
+                <button class="btn btn-lg btn-danger text-center" style="width:83%;">
+                    <p class="fa fa-id-card-o fa-3x"></p>
+                    <p style="font-size:0.6em;">Patient ID</p>
+                    <h3>@Code</h3>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       [dbo].[Schedule]
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Table rebuild
+       [dbo].[Schedule] (Table)
+     Create
+       [dbo].[usp_Schedule_Transaction] (Procedure)
+
+** Supporting actions
+     Drop
+       [dbo].[FK_Schedule_User] (Foreign Key)
+     Create
+       [dbo].[FK_Schedule_User] (Foreign Key)
+     Refresh
+       [dbo].[usp_Schedule] (Procedure)

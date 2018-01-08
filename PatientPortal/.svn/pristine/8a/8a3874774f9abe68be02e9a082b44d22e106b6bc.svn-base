@@ -1,0 +1,39 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.PatientServices.Utility
+{
+    public class ApiUrlConstant
+    {
+        #region APPOINTMENT
+        public static string TRANSACTION_APPOINTMENT(char action)
+        {
+            return $"api/Appointment?action={action}";
+        }
+        #endregion
+
+        #region USER
+        public static string GET_USERS(string search, byte type)
+        {
+            return $"?search={search}&type={type}";
+        }
+
+        public static string GET_USER_DETAILS(int Id)
+        {
+            return $"/{Id}";
+        }
+
+        public static string TRANSACTION_USER(char action)
+        {
+            return $"?action={action}";
+        }
+        #endregion
+
+        #region SCHEDULE
+        public const string GET_SCHEDULE = "api/Schedule/GetSchedule";
+        public const string GET_SCHEDULE_DETAIL = "api/Schedule/GetScheduleDetail";
+        #endregion
+    }
+}

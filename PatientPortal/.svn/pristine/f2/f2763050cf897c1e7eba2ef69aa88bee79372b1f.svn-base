@@ -1,0 +1,36 @@
+﻿@model List<int>
+<div class="card">
+    <div class="card-title">
+        <span style="background-color:#ff6a00; color:white; font-size:0.8em; border-radius: 3px; padding:2px 5px 2px 5px;">NEW</span> NHỮNG THÔNG TIN MỚI KHỞI TẠO
+    </div>
+    <div class="card-content">
+        <div class="col-md-3 btn-toogle">
+            <a class="btn btn-warning" style="width:100%;" href="@Url.Action("Index", "Account")">
+                <div class="icon"><i class="fa fa-users fa-3x"></i></div>
+                <h3>@Model.First()</h3>
+                <small>TÀI KHOẢN</small>
+            </a>
+        </div>
+        <div class="col-md-3 btn-toogle">
+            <a class="btn btn-success" style="width:100%;" href="@Url.Action("Index", "Article")">
+                <div class="icon"><i class="fa fa-question-circle-o fa-3x"></i></div>
+                <h3>@Model.Skip(1).First()</h3>
+                <small>HỎI ĐÁP Y TẾ</small>
+            </a>
+        </div>
+        <div class="col-md-3 btn-toogle">
+            <a class="btn btn-info" style="width:100%;" href="@Url.Action("Index", "OfferAdvise")">
+                <div class="icon"><i class="fa fa-commenting-o fa-3x"></i></div>
+                <h3>@Model.Skip(2).First()</h3>
+                <small>GÓP Ý XÂY DỰNG</small>
+            </a>
+        </div>
+        <div class="col-md-3 btn-toogle">
+            <a class="btn btn-info" style="width:100%;" href="@Url.Action("Index", "Appointment")">
+                <div class="icon"><i class="fa fa-calendar fa-3x"></i></div>
+                <h3>@Model.Skip(3).First()</h3>
+                <small>LỊCH ĐẶT HẸN</small>
+            </a>
+        </div>
+    </div>
+</div>

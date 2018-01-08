@@ -1,0 +1,34 @@
+﻿angular.module('spaApp')
+    .controller('PostsController', ['$scope', 'PostService', 'CategoryService', 'PagerService', 'Params',
+        function PostsController($scope, PostService, CategoryService, PagerService, Params) {
+            $scope.pager = {};
+            PostService.queryPost({ languageCode: 'vi', priority: Params.newpriority }, function (data) {
+                $scope.newposts = data;
+            });
+
+            $scope.setPage(1);
+            $scope.setPage = function(page) {
+                if (page < 1 || page > $scope.pager.totalPages) {
+                    return;
+                }
+
+                // get pager object from service
+                $scope.pager = PagerService.GetPager($scope.newposts.length, page);
+
+                // get current page of items
+                $scope.posts = $scope.newposts.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
+            }
+
+            PostService.queryPost({ languageCode: 'vi', priority: Params.hotpriority }, function (data) {
+                $scope.hotposts = data;
+            });
+
+            PostService.queryPost({ languageCode: 'vi', priority: Params.focuspriority }, function (data) {
+                $scope.focusposts = data;
+            });
+
+            CategoryService.queryNewsCategory({ parentId: Params.postParentCategoryId }, function (data) {
+                $scope.categories = data;
+            });
+        }
+]);

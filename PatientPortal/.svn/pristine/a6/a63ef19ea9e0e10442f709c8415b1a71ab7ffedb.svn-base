@@ -1,0 +1,139 @@
+﻿using PatientPortal.DataAccess.Repo.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CMS;
+using System.Transactions;
+using PatientPortal.DataAccess.Dapper;
+using Dapper;
+using PatientPortal.Domain.Utilities;
+
+namespace PatientPortal.DataAccess.CMS
+{
+    public class WorkflowStateImpl : IWorkflowState
+    {
+        public bool CheckExistName(string Name, short Id, byte WorkflowId)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    DapperConfiguration.OpenConnection(1);
+
+                    var data = DapperConfiguration.db.Query<bool>("usp_WorkflowState_CheckExistName",
+                        new { Id = Id, Name = Name, WorkflowId = WorkflowId },
+                        commandType: System.Data.CommandType.StoredProcedure).FirstOrDefault();
+
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Language get data: " + ex.Message);
+                    return false;
+                }
+            }
+        }
+
+        public List<WorkflowState> GetAll()
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    DapperConfiguration.OpenConnection(1);
+
+                    var data = DapperConfiguration.db.Query<WorkflowState>("usp_WorkflowState",
+                                                new { @Id = GlobalVariables.IsTransParameter, @WorkflowId = GlobalVariables.IsTransParameter},
+                                                commandType: System.Data.CommandType.StoredProcedure).ToList();
+
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute WorkflowNavigation get data: " + ex.Message);
+                    return null;
+                }
+            }
+        }
+
+        public WorkflowState GetById(short Id)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    DapperConfiguration.OpenConnection(1);
+
+                    var data = DapperConfiguration.db.Query<WorkflowState>("usp_WorkflowState",
+                                                new { @Id = Id, @WorkflowId = GlobalVariables.IsTransParameter },
+                                                commandType: System.Data.CommandType.StoredProcedure).FirstOrDefault();
+
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute WorkflowNavigation get data: " + ex.Message);
+                    return null;
+                }
+            }
+        }
+
+        public List<WorkflowState> GetByWorkflowId(byte workflowId)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    DapperConfiguration.OpenConnection(1);
+
+                    var data = DapperConfiguration.db.Query<WorkflowState>("usp_WorkflowState",
+                                                new { Id = GlobalVariables.IsTransParameter, workflowId = workflowId },
+                                                commandType: System.Data.CommandType.StoredProcedure).ToList();
+
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute WorkflowNavigation get data: " + ex.Message);
+                    return null;
+                }
+            }
+        }
+
+        public bool WorkflowStateTransaction(List<WorkflowStateEdit> data, char action)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    var val = new Lib.DataGenerator().CommitData<WorkflowStateEdit>(data, "usp_WorkflowState_Transaction", action);
+                    scope.Complete();
+                    return val;
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute CategoryTransaction: " + ex.Message);
+                    return false;
+                }
+            }
+        }
+    }
+}

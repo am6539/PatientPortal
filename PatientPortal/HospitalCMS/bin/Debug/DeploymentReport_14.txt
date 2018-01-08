@@ -1,0 +1,26 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Create
+       [dbo].[PostStateHistory].[idxPostStateHistoryPost] (Index)
+       [dbo].[WorkflowState].[idxWorkflowStateWorkflow] (Index)
+       [dbo].[usp_PostStateHistory_Transaction] (Procedure)
+       [dbo].[usp_WorkflowNavigation_Transaction] (Procedure)
+       [dbo].[usp_WorkflowState_Transaction] (Procedure)
+     Alter
+       [dbo].[usp_Category_Transaction] (Procedure)
+       [dbo].[usp_Post_Transaction] (Procedure)
+       [dbo].[usp_Workflow] (Procedure)
+       [dbo].[usp_Workflow_Transaction] (Procedure)
+       [dbo].[usp_WorkflowNavigation] (Procedure)
+       [dbo].[usp_WorkflowState] (Procedure)
+
+** Supporting actions

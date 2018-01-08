@@ -1,0 +1,70 @@
+﻿@model  PatientPortal.CMS.Models.CategoryViewModel
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+@using (Html.BeginForm("SaveChange", "Category", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Nhóm bài viết</h4>
+    </div>
+            <div class="modal-body">
+                <div class="form-group" style="display: none">
+                    @Html.LabelFor(m => m.ParentId, new { @class = "control-label col-md-3" })
+                    @*<label class="control-label col-md-3">Tên nhóm bài viết: </label>*@
+                    <div class="col-md-9">
+                        @*<input class="form-control" placeholder="Nhập tên nhóm bài viết">*@
+                        @Html.TextBoxFor(m => m.ParentId, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group" style="display: none">
+                    @Html.LabelFor(m => m.Id, new { @class = "control-label col-md-3" })
+                    @*<label class="control-label col-md-3">Tên nhóm bài viết: </label>*@
+                    <div class="col-md-9">
+                        @*<input class="form-control" placeholder="Nhập tên nhóm bài viết">*@
+                        @Html.TextBoxFor(m => m.Id, new { @class = "form-control"})
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Name, new { @class = "control-label col-md-3" })
+                    @*<label class="control-label col-md-3">Tên nhóm bài viết: </label>*@
+                    <div class="col-md-9">
+                        @*<input class="form-control" placeholder="Nhập tên nhóm bài viết">*@
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @placeholder = "Nhập tên nhóm bài viết" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3">Url: </label>
+                    <div class="col-md-9">
+                        @*<input class="form-control" placeholder="Url" disabled>*@
+                        @Html.TextBoxFor(m => m.Handler, new { @class = "form-control", @placeholder = "Url", @disabled = "disabled" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="fileinput" class="control-label col-md-3">File input</label>
+                    <div class="col-md-9">
+                        @*<input type="file" id="fileinput">*@
+                        @Html.TextBoxFor(m => m.Image, new { @class = "form-control", @type = "file", id = "fileinput" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="fileinput" class="control-label col-md-3">Sort</label>
+                    <div class="col-md-9">
+                        @*<input class="form-control" type="number" min="0">*@
+                        @Html.TextBoxFor(m => m.Sort, new { @class = "form-control", @type = "number", @min = "0" })
+                    </div>
+                </div>
+                @*<div class="form-group">
+                        <label class="control-label col-md-3">Trạng thái</label>
+                        <div class="col-md-9">
+                            <input type="checkbox" checked />
+                        </div>
+                    </div>*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                <button type="submit" class="btn btn-primary">Lưu</button>
+            </div>
+}
+    </div>
+</div>

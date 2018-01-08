@@ -1,0 +1,25 @@
+﻿angular.module('spaApp')
+    .controller('PostDetailController', ['$scope', 'Params', 'PostDetailService', '$route', 'CategoryService', 'PostService',
+        function PostDetailController($scope, Params, PostDetailService, $route, CategoryService, PostService) {
+            var Id = $route.current.params.id;
+            PostDetailService.get({ Id: Id }, function (data) {
+                if (data.Id > 0) {
+                    $scope.post = data;
+                    PostService.queryPostByCategory({ languageCode: 'vi', priority: Params.newpriority, categoryId: data.CategoryId }, function (data) {
+                        $scope.Relatedposts = data;
+
+                        $(".scrolling_list_control_left").css("display", "block");
+                        $(".scrolling_list_control_right").css("display", "block");
+                    });
+                }
+            });
+
+            PostService.queryPost({ languageCode: 'vi', priority: Params.hotpriority, categoryId: Params.postParentCategoryId }, function (data) {
+                $scope.hotposts = data;
+            });
+
+            CategoryService.queryNewsCategory({ parentId: Params.postParentCategoryId }, function (data) {
+                $scope.categories = data;
+            });
+        }
+    ]);

@@ -1,0 +1,68 @@
+﻿using PatientPortal.Domain.Caching.Redis.StackExchange.Extensions;
+using PatientPortal.Domain.Utilities;
+using StackExchange.Redis;
+using StackExchange.Redis.Extensions.Core;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.Domain.Caching.Redis.StackExchange
+{
+    public abstract class RedisCacheClient:IDisposable
+    {
+        protected readonly IDatabase Db;
+        protected readonly ICacheClient Sut;
+        protected ISerializer Serializer;
+
+        protected RedisCacheClient(ISerializer serializer)
+        {
+            Serializer = serializer;
+            var mux = ConnectionMultiplexer.Connect(new ConfigurationOptions
+            {
+                DefaultVersion = new Version(3, 0, 500),
+                EndPoints = { { "localhost", 6379 } },
+                AllowAdmin = true
+            });
+
+            Sut = new StackExchangeRedisCacheClient(mux, Serializer);
+            Db = Sut.Database;
+        }
+
+        public void Dispose()
+        {
+            Db.FlushDatabase();
+            Db.Multiplexer.GetSubscriber().UnsubscribeAll();
+            Db.Multiplexer.Dispose();
+            Sut.Dispose();
+        }
+
+        public bool AddList<T>( List<T> data)
+        {
+            try
+            {
+                List<Tuple<string, T>> objList = new List<Tuple<string, T>>();
+                PropertyInfo[] properties = typeof(T).GetProperties();
+
+                for (int i = 0; i <= data.Count; i++)
+                {
+                    var obj = data[i];
+                    var pattern = Helper.GetClassName<T>() + ":" + properties[0].GetValue(obj).ToString();
+                    objList.Add(Tuple.Create(pattern, obj));
+                }
+                return Sut.AddAll(objList);
+
+            }
+            catch (Exception ex)
+            {
+                LogManager.Logger.LogError(ex);
+                return false;
+            }
+            
+
+
+        }
+    }
+}

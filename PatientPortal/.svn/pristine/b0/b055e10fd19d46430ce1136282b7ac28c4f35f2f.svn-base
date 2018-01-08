@@ -1,0 +1,62 @@
+﻿using Microsoft.Owin.Security;
+using PatientPortal.Domain.Models.AUTHEN;
+using PatientPortal.Domain.Models.SYSTEM;
+using PatientPortal.Internal.Common;
+using PatientPortal.Internal.Models;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using WebMarkupMin.AspNet4.Mvc;
+
+namespace PatientPortal.Internal.Controllers
+{
+    [Authorize]
+    [AppHandleError]
+    [CompressContent]
+    [MinifyHtml]
+    //[CheckSessionOut]
+    public class HomeController : Controller
+    {
+        #region Authentication Manager
+        private readonly IUserSession _userSession;
+        private IAuthenticationManager AuthenticationManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().Authentication;
+            }
+        }
+
+        public HomeController(IUserSession userSession)
+        {
+            _userSession = userSession;
+        }
+        #endregion
+
+        [OutputCache(CacheProfile = "CacheFor15m")]
+        public async Task<ActionResult> Index()
+        {
+            //Get module list & store cookie
+            string strUrl = APIProvider.APIGenerator("Module", "Initial", new List<string> { "group" }, true, APIConstant.MODULE_INTERNAL);
+            var lstModule = await APIProvider.Authorize_Get<List<ModuleApplication>>(_userSession.BearerToken, strUrl, APIConstant.API_Resource_CORE, ARS.IgnoredARS);
+            CookieStore.Create(APIConstant.COOKIE_MODULE + APIConstant.MODULE_INTERNAL, lstModule, HttpContext.ApplicationInstance.Context);
+
+            return View();
+        }
+
+        public PartialViewResult _Counter()
+        {
+            string url = APIProvider.APIGenerator("Dashboard", "InternalCounter", null);
+
+            var data = APIProvider.Authorize_GetNonAsync<List<int>>(_userSession.BearerToken, url, APIConstant.API_Resource_CORE, ARS.IgnoredARS);
+            if (data == null) new List<int>();
+
+            return PartialView(data);
+        }
+    }
+}

@@ -1,0 +1,33 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.CMS.Utility
+{
+    public static class RenderMessage
+    {
+        public enum TypeResult
+        {
+            SUCCESS,
+            FAIL
+        }
+
+        public static HtmlString RenderResult(TypeResult typeResult, string strMessage)
+        {
+            var messages = "";
+            switch (typeResult)
+            {
+                case TypeResult.SUCCESS:
+                    messages = "<div class='alert alert-success'><strong>"
+                        + strMessage + "</strong></div>";
+                    break;
+                case TypeResult.FAIL:
+                    messages = "<div class='alert alert-danger'><strong>"
+                        + strMessage + "</strong></div>";
+                    break;
+            }
+            return new HtmlString(messages);
+        }
+    }
+}

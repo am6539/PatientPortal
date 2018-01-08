@@ -1,0 +1,46 @@
+﻿using ProtoBuf;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.CMS.Models
+{
+    [ProtoContract]
+    public partial class PostViewModel
+    {
+        [ProtoMember(1)]
+        public int Id { get; set; }
+        [ProtoMember(2)]
+        public DateTime PublishDate { get; set; }
+        [ProtoMember(3)]
+        public string Image { get; set; }
+        [ProtoMember(4)]
+        public string Author { get; set; }
+        [ProtoMember(5)]
+        public short WorkflowStateId { get; set; }
+        [ProtoMember(6)]
+        public byte CategoryId { get; set; }
+        [ProtoMember(7)]
+        public byte Status { get; set; }
+        [ProtoMember(8)]
+        public string CreatedDate { get; set; }
+        [ProtoMember(9)]
+        public int CreatedBy { get; set; }
+        [ProtoMember(10)]
+        public string ModifiedDate { get; set; }
+        [ProtoMember(11)]
+        public int ModifiedBy { get; set; }
+
+        [ProtoMember(12)]
+        public virtual CategoryViewModel Category { get; set; }
+        [ProtoMember(13)]
+        public virtual WorkflowStateViewModel WorkflowState { get; set; }
+        [ProtoMember(14)]
+        public virtual PostSEOViewModel PostSEO { get; set; }
+        [ProtoMember(15)]
+        public virtual ICollection<PostStateHistoryViewModel> PostStateHistories { get; set; }
+        [ProtoMember(6)]
+        public virtual ICollection<PostTranViewModel> PostTrans { get; set; }
+    }
+}

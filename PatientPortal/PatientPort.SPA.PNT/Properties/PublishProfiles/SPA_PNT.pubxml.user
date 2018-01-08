@@ -1,0 +1,1788 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit http://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PublishTargetUrl>D:\IIS\SPA_PNT</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="app/app.config.js">
+      <publishTime>09/05/2017 18:30:12</publishTime>
+    </File>
+    <File Include="app/app.controller.js">
+      <publishTime>09/05/2017 14:35:18</publishTime>
+    </File>
+    <File Include="app/app.module.js">
+      <publishTime>08/31/2017 10:03:41</publishTime>
+    </File>
+    <File Include="app/components/appointment/appointment.controller.js">
+      <publishTime>08/30/2017 15:12:37</publishTime>
+    </File>
+    <File Include="app/components/appointment/appointment.service.js">
+      <publishTime>08/30/2017 15:11:38</publishTime>
+    </File>
+    <File Include="app/components/appointment/appointment.template.html">
+      <publishTime>09/05/2017 18:06:17</publishTime>
+    </File>
+    <File Include="app/components/child-departments/child-department.controller.js">
+      <publishTime>09/05/2017 16:46:46</publishTime>
+    </File>
+    <File Include="app/components/child-departments/child-department.service.js">
+      <publishTime>09/05/2017 10:59:16</publishTime>
+    </File>
+    <File Include="app/components/child-departments/child-department.template.html">
+      <publishTime>09/05/2017 16:47:21</publishTime>
+    </File>
+    <File Include="app/components/home-page/home-page.controller.js">
+      <publishTime>09/05/2017 14:35:18</publishTime>
+    </File>
+    <File Include="app/components/home-page/home-page.service.js">
+      <publishTime>09/05/2017 15:34:52</publishTime>
+    </File>
+    <File Include="app/components/home-page/home-page.template.html">
+      <publishTime>09/06/2017 10:02:18</publishTime>
+    </File>
+    <File Include="app/components/post-detail/post-detail.controller.js">
+      <publishTime>09/05/2017 16:58:30</publishTime>
+    </File>
+    <File Include="app/components/post-detail/post-detail.service.js">
+      <publishTime>08/30/2017 16:11:19</publishTime>
+    </File>
+    <File Include="app/components/post-detail/post-detail.template.html">
+      <publishTime>09/01/2017 10:55:16</publishTime>
+    </File>
+    <File Include="app/components/rss/rss.controller.js">
+      <publishTime>09/06/2017 09:42:08</publishTime>
+    </File>
+    <File Include="app/components/rss/rss.service.js">
+      <publishTime>09/06/2017 09:38:42</publishTime>
+    </File>
+    <File Include="app/components/rss/rss.template.html">
+      <publishTime>09/06/2017 10:00:00</publishTime>
+    </File>
+    <File Include="app/shared/directive/site.directive.js">
+      <publishTime>08/30/2017 15:00:27</publishTime>
+    </File>
+    <File Include="app/shared/filter/date.filter.js">
+      <publishTime>08/30/2017 14:51:52</publishTime>
+    </File>
+    <File Include="app/shared/function.array.js">
+      <publishTime>09/04/2017 16:08:46</publishTime>
+    </File>
+    <File Include="app/shared/service/meta.service.js">
+      <publishTime>09/01/2017 16:08:15</publishTime>
+    </File>
+    <File Include="app/shared/service/params.service.js">
+      <publishTime>08/30/2017 15:10:05</publishTime>
+    </File>
+    <File Include="ApplicationInsights.config">
+      <publishTime>08/30/2017 11:51:47</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-animate/.bower.json">
+      <publishTime>08/30/2017 11:53:13</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-animate/angular-animate.js">
+      <publishTime>08/30/2017 11:53:13</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-animate/angular-animate.min.js">
+      <publishTime>08/30/2017 11:53:13</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-animate/angular-animate.min.js.map">
+      <publishTime>08/30/2017 11:53:13</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-animate/bower.json">
+      <publishTime>08/30/2017 11:53:13</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-animate/index.js">
+      <publishTime>08/30/2017 11:53:13</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-animate/LICENSE.md">
+      <publishTime>08/30/2017 11:53:13</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-animate/package.json">
+      <publishTime>08/30/2017 11:53:13</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-animate/README.md">
+      <publishTime>08/30/2017 11:53:13</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-aria/.bower.json">
+      <publishTime>08/30/2017 11:53:33</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-aria/angular-aria.js">
+      <publishTime>08/30/2017 11:53:33</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-aria/angular-aria.min.js">
+      <publishTime>08/30/2017 11:53:33</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-aria/angular-aria.min.js.map">
+      <publishTime>08/30/2017 11:53:33</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-aria/bower.json">
+      <publishTime>08/30/2017 11:53:33</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-aria/index.js">
+      <publishTime>08/30/2017 11:53:33</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-aria/LICENSE.md">
+      <publishTime>08/30/2017 11:53:33</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-aria/package.json">
+      <publishTime>08/30/2017 11:53:33</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-aria/README.md">
+      <publishTime>08/30/2017 11:53:33</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-resource/.bower.json">
+      <publishTime>08/30/2017 11:53:54</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-resource/angular-resource.js">
+      <publishTime>08/30/2017 11:53:54</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-resource/angular-resource.min.js">
+      <publishTime>08/30/2017 11:53:54</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-resource/angular-resource.min.js.map">
+      <publishTime>08/30/2017 11:53:54</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-resource/bower.json">
+      <publishTime>08/30/2017 11:53:54</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-resource/index.js">
+      <publishTime>08/30/2017 11:53:54</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-resource/LICENSE.md">
+      <publishTime>08/30/2017 11:53:54</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-resource/package.json">
+      <publishTime>08/30/2017 11:53:54</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-resource/README.md">
+      <publishTime>08/30/2017 11:53:54</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-route/.bower.json">
+      <publishTime>08/30/2017 11:54:15</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-route/angular-route.js">
+      <publishTime>08/30/2017 11:54:15</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-route/angular-route.min.js">
+      <publishTime>08/30/2017 11:54:15</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-route/angular-route.min.js.map">
+      <publishTime>08/30/2017 11:54:15</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-route/bower.json">
+      <publishTime>08/30/2017 11:54:15</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-route/index.js">
+      <publishTime>08/30/2017 11:54:15</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-route/LICENSE.md">
+      <publishTime>08/30/2017 11:54:15</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-route/package.json">
+      <publishTime>08/30/2017 11:54:15</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-route/README.md">
+      <publishTime>08/30/2017 11:54:15</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-sanitize/.bower.json">
+      <publishTime>08/30/2017 11:56:48</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-sanitize/angular-sanitize.js">
+      <publishTime>08/30/2017 11:56:48</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-sanitize/angular-sanitize.min.js">
+      <publishTime>08/30/2017 11:56:48</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-sanitize/angular-sanitize.min.js.map">
+      <publishTime>08/30/2017 11:56:48</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-sanitize/bower.json">
+      <publishTime>08/30/2017 11:56:48</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-sanitize/index.js">
+      <publishTime>08/30/2017 11:56:48</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-sanitize/LICENSE.md">
+      <publishTime>08/30/2017 11:56:48</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-sanitize/package.json">
+      <publishTime>08/30/2017 11:56:48</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-sanitize/README.md">
+      <publishTime>08/30/2017 11:56:48</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/.bower.json">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/.gitignore">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/.travis.yml">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/build/angular-ui-ieshiv.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/build/angular-ui-ieshiv.min.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/build/angular-ui.css">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/build/angular-ui.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/build/angular-ui.min.css">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/build/angular-ui.min.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/CHANGELOG.md">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/common/ieshiv/ieshiv.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/common/ieshiv/README.md">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/common/module.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/common/stylesheets/angular-ui.less">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/common/stylesheets/mixins.less">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/grunt.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/LICENSE">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/animate/animate.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/animate/test/animateSpec.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/calendar/calendar.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/calendar/dependencies.json">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/calendar/test/calendarSpec.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/codemirror/codemirror.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/codemirror/dependencies.json">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/codemirror/test/codemirrorSpec.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/currency/currency.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/currency/README.md">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/currency/stylesheets/currency.less">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/currency/test/currencySpec.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/date/date.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/date/dependencies.json">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/date/README.md">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/date/test/dateSpec.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/event/event.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/event/test/eventSpec.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/if/if.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/if/test/ifSpec.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/jq/jq.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/jq/README.md">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/jq/test/jqSpec.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/keypress/keypress.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/keypress/test/keydownSpec.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/keypress/test/keypressSpec.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/keypress/test/keyupSpec.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/map/map.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/map/test/mapSpec.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/mask/dependencies.json">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/mask/mask.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/mask/test/maskSpec.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/reset/reset.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/reset/stylesheets/reset.less">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/reset/test/resetSpec.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/route/route.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/route/test/routeSpec.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/scrollfix/scrollfix.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/scrollfix/test/scrollfixSpec.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/select2/dependencies.json">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/select2/select2.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/select2/test/select2Spec.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/showhide/showhide.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/showhide/test/showhideSpec.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/sortable/REDME.md">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/sortable/sortable.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/sortable/test/sortableSpec.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/tinymce/dependencies.json">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/tinymce/test/tinymceSpec.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/tinymce/tinymce.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/validate/test/validateSpec.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/directives/validate/validate.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/filters/format/format.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/filters/format/test/formatSpec.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/filters/highlight/highlight.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/filters/highlight/highlight.less">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/filters/highlight/test/highlightSpec.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/filters/inflector/inflector.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/filters/inflector/test/inflectorSpec.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/filters/unique/test/uniqueSpec.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/modules/filters/unique/unique.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/package.json">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/README.md">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/templates/dependencies.json">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/templates/README.md">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/templates/stylesheets/template.less">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/templates/template.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/templates/test/templateSpec.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/test/lib/angular-1.0.1/angular-mocks.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/test/lib/angular-1.0.1/angular.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/test/lib/angular/angular-1.0.0rc4.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/test/lib/angular/angular-1.0.0rc5.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/test/lib/angular/angular-mocks.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/test/lib/bootstrap/bootstrap-modal.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/test/lib/calendar/calendar.js.min">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/test/lib/codemirror/codemirror.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/test/lib/googlemaps/googlemaps.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/test/lib/jquery/jquery-1.7.2.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/test/lib/jquery/jquery-ui-1.8.18.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/test/lib/maskedinput/jquery.maskedinput-1.3.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/test/lib/select2/select2.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/test/lib/tinymce/jquery.tinymce.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/test/lib/tinymce/tiny_mce.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular-ui/test/test-config.js">
+      <publishTime>08/30/2017 15:57:26</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular/.bower.json">
+      <publishTime>08/30/2017 11:52:32</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular/angular-csp.css">
+      <publishTime>08/30/2017 11:52:32</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular/angular.js">
+      <publishTime>08/30/2017 11:52:32</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular/angular.min.js">
+      <publishTime>08/30/2017 11:52:32</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular/angular.min.js.gzip">
+      <publishTime>08/30/2017 11:52:32</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular/angular.min.js.map">
+      <publishTime>08/30/2017 11:52:32</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular/bower.json">
+      <publishTime>08/30/2017 11:52:32</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular/index.js">
+      <publishTime>08/30/2017 11:52:32</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular/LICENSE.md">
+      <publishTime>08/30/2017 11:52:32</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular/package.json">
+      <publishTime>08/30/2017 11:52:32</publishTime>
+    </File>
+    <File Include="assets/bower_components/angular/README.md">
+      <publishTime>08/30/2017 11:52:32</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/.bower.json">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/bower.json">
+      <publishTime>08/30/2017 11:57:18</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/CHANGELOG.md">
+      <publishTime>08/30/2017 11:57:18</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/dist/css/bootstrap-theme.css">
+      <publishTime>08/30/2017 11:57:18</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/dist/css/bootstrap-theme.css.map">
+      <publishTime>08/30/2017 11:57:18</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+      <publishTime>08/30/2017 11:57:18</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/dist/css/bootstrap-theme.min.css.map">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/dist/css/bootstrap.css">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/dist/css/bootstrap.css.map">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/dist/css/bootstrap.min.css.map">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.eot">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.svg">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/dist/js/bootstrap.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/dist/js/bootstrap.min.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/dist/js/npm.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/fonts/glyphicons-halflings-regular.eot">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/fonts/glyphicons-halflings-regular.svg">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/fonts/glyphicons-halflings-regular.ttf">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/fonts/glyphicons-halflings-regular.woff">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/fonts/glyphicons-halflings-regular.woff2">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/Gemfile">
+      <publishTime>08/30/2017 11:57:18</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/Gemfile.lock">
+      <publishTime>08/30/2017 11:57:18</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/grunt/.jshintrc">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/grunt/bs-commonjs-generator.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/grunt/bs-glyphicons-data-generator.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/grunt/bs-lessdoc-parser.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/grunt/bs-raw-files-generator.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/grunt/change-version.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/grunt/configBridge.json">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/grunt/npm-shrinkwrap.json">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/grunt/sauce_browsers.yml">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/Gruntfile.js">
+      <publishTime>08/30/2017 11:57:18</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/ISSUE_TEMPLATE.md">
+      <publishTime>08/30/2017 11:57:18</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/js/.jscsrc">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/js/.jshintrc">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/js/affix.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/js/alert.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/js/button.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/js/carousel.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/js/collapse.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/js/dropdown.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/js/modal.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/js/popover.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/js/scrollspy.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/js/tab.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/js/tooltip.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/js/transition.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/.csscomb.json">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/.csslintrc">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/alerts.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/badges.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/bootstrap.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/breadcrumbs.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/button-groups.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/buttons.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/carousel.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/close.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/code.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/component-animations.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/dropdowns.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/forms.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/glyphicons.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/grid.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/input-groups.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/jumbotron.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/labels.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/list-group.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/media.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/mixins.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/mixins/alerts.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/mixins/background-variant.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/mixins/border-radius.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/mixins/buttons.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/mixins/center-block.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/mixins/clearfix.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/mixins/forms.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/mixins/gradients.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/mixins/grid-framework.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/mixins/grid.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/mixins/hide-text.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/mixins/image.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/mixins/labels.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/mixins/list-group.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/mixins/nav-divider.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/mixins/nav-vertical-align.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/mixins/opacity.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/mixins/pagination.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/mixins/panels.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/mixins/progress-bar.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/mixins/reset-filter.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/mixins/reset-text.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/mixins/resize.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/mixins/responsive-visibility.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/mixins/size.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/mixins/tab-focus.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/mixins/table-row.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/mixins/text-emphasis.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/mixins/text-overflow.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/mixins/vendor-prefixes.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/modals.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/navbar.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/navs.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/normalize.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/pager.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/pagination.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/panels.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/popovers.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/print.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/progress-bars.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/responsive-embed.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/responsive-utilities.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/scaffolding.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/tables.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/theme.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/thumbnails.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/tooltip.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/type.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/utilities.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/variables.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/less/wells.less">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/LICENSE">
+      <publishTime>08/30/2017 11:57:18</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/nuget/bootstrap.less.nuspec">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/nuget/bootstrap.nuspec">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/nuget/MyGet.ps1">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/package.js">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/package.json">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/bootstrap/README.md">
+      <publishTime>08/30/2017 11:57:18</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/.bower.json">
+      <publishTime>08/30/2017 11:57:43</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/.gitignore">
+      <publishTime>08/30/2017 11:57:42</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/.npmignore">
+      <publishTime>08/30/2017 11:57:42</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/bower.json">
+      <publishTime>08/30/2017 11:57:42</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/css/font-awesome.css">
+      <publishTime>08/30/2017 11:57:42</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/css/font-awesome.css.map">
+      <publishTime>08/30/2017 11:57:42</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/css/font-awesome.min.css">
+      <publishTime>08/30/2017 11:57:42</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/fonts/fontawesome-webfont.eot">
+      <publishTime>08/30/2017 11:57:42</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/fonts/fontawesome-webfont.svg">
+      <publishTime>08/30/2017 11:57:42</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/fonts/fontawesome-webfont.ttf">
+      <publishTime>08/30/2017 11:57:42</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/fonts/fontawesome-webfont.woff">
+      <publishTime>08/30/2017 11:57:42</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/fonts/fontawesome-webfont.woff2">
+      <publishTime>08/30/2017 11:57:42</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/fonts/FontAwesome.otf">
+      <publishTime>08/30/2017 11:57:42</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/HELP-US-OUT.txt">
+      <publishTime>08/30/2017 11:57:42</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/less/animated.less">
+      <publishTime>08/30/2017 11:57:42</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/less/bordered-pulled.less">
+      <publishTime>08/30/2017 11:57:42</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/less/core.less">
+      <publishTime>08/30/2017 11:57:42</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/less/fixed-width.less">
+      <publishTime>08/30/2017 11:57:42</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/less/font-awesome.less">
+      <publishTime>08/30/2017 11:57:42</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/less/icons.less">
+      <publishTime>08/30/2017 11:57:42</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/less/larger.less">
+      <publishTime>08/30/2017 11:57:42</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/less/list.less">
+      <publishTime>08/30/2017 11:57:42</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/less/mixins.less">
+      <publishTime>08/30/2017 11:57:42</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/less/path.less">
+      <publishTime>08/30/2017 11:57:43</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/less/rotated-flipped.less">
+      <publishTime>08/30/2017 11:57:43</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/less/screen-reader.less">
+      <publishTime>08/30/2017 11:57:43</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/less/stacked.less">
+      <publishTime>08/30/2017 11:57:43</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/less/variables.less">
+      <publishTime>08/30/2017 11:57:43</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/scss/font-awesome.scss">
+      <publishTime>08/30/2017 11:57:43</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/scss/_animated.scss">
+      <publishTime>08/30/2017 11:57:43</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/scss/_bordered-pulled.scss">
+      <publishTime>08/30/2017 11:57:43</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/scss/_core.scss">
+      <publishTime>08/30/2017 11:57:43</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/scss/_fixed-width.scss">
+      <publishTime>08/30/2017 11:57:43</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/scss/_icons.scss">
+      <publishTime>08/30/2017 11:57:43</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/scss/_larger.scss">
+      <publishTime>08/30/2017 11:57:43</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/scss/_list.scss">
+      <publishTime>08/30/2017 11:57:43</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/scss/_mixins.scss">
+      <publishTime>08/30/2017 11:57:43</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/scss/_path.scss">
+      <publishTime>08/30/2017 11:57:43</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/scss/_rotated-flipped.scss">
+      <publishTime>08/30/2017 11:57:43</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/scss/_screen-reader.scss">
+      <publishTime>08/30/2017 11:57:43</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/scss/_stacked.scss">
+      <publishTime>08/30/2017 11:57:43</publishTime>
+    </File>
+    <File Include="assets/bower_components/font-awesome/scss/_variables.scss">
+      <publishTime>08/30/2017 11:57:43</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/.bower.json">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/AUTHORS.txt">
+      <publishTime>08/30/2017 11:57:18</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/bower.json">
+      <publishTime>08/30/2017 11:57:18</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/dist/core.js">
+      <publishTime>08/30/2017 11:57:18</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/dist/jquery.js">
+      <publishTime>08/30/2017 11:57:18</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/dist/jquery.min.js">
+      <publishTime>08/30/2017 11:57:18</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/dist/jquery.min.map">
+      <publishTime>08/30/2017 11:57:18</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/dist/jquery.slim.js">
+      <publishTime>08/30/2017 11:57:18</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/dist/jquery.slim.min.js">
+      <publishTime>08/30/2017 11:57:18</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/dist/jquery.slim.min.map">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/external/sizzle/dist/sizzle.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/external/sizzle/dist/sizzle.min.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/external/sizzle/dist/sizzle.min.map">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/external/sizzle/LICENSE.txt">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/LICENSE.txt">
+      <publishTime>08/30/2017 11:57:18</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/README.md">
+      <publishTime>08/30/2017 11:57:18</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/.eslintrc.json">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/ajax.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/ajax/jsonp.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/ajax/load.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/ajax/parseXML.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/ajax/script.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/ajax/var/location.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/ajax/var/nonce.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/ajax/var/rquery.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/ajax/xhr.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/attributes.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/attributes/attr.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/attributes/classes.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/attributes/prop.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/attributes/support.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/attributes/val.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/callbacks.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/core.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/core/access.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/core/DOMEval.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/core/init.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/core/nodeName.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/core/parseHTML.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/core/ready-no-deferred.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/core/ready.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/core/readyException.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/core/stripAndCollapse.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/core/support.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/core/var/rsingleTag.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/css.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/css/addGetHookIf.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/css/adjustCSS.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/css/curCSS.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/css/hiddenVisibleSelectors.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/css/showHide.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/css/support.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/css/var/cssExpand.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/css/var/getStyles.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/css/var/isHiddenWithinTree.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/css/var/rmargin.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/css/var/rnumnonpx.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/css/var/swap.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/data.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/data/Data.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/data/var/acceptData.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/data/var/dataPriv.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/data/var/dataUser.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/deferred.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/deferred/exceptionHook.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/deprecated.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/dimensions.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/effects.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/effects/animatedSelector.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/effects/Tween.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/event.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/event/ajax.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/event/alias.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/event/focusin.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/event/support.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/event/trigger.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/exports/amd.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/exports/global.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/jquery.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/manipulation.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/manipulation/buildFragment.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/manipulation/getAll.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/manipulation/setGlobalEval.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/manipulation/support.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/manipulation/var/rcheckableType.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/manipulation/var/rscriptType.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/manipulation/var/rtagName.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/manipulation/wrapMap.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/manipulation/_evalUrl.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/offset.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/queue.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/queue/delay.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/selector-native.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/selector-sizzle.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/selector.js">
+      <publishTime>08/30/2017 11:57:19</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/serialize.js">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/traversing.js">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/traversing/findFilter.js">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/traversing/var/dir.js">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/traversing/var/rneedsContext.js">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/traversing/var/siblings.js">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/var/arr.js">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/var/class2type.js">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/var/concat.js">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/var/document.js">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/var/documentElement.js">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/var/fnToString.js">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/var/getProto.js">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/var/hasOwn.js">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/var/indexOf.js">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/var/ObjectFunctionString.js">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/var/pnum.js">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/var/push.js">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/var/rcssNum.js">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/var/rnothtmlwhite.js">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/var/slice.js">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/var/support.js">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/var/toString.js">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/bower_components/jquery/src/wrap.js">
+      <publishTime>08/30/2017 11:57:20</publishTime>
+    </File>
+    <File Include="assets/css/animate.min.css">
+      <publishTime>08/30/2017 15:49:57</publishTime>
+    </File>
+    <File Include="assets/css/main.css">
+      <publishTime>08/30/2017 15:49:57</publishTime>
+    </File>
+    <File Include="assets/css/main.less">
+      <publishTime>08/30/2017 15:49:57</publishTime>
+    </File>
+    <File Include="assets/css/owl.carousel.css">
+      <publishTime>08/30/2017 15:49:57</publishTime>
+    </File>
+    <File Include="assets/css/owl.transitions.css">
+      <publishTime>08/30/2017 15:49:57</publishTime>
+    </File>
+    <File Include="assets/css/prettyPhoto.css">
+      <publishTime>08/30/2017 15:49:57</publishTime>
+    </File>
+    <File Include="assets/css/responsive.css">
+      <publishTime>08/30/2017 15:49:57</publishTime>
+    </File>
+    <File Include="assets/css/Site.css">
+      <publishTime>09/05/2017 19:00:23</publishTime>
+    </File>
+    <File Include="assets/css/ui-bootstrap-csp.css">
+      <publishTime>08/30/2017 15:49:58</publishTime>
+    </File>
+    <File Include="assets/images/animated-number/bg.jpg">
+      <publishTime>08/31/2017 10:48:58</publishTime>
+    </File>
+    <File Include="assets/images/blog/01.jpg">
+      <publishTime>08/31/2017 10:48:57</publishTime>
+    </File>
+    <File Include="assets/images/blog/02.jpg">
+      <publishTime>08/31/2017 10:48:57</publishTime>
+    </File>
+    <File Include="assets/images/blog/03.jpg">
+      <publishTime>08/31/2017 10:48:57</publishTime>
+    </File>
+    <File Include="assets/images/cta2/cta2-bg.jpg">
+      <publishTime>08/31/2017 10:48:58</publishTime>
+    </File>
+    <File Include="assets/images/cta2/cta2-img.png">
+      <publishTime>08/31/2017 10:48:58</publishTime>
+    </File>
+    <File Include="assets/images/ico/apple-touch-icon-114-precomposed.png">
+      <publishTime>08/31/2017 10:48:58</publishTime>
+    </File>
+    <File Include="assets/images/ico/apple-touch-icon-144-precomposed.png">
+      <publishTime>08/31/2017 10:48:58</publishTime>
+    </File>
+    <File Include="assets/images/ico/apple-touch-icon-57-precomposed.png">
+      <publishTime>08/31/2017 10:48:58</publishTime>
+    </File>
+    <File Include="assets/images/ico/apple-touch-icon-72-precomposed.png">
+      <publishTime>08/31/2017 10:48:58</publishTime>
+    </File>
+    <File Include="assets/images/img.jpg">
+      <publishTime>08/31/2017 10:48:58</publishTime>
+    </File>
+    <File Include="assets/images/logo.png">
+      <publishTime>08/31/2017 10:48:57</publishTime>
+    </File>
+    <File Include="assets/images/main-feature.png">
+      <publishTime>08/31/2017 10:48:55</publishTime>
+    </File>
+    <File Include="assets/images/picture.jpg">
+      <publishTime>08/31/2017 10:48:58</publishTime>
+    </File>
+    <File Include="assets/images/portfolio/01.jpg">
+      <publishTime>08/31/2017 10:48:58</publishTime>
+    </File>
+    <File Include="assets/images/portfolio/02.jpg">
+      <publishTime>08/31/2017 10:48:58</publishTime>
+    </File>
+    <File Include="assets/images/portfolio/03.jpg">
+      <publishTime>08/31/2017 10:48:58</publishTime>
+    </File>
+    <File Include="assets/images/portfolio/04.jpg">
+      <publishTime>08/31/2017 10:48:58</publishTime>
+    </File>
+    <File Include="assets/images/portfolio/05.jpg">
+      <publishTime>08/31/2017 10:48:58</publishTime>
+    </File>
+    <File Include="assets/images/portfolio/06.jpg">
+      <publishTime>08/31/2017 10:48:58</publishTime>
+    </File>
+    <File Include="assets/images/portfolio/07.jpg">
+      <publishTime>08/31/2017 10:48:58</publishTime>
+    </File>
+    <File Include="assets/images/portfolio/08.jpg">
+      <publishTime>08/31/2017 10:48:58</publishTime>
+    </File>
+    <File Include="assets/images/portfolio/full.jpg">
+      <publishTime>08/31/2017 10:48:58</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/dark_rounded/btnNext.png">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/dark_rounded/btnPrevious.png">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/dark_rounded/contentPattern.png">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/dark_rounded/default_thumbnail.gif">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/dark_rounded/loader.gif">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/dark_rounded/sprite.png">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/dark_square/btnNext.png">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/dark_square/btnPrevious.png">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/dark_square/contentPattern.png">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/dark_square/default_thumbnail.gif">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/dark_square/loader.gif">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/dark_square/sprite.png">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/default/default_thumb.png">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/default/loader.gif">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/default/sprite.png">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/default/sprite_next.png">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/default/sprite_prev.png">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/default/sprite_x.png">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/default/sprite_y.png">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/facebook/btnNext.png">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/facebook/btnPrevious.png">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/facebook/contentPatternBottom.png">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/facebook/contentPatternLeft.png">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/facebook/contentPatternRight.png">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/facebook/contentPatternTop.png">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/facebook/default_thumbnail.gif">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/facebook/loader.gif">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/facebook/sprite.png">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/light_rounded/btnNext.png">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/light_rounded/btnPrevious.png">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/light_rounded/default_thumbnail.gif">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/light_rounded/loader.gif">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/light_rounded/sprite.png">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/light_square/btnNext.png">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/light_square/btnPrevious.png">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/light_square/default_thumbnail.gif">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/light_square/loader.gif">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/prettyPhoto/light_square/sprite.png">
+      <publishTime>08/31/2017 10:48:56</publishTime>
+    </File>
+    <File Include="assets/images/slider/bg1.jpg">
+      <publishTime>08/31/2017 10:48:57</publishTime>
+    </File>
+    <File Include="assets/images/slider/bg2.jpg">
+      <publishTime>08/31/2017 10:48:57</publishTime>
+    </File>
+    <File Include="assets/images/slider/s1.jpg">
+      <publishTime>08/31/2017 10:48:57</publishTime>
+    </File>
+    <File Include="assets/images/slider/s2.jpg">
+      <publishTime>08/31/2017 10:48:57</publishTime>
+    </File>
+    <File Include="assets/images/slider/s3.jpg">
+      <publishTime>08/31/2017 10:48:57</publishTime>
+    </File>
+    <File Include="assets/images/slider/s4.jpg">
+      <publishTime>08/31/2017 10:48:57</publishTime>
+    </File>
+    <File Include="assets/images/team/01.jpg">
+      <publishTime>08/31/2017 10:48:57</publishTime>
+    </File>
+    <File Include="assets/images/team/02.jpg">
+      <publishTime>08/31/2017 10:48:57</publishTime>
+    </File>
+    <File Include="assets/images/team/03.jpg">
+      <publishTime>08/31/2017 10:48:57</publishTime>
+    </File>
+    <File Include="assets/images/team/04.jpg">
+      <publishTime>08/31/2017 10:48:57</publishTime>
+    </File>
+    <File Include="assets/images/testimonial/01.jpg">
+      <publishTime>08/31/2017 10:48:57</publishTime>
+    </File>
+    <File Include="assets/images/testimonial/bg.jpg">
+      <publishTime>08/31/2017 10:48:58</publishTime>
+    </File>
+    <File Include="assets/images/work-process/bg.jpg">
+      <publishTime>08/31/2017 10:48:58</publishTime>
+    </File>
+    <File Include="assets/js/jquery.inview.min.js">
+      <publishTime>08/31/2017 14:06:44</publishTime>
+    </File>
+    <File Include="assets/js/jquery.isotope.min.js">
+      <publishTime>08/31/2017 14:06:44</publishTime>
+    </File>
+    <File Include="assets/js/jquery.js">
+      <publishTime>08/30/2017 17:26:05</publishTime>
+    </File>
+    <File Include="assets/js/jquery.prettyPhoto.js">
+      <publishTime>08/31/2017 14:06:21</publishTime>
+    </File>
+    <File Include="assets/js/main.js">
+      <publishTime>08/30/2017 15:51:26</publishTime>
+    </File>
+    <File Include="assets/js/mousescroll.js">
+      <publishTime>08/30/2017 15:50:57</publishTime>
+    </File>
+    <File Include="assets/js/owl.carousel.min.js">
+      <publishTime>08/30/2017 15:50:57</publishTime>
+    </File>
+    <File Include="assets/js/respond.min.js">
+      <publishTime>08/30/2017 15:50:57</publishTime>
+    </File>
+    <File Include="assets/js/smoothscroll.js">
+      <publishTime>08/30/2017 15:50:57</publishTime>
+    </File>
+    <File Include="assets/js/wow.min.js">
+      <publishTime>08/30/2017 15:50:57</publishTime>
+    </File>
+    <File Include="bin/ApplicationInsights.config">
+      <publishTime>08/30/2017 11:51:47</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.Agent.Intercept.dll">
+      <publishTime>11/30/2016 16:07:42</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.DependencyCollector.dll">
+      <publishTime>12/07/2016 11:45:42</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.PerfCounterCollector.dll">
+      <publishTime>12/07/2016 11:50:34</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.ServerTelemetryChannel.dll">
+      <publishTime>12/06/2016 15:15:48</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.Web.dll">
+      <publishTime>12/07/2016 11:49:10</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.WindowsServer.dll">
+      <publishTime>12/07/2016 11:50:34</publishTime>
+    </File>
+    <File Include="bin/Microsoft.ApplicationInsights.dll">
+      <publishTime>12/06/2016 15:09:52</publishTime>
+    </File>
+    <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
+      <publishTime>06/15/2015 02:06:24</publishTime>
+    </File>
+    <File Include="bin/PatientPort.SPA.PNT.dll">
+      <publishTime>09/11/2017 09:37:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/csc.exe">
+      <publishTime>06/18/2015 20:19:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.Build.Tasks.CodeAnalysis.dll">
+      <publishTime>06/18/2015 20:19:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.CSharp.dll">
+      <publishTime>06/18/2015 20:19:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.dll">
+      <publishTime>06/18/2015 20:19:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.VisualBasic.dll">
+      <publishTime>06/18/2015 20:19:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CSharp.Core.targets">
+      <publishTime>06/18/2015 20:19:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.VisualBasic.Core.targets">
+      <publishTime>06/18/2015 20:19:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Collections.Immutable.dll">
+      <publishTime>06/18/2015 20:19:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Reflection.Metadata.dll">
+      <publishTime>06/18/2015 20:19:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/vbc.exe">
+      <publishTime>06/18/2015 20:19:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/VBCSCompiler.exe">
+      <publishTime>06/18/2015 20:19:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/VBCSCompiler.exe.config">
+      <publishTime>06/18/2015 20:19:46</publishTime>
+    </File>
+    <File Include="favicon.ico">
+      <publishTime>09/05/2017 14:35:18</publishTime>
+    </File>
+    <File Include="index.html">
+      <publishTime>09/05/2017 19:20:37</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>08/30/2017 11:51:47</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>09/06/2017 10:19:31</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

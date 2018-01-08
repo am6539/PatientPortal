@@ -1,0 +1,32 @@
+﻿appManagement.controller('detailController', ['$scope', 'PostService', '$filter', '$q', '$route', '$timeout', function ($scope, PostService, $filter, $q, $route, $timeout) {
+    $scope.isShow = false;
+    //get Id parameter from Url
+    var Id = $route.current.params.id;
+    $('a[ng-href="/index/blog"]').parent('li').addClass('active');
+
+    $scope.query = function () {
+        var defer = $q.defer();
+        $timeout(function () {
+            PostService.query({ Id: Id }, function (data) {
+                defer.resolve($scope.Post = data.post, $scope.Posts = data.postList);
+                $scope.isShow = true;
+            });
+
+        }, 500);
+        defer.promise;
+    };
+
+    //get data of view
+    $scope.query();
+
+    //get post detail
+    $scope.viewDetail = function (Id) {
+        var defer = $q.defer();
+
+        PostService.get({ Id: Id }, function (data) {
+            $('html, body').animate({ scrollTop: $('.postDetail').offset().top - 120 }, 1000);
+            defer.resolve($scope.Post = data);
+        });
+        defer.promise;
+    };
+}]);

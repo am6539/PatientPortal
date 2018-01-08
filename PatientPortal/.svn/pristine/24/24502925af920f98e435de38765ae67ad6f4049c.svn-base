@@ -1,0 +1,8 @@
+﻿'use strict';
+
+angular.
+    module('core.params').
+    constant('Params', {
+        apiUrl: 'http://localhost:18892/api/'
+    }
+);

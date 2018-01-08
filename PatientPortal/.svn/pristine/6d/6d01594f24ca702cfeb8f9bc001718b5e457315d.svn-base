@@ -1,0 +1,25 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.CMS.Models.AdvertiseViewModel
+<div class="card">
+    <div class="card-content">
+        @using (Html.IBeginForm("Create", "Advertise"))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            @Html.IGroupSubmitButton("Thêm thông tin quảng cáo", true, true, null, null, 12)
+            @Html.HiddenFor(m => m.Id)
+            @Html.IGroupTextBoxFor(m => m.Name, true, "Nhập tiêu đề", null, 12)
+            @Html.IGroupTextAreaFor(m => m.Description, true, 2, "Nội dung quảng cáo", null, 12)
+            @Html.IGroupTextBoxFor(m => m.Handler, true, "Địa chỉ URL liên kết", null, 12)
+            @Html.IGroupFileUpload(m => m.Resouce, "fileUpload", true, 12, "file_extension|audio/*|video/*|image/*|media_type")
+            @Html.IGroupCheckBoxFor(m => m.IsUsed, false, "IsUsed", 12, "Chọn để áp dụng")
+            @Html.IGroupTextBoxFor(m => m.StartDate, true, "Ngày bắt đầu", null, 12)
+            @Html.IGroupTextBoxFor(m => m.EndDate, true, "Ngày kết thúc", null, 12)
+
+        }
+
+
+    </div>
+</div>
+
+

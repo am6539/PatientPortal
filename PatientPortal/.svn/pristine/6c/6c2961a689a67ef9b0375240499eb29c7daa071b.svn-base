@@ -1,0 +1,175 @@
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
+using PatientPortal.API.Identity.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Http;
+
+namespace PatientPortal.API.Identity.Controllers
+{
+    public class RoleController : ApiController
+    {
+        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationUserManager _userManager;
+        private ApplicationRoleManager _roleManager;
+        private PermissionManager _permissionManager;
+
+        #region Initial
+        public PermissionManager PermissionManager
+        {
+            get
+            {
+                return _permissionManager ?? new PermissionManager();
+            }
+            private set
+            {
+                _permissionManager = value;
+            }
+        }
+
+        public ApplicationRoleManager RoleManager
+        {
+            get
+            {
+                return _roleManager ?? HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
+            }
+            private set
+            {
+                _roleManager = value;
+            }
+        }
+        #endregion
+
+        public RoleController()
+        {
+        }
+
+        #region Post
+        // POST api/Role/SetRole
+        [Route("SetRole")]
+        public async Task<IHttpActionResult> SetRole(RoleViewModel role)
+        {
+            if (!ModelState.IsValid || role == null)
+            {
+                return BadRequest(ModelState);
+            }
+            var obj = new IdentityRole();
+            obj.Name = role.Name;
+
+            IdentityResult result = await this.RoleManager.CreateAsync(obj);
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+
+            return Ok();
+        }
+
+        // POST api/Role/UpdateRole
+        [Route("UpdateRole")]
+        public async Task<IHttpActionResult> UpdateRole(RoleViewModel role)
+        {
+            if (!ModelState.IsValid || role == null)
+            {
+                return BadRequest(ModelState);
+            }
+            var obj = new IdentityRole();
+            obj.Id = role.Id;
+            obj.Name = role.Name;
+
+            IdentityResult result = await this.RoleManager.UpdateAsync(obj);
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+
+            return Ok();
+        }
+
+        // POST api/Role/RemoveRole
+        [Route("RemoveRole")]
+        public async Task<IHttpActionResult> RemoveRole(RoleViewModel role)
+        {
+            if (!ModelState.IsValid || role == null)
+            {
+                return BadRequest(ModelState);
+            }
+            var obj = new IdentityRole();
+            obj.Id = role.Id;
+            obj.Name = role.Name;
+
+            IdentityResult result = await this.RoleManager.DeleteAsync(obj);
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+
+            return Ok();
+        }
+        #endregion
+
+        #region Get
+        // GET api/Role/GetAll
+        [Route("GetAll")]
+        public List<RoleViewModel> GetAll()
+        {
+            List<RoleViewModel> roles = this.RoleManager.Roles.Select(r => new RoleViewModel { Id = r.Id, Name = r.Name }).ToList();
+            return roles;
+        }
+        #endregion
+
+        #region Helper
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && _userManager != null)
+            {
+                _userManager.Dispose();
+                _userManager = null;
+            }
+
+            if (disposing && _roleManager != null)
+            {
+                _roleManager.Dispose();
+                _roleManager = null;
+            }
+
+            base.Dispose(disposing);
+        }
+
+        private IHttpActionResult GetErrorResult(IdentityResult result)
+        {
+            if (result == null)
+            {
+                return InternalServerError();
+            }
+
+            if (!result.Succeeded)
+            {
+                if (result.Errors != null)
+                {
+                    foreach (string error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error);
+                    }
+                }
+
+                if (ModelState.IsValid)
+                {
+                    // No ModelState errors are available to send, so just return an empty BadRequest.
+                    return BadRequest();
+                }
+
+                return BadRequest(ModelState);
+            }
+
+            return null;
+        }
+        #endregion
+    }
+}

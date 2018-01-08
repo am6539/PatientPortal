@@ -1,0 +1,408 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Globalization;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using System.Web.Mvc.Html;
+using System.Web.Routing;
+
+namespace PatientPortal.Provider.Helpers
+{
+    public static class HtmlHelpers
+    {
+        public static MvcHtmlString IGroupTextBoxFor<TModel, TValue>(this HtmlHelper<TModel> htmlHelper,
+            Expression<Func<TModel, TValue>> expression, bool isValidation = false,  string placeHolder = "", object htmlAttributes = null, byte gridColLabel = 3, byte gridColInput = 9)
+        {
+            var attrs = HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
+            if (htmlAttributes == null)
+            {
+                attrs.Add("class", "form-control");
+            }
+            else
+            {
+                attrs["class"] = attrs["class"].ToString() + " form-control";
+
+            }
+            if (placeHolder.Length > 0)
+            {
+
+                attrs.Add("placeholder", placeHolder);
+            }
+
+            TagBuilder innerContainer = new TagBuilder("div");
+            innerContainer.AddCssClass("col-md-" + gridColInput.ToString());
+            innerContainer.InnerHtml = htmlHelper.TextBoxFor(expression, attrs).ToString();
+
+            if(isValidation)
+            {
+                innerContainer.InnerHtml = innerContainer.InnerHtml + htmlHelper.ValidationMessageFor(expression, null, new { @class = "field-validation-error" }).ToString();
+            }
+                
+            StringBuilder html = new StringBuilder();
+            if(gridColLabel < 12)
+            {
+                html.Append(htmlHelper.LabelFor(expression, new { @class = "col-sm-" + gridColLabel.ToString() + " control-label" }));
+            }
+            else
+            {
+                html.Append("<div class='col-md-12 group-label text-left'>" + htmlHelper.LabelFor(expression, new { @class = "control-label" }) + "</div>");
+            }
+
+            html.Append(innerContainer.ToString());
+
+            TagBuilder outerContainer = new TagBuilder("div");
+            outerContainer.AddCssClass("form-group");
+            outerContainer.InnerHtml = html.ToString();
+
+            return MvcHtmlString.Create(outerContainer.ToString());
+
+        }
+
+        public static MvcHtmlString CardTitle(this HtmlHelper helper, string title, string faicon = "")
+        {
+            title = title.ToUpper();
+            TagBuilder tagBuilder = new TagBuilder("h4");
+            if(faicon.Length > 0)
+                tagBuilder.InnerHtml = String.Format("<span class='fa fa-{0}'></span> {1}",faicon, title);
+            else
+                tagBuilder.InnerHtml = title;
+
+            return MvcHtmlString.Create(tagBuilder.ToString(TagRenderMode.Normal));
+        }
+
+        /// <summary>
+        /// DropDownListFor
+        /// </summary>
+        /// <typeparam name="TModel"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="htmlHelper"></param>
+        /// <param name="expression"></param>
+        /// <param name="selectList"></param>
+        /// <param name="optionLabel"></param>
+        /// <param name="htmlAttributes"></param>
+        /// <returns></returns>
+        public static MvcHtmlString IDropDownListFor<TModel, TValue>(this HtmlHelper<TModel> htmlHelper,
+            Expression<Func<TModel, TValue>> expression, IEnumerable<SelectListItem> selectList, string optionLabel = "",
+            object htmlAttributes = null)
+        {
+            //Func<TModel, TValue> deleg = expression.Compile();
+           // var result = deleg(htmlHelper.ViewData.Model);
+
+            if (htmlAttributes == null)
+            {
+                htmlAttributes = new { @class = "chosen-select" };
+            }
+
+
+            return SelectExtensions.DropDownListFor(htmlHelper, expression, selectList, optionLabel, htmlAttributes);
+
+        }
+
+        public static MvcHtmlString ILabelFor<TModel, TValue>(this HtmlHelper<TModel> htmlHelper,
+            Expression<Func<TModel, TValue>> expression, byte columnGrid = 3, object htmlAttributes = null)
+        {
+            var attrs = HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
+            var classHtml = "control-label" + (columnGrid > 0 ? " col-md-" + columnGrid.ToString() : "");
+
+            if (htmlAttributes == null)
+            {
+                attrs.Add("class", classHtml);
+            }
+            else
+            {
+                attrs["class"] = attrs["class"].ToString() + classHtml;
+
+            }
+
+            return LabelExtensions.LabelFor(htmlHelper, expression, attrs);
+
+        }
+
+        public static MvcHtmlString ITextBoxFor<TModel, TValue>(this HtmlHelper<TModel> htmlHelper,
+            Expression<Func<TModel, TValue>> expression, string placeHolder = "", object htmlAttributes = null)
+        {
+            var attrs = HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
+            if (htmlAttributes == null)
+            {
+                attrs.Add("class", "form-control");
+            }
+            if(placeHolder.Length > 0)
+            {
+                
+                attrs.Add("placeholder", placeHolder);
+            }
+
+
+            return InputExtensions.TextBoxFor(htmlHelper, expression, attrs);
+
+        }
+
+        public static MvcHtmlString ITextAreaFor<TModel, TValue>(this HtmlHelper<TModel> htmlHelper,
+            Expression<Func<TModel, TValue>> expression, int rows = 3, string placeHolder = "", object htmlAttributes = null)
+        {
+            var attrs = HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
+            if (htmlAttributes == null)
+            {
+                attrs.Add("class", "form-control");
+            }
+            if (placeHolder.Length > 0)
+            {
+
+                attrs.Add("placeholder", placeHolder);
+            }
+            if (rows > 0)
+            {
+                attrs.Add("rows", rows);
+            }
+
+
+            return TextAreaExtensions.TextAreaFor(htmlHelper, expression, attrs);
+
+        }
+
+        public static MvcHtmlString ICheckBoxFor<TModel>(this HtmlHelper<TModel> htmlHelper,
+            Expression<Func<TModel, bool>> expression, string idControl, string labelCaption = "" , object htmlAttributes = null)
+        {
+
+            TagBuilder innerContainer = new TagBuilder("div");
+            innerContainer.AddCssClass("checkbox checkbox-info");
+            innerContainer.InnerHtml = htmlHelper.CheckBoxFor(expression, new { @class = "styled" }).ToString() + "<label for='" + idControl + "'>" + labelCaption + "</label>" ;
+
+            StringBuilder html = new StringBuilder();
+            html.Append(innerContainer.ToString());
+
+
+            return MvcHtmlString.Create(html.ToString());
+
+        }
+
+        public static MvcHtmlString IValidationMessageFor<TModel, TValue>(this HtmlHelper<TModel> htmlHelper,
+           Expression<Func<TModel, TValue>> expression, object htmlAttributes = null, string validationMessage = null)
+        {
+            var attrs = HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
+            if (htmlAttributes == null)
+            {
+                attrs.Add("class", "field-validation-error");
+            }
+
+            return ValidationExtensions.ValidationMessageFor(htmlHelper, expression, validationMessage, attrs);
+
+        }
+
+        private static string SelectInternal(HtmlHelper htmlHelper, string name, IEnumerable selectList)
+        {
+            ModelState state;
+
+            string selectedText = string.Empty;
+
+            string fullHtmlFieldName = htmlHelper.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(name);
+
+            object obj2 = null;
+            if (htmlHelper.ViewData.ModelState.TryGetValue(fullHtmlFieldName, out state) && (state.Value != null))
+            {
+                obj2 = state.Value.ConvertTo(typeof(string), null);
+            }
+            if (obj2 == null)
+            {
+                obj2 = htmlHelper.ViewData.Eval(fullHtmlFieldName);
+            }
+
+            if (obj2 != null)
+            {
+                IEnumerable source = ((IEnumerable)new object[] { obj2 });
+                HashSet<string> set = new HashSet<string>(source.Cast<object>().Select<object, string>(delegate (object value)
+                {
+                    return Convert.ToString(value, CultureInfo.CurrentCulture);
+                }), StringComparer.OrdinalIgnoreCase);
+                foreach (SelectListItem item in selectList)
+                {
+                    if ((item.Value != null) ? set.Contains(item.Value) : set.Contains(item.Text))
+                    {
+                        selectedText = item.Text;
+                        break;
+                    }
+                }
+            }
+
+            return selectedText;
+        }
+
+        /// <summary>
+        /// Create Button
+        /// </summary>
+        /// <param name="helper"></param>
+        /// <param name="href"></param>
+        /// <param name="title"></param>
+        /// <param name="htmlAttributes"></param>
+        /// <returns></returns>
+        public static MvcHtmlString IButton(this HtmlHelper helper, string href,  ActionButton type = ActionButton.View, string title = null, bool IsSmallButton = false,  object htmlAttributes = null)
+        {
+            var htmlData = HtmlAttributesBuilder(type, IsSmallButton);
+            TagBuilder tagBuilder = new TagBuilder("a");
+            tagBuilder.InnerHtml = String.Format("<span class='fa {0}'></span> {1}", htmlData["icon"], (title == null || title.Length < 1 ? htmlData["title"]: title));
+            tagBuilder.MergeAttribute("href", (href != null && href.Length > 0 ? href : "#"));
+
+            
+            var isHasClass = false;
+            var className = htmlData["class"];
+            if (htmlAttributes == null)
+            {
+                htmlAttributes = new { @class = className };
+                isHasClass = true;
+            }
+            foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(htmlAttributes))
+            {
+                var _name = property.Name.Replace('_', '-');
+                var _val = property.GetValue(htmlAttributes).ToString();
+
+                if (!isHasClass)
+                {
+                    if(_name.ToLower().Contains("class") && !_val.Contains(className))
+                    {
+                        _val = _val + className;
+                        isHasClass = true;
+                    }
+                }
+                tagBuilder.MergeAttribute(_name, _val);
+            }
+            return MvcHtmlString.Create(tagBuilder.ToString(TagRenderMode.Normal));
+        }
+
+        public static MvcHtmlString IGridButton(this HtmlHelper helper, string href, ActionButton type = ActionButton.View, string title = null, object htmlAttributes = null)
+        {
+            var htmlData = HtmlAttributesBuilder(type, true);
+            TagBuilder tagBuilder = new TagBuilder("a");
+            tagBuilder.InnerHtml = String.Format("<span class='fa {0}'></span>", htmlData["icon"]);
+            tagBuilder.MergeAttribute("href", (href != null && href.Length > 0 ? href : "#"));
+            tagBuilder.MergeAttribute("title", (title == null || title.Length < 1 ? htmlData["title"] : title));
+
+
+            var isHasClass = false;
+            var className = htmlData["class"];
+            if (htmlAttributes == null)
+            {
+                htmlAttributes = new { @class = className + " btn-grid-action" };
+                isHasClass = true;
+            }
+            foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(htmlAttributes))
+            {
+                var _name = property.Name.Replace('_', '-');
+                var _val = property.GetValue(htmlAttributes).ToString();
+
+                if (!isHasClass)
+                {
+                    if (_name.ToLower().Contains("class") && !_val.Contains(className))
+                    {
+                        _val = _val + className;
+                        isHasClass = true;
+                    }
+                }
+                tagBuilder.MergeAttribute(_name, _val + " btn-grid-action");
+            }
+            return MvcHtmlString.Create(tagBuilder.ToString(TagRenderMode.Normal));
+        }
+
+
+        public static MvcHtmlString ISubmitButton(this HtmlHelper helper, ActionButton type = ActionButton.Search, string title = null, string id = null, object htmlAttributes = null)
+        {
+            var htmlData = HtmlAttributesBuilder(type);
+            var isHasClass = false;
+            var className = htmlData["class"];
+            if (htmlAttributes == null)
+            {
+                htmlAttributes = new { @class = className };
+                isHasClass = true;
+            }
+            var strBuilder = String.Format("<button type='submit' id = '{0}'", (id == null?"":id));
+
+            foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(htmlAttributes))
+            {
+                var _name = property.Name.Replace('_', '-');
+                var _val = property.GetValue(htmlAttributes).ToString();
+
+                if (!isHasClass)
+                {
+                    if (_name.ToLower().Contains("class") && !_val.Contains(className))
+                    {
+                        _val = _val + className;
+                        isHasClass = true;
+                    }
+                }
+                strBuilder = strBuilder + String.Format(" {0} = '{1}'",_name, _val);
+            }
+            strBuilder = strBuilder + ">" + String.Format("<span class='fa {0}'></span> {1}", htmlData["icon"] , (title == null || title.Length < 1 ? htmlData["title"] : title)) + "</button>";
+            return MvcHtmlString.Create(strBuilder);
+        }
+
+        private static Dictionary<string, string> HtmlAttributesBuilder(ActionButton type, bool isSmallButton = false)
+        {
+            Dictionary<string, string> result = new Dictionary<string, string>();
+            var _class = string.Empty;
+            var _title = string.Empty;
+            var _icon = string.Empty;
+
+            switch (type)
+            {
+                case ActionButton.Create:
+                    _class = "btn btn-success";
+                    _title = "Thêm mới";
+                    _icon = "fa-plus";
+                    break;
+                case ActionButton.Edit:
+                    _class = "btn btn-warning";
+                    _title = "Chỉnh sửa";
+                    _icon = "fa-edit";
+                    break;
+                case ActionButton.Delete:
+                    _class = "modal-link btn btn-danger";
+                    _title = "Xóa dữ liệu";
+                    _icon = "fa-trash";
+                    break;
+                case ActionButton.View:
+                    _class = "btn btn-primary";
+                    _title = "Xem thông tin";
+                    _icon = "fa-list-alt";
+                    break;
+                case ActionButton.Detail:
+                    _class = "btn btn-primary";
+                    _title = "Chi tiết";
+                    _icon = "fa-navicon";
+                    break;
+                case ActionButton.Search:
+                    _class = "btn btn-default";
+                    _title = "Lọc dữ liệu";
+                    _icon = "fa-search";
+                    break;
+                case ActionButton.Submit:
+                    _class = "btn btn-success";
+                    _title = "Xác nhận";
+                    _icon = "fa-check";
+                    break;
+            }
+            _class += (isSmallButton ? " btn-sm " : "");
+
+            result.Add("class", _class);
+            result.Add("title", _title);
+            result.Add("icon", _icon);
+            return result;
+        }
+    }
+
+    public enum ActionButton:byte
+    {
+        Create,
+        View,
+        Edit,
+        Delete,
+        Detail,
+        Submit,
+        Search
+    }
+
+    
+}

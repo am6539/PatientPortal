@@ -1,0 +1,348 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+}
+
+@section styles{
+    <link href="~/Libs/pnotify/pnotify.custom.min.css" rel="stylesheet" />
+}
+<div class="col-md-12 col-xs-12">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-content">
+                <div class="col-md-4 btn-toogle">
+                    <a class="btn btn-warning" style="width:100%;" href="@Url.Action("MakeAppointment", "Appointment")">
+                        <div class="icon"><i class="fa fa-calendar fa-3x"></i></div>
+                        <h4 style="padding:5px; text-align:center;">ĐẶT LỊCH HẸN</h4>
+                        <small>Khám chữa bệnh</small>
+                    </a>
+                </div>
+                <div class="col-md-4 btn-toogle">
+                    <a class="btn btn-success" style="width:100%;" href="@Url.Action("Prescription", "Demo")">
+                        <div class="icon"><i class="fa fa-file-text-o fa-3x"></i></div>
+                        <h4 style="padding:5px; text-align:center;">ĐƠN THUỐC</h4>
+                        <small>Upload đơn thuốc</small>
+                    </a>
+                </div>
+                <div class="col-md-4 btn-toogle">
+                    <a class="btn btn-info" style="width:100%;" href="@Url.Action("EmailTemplate2", "Demo")">
+                        <div class="icon"><i class="fa fa-commenting-o fa-3x"></i></div>
+                        <h4 style="padding:5px; text-align:center;">HỘP THƯ</h4>
+                        <small>Nhắn tin với tổ phụ trách</small>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><p style="font-size:1.2em;"><span class="fa fa-calendar-check-o" style="color:#b200ff"></span> Lịch hẹn khám bệnh</p></div>
+            <div class="card-content">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Ngày đăng ký</th>
+                            <th>Thời gian</th>
+                            <th>Chuyên khoa</th>
+                            <th>Bác sĩ</th>
+                            <th>Xác thực</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>01/09/2016</td>
+                            <td>09:00</td>
+                            <td>Tai Mũi Họng</td>
+                            <td>Nguyễn Văn Dũng</td>
+                            <td><span class="badge bg-green">Yes</span></td>
+                        </tr>
+                        <tr>
+                            <td>01/12/2016 </td>
+                            <td>07:30</td>
+                            <td>Da Liễu</td>
+                            <td>Jessica Tran</td>
+                            <td><span class="badge bg-green">Yes</span></td>
+                        </tr>
+                        <tr>
+                            <td>28/12/2016 </td>
+                            <td>13:50</td>
+                            <td>Khoa Ngoại</td>
+                            <td>Đặng Trần Ngọc Vinh</td>
+                            <td><span class="badge bg-green">Yes</span></td>
+                        </tr>
+                        <tr>
+                            <td>31/12/2016 </td>
+                            <td>14:20</td>
+                            <td>Khoa Ngoại</td>
+                            <td>Đặng Trần Ngọc Vinh</td>
+                            <td><span class="badge bg-purple">No</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><p style="font-size:1.2em;"><span class="fa fa-stethoscope" style="color:#ef5b5b"></span> Kết quả xét nghiệm</p></div>
+            <div class="card-content">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Thời gian</th>
+                            <th>Nội dung</th>
+                            <th>Nhóm chỉ số</th>
+                            <th>Cảnh báo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>01/09/2016 10:30</td>
+                            <td>Xét nghiệm máu - viêm khớp</td>
+                            <td>TP+TSH+T4F</td>
+                            <td class="text-center"><span class="fa fa-bell" style="color:#ef5b5b"></span></td>
+                        </tr>
+                        <tr>
+                            <td>01/12/2016 07:30</td>
+                            <td>Xét nghiệm tổng quan R1,BV</td>
+                            <td>NMR Lipo</td>
+                            <td class="text-center"><span class="fa fa-bell" style="color:#ef5b5b"></span></td>
+                        </tr>
+                        <tr>
+                            <td>28/12/2016 13:50</td>
+                            <td>Xét nghiệm huyết học VILAS Med 09</td>
+                            <td>CMP14+TP+TSH+5AC</td>
+                            <td class="text-center"><span class="fa fa-bell" style="color:#edd448"></span></td>
+                        </tr>
+                        <tr>
+                            <td>31/12/2016 11:20</td>
+                            <td>Xét nghiệm công thức máu TST</td>
+                            <td>TP+TSH+T4F</td>
+                            <td class="text-center"><span class="fa fa-bell" style="color:#ef5b5b"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><p style="font-size:1.2em;"><span class="fa fa-newspaper-o" style="color:#0094ff"></span> Xử lý hồ sơ khám bệnh</p></div>
+            <div class="card-content">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Thời gian</th>
+                            <th>Tên hồ sơ</th>
+                            <th>Chuyên khoa</th>
+                            <th>Phụ trách</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>01/09/2016</td>
+                            <td>Hồ sơ khám bệnh ngoại trú</td>
+                            <td>Khoa tim mạch</td>
+                            <td>Cao Minh Tâm</td>
+                            <td class="text-center"><a class="btn btn-warning btn-sm">Đang xử lý</a></td>
+                        </tr>
+                        <tr>
+                            <td>01/12/2016</td>
+                            <td>Hồ sơ khám bệnh ngoại trú</td>
+                            <td>Khoa da liễu</td>
+                            <td>Hoàng Thị Bảo Trân</td>
+                            <td class="text-center"><a class="btn btn-warning btn-sm">Đang xử lý</a></td>
+                        </tr>
+                        <tr>
+                            <td>28/12/2016</td>
+                            <td>Hồ sơ khám bệnh nội trú</td>
+                            <td>Khoa tim mạch</td>
+                            <td>Cao Minh Tâm</td>
+                            <td class="text-center"><a class="btn btn-success btn-sm">Đã thực hiện</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-title"><p style="font-size:1.2em;"><span class="fa fa-line-chart" style="color:#edd448"></span> Bảng kê chi phí</p></div>
+            <div class="card-content">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Ngày</th>
+                            <th>Đơn vị</th>
+                            <th>Số tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>01/09/2016</td>
+                            <td>Bệnh viện Trưng Vương</td>
+                            <td class="text-right">1,200,000</td>
+                        </tr>
+                        <tr>
+                            <td>01/12/2016</td>
+                            <td>Bệnh viện Quốc Tế Hoàn Mỹ</td>
+                            <td class="text-right">4,100,000</td>
+                        </tr>
+                        <tr>
+                            <td>28/12/2016</td>
+                            <td>Bệnh viện 30/04</td>
+                            <td class="text-right">300,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-content">
+                <div id="canvas-holder">
+                    <canvas id="chart-area" />
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title"><p style="font-size:1.2em;"><span class="fa fa-street-view" style="color:#88de26"></span> Thống kê khám tổng quát</p></div>
+            <div class="card-content">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Ngày &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <small style="font-size:0.7em; color:#ef5b5b;">(khám bệnh)</small></th>
+                            <th>Huyết áp <small style="font-size:0.7em; color:#ef5b5b">(mmHg)</small></th>
+                            <th>Nặng <small style="font-size:0.7em; color:#ef5b5b">(Kg)</small></th>
+                            <th>Cao <small style="font-size:0.7em; color:#ef5b5b">(cm)</small></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>01/09/2016</td>
+                            <td class="text-right">113/64</td>
+                            <td class="text-right">65</td>
+                            <td class="text-right">172</td>
+                        </tr>
+                        <tr>
+                            <td>01/12/2016</td>
+                            <td class="text-right">103/72</td>
+                            <td class="text-right">63</td>
+                            <td class="text-right">171</td>
+                        </tr>
+                        <tr>
+                            <td>28/12/2016</td>
+                            <td class="text-right">111/66</td>
+                            <td class="text-right">64</td>
+                            <td class="text-right"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title"><p style="font-size:1.2em;"><span class="fa fa-spinner fa-spin" style="color:#ef5b5b"></span> Kết nối gần đây nhất</p></div>
+            <div class="card-content">
+                <ul class="top-profiles scroll-view" style="height:auto;">
+                    <li class="event">
+                        <a class="pull-left profile-thumb">
+                            <i class="fa fa-user aero"></i>
+                        </a>
+                        <div class="media-body">
+                            <a class="title" href="#">Nguyễn Văn Phong</a>
+                            <p><strong>Bác Sĩ. </strong> Khoa nội tổng hợp</p>
+                            <p>
+                                <small><span class="fa fa-clock-o"></span> 8 giờ</small>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="media event">
+                        <a class="pull-left profile-thumb">
+                            <i class="fa fa-user aero"></i>
+                        </a>
+                        <div class="media-body">
+                            <a class="title" href="#">Nguyễn Hà Bảo Trâm</a>
+                            <p><strong>Y Tá. </strong> Khoa tai mũi họng</p>
+                            <p>
+                                <small><span class="fa fa-clock-o"></span> 1 ngày 4 giờ</small>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="media event">
+                        <a class="pull-left profile-thumb">
+                            <i class="fa fa-user aero"></i>
+                        </a>
+                        <div class="media-body">
+                            <a class="title" href="#">Phạm Hoàng Minh</a>
+                            <p><strong>Bác sĩ. </strong> Khoa Da Liễu</p>
+                            <p>
+                                <small><span class="fa fa-clock-o"></span> 3 ngày</small>
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<div class="clearfix"></div>
+@section Scripts{
+    <script src="~/Libs/ChartJS/Chart.bundle.js"></script>
+    <script src="~/Libs/ChartJS/utils.js"></script>
+    <script src="~/Libs/pnotify/pnotify.custom.min.js"></script>
+    <script type="text/javascript">
+$(function(){
+    new PNotify({
+        title: 'Lịch khám bệnh',
+        text: 'Đợt khám bệnh tiếp theo ngày 31/01/2016 - 09:00 - Phòng 304.'
+    });
+});
+    </script>
+    <script>
+     var randomScalingFactor = function () {
+         return Math.round(Math.random() * 100);
+     };
+
+     var config = {
+         type: 'pie',
+         data: {
+             datasets: [{
+                 data: [
+                     randomScalingFactor(),
+                     randomScalingFactor(),
+                     randomScalingFactor(),
+                     randomScalingFactor(),
+                     randomScalingFactor(),
+                 ],
+                 backgroundColor: [
+                     window.chartColors.red,
+                     window.chartColors.orange,
+                     window.chartColors.yellow,
+                     window.chartColors.green,
+                     window.chartColors.blue,
+                 ],
+                 label: 'Dataset 1'
+             }],
+             labels: [
+                 "Trưng Vương",
+                 "Hoàn Mỹ",
+                 "30/4",
+                 "Pháp Việt",
+                 "Sư Vạn Hạnh"
+             ]
+         },
+         options: {
+             responsive: true
+         }
+     };
+
+     window.onload = function () {
+         var ctx = document.getElementById("chart-area").getContext("2d");
+         window.myPie = new Chart(ctx, config);
+     };
+
+    </script>
+}
+
+
+
+

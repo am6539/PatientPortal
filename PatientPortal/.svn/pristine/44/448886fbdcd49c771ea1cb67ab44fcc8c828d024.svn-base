@@ -1,0 +1,21 @@
+﻿<div class="brd-wrap">
+    <div class="container">
+        <div class="row">
+            <div class='hotlink Module Module-514'>
+                <a href="#">
+                    <img alt="" src="assets/images/media/3/img-4.png" />
+                </a>
+                <a href="/appointment">
+                    <img alt="" src="assets/images/media/3/img1.png" />
+                </a>
+                <a href="#">
+                    <img alt="" src="assets/images/media/3/img2.png" />
+                </a>
+                <a href="/answer-question">
+                    <img alt="" src="assets/images/media/3/img3.png" />
+                </a>
+            </div>
+            <h2 class="crrpage-name">{{subTitle}}</h2>
+        </div>
+    </div>
+</div>

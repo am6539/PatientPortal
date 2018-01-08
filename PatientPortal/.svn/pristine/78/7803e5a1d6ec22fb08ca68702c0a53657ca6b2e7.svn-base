@@ -1,0 +1,214 @@
+﻿
+<link href="assets/css/site/menuPage.css" rel="stylesheet" />
+<div class="brd-wrap" ng-include="'app/shared/template-include/submenu.template.html'">
+</div>
+<div class="top-content">
+</div>
+
+<div class="content container">
+    <div class="row">
+        <div class="content-bg">
+            <div id="ctl00_divCenter" class="middle-fullwidth">
+                <div class="content-bg2">
+
+                    <div class='news-spec Module Module-279'>
+                        <h2 class='module-title'>Tin Mới</h2>
+                        <div class="col-sm-1 number">
+                            <div class="abc0{{$index}}" ng-repeat="item in newposts">{{$index + 1}}</div>
+                        </div>
+                        <div class="col-sm-5 img-news"></div>
+                        <div class="col-sm-6 info-news">
+                            <div class="item-info-news" ng-repeat="item in newposts">
+                                <a name="{{item.Flag}}" class="hidden" target="_self" href="/post/{{item.Id}}" title="{{item.TitleTran}}"
+                                   ref="{{item.Image}}">
+                                </a>
+                                <div class="newsspec-date">
+                                    {{item.PublishDate | dateFilter | date:'dd-MM-yyyy'}}
+                                </div>
+                                <h2>
+                                    <a target="_self" href="/post/{{item.Id}}" title="{{item.TitleTran}}">{{item.TitleTran}}</a>
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="clear">
+                        </div>
+                    </div>
+                    <div class='Module Module-280'>
+                        <ul class="noli news-bycat">
+                            <li ng-repeat="item in posts">
+                                <h3 class="newscat-title">
+                                    <a href="/post-list/{{item.category.Id}}" target="_self">{{item.category.Name}}</a>
+                                    <span class="more">
+                                        <a href="/post-list/{{item.category.Id}}" target="_self">
+                                            Xem thêm
+                                        </a>
+                                    </span>
+                                </h3>
+                                <div class="newscat-big">
+                                    <a class="post-img" target="_self" href="/post/{{item.Id}}" title="{{item.firstPost.TitleTran}}">
+                                        <img src="{{item.firstPost.Image}}" alt="{{item.firstPost.TitleTran}}">
+                                    </a>
+                                    <h2 class="title">
+                                        <a target="_self" href="/post/{{item.Id}}" title="{{item.firstPost.TitleTran}}">{{item.firstPost.TitleTran}}</a>
+                                    </h2>
+                                    <div class="newscat-date">
+                                        {{item.firstPost.PublishDate | dateFilter | date:'dd-MM-yyyy'}}
+                                    </div>
+                                    <div class="newscat-desc">
+                                        <div class="autoCutStr_250">
+                                            {{item.firstPost.DescriptionTrans}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="newscat-list" ng-repeat="post in item.subPosts">
+                                    <a class="newscat-item" target="_self" href="/post/{{post.Id}}"
+                                        title="{{post.TitleTran}}">{{post.TitleTran}}</a>
+                                </div>
+                                <div class="clear">
+                                </div>
+                            </li>
+                            <li style="display: none">
+                                <h3 class="newscat-title">
+                                    <a href="/post-list" target="_self">Videos</a>
+                                    <span class="more">
+                                        <a href="/post-list" target="_self">
+                                            Xem thêm
+                                        </a>
+                                    </span>
+                                </h3>
+                                <div class="newscat-big">
+                                    <a class="post-img" target="_self" href="/post/1"
+                                       title="Xử trí dị vật đường thở cho nạn nhân tỉnh táo - Bệnh viện Hoàn Mỹ Đà Nẵng">
+                                        <img src="assets/images/data/posts/456x338.png" alt="Xử trí dị vật đường thở cho nạn nhân tỉnh táo - Bệnh viện Hoàn Mỹ Đà Nẵng">
+                                    </a>
+                                    <h2 class="title">
+                                        <a target="_self" href="/post/1g"
+                                           title="Xử trí dị vật đường thở cho nạn nhân tỉnh táo - Bệnh viện Hoàn Mỹ Đà Nẵng">Xử trí dị vật đường thở cho nạn nhân tỉnh táo - Bệnh viện Hoàn Mỹ Đà Nẵng</a>
+                                    </h2>
+                                    <div class="newscat-date">
+                                        (13/05/2017)
+                                    </div>
+                                    <div class="newscat-desc">
+                                        <div class="autoCutStr_250">
+                                            <div style="text-align: justify;"><span style="font-size: 13px;">Video hướng dẫn xử lí dị vật đường thở giúp chúng ta ứng dụng thủ thuật Heimlich trong việc hỗ trợ nạn nhân tống dị vật, khai thông đường thở. Khi bị mắc các dị vật làm tắt đường thở, nạn nhân thường có các biểu hiện họ sặc sụa, tím tái, ngạt thở, vã mồ hôi,…</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="newscat-list">
+                                    <a class="newscat-item" target="_self" href="/post/1" title="Tư Vấn Sức Khỏe - Bệnh Loãng Xương">Tư Vấn Sức Khỏe - Bệnh Loãng Xương</a>
+                                    <a class="newscat-item" target="_self" href="/post/1" title="Tư Vấn Sức Khỏe - Bệnh Tim Ở Người Cao Tuổi">Tư Vấn Sức Khỏe - Bệnh Tim Ở Người Cao Tuổi</a>
+                                    <a class="newscat-item" target="_self" href="/post/1" title="Ước Vọng Hoàn Mỹ">Ước Vọng Hoàn Mỹ</a>
+                                    <a class="newscat-item" target="_self" href="/post/1" title="Hoàn Mỹ Happiness">Hoàn Mỹ Happiness</a>
+                                </div>
+                                <div class="clear">
+                                </div>
+                            </li>
+                            <li style="display: none">
+                                <h3 class="newscat-title">
+                                    <a href="/post-list" target="_self">Tin ảnh</a>
+                                    <span class="more">
+                                        <a href="/post-list" target="_self">
+                                            Xem thêm
+                                        </a>
+                                    </span>
+                                </h3>
+                                <div class="ser-item first">
+                                    <a class="thumb" target="_self" href="/post/1" title="Xử lý cấp cứu &quot;Ngưng tim - Ngưng phổi&quot; (CPR)">
+                                        <img src="assets/images/data/posts/[ehealth]-ky-23-cap-cuu-ngung-tim-01.png" alt="Xử lý cấp cứu &quot;Ngưng tim - Ngưng phổi&quot; (CPR)">
+                                        <span class="shadow-nb">
+                                        </span>
+                                    </a>
+                                    <div class="ser-desc">
+                                        <h3 class="title-news">
+                                            <a target="_self" href="http://www.hoanmy.com/xu-ly-cap-cuu-ngung-tim-ngung-phoi-cpr">Xử lý cấp cứu "Ngưng tim - Ngưng phổi" (CPR)</a>
+                                        </h3>
+                                    </div>
+                                    <div class="desc-nb-n">
+                                        <a class="view-nb" href="http://www.hoanmy.com/xu-ly-cap-cuu-ngung-tim-ngung-phoi-cpr" target="_self">
+                                            Xem online
+                                        </a>
+                                        <a target="_blank" href="">
+                                            Download
+                                        </a>
+                                    </div>
+                                    <div class="clear">
+                                    </div>
+                                </div>
+                                <div class="ser-item">
+                                    <a class="thumb" target="_self" href="http://www.hoanmy.com/dinh-dung-suy-than" title="Dinh dưỡng suy thận">
+                                        <img src="assets/images/data/posts/[ehealth]-ky-21---dd-suy-than-01.jpg" alt="Dinh dưỡng suy thận">
+                                        <span class="shadow-nb">
+                                        </span>
+                                    </a>
+                                    <div class="ser-desc">
+                                        <h3 class="title-news">
+                                            <a target="_self" href="http://www.hoanmy.com/dinh-dung-suy-than">Dinh dưỡng suy thận</a>
+                                        </h3>
+                                    </div>
+                                    <div class="desc-nb-n">
+                                        <a class="view-nb" href="http://www.hoanmy.com/dinh-dung-suy-than" target="_self">
+                                            Xem online
+                                        </a>
+                                        <a target="_blank" href="">
+                                            Download
+                                        </a>
+                                    </div>
+                                    <div class="clear">
+                                    </div>
+                                </div>
+                                <div class="ser-item">
+                                    <a class="thumb" target="_self" href="http://www.hoanmy.com/stress" title="Stress">
+                                        <img src="assets/images/data/posts/[ehealth]-ky-21---stress-01.jpg" alt="Stress">
+                                        <span class="shadow-nb">
+                                        </span>
+                                    </a>
+                                    <div class="ser-desc">
+                                        <h3 class="title-news">
+                                            <a target="_self" href="http://www.hoanmy.com/stress">Stress</a>
+                                        </h3>
+                                    </div>
+                                    <div class="desc-nb-n">
+                                        <a class="view-nb" href="http://www.hoanmy.com/stress" target="_self">
+                                            Xem online
+                                        </a>
+                                        <a target="_blank" href="">
+                                            Download
+                                        </a>
+                                    </div>
+                                    <div class="clear">
+                                    </div>
+                                </div>
+                                <div class="ser-item">
+                                    <a class="thumb" target="_self" href="http://www.hoanmy.com/benh-tri" title="Bệnh Trĩ">
+                                        <img src="assets/images/data/posts/[ehelth]-benh_tri-01_01.jpg" alt="Bệnh Trĩ">
+                                        <span class="shadow-nb">
+                                        </span>
+                                    </a>
+                                    <div class="ser-desc">
+                                        <h3 class="title-news">
+                                            <a target="_self" href="http://www.hoanmy.com/benh-tri">Bệnh Trĩ</a>
+                                        </h3>
+                                    </div>
+                                    <div class="desc-nb-n">
+                                        <a class="view-nb" href="http://www.hoanmy.com/benh-tri" target="_self">
+                                            Xem online
+                                        </a>
+                                        <a target="_blank" href="">
+                                            Download
+                                        </a>
+                                    </div>
+                                    <div class="clear">
+                                    </div>
+                                </div>
+                                <div class="clear">
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+    </div>
+</div>

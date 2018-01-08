@@ -1,0 +1,9 @@
+﻿CREATE TABLE [dbo].[MailSetting] (
+    [Id]    TINYINT       IDENTITY (1, 1) NOT NULL,
+    [Email] VARCHAR (256) NOT NULL,
+    [Host]  VARCHAR (150) NOT NULL,
+    [Port]  NUMERIC (3)   NOT NULL,
+    [IsSSL] BIT           NOT NULL,
+    CONSTRAINT [PK_MailConfig] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+

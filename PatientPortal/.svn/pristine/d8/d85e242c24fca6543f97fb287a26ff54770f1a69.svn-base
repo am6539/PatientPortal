@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.CMS.Common
+{
+    public class ValueConstant
+    {
+        // Values constant of Post
+        public const string CHUA_DUYET = "Chưa duyệt";
+        public const string DUYET = "Duyệt";
+        public const string PUBLISH = "Đã đăng bài";
+    }
+}

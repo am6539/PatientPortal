@@ -1,0 +1,28 @@
+﻿<div>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+</div>
+
+@using (Html.BeginForm("DeleteComment", "Article", FormMethod.Post, new { @class = "modal-form form-horizontal" }))
+{
+    <input type="hidden" name="id" value="@ViewBag.IdComment" />
+    <input type="hidden" name="idArticle" value="@ViewBag.IdArticle" />
+    <div class="modal-body">
+        <div class="row-fluid">
+            <div class="control-group">
+                Bạn muốn xóa câu trả lời này?
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-danger" type="submit">Xóa dữ liệu</button>
+        <button class="btn" type="button" id="btn-dismiss" data-dismiss="modal" aria-hidden="true">Hủy bỏ</button>
+    </div>
+}
+<script type="text/javascript">
+    $(function () {
+        $('#btn-dismiss').click(function () {
+            $('#modal-container').modal('hide');
+        });
+    });
+</script>

@@ -1,0 +1,10 @@
+﻿'use strict';
+
+angular.module('spaPHCN')
+    .controller("CareerController", [
+    "$scope", "$location", "$route", "Params", "CareerServices",
+    function ($scope, $location, $route, Params, CareerServices) {
+
+        $scope.subTitle = "Tuyển dụng";
+
+    }]);

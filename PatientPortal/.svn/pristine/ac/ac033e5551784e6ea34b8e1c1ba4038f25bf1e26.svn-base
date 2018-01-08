@@ -1,0 +1,75 @@
+﻿CREATE PROC [dbo].[usp_AppointmentLog_Transaction]
+(
+	@Action CHAR(1) = 'I',
+	@Id UNIQUEIDENTIFIER,
+	@Date DATE = '',
+	@Time int = 8,
+	@PhysicianId INT = 0,
+	@PatientId NVARCHAR(128) = '',
+	@Symptom NVARCHAR(300) = '',
+	@PatientName NVARCHAR(50) = '',
+	@PatientAddress NVARCHAR(150) = '',
+	@PatientEmail VARCHAR(256) = '',
+	@PatientPhone VARCHAR(20) = '',
+	@PatientGender TINYINT = 1,
+	@PatientDoB DATE = NULL,
+	@Status TINYINT = 1
+)
+AS BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+	DECLARE @return BIT = 1
+	DECLARE @CreatedDate VARCHAR(20)
+	DECLARE @ModifiedDate VARCHAR(20)
+
+	BEGIN TRY
+		BEGIN TRAN;
+
+			SET @ModifiedDate = [dbo].[ufnGetDate]()
+			IF @Action = 'I' --INSERT
+			BEGIN
+				SET @Id = NEWID(); 
+				SET @CreatedDate = @ModifiedDate
+
+				INSERT [dbo].[AppointmentLog]
+				VALUES(@Id, @Date, @Time, @PhysicianId, @PatientId, @Symptom,@PatientName,@PatientAddress,@PatientEmail,@PatientPhone,@PatientGender,@PatientDoB, @CreatedDate, @ModifiedDate, @Status)
+
+			END
+
+			IF @Action = 'U' --UPDATE
+			BEGIN
+				--STATUS: 0 - Just Created/Pending, 1 - Approved, 2 - Canceled
+				IF EXISTS( SELECT TOP 1 1 FROM [dbo].[AppointmentLog] WHERE [Id] = @Id)
+				BEGIN
+					UPDATE [dbo].[AppointmentLog]
+					SET [Date] = @Date, [Time] = @Time, [PhysicianId] = @PhysicianId, 
+					[PatientId] = @PatientId, [Symptom] = @Symptom,
+					[PatientName] = @PatientName, [PatientAddress] = @PatientAddress, [PatientEmail] = @PatientEmail, [PatientPhone] = @PatientPhone,
+					[PatientGender] = @PatientGender, [PatientDoB] = @PatientDoB,
+					[ModifiedDate] = @ModifiedDate, [Status] = @Status
+					WHERE [Id] = @Id  
+
+				END
+			END
+
+			IF @Action = 'D' --DELETE
+			BEGIN
+				IF EXISTS( SELECT TOP 1 1 FROM [dbo].[AppointmentLog] WHERE [Id] = @Id)
+				BEGIN
+					DELETE FROM [dbo].[AppointmentLog]
+					WHERE [Id] = @Id
+				END
+
+			END
+
+			COMMIT TRAN;
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0 
+		BEGIN
+			ROLLBACK TRAN;
+			SET  @return = 0
+		END
+	END CATCH
+	SELECT @return;
+END

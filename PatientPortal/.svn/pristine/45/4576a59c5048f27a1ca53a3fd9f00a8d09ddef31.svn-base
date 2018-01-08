@@ -1,0 +1,9 @@
+﻿appManagement.factory("indexServices", ["$resource",
+    function ($resource) {
+        return $resource("/Post", {},
+        {
+            query: { method: "GET", url: "/Post/GetListPost" },
+            get: { method: "GET", url: "/Post/GetPostDetails/:Id", params: { Id: '@Id' } }
+        });
+    }
+]);

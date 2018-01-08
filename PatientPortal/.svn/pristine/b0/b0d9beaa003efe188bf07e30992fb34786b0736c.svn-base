@@ -1,0 +1,53 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using PatientPortal.Domain.Models.CORE;
+using PatientPortal.Domain.Utilities;
+using System.Transactions;
+using PatientPortal.DataAccess.Dapper;
+using Dapper;
+using PatientPortal.DataAccess.Repo.Core;
+using System.Threading.Tasks;
+using PatientPortal.DataAccess.Repo.Wrapper;
+using PatientPortal.Domain.Common;
+
+namespace PatientPortal.DataAccess.CORE
+{
+    public class AppointmentImpl : IAppointment
+    {
+        private readonly IAdapterPattern _adapterPattern;
+        public AppointmentImpl(IAdapterPattern adapterPattern)
+        {
+            this._adapterPattern = adapterPattern;
+        }
+
+        public async Task<List<Appointment>> Query(Dictionary<string, object> param)
+        {
+            try
+            {
+                var data = await _adapterPattern.ExecuteQuery<Appointment>(param, "usp_Article", DataConfiguration.instanceCore);
+
+                return data.ToList();
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog("Execute Appointment get data: " + ex.Message);
+                return null;
+            }
+        }
+
+        public async Task<bool> Transaction(Appointment data, char action)
+        {
+            try
+            {
+                var val = await _adapterPattern.SingleTransaction<Appointment, bool>(data, "usp_Article_Transaction", action, DataConfiguration.instanceCore);
+                return val;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog("Execute Article Transaction: " + ex.Message);
+                return false;
+            }
+        }
+    }
+}

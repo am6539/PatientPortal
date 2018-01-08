@@ -1,0 +1,400 @@
+﻿<style>
+        .tabs_navigation {
+        margin-bottom: 30px;
+    }
+                .tab-content>.active {
+                display: block;
+            }
+            .tab-content>.tab-pane {
+                display: none;
+            }
+            .fade.in {
+                opacity: 1;
+            }
+            .fade {
+                opacity: 0;
+                -webkit-transition: opacity .15s linear;
+                -o-transition: opacity .15s linear;
+                transition: opacity .15s linear;
+            }
+            .tab-content>.active {
+            display: block;
+        }
+</style>
+<div class="page relative">
+    <div class="page_layout page_margin_top clearfix">
+        <div class="page_header clearfix">
+            <div class="page_header_left">
+                <h1 class="page_title">Đặt hẹn khám bệnh</h1>
+                <ul class="bread_crumb">
+                    <li>
+                        <a href="/" title="Trang chủ">
+                            Trang chủ
+                        </a>
+                    </li>
+                    <li class="separator icon_small_arrow right_gray">
+                        &nbsp;
+                    </li>
+                    <li>
+                        Đặt hẹn khám bệnh
+                    </li>
+                </ul>
+            </div>
+            <!--<div class="page_header_right">
+                <form class="search">
+                    <input class="search_input" type="text" value="To search type and hit enter..." placeholder="To search type and hit enter..." />
+                </form>
+            </div>-->
+        </div>
+        <div class="clearfix">
+            <div class="page_margin_top clearfix">
+                <div class="page_left">
+                    <h3 class="box_header">
+                        Đăng ký đặt hẹn
+                    </h3>
+                    <!--<form class="contact_form" id="contact_form" method="post" action="contact_form/contact_form.php">
+                        <ul class="clearfix tabs_box_navigation sf-menu">
+                            <li class="tabs_box_navigation_selected submenu wide" aria-haspopup="true">
+                                <input type="hidden" name="department" value="" />
+                                <span>Select department</span>
+                                <ul>
+                                    <li>
+                                        <a href="#laryngological-clinic" title="Laryngological Clinic">
+                                            Laryngological Clinic
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#primary-health-care" title="Primary Health Care">
+                                            Primary Health Care
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#ophthalmology-clinic" title="Ophthalmology Clinic">
+                                            Ophthalmology Clinic
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#pediatric-clinic" title="Pediatric Clinic">
+                                            Pediatric Clinic
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#dental-clinic" title="Dental Clinic">
+                                            Dental Clinic
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#outpatient-surgery" title="Outpatient Surgery">
+                                            Outpatient Surgery
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#outpatient-rehabilitation" title="Outpatient Rehabilitation">
+                                            Outpatient Rehabilitation
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#gynaecological-clinic" title="Gynaecological Clinic">
+                                            Gynaecological Clinic
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#cardiac-clinic" title="Cardiac Clinic">
+                                            Cardiac Clinic
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <fieldset class="left">
+                            <label>First Name</label>
+                            <div class="block">
+                                <input class="text_input" name="first_name" type="text" value="" />
+                            </div>
+                            <label>Date of Birth (mm/dd/yyyy)</label>
+                            <div class="block">
+                                <input class="text_input" type="text" name="date_of_birth" value="" />
+                            </div>
+                            <label>Phone Number</label>
+                            <div class="block">
+                                <input class="text_input" name="phone_number" type="text" value="" />
+                            </div>
+                        </fieldset>
+                        <fieldset class="right">
+                            <label>Last Name</label>
+                            <div class="block">
+                                <input class="text_input" type="text" name="last_name" value="" />
+                            </div>
+                            <label>Social Security Number</label>
+                            <div class="block">
+                                <input class="text_input" type="text" name="social_security_number" value="" />
+                            </div>
+                            <label>E-mail</label>
+                            <div class="block">
+                                <input class="text_input" type="text" name="email" value="" />
+                            </div>
+                        </fieldset>
+                        <fieldset style="clear:both;">
+                            <label>Reason of Appointment</label>
+                            <div class="block">
+                                <textarea name="message"></textarea>
+                            </div>
+                            <input type="hidden" name="action" value="contact_form" />
+                            <input type="submit" name="submit" value="Send" class="more blue" />
+                        </fieldset>
+                    </form>-->
+                    <ul class="nav nav-tabs tabs_navigation clearfix">
+                        <li class="active"><a class="selected" showtab="" data-toggle="tab" href="#appointment"><i class="fa fa-calendar" aria-hidden="true"></i> Thông tin cuộc hẹn</a></li>
+                        <li class=""><a showtab="" data-toggle="tab" href="#infoOrderer"><i class="fa fa-id-card-o" aria-hidden="true"></i> Thông tin cá nhân</a></li>
+                        <li class=""><a showtab="" data-toggle="tab" href="#checkandConfirm"><i class="fa fa-calendar-check-o" aria-hidden="true"></i> Kiểm tra và xác nhận</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="appointment" class="tab-pane fade in active" style="width: 100%">
+
+                            <div class="col-md-8" style="padding-left: 0px; padding-right: 0px">
+
+                                <form name="appointmentInfoForm" class="form-horizontal contact_form" ng-submit="transToInforOrderer()">
+                                    <div class="form-group">
+                                        <label class="col-md-3 col-sm-3 col-xs-4">Chọn bác sĩ:</label>
+                                        <div class="col-md-9 col-sm-9 col-xs-8" id="selectDoctor">
+                                            <select class="form-control">
+                                                <option value="0">Chọn bác sĩ của bạn</option>
+                                                <option value="1">Tư vấn một bác sĩ cho tôi</option>
+                                                <option value="2">Tìm bác sĩ mà bạn biết</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div id="doctorSelected" class="form-group">
+                                        <label class="col-md-3 col-sm-3 col-xs-4"></label>
+                                        <div class="col-md-9 col-sm-9 col-xs-8" id="chooseADoctor">
+                                            <select id="selectPhysician" data-placeholder="Chọn một bác sĩ..." class="form-control" tabindex="2"
+                                                    ng-model="appointment.PhysicianId" ng-options="doctor.Id as doctor.Name for doctor in doctors"
+                                                    ng-change="changeDoctor(appointment.PhysicianId)"></select>
+                                            <label id="PhysicianIdMessage" style="display: none" class="field-validation-error">Vui lòng chọn bác sĩ</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="display: none" id="searchDoctor">
+                                        <label class="col-md-3 col-sm-3 col-xs-4"></label>
+                                        <div class="col-md-9 col-sm-9 col-xs-8">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="Nhập tên ..." ng-model="searchText">
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-info" type="button" ng-click="showDoctorList(searchText)" style="margin-right: 0px"><i class="fa fa-search"></i></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="dateOrder">Thời gian đặt hẹn: </label>
+                                        <!--<div class="col-md-6 col-sm-6 col-xs-5">
+                                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="dd/mm/yyyy"
+                                                 data-date-days-of-week-highlighted="0,6" data-date-language="vi"
+                                                 data-date-today-highlight="true">
+                                                <input type="text" class="form-control" id="dateAppointment"
+                                                       ng-change="changeDate(appointment.Date)" placeholder="Chọn ngày"
+                                                       ng-model="appointment.Date" required />
+                                                <div class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </div>
+                                            </div>
+                                        </div>-->
+                                        <div class="block">
+                                            <input class="text_input hasDatepicker" type="text" name="date_of_birth" value="" id="dateAppointment">
+                                        </div>
+                                        <label for="timeOrder" class="col-md-1 col-sm-1 col-xs-1">giờ: </label>
+                                        <div class="col-md-2 col-sm-2 col-xs-2">
+                                            <select name="timeOrder" class="form-control" ng-init="appointment.Time = giohens[0]" ng-model="appointment.Time" id="timeAppointment" ng-options="gio for gio in giohens" required></select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="symptom" required>Lý do/ Triệu chứng: </label>
+                                        <!--<div class="col-md-9 col-sm-9 col-xs-8">
+                                            <textarea name="symptom" class="form-control" ng-change="searchDoctorByTag(appointment.Symptom)" ng-model="appointment.Symptom" required></textarea>
+                                        </div>-->
+                                        <div class="block">
+                                            <textarea name="message"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 col-sm-3 col-xs-4"></label>
+                                        <div class="col-md-9 col-sm-6 col-xs-8">
+                                            <input type="submit" name="submit" value="Đặt lịch hẹn" class="more blue" />
+
+                                            <input type="button" name="submit" value="Trở về trang chủ"/>
+                                            <button type="submit" class="btn btn-success">Đặt lịch hẹn</button>
+                                            <!--<button class="btn btn-success" ng-click="transToInforOrderer()">Đặt lịch hẹn</button>-->
+                                            <button class="btn btn-info" ng-click="cancelAppointment()">Trở về trang chủ</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-4 collapse" id="quickviewProfile">
+                                <div class="col-md-3 col-sm-3 col-xs-3" ng-hide="{{doctor.Image == null}}">
+                                    <div class="profile">
+                                        <div class="profile_pic">
+                                            <img src="../../../../images/picture.jpg" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-9 col-sm-9 col-xs-9">
+                                    <b>{{doctor.Name}}</b>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="col-md-12">
+                                    <a ng-click="viewDoctorProfile(doctor.Id)" class="btn btn-success" style="width: 100%">Thông tin chi tiết</a>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+
+                        </div>
+                        <div id="infoOrderer" class="tab-pane fade">
+                            <ng-form name="infoOrdererForm" class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-md-2 col-sm-3 col-xs-4" for="patientName">Họ tên: <span class="red">*</span></label>
+                                    <div class="col-md-6 col-sm-9 col-xs-8">
+                                        <input type="text" name="patientName" class="form-control" ng-model="appointment.PatientName" placeholder="Họ tên" required />
+                                        <i class="fa fa-check text-success" ng-show="infoOrdererForm.patientName.$dirty && infoOrdererForm.patientName.$valid"></i>
+                                        <div ng-show="infoOrdererForm.patientName.$dirty && infoOrdererForm.patientName.$invalid" class="text-danger">
+                                            <i class="fa fa-times text-danger"></i>
+                                            <span ng-show="infoOrdererForm.patientName.$error.required">Họ tên không được bỏ trống</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 col-sm-3 col-xs-4" for="patientDoB">Ngày sinh: </label>
+                                    <div class="col-md-6 col-sm-9 col-xs-8">
+                                        <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="dd/mm/yyyy"
+                                             data-date-days-of-week-highlighted="0,6" data-date-language="vi"
+                                             data-date-today-highlight="true">
+                                            <input type="text" class="form-control" name="ngaysinh" id="ngaysinh" placeholder="Chọn ngày"
+                                                   ng-model="appointment.PatientDoB">
+                                            <div class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 col-sm-3 col-xs-4">Giới tính: </label>
+                                    <div class="col-md-6 col-sm-9 col-xs-8">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="genderOptRadio" ng-model="appointment.PatientGender" ng-value="1">Nam
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="genderOptRadio" ng-model="appointment.PatientGender" ng-value="2">Nữ
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 col-sm-3 col-xs-4" for="patientEmail">Email: </label>
+                                    <div class="col-md-6 col-sm-9 col-xs-8">
+                                        <input type="email" class="form-control" placeholder="Email" name="patientEmail" ng-model="appointment.PatientEmail" required />
+                                        <i class="fa fa-check text-success" ng-show="infoOrdererForm.patientEmail.$dirty && infoOrdererForm.patientEmail.$valid"></i>
+                                        <div ng-show="infoOrdererForm.patientEmail.$dirty && infoOrdererForm.patientEmail.$invalid" class="text-danger">
+                                            <i class="fa fa-times text-danger"></i>
+                                            <span ng-show="infoOrdererForm.patientEmail.$error.required">Bạn chưa nhập địa chỉ email</span>
+                                            <span ng-show="infoOrdererForm.patientEmail.$error.email">Không đúng định dạng email</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 col-sm-3 col-xs-4" for="patientPhone">Số điện thoại: </label>
+                                    <div class="col-md-6 col-sm-9 col-xs-8">
+                                        <input type="text" class="form-control" placeholder="Số điện thoại" name="patientPhone" ng-model="appointment.PatientPhone" required />
+                                        <i class="fa fa-check text-success" ng-show="infoOrdererForm.patientPhone.$dirty && infoOrdererForm.patientPhone.$valid"></i>
+                                        <div ng-show="infoOrdererForm.patientPhone.$dirty && infoOrdererForm.patientPhone.$invalid" class="text-danger">
+                                            <i class="fa fa-times text-danger"></i>
+                                            <span ng-show="infoOrdererForm.patientPhone.$error.required">Số điện thoại không được bỏ trống</span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 col-sm-3 col-xs-4"></label>
+                                    <div class="col-md-6 col-sm-9 col-xs-8">
+                                        <button ng-disabled="!infoOrdererForm.$dirty || (infoOrdererForm.$dirty && infoOrdererForm.$invalid)" class="btn btn-success" ng-click="registerInfo(appointment)">Đăng ký và tiếp tục</button>
+                                    </div>
+                                </div>
+                            </ng-form>
+                        </div>
+                        <div id="checkandConfirm" class="tab-pane fade">
+                            <h4><i class="fa fa-bookmark" aria-hidden="true" style="color:#26B99A"></i> THÔNG TIN CÁ NHÂN ĐẶT HẸN</h4>
+                            <p>
+                                Họ tên: {{appointment.PatientName}}<br />
+                                Địa chỉ email: {{appointment.patientEmail}}<br />
+                                Ngày sinh: {{DoBReview}}<br />
+                                Giới tính: <span ng-show="appointment.PatientGender == 1">Nam</span><span ng-show="appointment.PatientGender == 2">Nữ</span><br />
+                                Số điện thoại: {{appointment.PatientPhone}}<br />
+                            </p>
+                            <hr />
+                            <h4><i class="fa fa-bookmark" aria-hidden="true" style="color: #26B99A"></i> THÔNG TIN ĐẶT HẸN KHÁM</h4>
+                            <p>
+                                Bác sĩ: {{doctor.Name}}<br />
+                                Ngày: {{DateOrder}}. Giờ: {{ TimeOrder }}<br />
+                                Lý do: {{appointment.Symptom}}<br />
+                            </p>
+                            <div class="form-group">
+                                <button ng-disabled="!infoOrdererForm.$dirty || (infoOrdererForm.$dirty && infoOrdererForm.$invalid)" class="btn btn-success" ng-click="makeAppointment(appointment)">Xác nhận đặt hẹn</button>
+                                <button class="btn btn-warning" ng-click="cancelAppointment()">Thoát</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="page_right">
+                    <h3 class="box_header">
+                        Thông tin phòng khám
+                    </h3>
+                    <h3 class="sentence">
+                        One of the most sublime experiences we can ever have is to wake up feeling healthy after we have been sick.
+                    </h3>
+                    <ul class="columns no_padding page_margin_top clearfix">
+                        <li class="column_left">
+                            Medicenter Clinic<br />
+                            33 Farlane Street<br />
+                            Keilor East<br />
+                            VIC 3033, Australia
+                        </li>
+                        <li class="column_right">
+                            Phone: +123 655 655<br />
+                            Fax: +123 755 755<br />
+                            ABN: 32040030725
+                        </li>
+                    </ul>
+                    <ul class="contact_data page_margin_top">
+                        <li class="clearfix">
+                            <span class="social_icon phone"></span>
+                            <p class="value">
+                                Phone: <strong>1-800-643-4300</strong>
+                            </p>
+                        </li>
+                        <li class="clearfix">
+                            <span class="social_icon mail"></span>
+                            <p class="value">
+                                E-mail: <a href="mailto:medicenter@mail.com">medicenter@mail.com</a>
+                            </p>
+                        </li>
+                        <li class="clearfix">
+                            <span class="social_icon facebook"></span>
+                            <p class="value">
+                                <a href="http://facebook.com/QuanticaLabs" title="Facebook" target="_blank">facebook.com/medicenter</a>
+                            </p>
+                        </li>
+                        <li class="clearfix">
+                            <span class="social_icon twitter"></span>
+                            <p class="value">
+                                <a href="http://twitter.com/QuanticaLabs" title="Twitter" target="_blank">twitter.com/medicenter</a>
+                            </p>
+                        </li>
+                        <li class="clearfix">
+                            <span class="social_icon googleplus"></span>
+                            <p class="value">
+                                <a href="http://quanticalabs.com" title="Google +" target="_blank">google.com/medicenter</a>
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>	

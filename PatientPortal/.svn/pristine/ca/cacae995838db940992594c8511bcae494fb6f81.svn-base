@@ -1,0 +1,19 @@
+﻿using PatientPortal.Domain.Models.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.DataAccess.Repo.CMS
+{
+    public interface IWorkflowState
+    {
+        List<WorkflowState> GetAll();
+        List<WorkflowState> GetByWorkflowId(byte workflowId);
+        bool Transaction(List<WorkflowStateEdit> data, char action);
+        bool CheckExist(string name, short id, byte workflowId);
+        WorkflowState GetById(short id);
+        bool CheckIsUsed(short id);
+    }
+}

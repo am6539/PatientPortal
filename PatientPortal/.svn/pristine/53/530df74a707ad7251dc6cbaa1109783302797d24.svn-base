@@ -1,0 +1,53 @@
+﻿using PatientPortal.IRepository.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CMS;
+using PatientPortal.DataAccess.Repo.CMS;
+
+namespace PatientPortal.Repositoty.CMS
+{
+    public class WorkflowNavigationRepoImpl : IWorkflowNavigationRepo
+    {
+        /// <summary>
+        /// declare variables
+        /// </summary>
+        IWorkflowNavigation _workflowNavigation;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="language"></param>
+        public WorkflowNavigationRepoImpl(IWorkflowNavigation workflowNavigation)
+        {
+            this._workflowNavigation = workflowNavigation;
+        }
+
+        /// <summary>
+        /// Get all WorkflowNavigation
+        /// </summary>
+        /// <returns>list of WorkflowNavigation</returns>
+        public List<WorkflowNavigation> GetAll()
+        {
+            return _workflowNavigation.GetAll();
+        }
+
+        public List<WorkflowNavigation> GetByWorkflowId(byte id)
+        {
+            return _workflowNavigation.GetByWorkflowId(id);
+        }
+
+        /// <summary>
+        /// Action: Insert/Update/Delete WorkflowNavigations
+        /// </summary>
+        /// <param name="data">list of one object WorkflowNavigation</param>
+        /// <param name="action">Action: 'I' - Insert; 'U'- Update; 'D'- Delete</param>
+        /// <returns></returns>
+        public bool Transaction(List<WorkflowNavigationEdit> data, char action)
+        {
+            return _workflowNavigation.Transaction(data, action);
+        }
+    }
+}

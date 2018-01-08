@@ -1,0 +1,35 @@
+﻿"use strict";
+
+var appManagement = angular.module('MyApp', ['ngResource', 'ngRoute', 'ngSanitize']).run(function ($rootScope) {
+    $rootScope.title = "FIS Health Medical Center";
+})
+    .config([
+        "$routeProvider", "$locationProvider", '$httpProvider',
+        function ($routeProvider, $locationProvider, $httpProvider) {
+            $locationProvider.html5Mode({
+                enabled: true,
+                requireBase: false
+            });
+
+            $routeProvider
+            .when('/', {
+                templateUrl: '/www/index.html',
+                controller: 'indexController'
+            })
+            .when('/index/:menu', {
+                templateUrl: '/www/index.html',
+                controller: 'indexController'
+            })
+            .when('/detail/:id', {
+                templateUrl: '/www/app/template/post/details.template.html',
+                controller: 'detailController'
+            })
+            .otherwise('/');
+        }
+    ]);
+
+appManagement.filter('jsonDate', ['$filter', function ($filter) {
+    return function (input, format) {
+        return (input) ? $filter('date')(parseInt(input.substr(6)), format) : '';
+    };
+}]);

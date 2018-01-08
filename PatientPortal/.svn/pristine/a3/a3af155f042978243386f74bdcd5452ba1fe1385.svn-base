@@ -1,0 +1,297 @@
+﻿<link href="~/Libs/Chosen/css/chosen.css" rel="stylesheet" />
+<div id="appointment" class="tab-pane fade in active" style="width: 100%">
+    <div class="col-md-8" style="padding-left: 0px; padding-right: 0px">
+
+        <form class="form-horizontal">
+            @*<div class="form-group">
+                    <label class="col-md-3 col-sm-3 col-xs-4">Chuyên khoa: </label>
+                    <div class="col-md-9 col-sm-9 col-xs-8">
+
+                        <select data-placeholder="Chọn chuyên khoa..." class="chosen-select" tabindex="2">
+                            <option value=""></option>
+                            <option value="one">Tiêu hóa</option>
+                            <option value="two">Tim mạch</option>
+                            <option value="three">Thần kinh</option>
+                            <option value="four">Tiết niệu</option>
+                            <option value="five">Cấp cứu</option>
+                        </select>
+                    </div>
+                </div>*@
+            <div class="form-group">
+                <label class="col-md-3 col-sm-3 col-xs-4">Chọn bác sĩ:</label>
+                <div class="col-md-9 col-sm-9 col-xs-8" id="selectDoctor">
+                    <select class="form-control">
+                        <option value="0">Chọn bác sĩ của bạn</option>
+                        <option value="1">Tư vấn một bác sĩ cho tôi</option>
+                        <option value="2">Tìm bác sĩ mà bạn biết</option>
+                    </select>
+                </div>
+            </div>
+            <div id="doctorSelected" class="form-group">
+                <label class="col-md-3 col-sm-3 col-xs-4"></label>
+                <div class="col-md-9 col-sm-9 col-xs-8" id="chooseADoctor">
+                    <select data-placeholder="Chọn một bác sĩ..." class="chosen-select" tabindex="2">
+                        <option value=""></option>
+                        <option value="one">Nguyễn Ngọc Thạch</option>
+                        <option value="two">Hoàng Anh Vũ</option>
+                        <option value="three">Lê Thành Dương</option>
+                        <option value="four">Trịnh Văn Tân</option>
+                        <option value="five">Trần Quang Huy</option>
+                    </select>
+                    @*@Html.DropDownListFor(m => m.PhysicianId, new SelectList(ViewBag.Doctors, "Id", "Name"), "Chọn chuyên mục", new { @class = "chosen-select", @data_placeholder = "Chọn chuyên mục" })*@
+                </div>
+            </div>
+            <div class="form-group" style="display: none" id="searchDoctor">
+                <label class="col-md-3 col-sm-3 col-xs-4"></label>
+                <div class="col-md-9 col-sm-9 col-xs-8">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Nhập tên ...">
+                        <span class="input-group-btn">
+                            @*<button class="btn btn-default" type="button" onclick="showDoctorList()" style="margin-right: 0px"><i class="fa fa-search"></i></button>*@
+                            
+                            @Html.ActionLink(" ", "ViewDoctorList", "Appointment", new { doctorId = 1 }, new { @class = "modal-link btn btn-default", @style = "width: 100%; margin-right: 0px", @type = "button" })
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 col-sm-3 col-xs-4">Thời gian đặt hẹn: </label>
+                <div class="col-md-6 col-sm-6 col-xs-5">
+                    <input type="text" class="form-control" id="dateAppointment">
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-3">
+                    <select class="form-control" id="timeAppointment"></select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 col-sm-3 col-xs-4">Lý do/ Triệu chứng: </label>
+                <div class="col-md-9 col-sm-9 col-xs-8">
+                    <textarea class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 col-sm-3 col-xs-4"></label>
+                <div class="col-md-9 col-sm-6 col-xs-8">
+                    <button class="btn btn-success" onclick="makeAppointment()">Đặt hẹn</button><button class="btn btn-default">Thoát</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-4 collapse" id="quickviewProfile">
+        <div class="col-md-3 col-sm-3 col-xs-3">
+            <div class="profile">
+                <div class="profile_pic">
+                    <img src="~/img/picture.jpg" style="width: 100%" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-xs-9">
+            <div style="display: block">
+                <div class="col-md-3">
+                    <span class="blue"><b>Chuyên khoa:</b></span>
+                </div>
+                <div class="col-md-9">
+                    - A <br />
+                    - B <br />
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div style="display: block">
+                <div class="col-md-3">
+                    <span class="blue"><b>Ngôn ngữ:</b></span>
+                </div>
+                <div class="col-md-9">
+                    <p>Tiếng Việt - Tiếng mẹ đẻ, Tiếng Anh - Lưu loát</p>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-md-12">
+            @*<a class="btn btn-success" style="width: 100%">Xem thêm</a>*@
+            @Html.ActionLink("Xem thêm", "DoctorDetail", "Appointment", new { doctorId = 1 }, new { @class = "modal-link btn btn-default", @style = "width: 100%; margin-right: 0px", @type = "button" })
+        </div>
+    </div>
+
+</div>
+<div id="infoAppointment" class="tab-pane fade">
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label class="col-md-2 col-sm-3 col-xs-4">Họ tên: <span class="red">*</span></label>
+            <div class="col-md-6 col-sm-9 col-xs-8">
+                <input type="text" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 col-sm-3 col-xs-4">Ngày sinh: </label>
+            <div class="col-md-6 col-sm-9 col-xs-8">
+                <input type="text" class="form-control" id="dateNgaySinh">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 col-sm-3 col-xs-4">Giới tính: </label>
+            <div class="col-md-6 col-sm-9 col-xs-8">
+                <label class="radio-inline">
+                    <input type="radio" name="genderOptRadio">Nam
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="genderOptRadio">Nữ
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 col-sm-3 col-xs-4">Tình trạng hôn nhân: </label>
+            <div class="col-md-6 col-sm-9 col-xs-8">
+                <select class="form-control">
+                    <option value="one">Độc thân</option>
+                    <option value="two">Đã kết hôn</option>
+                    <option value="three">Đã ly dị</option>
+                    <option value="three">Góa</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 col-sm-3 col-xs-4">Quốc gia: </label>
+            <div class="col-md-6 col-sm-9 col-xs-8">
+                <select class="form-control">
+                    <option value="one">Việt Nam</option>
+                    <option value="two">Singapo</option>
+                    <option value="three">Nhật Bản</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 col-sm-3 col-xs-4">Email: </label>
+            <div class="col-md-6 col-sm-9 col-xs-8">
+                <input type="email" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 col-sm-3 col-xs-4">Số điện thoại: </label>
+            <div class="col-md-6 col-sm-9 col-xs-8">
+                <input type="text" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 col-sm-3 col-xs-4"></label>
+            <div class="col-md-6 col-sm-9 col-xs-8">
+                <button class="btn btn-success" onclick="registerInfo()">Đăng ký và tiếp tục</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="checkandConfirm" class="tab-pane fade">
+    <h4><i class="fa fa-bookmark" aria-hidden="true" style="color:#26B99A"></i> THÔNG TIN CÁ NHÂN ĐẶT HẸN</h4>
+    <p>
+        Họ tên: <br />
+        Địa chỉ email: <br />
+        Ngày sinh: <br />
+        Quốc tịch: <br />
+        Giới tính: <br />
+        Số điện thoại: <br />
+    </p>
+    <hr />
+    <h4><i class="fa fa-bookmark" aria-hidden="true" style="color: #26B99A"></i> THÔNG TIN ĐẶT HẸN KHÁM</h4>
+    <p>
+        Đặt hẹn cho: <br />
+        Chuyên khoa: <br />
+        Bác sĩ: <br />
+        Ngày: 07/02/2017. Giờ: 8:00<br />
+        Lý do: <br />
+    </p>
+    <div class="form-group">
+        <button class="btn btn-success">Xác nhận đặt hẹn</button>
+        <button class="btn btn-default" onclick="editAppointment()">Điều chỉnh</button>
+        <button class="btn btn-warning">Thoát</button>
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/moment-with-locales.js"></script>
+<script src="~/Libs/bootstrap-datetimepicker-master/build/js/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Libs/Chosen/js/chosen.jquery.min.js"></script>
+<script src="~/Scripts/choosenDefine.js"></script>
+<script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("#dateAppointment").datetimepicker({
+                format: 'DD/MM/YYYY',
+                locale: 'vi',
+                minDate: Date.now(),
+                maxDate: moment().add(7, 'days')
+            });
+            $("#dateNgaySinh").datetimepicker({
+                format: 'DD/MM/YYYY',
+                locale: 'vi',
+                maxDate: Date.now()
+            });
+
+            var giohen = getGioKham();
+            $.each(giohen, function (key, value) {
+                $('#timeAppointment')
+                    .append($("<option></option>")
+                               .attr("value", key)
+                               .text(value));
+            });
+        });
+
+        $("#selectDoctor").on('change', 'select', function (e) {
+            var optionSelected = $("option:selected", this);
+            var valueSelected = this.value;
+            if (valueSelected == 0) {
+                $("#doctorSelected").show(500);
+                $("#searchDoctor").hide(500);
+                $("#quickviewProfile").show(500);
+            }
+            if (valueSelected == 1) {
+                $("#doctorSelected").hide(500);
+                $("#searchDoctor").hide(500);
+                $("#quickviewProfile").hide(500);
+            }
+            if (valueSelected == 2) {
+                $("#searchDoctor").show(500);
+                $("#doctorSelected").hide(500);
+                $("#quickviewProfile").hide(500);
+            }
+        });
+
+        $("#chooseADoctor").on('change', 'select', function (e) {
+            var optionSelected = $("option:selected", this);
+            var valueSelected = this.value;
+            if (valueSelected != null) {
+                $("#quickviewProfile").show(500);
+            }
+            else {
+                $("#quickviewProfile").hide(500);
+            }
+        });
+
+        function makeAppointment() {
+            activaTab('appointment');
+        }
+
+        function getGioKham() {
+            var now = moment().hours(8).minutes(0).seconds(0).milliseconds(0);
+            var max = moment().hours(19).minutes(0).seconds(0).milliseconds(0);
+            var gio = [];
+            var duration = moment.duration({ 'minutes': 15 });
+            now = now.add(duration);
+            while (now < max) {
+                gio.push(now.format('hh:mm'));
+                now = now.add(duration);
+            }
+            return gio;
+        }
+        function editAppointment() {
+            $('.nav-tabs a[href="#appointment"]').tab('show')
+        }
+
+        function showDoctorList() {
+            //$('#myModal').modal('toggle');
+            $("#doctorSelected").hide(500);
+        }
+        function viewDoctorProfile() {
+            $('#collapseThongTinModal').modal('toggle');
+        }
+</script>

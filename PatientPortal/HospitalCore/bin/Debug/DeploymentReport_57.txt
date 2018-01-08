@@ -1,0 +1,34 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       [dbo].[Survey]
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Drop
+       unnamed constraint on [dbo].[Survey] (Default Constraint)
+       unnamed constraint on [dbo].[Survey] (Default Constraint)
+       unnamed constraint on [dbo].[Survey] (Default Constraint)
+     Table rebuild
+       [dbo].[Survey] (Table)
+     Create
+       [dbo].[UserProfile] (Table)
+       [dbo].[ufn_SpitString] (Function)
+       [dbo].[usp_AppointmentLog_ConfirmFast] (Procedure)
+       [dbo].[usp_EmailMarketing] (Procedure)
+       [dbo].[usp_EmailMarketing_Transaction] (Procedure)
+       [dbo].[usp_User_ByGroupType] (Procedure)
+       [dbo].[usp_User_Query] (Procedure)
+     Alter
+       [dbo].[usp_AppointmentLog] (Procedure)
+       [dbo].[usp_AppointmentLog_Confirm] (Procedure)
+
+** Supporting actions
+     Drop
+       [dbo].[FK_SurveyQuestions_Survey] (Foreign Key)
+     Create
+       [dbo].[FK_SurveyQuestions_Survey] (Foreign Key)

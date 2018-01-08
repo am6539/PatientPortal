@@ -1,0 +1,24 @@
+﻿using ProtoBuf;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.CMS.Models
+{
+    [ProtoContract]
+    public partial class LanguageViewModel
+    {
+        [ProtoMember(1)]
+        public byte Id { get; set; }
+        [ProtoMember(2)]
+        [Display(Name = "Code")]
+        [Required(ErrorMessage = "Bạn cần nhập Code")]
+        public string Code { get; set; }
+        [ProtoMember(3)]
+        [Display(Name = "Tên")]
+        [Required(ErrorMessage = "Bạn cần nhập tên ngôn ngữ.")]
+        public string Name { get; set; }
+    }
+}

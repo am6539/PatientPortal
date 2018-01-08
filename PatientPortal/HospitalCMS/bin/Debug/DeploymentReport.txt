@@ -1,0 +1,24 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Rename
+       [dbo].[Post].[ModifiedBy] (Column)
+     Create
+       [dbo].[usp_Post_GetAll] (Procedure)
+       [dbo].[usp_Post_Transaction] (Procedure)
+       [dbo].[usp_PostSEO_GetAll] (Procedure)
+       [dbo].[usp_PostStateHistory_GetAll] (Procedure)
+       [dbo].[usp_PostTrans_GetAll] (Procedure)
+       [dbo].[usp_Workflow_GetAll] (Procedure)
+       [dbo].[usp_WorkflowNavigation_GetAll] (Procedure)
+       [dbo].[usp_WorkflowState_GetAll] (Procedure)
+
+** Supporting actions

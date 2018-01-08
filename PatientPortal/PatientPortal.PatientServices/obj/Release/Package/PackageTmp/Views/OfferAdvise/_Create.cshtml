@@ -1,0 +1,11 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.PatientServices.Models.OfferAdviseViewModel
+
+@using (Html.IBeginForm("Create", "OfferAdvise"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.IGroupSubmitButton("Gửi nội dung góp ý",true, true, null, null, 2)
+    @Html.HiddenFor(m => m.Id)
+    @Html.IGroupTextAreaFor(m => m.Detail, true, 5, "Nội dung góp ý", null, 12)
+}

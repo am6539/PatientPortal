@@ -1,0 +1,32 @@
+﻿using ProtoBuf;
+using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
+
+namespace PatientPortal.CMS.Models
+{
+    [ProtoContract]
+    public partial class DepartmentViewModel
+    {
+        [ProtoMember(1)]
+        public byte Id { get; set; }
+        [ProtoMember(2)]
+        [Display(Name = "Tên khoa")]
+        [Remote("CheckExist", "Department", HttpMethod = "POST", AdditionalFields = "Id", ErrorMessage = "Tên đã tồn tại. Vui lòng nhập lại.")]
+        [Required(ErrorMessage = "Bạn cần nhập tên khoa")]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        public string Name { get; set; }
+        [ProtoMember(3)]
+        [Display(Name = "Giới thiệu")]
+        [Required(ErrorMessage = "Bạn cần nhập nội dung giới thiệu")]
+        public string Description { get; set; }
+        [ProtoMember(4)]
+        [Display(Name = "Url")]
+        public string Handler { get; set; }
+        [ProtoMember(5)]
+        [Display(Name = "Sắp xếp")]
+        public byte Sort { get; set; }
+        [ProtoMember(6)]
+        [Display(Name = "Trạng thái")]
+        public bool IsUsed { get; set; }
+    }
+}

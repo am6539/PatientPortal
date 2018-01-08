@@ -1,0 +1,45 @@
+﻿using ProtoBuf;
+using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace PatientPortal.PatientServices.Models
+{
+    [ProtoContract]
+    public class AppointmentEditModel
+    {
+        [ProtoMember(1)]
+        public int Id { get; set; }
+
+        [ProtoMember(2)]
+        [Display(Name = "Ngày đặt hẹn")]
+        [Required(ErrorMessage = "Vui lòng chọn ngày đặt hẹn.")]
+        public DateTime Date { get; set; }
+
+        [ProtoMember(3)]
+        [Display(Name = "Thời gian")]
+        public int Time { get; set; }
+
+        [Required(ErrorMessage = "Vui lòng chọn thời gian.")]
+        public string TimeString { get; set; }
+
+        [Display(Name = "Bác sĩ")]
+        [ProtoMember(4)]
+        [Required(ErrorMessage = "Vui lòng chọn bác sĩ.")]
+        public int PhysicianId { get; set; }
+
+        [Display(Name = "Bệnh nhân")]
+        [Required(ErrorMessage = "Thông tin bệnh nhân không hợp lệ.")]
+        [ProtoMember(5)]
+        public int PatientId { get; set; }
+
+        [Display(Name = "Triệu chứng")]
+        [Required(ErrorMessage = "Xin vui lòng điền thông tin triệu chứng khi khám chữa bệnh.")]
+        [ProtoMember(6)]
+        public string Symptom { get; set; }
+
+        [ProtoMember(7)]
+        [Display(Name = "Trạng thái")]
+        public byte Status { get; set; }
+        public int PhysicianIdTemp { get; set; }
+    }
+}

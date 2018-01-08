@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CMS;
+
+namespace PatientPortal.IRepository.CMS
+{
+    public interface IDepartmentRepo
+    {
+        List<Department> GetAll();
+        Department GetById(byte id);
+        bool Transaction(List<Department> data, char action);
+        bool CheckExist(string name, byte id);
+    }
+}

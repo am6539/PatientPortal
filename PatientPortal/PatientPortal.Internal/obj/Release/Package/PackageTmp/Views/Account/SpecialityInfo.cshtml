@@ -1,0 +1,65 @@
+﻿@using PatientPortal.Provider.Helpers;
+@using PatientPortal.Utility.Files;
+@model PatientPortal.Internal.Models.DoctorProfileViewModel
+@{
+    ViewBag.Title = "Thông tin chuyên môn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-title">@Html.ITitle("Cập nhật thông tin chuyên môn", "address-card-o")</div>
+    <div class="card-content">
+        <div class="form-horizontal">
+        
+        @using (Html.IBeginForm("SpecialityInfo", "Account"))
+        {
+            @Html.IGroupSubmitButton("Cập nhật", Url.Action("Overview", "Account"))
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+        <div class="col-md-6">
+            @Html.HiddenFor(m => m.UserId)
+            @Html.IGroupTextBoxFor(m => m.Speciality, true, 12, "Chuyên môn")
+            @Html.IGroupTextBoxFor(m => m.Degrees, true, 12, "Bằng cấp")
+            @Html.IGroupTextAreaFor(m => m.Training, true, 5, 12, "Kinh nghiệm")
+        </div>
+        <div class="col-md-6">
+            @Html.IGroupTextBoxFor(m => m.Office, true, 12, "Đơn vị")
+            @Html.IGroupTextBoxFor(m => m.Workdays, true, 12, "Ngày làm việc")
+            @Html.IGroupDropDownListFor(m => m.DepartmentId, new SelectList(ViewBag.Departments, "Id", "Name"), false, "Chuyên khoa", null, 12)
+        </div>
+        }
+    </div>
+</div>
+</div>
+@section scripts{
+
+    <script src="~/Libs/fullcalendar-3.3.1/lib/jquery-ui.min.js"></script>
+    <script src="~/Libs/fullcalendar-3.3.1/js/fullcalendar.js"></script>
+    <script src="~/Libs/fullcalendar-3.3.1/js/locale-all.js"></script>
+    <script type="text/javascript">
+            $(document).ready(function () {
+                var d = new Date();
+
+                var month = d.getMonth() + 1;
+                var day = d.getDate();
+
+                var output = (day < 10 ? '0' : '') + day + '/'
+                    + (month < 10 ? '0' : '') + month + '/' +
+                    +d.getFullYear();
+
+                $("#DoB").datetimepicker({
+                    format: 'DD/MM/YYYY',
+                    locale: 'vi',
+                    maxDate: Date.now(),
+                });
+
+                $("#DoB").val(output);
+            });
+            var config = {
+                '.chosen-select': {}
+            }
+            for (var selector in config) {
+                $(selector).chosen(config[selector]);
+            }
+    </script>
+}

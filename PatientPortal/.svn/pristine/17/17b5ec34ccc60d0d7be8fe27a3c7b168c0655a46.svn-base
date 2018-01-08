@@ -1,0 +1,10 @@
+﻿CREATE TABLE [dbo].[DoctorProfile]
+(
+	[UserId] NVARCHAR(128) NOT NULL , 
+	[Speciality] NVARCHAR(150) NOT NULL, 
+	[Degrees] NVARCHAR(150) NOT NULL, 
+	[Training] NVARCHAR(500) NOT NULL, 
+	[Office] NVARCHAR(150) NOT NULL, 
+	[Workdays] NVARCHAR(50) NOT NULL, 
+	PRIMARY KEY ([UserId])
+)

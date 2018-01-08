@@ -1,0 +1,5 @@
+﻿angular.module('appTest')
+    .controller('AController', ['$scope','AService', '$route',
+        function AController($scope, AService, $route) {
+        }
+    ]);

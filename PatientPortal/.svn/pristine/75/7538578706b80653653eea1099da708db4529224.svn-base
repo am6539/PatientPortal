@@ -1,0 +1,212 @@
+﻿@using System.Globalization
+@model List<PatientPortal.Internal.Models.AppointmentLogViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <link href="~/Libs/DataTable/jquery.dataTables.css" rel="stylesheet" />
+    <link href="~/Content/checkbox-radio-build.css" rel="stylesheet" />
+    <style>
+        .bg-green {
+            background: #1ABB9C !important;
+            border: 1px solid #1ABB9C !important;
+            color: #fff;
+        }
+
+        .bg-orange {
+            background: #F39C12 !important;
+            border: 1px solid #F39C12 !important;
+            color: #fff;
+        }
+
+        .bg-blue {
+            background: #337ab7 !important;
+            border: 1px solid #337ab7 !important;
+            color: #fff;
+        }
+    </style>
+}
+
+<div class="card">
+    <div class="card-title">DANH SÁCH TẤT CẢ CÁC ĐẶT HẸN KHÁM BỆNH</div>
+    @*<div class="card-actionbar">
+        <div class="col-md-3 filter-drop-categories">
+            <select id="Status" data-placeholder="Chọn tình trạng lịch hẹn ..." class="chosen-select" tabindex="2">
+                <option value=""></option>
+                <option value="1">Mới đặt hẹn</option>
+                <option value="2">Đã khám</option>
+                <option value="3">Đã hủy</option>
+            </select>
+        </div>
+        <div class="col-md-3 filter-drop-categories">
+            <input type="text" class="form-control" id="Start">
+        </div>
+        <div class="col-md-3 filter-drop-categories">
+            <input type="text" class="form-control" id="End">
+        </div>
+        <div class="col-md-3 filter-drop-categories">
+            <button type="submit" class="btn btn-default"><i class="fa fa-search" fa-search aria-hidden="true"> Tìm kiếm</i></button>
+        </div>
+    </div>*@
+    <div class="card-content table-actionbar-top">
+        <table id="table_id" class="table table-responsive table-bordered">
+            <thead>
+                <tr>
+                    <td style="text-align: center;">
+                        @*<input type="button" id="btnConfirm" value="Xác nhận" disabled="disabled" onclick="onConfirm()"/>*@
+                        @Html.ActionLink("Xác nhận", "ConfirmFastPartial", "Appointment", null, new { @class = "modal-link btn btn-sm btn-default", @style = "padding:1px 5px 1px 5px;", @title = "Xác nhận" })
+                    </td>
+                    <td title="Time"></td>
+                    <td>
+                        Ngày
+                    </td>
+                    <td>
+                        Bệnh nhân
+                    </td>
+                    <td>
+                        Số điện thoại
+                    </td>
+                    <td>
+                        Bác sĩ
+                    </td>
+                    <td>
+                        Tình trạng
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    var status = false;
+                    for (int i = 0; i < Model.Count(); i++)
+                    {
+                        var idx = Model[i].Id;
+                        if (Model[i].Status == 2 || Model[i].Status == 3)
+                        {
+                            status = true;
+                        }
+                        var result = TimeSpan.FromMinutes(Model[i].Time);
+                        var fromTimeString = result.ToString("hh':'mm");
+                        <tr role="row">
+                            @{
+                                if (Model[i].Status == 2 || Model[i].Status == 3)
+                                {
+                                    <td>
+                                        <div class="checkbox checkbox-info" style="text-align: center;">
+                                            @Html.CheckBoxFor(m => status, new { @id = idx, @class = "styled", @disabled = true })<label for=@idx></label>
+                                        </div>
+                                    </td>
+                                    <td style="padding: 8px 15px;">@fromTimeString</td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        <div class="checkbox checkbox-info" style="text-align: center;">
+                                            @Html.CheckBoxFor(m => status, new { @id = idx, @class = "styled", @onclick = "onGetCheck('" + idx + "')" })<label for=@idx></label>
+                                        </div>
+                                    </td>
+                                    <td>@Html.ActionLink(fromTimeString, "Details", "Appointment", new {id = Model[i].Id}, new {@class = "modal-link", @style = "padding:1px 5px 1px 5px;"})</td>
+                                }
+                            }
+                            <td>@Model[i].Date.ToString("dd/M/yyyy", CultureInfo.InvariantCulture)</td>
+                            <td>@Model[i].PatientName</td>
+                            <td>@Model[i].PatientPhone</td>
+                            <td>@Model[i].PhysicianName</td>
+                            @if (Model[i].Status == 1)
+                            {
+                                <td style="text-align: center">
+                                    <small class="badge bg-green">@Model[i].StatusName</small>
+                                </td>
+                            }
+                            @if (Model[i].Status == 2)
+                            {
+                                <td style="text-align: center">
+                                    <small class="badge bg-blue">@Model[i].StatusName</small>
+                                </td>
+                            }
+                            @if (Model[i].Status == 3)
+                            {
+                                <td style="text-align: center">
+                                    <small class="badge bg-orange">@Model[i].StatusName</small>
+                                </td>
+                            }
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Libs/DataTable/jquery.dataTables.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //Setting table
+            $('#table_id').DataTable({
+                "language": {
+                    url: '/Libs/Datatable/Vietnamese.json'
+                }
+            });
+        });
+        var config = {
+            '.chosen-select': {}
+        }
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
+        $("#Start").datetimepicker({
+            format: 'DD/MM/YYYY',
+            locale: 'vi',
+            //minDate: Date.now(),
+        });
+
+        $("#End").datetimepicker({
+            format: 'DD/MM/YYYY',
+            locale: 'vi',
+            //minDate: Date.now(),
+        });
+
+        var arrayId = [];
+        function onGetCheck(value) {
+            var chk = $('#' + value + ':checkbox:checked').length > 0;
+            if (chk == true) {
+                arrayId.push(value);
+            } else {
+                arrayId.splice(arrayId.indexOf(value), 1);
+            }
+        }
+
+        function onConfirmFast() {
+            if (arrayId.length > 0) {
+                $.ajax({
+                    async: true,
+                    type: "GET",
+                    datatype: "json",
+                    url: "/Appointment/ConfirmFast",
+                    data: {
+                        ids: JSON.stringify(arrayId),
+                        status: $("#StatusFast").val()
+                    },
+                    contentType: "application/json; charset=utf-8",
+                    success: function(response) {
+                        if (response != null) {
+                            alert("Xác nhận danh sách thành công!");
+                        }
+                    },
+                    failure: function(response) {
+                        alert(response.responseText);
+                    },
+                    error: function(response) {
+                        alert(response.responseText);
+                    }
+                });
+            } else {
+                alert("Vui lòng chọn yêu cầu để xác nhận!");
+            }
+        }
+    </script>
+}
+

@@ -1,0 +1,135 @@
+﻿
+<link href="assets/css/site/menuPage.css" rel="stylesheet" />
+<div class="brd-wrap" ng-include="'app/shared/template-include/submenu.template.html'">
+</div>
+<div class="top-content">
+</div>
+<div class="content container">
+    <div class="row">
+        <div class="content-bg">
+            <div id="ctl00_divCenter" class="col-left">
+                <div class="content-bg2">
+                    <div class='Module Module-262'>
+                        <div id="ctl00_mainContent_ctl00_NewsView1_pnlInnerWrap">
+                            <div class="news">
+                                <div class="newsdt-slimg"><img ng-src="{{department.Img}}" alt=""></div>
+                                <div class="newsdt-slshadow newsdt-slshadow1"></div>
+                                <h1 class="newsdt-title title1">{{department.Name}} </h1>
+                                <div class="newstext">
+                                    <div style="text-align: justify;">
+                                        <br />
+                                        <br />
+                                    </div>
+                                </div>
+                                <div class="ser-attr">
+                                    <div id="serarr"></div>
+                                    <div class="tab-nav">
+                                        <ul class="nav">
+                                            <li>
+                                                <a href="#gioi-thieu">Giới thiệu</a>
+                                            </li>
+                                            <li>
+                                                <a href="#bac-si">Đội ngũ bác sĩ</a>
+                                            </li>
+                                            <li>
+                                                <a href="#chan-doan">Chẩn đoán</a>
+                                            </li>
+                                            <li>
+                                                <a href="#dieu-tri">Điều trị</a>
+                                            </li>
+                                        </ul>
+                                        <div class="clear"></div>
+                                    </div><div class="tab-contents">
+                                        <div class="tab-content" id="gioi-thieu">
+                                            <div style="text-align: justify;">
+                                                <p ng-show="department.Description != null">
+                                                    {{department.Description}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="tab-content" id="bac-si">
+                                            <p>
+                                                Thông tin đang được cập nhật.
+                                            </p>
+                                        </div>
+                                        <div class="tab-content" id="chan-doan">
+                                            <ul>
+                                                <li ng-repeat="item in investigateServices">
+                                                    <span>
+                                                        {{item.Name}}
+                                                    </span>
+                                                    <div class="value">
+                                                        {{item.Price| currency:"VNĐ ":0}}
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="tab-content" id="dieu-tri">
+                                            <ul>
+                                                <li ng-repeat="item in treatmentServices">
+                                                    <span>
+                                                        {{item.Name}}
+                                                    </span>
+                                                    <div class="value">
+                                                        {{item.Price| currency:"VNĐ ":0}}
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div><div class="clear"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="ctl00_divRight" class="col-right cmszone" ng-include="'app/shared/template-include/contact-hotline.template.html'">
+
+                <!--<div class='Module Module-258'>
+                    <div class="fb-page" data-href="#" data-tabs="Facebook" data-width="231" data-small-header="false" data-adapt-container-width="false" data-hide-cover="false" data-show-facepile="true">
+                        <div class="fb-xfbml-parse-ignore">
+                        <blockquote cite="#">
+                         <a href="#">BV Hoàn Mỹ Sài Gòn</a></blockquote></div>
+                    </div>
+                    <div class="emhotline">
+                        Cấp cứu<span>(08) 3995 9860</span>
+                    </div>
+                    <a href="#" target="_blank">
+                    <img src="../../../assets/images/adv/KS-ngoai-tru.png" alt="Khao-sat-ngoai-tru" /></a>
+                    <a href="#" target="_blank">
+                    <img src="../../../assets/images/adv/KS-noi-tru.png" alt="Khao-sat-noi-tru" /></a>
+                </div><div class='Module Module-795'>
+                    <div class="cc-wrap">
+                        <h4>
+                            <a href="/saigon/cau-chuyen-benh-nhan">Câu chuyện bệnh nhân</a>
+                        </h4>
+                        <table></table>
+                    </div>
+                </div>
+                <div class='cn-wrap Module Module-796'>
+                    <div class="cc-wrap">
+                        <h4>
+                            <a href="/saigon/cam-nhan-benh-nhan">Cảm nhận bệnh nhân</a>
+                        </h4>
+                        <section class="bg-cn">
+                            <div class="cn-slide">
+                            </div>
+                            <div class="pagination" id="foo2_pag">
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class='Module Module-573'>
+                    <p>
+                        <span style="font-size: 13px;">&nbsp;</span>
+                        <img alt="" src="assets/images/media/5/banner/Banner_GIF.gif" />
+                    </p>
+                </div>-->
+
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+    </div>
+</div>
+<script src="assets/js/skin/fpt-crd.js"></script>

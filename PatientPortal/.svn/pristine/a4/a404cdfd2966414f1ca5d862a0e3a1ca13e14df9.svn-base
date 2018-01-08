@@ -1,0 +1,15 @@
+﻿using PatientPortal.Domain.Models.CORE;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.DataAccess.Repo.CORE
+{
+    public interface IGroup
+    {
+        Task<List<Group>> Query(Dictionary<string, object> param);
+        bool Transaction(List<Group> data, char action);
+    }
+}

@@ -1,0 +1,35 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       [dbo].[Module]
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       The column [dbo].[Module].[GroupId] is being dropped, data loss could occur.
+       The column [dbo].[Module].[Group] on table [dbo].[Module] must be added, but the column has no default value and does
+         not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either:
+         add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a
+         deployment option.
+
+** User actions
+     Drop
+       [dbo].[FK_Module_Module] (Foreign Key)
+     Table rebuild
+       [dbo].[Module] (Table)
+     Create
+       [dbo].[Module].[idxModuleGroup] (Index)
+       [dbo].[usp_CheckPermission] (Procedure)
+       [dbo].[usp_Module_CheckExistTitle] (Procedure)
+     Alter
+       [dbo].[usp_Module] (Procedure)
+       [dbo].[usp_Module_Transaction] (Procedure)
+       [dbo].[usp_DoctorProfile] (Procedure)
+
+** Supporting actions
+     Refresh
+       [dbo].[usp_Login] (Procedure)
+
+The column [dbo].[Module].[GroupId] is being dropped, data loss could occur.
+The column [dbo].[Module].[Group] on table [dbo].[Module] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+

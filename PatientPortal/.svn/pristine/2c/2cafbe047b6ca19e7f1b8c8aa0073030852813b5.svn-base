@@ -1,0 +1,15 @@
+﻿using PatientPortal.Domain.Models.CORE;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.DataAccess.Repo.CORE
+{
+    public interface ISetting
+    {
+        Task<List<Setting>> Query(Dictionary<string, object> param);
+        Task<bool> Transaction(Setting data, char action);
+    }
+}

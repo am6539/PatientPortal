@@ -1,0 +1,14 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.Internal.Models.Permission.PermissionViewModel
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    @Html.ITitle("Chi tiết quyền", TitleBar.Delete)
+</div>
+
+@using (Html.IBeginForm("Delete", "Permission"))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+    @Html.IGroupModalMessage()
+    @Html.IGroupModalSubmitButton("Xóa dữ liệu")
+}

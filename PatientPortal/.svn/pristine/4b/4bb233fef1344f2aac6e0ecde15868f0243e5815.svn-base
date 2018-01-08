@@ -1,0 +1,16 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.Internal.Models.Permission.PermissionViewModel
+<div class="card">
+    <div class="card-content">
+        @using (Html.IBeginForm("Create", "Permission"))
+            {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            @Html.IGroupSubmitButton("Thêm chi tiết quyền")
+            @Html.HiddenFor(m =>m.Id)
+            @Html.IGroupTextBoxFor(m => m.Name, true, 12, "Permission.Create")
+            @Html.IGroupTextAreaFor(m => m.Description, true, 3, 12, "Mô tả")
+        }
+
+    </div>
+</div>

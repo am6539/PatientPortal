@@ -1,0 +1,208 @@
+﻿using PatientPortal.CMS.Common;
+using PatientPortal.CMS.Models;
+using PatientPortal.CMS.Utility;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.CMS.Controllers
+{
+    public class CategoryController : Controller
+    {
+        public ActionResult Index()
+        {
+            TempData["Alert"] = null;
+
+            var model = new CategoriesModel();
+            var list = new List<CategoryViewModel>();
+            try
+            {
+                list = APIHelper.Get<List<CategoryViewModel>>($"api/Category");
+                if(list == null) list = ApplicationHelper.GetObject<List<CategoryViewModel>>();
+                //data = data.OrderBy(a => a.ParentId).ToList();
+                model.lstCategoryViewModel = list;
+
+                model.CategoryViewModel = new CategoryViewModel();
+                model.CategoryViewModel.ParentId = 0;
+                ///Category List
+                ViewBag.Categories = list;
+                TempData["Data"] = list;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return View(model);
+        }
+
+        public ActionResult CategoryList()
+        {
+            return PartialView("_List");
+        }
+
+        public ActionResult Create()
+        {
+            return PartialView("_AddNew");
+        }
+
+        [HttpGet]
+        public ActionResult Edit(byte Id)
+        {
+            var data = new CategoryViewModel();
+            try
+            {
+                var list = APIHelper.Get<List<CategoryViewModel>>($"api/Category");
+                data = APIHelper.Get<CategoryViewModel>($"api/Category/" + Id);
+                if(!string.IsNullOrEmpty(data.Image))
+                {
+                    data.Image = ValueConstant.IMAGE_CATEGORY_PATH + "/" + data.Image;
+                }
+                ViewBag.Categories = list;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return View(data);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Create(CategoryViewModel model, HttpPostedFileBase fileUpload)
+        {
+            //category.Handler = "";
+            if (model == null)
+            {
+                return null;
+            }
+            ModelState["ParentId"].Errors.Clear();
+
+            if (ModelState.IsValid)
+            {
+                if(fileUpload != null)
+                {
+                    string name = "";
+                    WebImageHelper.UploadImage(fileUpload, ValueConstant.IMAGE_CATEGORY_PATH, ref name);
+                }
+                CategoryViewModel cate = await Save(model, ValueConstant.ACTION_INSERT);
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, "Thêm thành công");
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var categories = new CategoriesModel();
+                categories.lstCategoryViewModel = (List<CategoryViewModel>)TempData["Data"];
+                if (categories.lstCategoryViewModel == null) categories.lstCategoryViewModel = ApplicationHelper.GetObject<List<CategoryViewModel>>();
+                categories.CategoryViewModel = model;
+
+                ViewBag.Categories = categories.lstCategoryViewModel;
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, "Thêm không thành công");
+                return View("Index", categories);
+            }
+            
+        }
+        
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Edit(CategoryViewModel model, HttpPostedFileBase fileUpload)
+        {
+            if (model == null)
+            {
+                return null;
+            }
+            if (ModelState.IsValid)
+            {
+                if (fileUpload != null)
+                {
+                    string name = "";
+                    WebImageHelper.UploadImage(fileUpload, ValueConstant.IMAGE_CATEGORY_PATH, ref name);
+                }
+                CategoryViewModel cate = await Save(model, ValueConstant.ACTION_UPDATE);
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, "Thêm thành công");
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, "Cập nhật không thành công");
+                return View();
+            }
+        }
+
+        public ActionResult ViewConfirmDelete(CategoryViewModel model)
+        {
+            bool checkIsused = APIHelper.Get<bool>($"category/CheckIsUsed/" + model.Id);
+            if (!checkIsused)
+            {
+                return PartialView("_Delete", model);
+            }
+            else
+            {
+                var list = new CategoriesModel();
+                list.lstCategoryViewModel = (List<CategoryViewModel>)TempData["Data"];
+
+                if (list.lstCategoryViewModel == null) list.lstCategoryViewModel = ApplicationHelper.GetObject<List<CategoryViewModel>>();
+                list.CategoryViewModel = model;
+
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.ERROR, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_DELETE, RenderMessage.TypeResult.ISUSED));
+                return View("Index", list);
+            }
+        }
+
+        /// <summary>
+        /// Delete an object category
+        /// </summary>
+        /// <param name="model">object of category</param>
+        /// <returns>Success: return index category - Fail: return Edit</returns>
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Delete(CategoryViewModel model)
+        {
+            bool checkIsUsed = APIHelper.Get<bool>($"category/CheckIsUsed/" + model.Id);
+            if (!checkIsUsed)
+            {
+                CategoryViewModel cate = await Save(model, ValueConstant.ACTION_DELETE);
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, "Xóa thành công");
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var list = APIHelper.Get<List<CategoryViewModel>>($"api/Category");
+                ViewBag.Categories = list;
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, "Xóa không thành công");
+                return View("Edit", model);
+            }
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult CheckExistName(string name, byte id)
+        {
+
+            var isExist = APIHelper.Get<bool>($"api/Category/" + id + "?name=" + name);
+
+            return Json(!isExist, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<CategoryViewModel> Save(CategoryViewModel model, string action)
+        {
+            var result = new CategoryViewModel();
+            try
+            {
+                result = await APIHelper.TransactionAsync<CategoryViewModel>(model, "api/Category?action=" + action + "");
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("", e.Message);
+                LogHelper.WriteLog(e.Message);
+            }
+            return result;
+        }
+    }
+}

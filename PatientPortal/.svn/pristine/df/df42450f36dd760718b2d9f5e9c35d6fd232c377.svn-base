@@ -1,0 +1,19 @@
+﻿@model List<PatientPortal.CMS.Models.WorkflowStateViewModel>
+
+
+<div class="form-group">
+    @if (ViewBag.WorkflowId != null)
+    {
+        @Html.DropDownList("WorkflowId", new SelectList(ViewBag.WorkflowId, "Id", "Name"), " --- Chọn workflow --- ", new { @class = "chosen-select", onchange = "CallChangefunc(this.value)" })
+    }
+</div>
+<div class="form-group">
+    @Html.Partial("_ListByWorkflow", Model)
+</div>
+    <script>
+        function CallChangefunc(val) {
+            if (val) {
+                return window.location.href = "/WorkflowState/Index/" + val;
+            }
+        }
+    </script>

@@ -1,0 +1,191 @@
+﻿using PatientPortal.CMS.Common;
+using PatientPortal.CMS.Models;
+using PatientPortal.CMS.Utility;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.CMS.Controllers
+{
+    public class FeatureController : Controller
+    {
+        private string apiUrl = $"api/feature";
+
+        #region Get List
+        // GET: Feature
+        public ActionResult Index()
+        {
+            var results = new FeatureModel();
+            try
+            {
+                var list = APIHelper.Get<List<FeatureViewModel>>(apiUrl);
+                if (list == null) list = ApplicationHelper.GetObject<List<FeatureViewModel>>();
+
+                var model = new FeatureViewModel();
+
+                results.lstFeatureViewModel = list;
+                results.FeatureViewModel = model;
+
+                TempData["Data"] = list;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(ex.Message);
+                throw ex;
+            }
+            return View(results);
+        }
+        #endregion
+
+        #region Create
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Create(FeatureViewModel model, HttpPostedFileBase fileUpload)
+        {
+            if (ModelState.IsValid)
+            {
+                if (fileUpload != null)
+                {
+                    model.Image = fileUpload.FileName;
+                    string imgName = "";
+                    WebImageHelper.UploadImage(fileUpload, ValueConstant.IMAGE_FEATURE_PATH, ref imgName);
+                }
+
+                bool result = await Save(model, ValueConstant.ACTION_INSERT);
+                if(result)
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var feature = new FeatureModel();
+                feature.lstFeatureViewModel = (List<FeatureViewModel>)TempData["Data"];
+
+                if (feature.lstFeatureViewModel == null) feature.lstFeatureViewModel = ApplicationHelper.GetObject<List<FeatureViewModel>>();
+                feature.FeatureViewModel = model;
+                
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.FAIL));
+                return View("Index", feature);
+            }
+        }
+        #endregion
+
+        #region Edit
+
+        [HttpGet]
+        public ActionResult Edit(byte id)
+        {
+            var model = new FeatureViewModel();
+            try
+            {
+                model = APIHelper.Get<FeatureViewModel>(apiUrl + "/" + id);
+                if (!string.IsNullOrEmpty(model.Image) && !model.Image.Contains(ValueConstant.IMAGE_FEATURE_PATH))
+                {
+                    model.Image = ValueConstant.IMAGE_FEATURE_PATH + "/" + model.Image;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(ex.Message);
+                throw ex;
+            }
+            return View(model);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Edit(FeatureViewModel model, HttpPostedFileBase fileUpload)
+        {
+            if (ModelState.IsValid)
+            {
+                if (fileUpload != null)
+                {
+                    model.Image = fileUpload.FileName;
+                    string imgName = "";
+                    WebImageHelper.UploadImage(fileUpload, ValueConstant.IMAGE_FEATURE_PATH, ref imgName);
+                }
+
+                bool result = await Save(model, ValueConstant.ACTION_UPDATE);
+                if (result)
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.FAIL));
+                return View();
+            }
+        }
+        #endregion
+
+        #region Delete
+        public ActionResult Delete(FeatureViewModel model)
+        {
+
+            return PartialView("_Delete", model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Delete(byte id)
+        {
+            try
+            {
+                var model = new FeatureViewModel();
+                model.Id = id;
+                var result = await Save(model, ValueConstant.ACTION_DELETE);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(ex.Message);
+                return View();
+            }
+        }
+
+        #endregion
+
+        #region Check exist
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult CheckExist(string title, byte id)
+        {
+
+            var isExist = APIHelper.Get<bool>(apiUrl + "/" + id + "?title=" + title);
+
+            return Json(!isExist, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
+        #region API Transaction
+        private async Task<bool> Save(FeatureViewModel model, string action)
+        {
+            var result = false;
+            try
+            {
+                result = await APIHelper.TransactionAsyncResult<FeatureViewModel>(model, apiUrl + "?action=" + action + "");
+            }
+            catch (Exception e)
+            {
+                LogHelper.WriteLog(e.Message);
+                ModelState.AddModelError("", e.Message);
+            }
+            return result;
+        }
+        #endregion
+    }
+}

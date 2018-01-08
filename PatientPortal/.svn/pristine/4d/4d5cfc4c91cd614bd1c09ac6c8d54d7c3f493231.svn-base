@@ -1,0 +1,691 @@
+﻿<style>
+    .homepage .brd-wrap {
+        display: block;
+    }
+
+    .homepage .hotlink {
+        position: unset;
+        bottom: -450px;
+        z-index: 2000;
+        right: 0;
+    }
+</style>
+<div class="brd-wrap" style="background: #73b844;">
+    <div class="container">
+        <div class="row">
+            <div class='hotlink Module Module-514'>
+                <a href="/saigon/cau-chuyen-benh-nhan">
+                    <img alt="" src="assets/images/media/3/img-4.png" />
+                </a>
+                <a href="/saigon/dat-lich-kham">
+                    <img alt="" src="assets/images/media/3/img1.png" />
+                </a>
+                <a href="/saigon/danh-sach-bac-si">
+                    <img alt="" src="assets/images/media/3/img2.png" />
+                </a>
+                <a href="/answer-question">
+                    <img alt="" src="assets/images/media/3/img3.png" />
+                </a>
+            </div>
+            <h2 class="crrpage-name">Đặt lịch kh&#225;m</h2>
+            <div id="ctl00_Breadcrumbs_pnlWrapper" class="breadcrum">
+
+                <ul class='nav'>
+
+                    <li itemscope itemtype='http://data-vocabulary.org/Breadcrumb'>
+                        <a href='http://www.hoanmy.com/tanbinh/Default.aspx' class='itemcrumb' itemprop="url"><span itemprop="title">Trang chủ</span></a>
+                    </li>
+                    <li>/</li>
+                    <li itemscope itemtype='http://data-vocabulary.org/Breadcrumb'>
+                        <a href='http://www.hoanmy.com/tanbinh/hoi-dap' class='itemcrumb' itemprop="url"><span itemprop="title">Dịch vụ khách hàng</span></a>
+                    </li>
+                    <li>/</li>
+                    <li itemscope itemtype='http://data-vocabulary.org/Breadcrumb'>
+                        <a href='/tanbinh/dat-lich-kham' class='itemcrumb active' itemprop="url"><span itemprop="title">Đặt lịch khám</span></a>
+                    </li>
+
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="top-content">
+
+</div>
+<div class="content container">
+    <div class="row">
+        <div class="content-bg">
+
+
+            <div id="ctl00_divCenter" class="col-left">
+
+
+
+                <div class="content-bg2">
+
+                    <div class='Module Module-447'>
+                        <div class="banner2 preloadimg">
+                            <img src="assets/images/media/appointment/patientservices_booking.jpg" alt=""/>
+                        </div>
+                        <div class="newsdt-slshadow">
+                        </div>
+                    </div><div class='Module Module-448'>
+                        <p>Cám ơn Quý Khách hàng đã quan tâm đến dịch vụ chăm sóc sức khỏe của Hoàn Mỹ. Vui lòng gửi thông tin chi tiết để chúng tôi có thể sắp xếp cuộc hẹn.</p>
+                        <p>&nbsp;</p>
+                    </div><div class='Module Module-449'>
+                        <div id="ctl00_mainContent_ctl02_pnlMain">
+
+                            <div class="col-sm-6 bookfrm bookfrm-left">
+                                <h3>
+                                    Bạn muốn đặt hẹn khám cho
+                                </h3>
+                                <table>
+                                    <tr>
+                                        <td><input type="radio" value="0" checked="checked" /><label for="ctl00_mainContent_ctl02_rdbBookingSetAnAppointment_0">Bản thân</label></td>
+                                        <td><input type="radio" name="ctl00$mainContent$ctl02$rdbBookingSetAnAppointment" value="1" onclick="javascript:setTimeout(&#39;__doPostBack(\&#39;ctl00$mainContent$ctl02$rdbBookingSetAnAppointment$1\&#39;,\&#39;\&#39;)&#39;, 0)" /><label for="ctl00_mainContent_ctl02_rdbBookingSetAnAppointment_1">Người thân</label></td>
+                                    </tr>
+                                </table>
+
+                                <h3>
+                                    Thông tin bệnh nhân
+                                </h3>
+                                <div class="bookfrm-itm bookfrm-itm-select bookfrm-itm-select1">
+                                    <span class="bg-select">
+                                        Giới tính
+                                    </span>
+                                    <select name="ctl00$mainContent$ctl02$ddBookingGender" id="ctl00_mainContent_ctl02_ddBookingGender">
+                                        <option value="0">Giới t&#237;nh</option>
+                                        <option value="1">Nam</option>
+                                        <option value="2">Nữ</option>
+
+                                    </select>
+                                    <span class="txt-error" style="display:none;"></span>
+                                </div>
+                                <div>
+                                    <span class="bg-select">
+                                        Tuổi
+                                    </span>
+                                    <select id="ctl00_mainContent_ctl02_ddBookingAge">
+                                        <option value="0">Tuổi </option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                        <option value="13">13</option>
+                                        <option value="14">14</option>
+                                        <option value="15">15</option>
+                                        <option value="16">16</option>
+                                        <option value="17">17</option>
+                                        <option value="18">18</option>
+                                        <option value="19">19</option>
+                                        <option value="20">20</option>
+                                        <option value="21">21</option>
+                                        <option value="22">22</option>
+                                        <option value="23">23</option>
+                                        <option value="24">24</option>
+                                        <option value="25">25</option>
+                                        <option value="26">26</option>
+                                        <option value="27">27</option>
+                                        <option value="28">28</option>
+                                        <option value="29">29</option>
+                                        <option value="30">30</option>
+                                        <option value="31">31</option>
+                                        <option value="32">32</option>
+                                        <option value="33">33</option>
+                                        <option value="34">34</option>
+                                        <option value="35">35</option>
+                                        <option value="36">36</option>
+                                        <option value="37">37</option>
+                                        <option value="38">38</option>
+                                        <option value="39">39</option>
+                                        <option value="40">40</option>
+                                        <option value="41">41</option>
+                                        <option value="42">42</option>
+                                        <option value="43">43</option>
+                                        <option value="44">44</option>
+                                        <option value="45">45</option>
+                                        <option value="46">46</option>
+                                        <option value="47">47</option>
+                                        <option value="48">48</option>
+                                        <option value="49">49</option>
+                                        <option value="50">50</option>
+                                        <option value="51">51</option>
+                                        <option value="52">52</option>
+                                        <option value="53">53</option>
+                                        <option value="54">54</option>
+                                        <option value="55">55</option>
+                                        <option value="56">56</option>
+                                        <option value="57">57</option>
+                                        <option value="58">58</option>
+                                        <option value="59">59</option>
+                                        <option value="60">60</option>
+                                        <option value="61">61</option>
+                                        <option value="62">62</option>
+                                        <option value="63">63</option>
+                                        <option value="64">64</option>
+                                        <option value="65">65</option>
+                                        <option value="66">66</option>
+                                        <option value="67">67</option>
+                                        <option value="68">68</option>
+                                        <option value="69">69</option>
+                                        <option value="70">70</option>
+                                        <option value="71">71</option>
+                                        <option value="72">72</option>
+                                        <option value="73">73</option>
+                                        <option value="74">74</option>
+                                        <option value="75">75</option>
+                                        <option value="76">76</option>
+                                        <option value="77">77</option>
+                                        <option value="78">78</option>
+                                        <option value="79">79</option>
+                                        <option value="80">80</option>
+                                        <option value="81">81</option>
+                                        <option value="82">82</option>
+                                        <option value="83">83</option>
+                                        <option value="84">84</option>
+                                        <option value="85">85</option>
+                                        <option value="86">86</option>
+                                        <option value="87">87</option>
+                                        <option value="88">88</option>
+                                        <option value="89">89</option>
+                                        <option value="90">90</option>
+                                        <option value="91">91</option>
+                                        <option value="92">92</option>
+                                        <option value="93">93</option>
+                                        <option value="94">94</option>
+                                        <option value="95">95</option>
+                                        <option value="96">96</option>
+                                        <option value="97">97</option>
+                                        <option value="98">98</option>
+                                        <option value="99">99</option>
+
+                                    </select>
+                                    <span id="ctl00_mainContent_ctl02_reqAge" class="txt-error" style="display:none;"></span>
+                                </div>
+                                <div class="bookfrm-itm bookfrm-itm-input">
+                                    <input name="ctl00$mainContent$ctl02$txtBookingFullname" type="text" id="ctl00_mainContent_ctl02_txtBookingFullname" placeholder="Họ tên " />
+                                    <span id="ctl00_mainContent_ctl02_reqFullname" class="txt-error" style="display:none;"></span>
+                                </div>
+                                <div id="ctl00_mainContent_ctl02_divEmail" class="bookfrm-itm bookfrm-itm-input">
+                                    <input name="ctl00$mainContent$ctl02$txtBookingEmail" type="text" id="ctl00_mainContent_ctl02_txtBookingEmail" placeholder="Email " />
+
+                                    <span id="ctl00_mainContent_ctl02_regexEmail" class="txt-error" style="display:none;"></span>
+                                </div>
+                                <div id="ctl00_mainContent_ctl02_divPhone" class="bookfrm-itm bookfrm-itm-input">
+                                    <input name="ctl00$mainContent$ctl02$txtBookingPhone" type="text" id="ctl00_mainContent_ctl02_txtBookingPhone" placeholder="Điện thoại" />
+                                    <span id="ctl00_mainContent_ctl02_reqPhone" class="txt-error" style="display:none;"></span>
+                                    <span id="ctl00_mainContent_ctl02_RegularExpressionValidator1" class="txt-error" style="display:none;"></span>
+                                </div>
+                                <div class="booking-note">
+                                </div>
+
+                            </div>
+                            <div class="col-sm-6 bookfrm bookfrm-right">
+                                <h3>
+                                    Thông tin đặt hẹn
+                                </h3>
+                                <div id="ctl00_mainContent_ctl02_upLayout">
+
+                                    <div class="bookfrm-itm bookfrm-itm-select">
+                                        <span class="bg-select">
+                                            Chuyên khoa
+                                        </span>
+                                        <select name="ctl00$mainContent$ctl02$ddlBookingSpecialize" onchange="javascript:setTimeout(&#39;__doPostBack(\&#39;ctl00$mainContent$ctl02$ddlBookingSpecialize\&#39;,\&#39;\&#39;)&#39;, 0)" id="ctl00_mainContent_ctl02_ddlBookingSpecialize">
+                                            <option selected="selected" value="0">Chuy&#234;n khoa</option>
+                                            <option value="22">Khoa Tim mạch</option>
+                                            <option value="49">Khoa Ti&#234;u h&#243;a – Gan – Mật</option>
+                                            <option value="24">Khoa Sản Phụ</option>
+                                            <option value="26">Khoa Nhi</option>
+                                            <option value="36">Khoa Nội tiết</option>
+                                            <option value="29">Khoa Tai - Mũi - Họng</option>
+                                            <option value="37">Răng - H&#224;m - Mặt</option>
+                                            <option value="30">Khoa Mắt</option>
+                                            <option value="25">Khoa Nội Tổng qu&#225;t</option>
+                                            <option value="23">Khoa Ngoại Tổng qu&#225;t</option>
+                                            <option value="32">Khoa Da liễu</option>
+                                            <option value="59">Khoa H&#244; hấp</option>
+                                            <option value="31">Khoa Chẩn đo&#225;n h&#236;nh ảnh</option>
+                                            <option value="39">Khoa X&#233;t nghiệm</option>
+                                            <option value="54">Khoa Tiết niệu</option>
+                                            <option value="55">Khoa Cấp cứu</option>
+                                            <option value="28">Khoa Cơ Xương Khớp</option>
+                                            <option value="34">Khoa Thần kinh</option>
+
+                                        </select>
+                                        <span id="ctl00_mainContent_ctl02_RequiredFieldValidator3" class="txt-error" style="display:none;"></span>
+                                    </div>
+                                    <!--<div class="bookfrm-itm bookfrm-itm-select">
+                                        <span class="bg-select">
+                                            Phòng khám Hoàn Mỹ Sài Gòn
+                                        </span>
+                                        <select name="ctl00$mainContent$ctl02$ddlBookingHospital" onchange="javascript:setTimeout(&#39;__doPostBack(\&#39;ctl00$mainContent$ctl02$ddlBookingHospital\&#39;,\&#39;\&#39;)&#39;, 0)" id="ctl00_mainContent_ctl02_ddlBookingHospital" disabled="disabled" class="aspNetDisabled">
+                                            <option value="0">Bệnh viện</option>
+                                            <option value="6">Bệnh viện Ho&#224;n Mỹ Cửu Long</option>
+                                            <option value="2">Bệnh viện Ho&#224;n Mỹ Đ&#224; Nẵng</option>
+                                            <option value="3">Bệnh viện Ho&#224;n Mỹ Đ&#224; Lạt</option>
+                                            <option value="4">Bệnh viện Ho&#224;n Mỹ S&#224;i G&#242;n</option>
+                                            <option selected="selected" value="5">Ph&#242;ng kh&#225;m Ho&#224;n Mỹ S&#224;i G&#242;n</option>
+                                            <option value="7">Bệnh viện Ho&#224;n Mỹ Minh Hải</option>
+                                            <option value="62">Bệnh viện Ho&#224;n Mỹ Đồng Nai</option>
+                                            <option value="65">Bệnh viện Ho&#224;n Mỹ Vinh</option>
+                                            <option value="67">Bệnh viện Ho&#224;n Mỹ Vạn Ph&#250;c</option>
+
+                                        </select>
+
+                                    </div>-->
+                                    <div class="bookfrm-itm bookfrm-itm-select">
+                                        <span class="bg-select">
+                                            Bác sĩ
+                                        </span>
+                                        <select name="ctl00$mainContent$ctl02$ddlBookingDoctor" onchange="javascript:setTimeout(&#39;__doPostBack(\&#39;ctl00$mainContent$ctl02$ddlBookingDoctor\&#39;,\&#39;\&#39;)&#39;, 0)" id="ctl00_mainContent_ctl02_ddlBookingDoctor">
+                                            <option selected="selected" value="0">B&#225;c sĩ</option>
+
+                                        </select>
+
+                                    </div>
+                                    <h4>
+                                        Thời gian khám bệnh
+                                    </h4>
+                                    <div class="bookfrm-itm bookfrm-itm-date">
+                                        <div id="ctl00_mainContent_ctl02_rdtBookingExaminationTime_wrapper" class="RadPicker RadPicker_Default" style="display:inline-block;width:160px;">
+                                            <!-- 2013.1.417.40 --><input style="visibility:hidden;display:block;float:right;margin:0 0 -1px -1px;width:1px;height:1px;overflow:hidden;border:0;padding:0;" id="ctl00_mainContent_ctl02_rdtBookingExaminationTime" name="ctl00$mainContent$ctl02$rdtBookingExaminationTime" type="text" class="rdfd_ radPreventDecorate" value="2017-07-05-14-47-27" title="Visually hidden input created for functionality purposes." /><table cellspacing="0" class="rcTable rcSingle" summary="Table holding date picker control for selection of dates." style="width:100%;">
+                                                <caption style="display:none;">
+                                                    RadDatePicker
+                                                </caption>
+                                                <thead style="display:none;">
+                                                    <tr>
+                                                        <th scope="col"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="rcInputCell" style="width:100%;"><span class="riSingle RadInput RadInput_Default" style="display:block;width:100%;"><input class="riTextBox riEnabled" value="05/07/2017 14:47" type="text" />
+                                                            <input type="hidden" /></span></td>
+                                                        <td>
+                                                            <a title="Open the calendar popup." href="#" class="rcCalPopup">Open the calendar popup.</a><div style="display: none">
+                                                                <table summary="Calendar control which enables the selection of dates." cellspacing="0" class="RadCalendar RadCalendar_Default">
+                                                                    <caption>
+                                                                        <span style='display:none;'>Calendar</span>
+                                                                    </caption>
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <td class="rcTitlebar">
+                                                                                <table cellspacing="0" summary="Title and navigation which can change and show the current year and month.">
+                                                                                    <caption>
+                                                                                        <span style='display:none;'>Title and navigation</span>
+                                                                                    </caption>
+                                                                                    <thead>
+                                                                                        <tr style="display:none;">
+                                                                                            <th scope="col"></th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td><a class="rcFastPrev" title="&lt;&lt;" href="../#">&lt;&lt;</a></td>
+                                                                                            <td><a class="rcPrev" title="&lt;" href="../#">&lt;</a></td>
+                                                                                            <td class="rcTitle">Tháng Bảy 2017</td>
+                                                                                            <td><a class="rcNext" title=">" href="../#">&gt;</a></td>
+                                                                                            <td><a class="rcFastNext" title=">>" href="../#">&gt;&gt;</a></td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td class="rcMain">
+                                                                                <table class="rcMainTable" cellspacing="0" summary="Table containing all dates for the currently selected month.">
+                                                                                    <caption>
+                                                                                        <span style='display:none;'>Tháng Bảy 2017</span>
+                                                                                    </caption>
+                                                                                    <thead>
+                                                                                        <tr class="rcWeek">
+                                                                                            <th class="rcViewSel" scope="col">&nbsp;</th>
+                                                                                            <th title="Thứ Hai" scope="col" abbr="Hai">H</th>
+                                                                                            <th title="Thứ Ba" scope="col" abbr="Ba">B</th>
+                                                                                            <th title="Thứ Tư" scope="col" abbr="Tư">T</th>
+                                                                                            <th title="Thứ Năm" scope="col" abbr="Năm">N</th>
+                                                                                            <th title="Thứ Sáu" scope="col" abbr="Sáu">S</th>
+                                                                                            <th title="Thứ Bảy" scope="col" abbr="Bảy">B</th>
+                                                                                            <th title="Chủ Nhật" scope="col" abbr="CN">C</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr class="rcRow">
+                                                                                            <th scope="row">27</th>
+                                                                                            <td class="rcOutOfRange"><span>26</span></td>
+                                                                                            <td class="rcOutOfRange"><span>27</span></td>
+                                                                                            <td class="rcOutOfRange"><span>28</span></td>
+                                                                                            <td class="rcOutOfRange"><span>29</span></td>
+                                                                                            <td class="rcOutOfRange"><span>30</span></td>
+                                                                                            <td class="rcOutOfRange"><span>1</span></td>
+                                                                                            <td class="rcOutOfRange" style=""><span>2</span></td>
+                                                                                        </tr>
+                                                                                        <tr class="rcRow">
+                                                                                            <th scope="row">28</th>
+                                                                                            <td class="rcOutOfRange"><span>3</span></td>
+                                                                                            <td class="rcOutOfRange"><span>4</span></td>
+                                                                                            <td title="Thứ Tư, Tháng Bảy 05, 2017"><a href="#">5</a></td>
+                                                                                            <td title="Thứ Năm, Tháng Bảy 06, 2017"><a href="#">6</a></td>
+                                                                                            <td title="Thứ Sáu, Tháng Bảy 07, 2017"><a href="#">7</a></td>
+                                                                                            <td class="rcWeekend" title="Thứ Bảy, Tháng Bảy 08, 2017"><a href="#">8</a></td>
+                                                                                            <td class="rcWeekend" title="Chủ Nhật, Tháng Bảy 09, 2017" style="background-color:#EDEDED;"><a href="#">9</a></td>
+                                                                                        </tr>
+                                                                                        <tr class="rcRow">
+                                                                                            <th scope="row">29</th>
+                                                                                            <td title="Thứ Hai, Tháng Bảy 10, 2017"><a href="#">10</a></td>
+                                                                                            <td title="Thứ Ba, Tháng Bảy 11, 2017"><a href="#">11</a></td>
+                                                                                            <td title="Thứ Tư, Tháng Bảy 12, 2017"><a href="#">12</a></td>
+                                                                                            <td title="Thứ Năm, Tháng Bảy 13, 2017"><a href="#">13</a></td>
+                                                                                            <td title="Thứ Sáu, Tháng Bảy 14, 2017"><a href="#">14</a></td>
+                                                                                            <td class="rcWeekend" title="Thứ Bảy, Tháng Bảy 15, 2017"><a href="#">15</a></td>
+                                                                                            <td class="rcWeekend" title="Chủ Nhật, Tháng Bảy 16, 2017" style="background-color:#EDEDED;"><a href="#">16</a></td>
+                                                                                        </tr>
+                                                                                        <tr class="rcRow">
+                                                                                            <th scope="row">30</th>
+                                                                                            <td title="Thứ Hai, Tháng Bảy 17, 2017"><a href="#">17</a></td>
+                                                                                            <td title="Thứ Ba, Tháng Bảy 18, 2017"><a href="#">18</a></td>
+                                                                                            <td title="Thứ Tư, Tháng Bảy 19, 2017"><a href="#">19</a></td>
+                                                                                            <td title="Thứ Năm, Tháng Bảy 20, 2017"><a href="#">20</a></td>
+                                                                                            <td title="Thứ Sáu, Tháng Bảy 21, 2017"><a href="#">21</a></td>
+                                                                                            <td class="rcWeekend" title="Thứ Bảy, Tháng Bảy 22, 2017"><a href="#">22</a></td>
+                                                                                            <td class="rcWeekend" title="Chủ Nhật, Tháng Bảy 23, 2017" style="background-color:#EDEDED;"><a href="#">23</a></td>
+                                                                                        </tr>
+                                                                                        <tr class="rcRow">
+                                                                                            <th scope="row">31</th>
+                                                                                            <td title="Thứ Hai, Tháng Bảy 24, 2017"><a href="#">24</a></td>
+                                                                                            <td title="Thứ Ba, Tháng Bảy 25, 2017"><a href="#">25</a></td>
+                                                                                            <td title="Thứ Tư, Tháng Bảy 26, 2017"><a href="#">26</a></td>
+                                                                                            <td title="Thứ Năm, Tháng Bảy 27, 2017"><a href="#">27</a></td>
+                                                                                            <td title="Thứ Sáu, Tháng Bảy 28, 2017"><a href="#">28</a></td>
+                                                                                            <td class="rcWeekend" title="Thứ Bảy, Tháng Bảy 29, 2017"><a href="#">29</a></td>
+                                                                                            <td class="rcWeekend" title="Chủ Nhật, Tháng Bảy 30, 2017" style="background-color:#EDEDED;"><a href="#">30</a></td>
+                                                                                        </tr>
+                                                                                        <tr class="rcRow">
+                                                                                            <th scope="row">32</th>
+                                                                                            <td title="Thứ Hai, Tháng Bảy 31, 2017"><a href="#">31</a></td>
+                                                                                            <td class="rcOtherMonth" title="Thứ Ba, Tháng Tám 01, 2017"><a href="#">1</a></td>
+                                                                                            <td class="rcOtherMonth" title="Thứ Tư, Tháng Tám 02, 2017"><a href="#">2</a></td>
+                                                                                            <td class="rcOtherMonth" title="Thứ Năm, Tháng Tám 03, 2017"><a href="#">3</a></td>
+                                                                                            <td class="rcOtherMonth" title="Thứ Sáu, Tháng Tám 04, 2017"><a href="#">4</a></td>
+                                                                                            <td class="rcOtherMonth" title="Thứ Bảy, Tháng Tám 05, 2017"><a href="#">5</a></td>
+                                                                                            <td class="rcOtherMonth" title="Chủ Nhật, Tháng Tám 06, 2017" style="background-color:#EDEDED;"><a href="#">6</a></td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table><input type="hidden" value="[]" /><input type="hidden" name="ctl00_mainContent_ctl02_rdtBookingExaminationTime_calendar_AD" id="ctl00_mainContent_ctl02_rdtBookingExaminationTime_calendar_AD" value="[[2017,7,5],[2017,9,5],[2017,7,5]]" />
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <a title="Open the time view popup." href="#" id="ctl00_mainContent_ctl02_rdtBookingExaminationTime_timePopupLink" class="rcTimePopup">Open the time view popup.</a><div id="ctl00_mainContent_ctl02_rdtBookingExaminationTime_timeView_wrapper" style="display:none;">
+                                                                <div id="ctl00_mainContent_ctl02_rdtBookingExaminationTime_timeView">
+                                                                    <table id="ctl00_mainContent_ctl02_rdtBookingExaminationTime_timeView_tdl" class="RadCalendarTimeView RadCalendarTimeView_Default" summary="Table holding time picker for selecting time of day." cellspacing="0">
+                                                                        <caption>
+                                                                            <span style='display: none'>Time picker</span>
+                                                                        </caption>
+                                                                        <tr>
+                                                                            <th colspan="3" scope="col" class="rcHeader">Time Picker</th>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><a href="#">00:00</a></td>
+                                                                            <td><a href="#">01:00</a></td>
+                                                                            <td><a href="#">02:00</a></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><a href="#">03:00</a></td>
+                                                                            <td><a href="#">04:00</a></td>
+                                                                            <td><a href="#">05:00</a></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><a href="#">06:00</a></td>
+                                                                            <td><a href="#">07:00</a></td>
+                                                                            <td><a href="#">08:00</a></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><a href="#">09:00</a></td>
+                                                                            <td><a href="#">10:00</a></td>
+                                                                            <td><a href="#">11:00</a></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><a href="#">12:00</a></td>
+                                                                            <td><a href="#">13:00</a></td>
+                                                                            <td><a href="#">14:00</a></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><a href="#">15:00</a></td>
+                                                                            <td><a href="#">16:00</a></td>
+                                                                            <td><a href="#">17:00</a></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><a href="#">18:00</a></td>
+                                                                            <td><a href="#">19:00</a></td>
+                                                                            <td><a href="#">20:00</a></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><a href="#">21:00</a></td>
+                                                                            <td><a href="#">22:00</a></td>
+                                                                            <td><a href="#">23:00</a></td>
+                                                                        </tr>
+                                                                    </table><input type="hidden" />
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table><input type="hidden" />
+                                        </div>
+                                        <span class="txt-error" style="display:none;"></span>
+                                    </div>
+                                    <!--<div class="RadCaptcha RadCaptcha_Default">
+                                        <span style="visibility:hidden;">Mã không đúng.</span><div id="ctl00_mainContent_ctl02_captcha_SpamProtectorPanel">
+                                            <div>
+                                                <img alt="" src="../Telerik.Web.UI.WebResource.axd?type=rca&amp;guid=3e9e5000-3afb-4540-bed2-d7749b581f6b" style="height:50px;width:180px;display:block;" /><a id="ctl00_mainContent_ctl02_captcha_CaptchaLinkButton" class="rcRefreshImage" title="Hình ảnh mới" href="javascript:__doPostBack(&#39;ctl00$mainContent$ctl02$captcha$CaptchaLinkButton&#39;,&#39;&#39;)" style="display:block;">Hình ảnh mới</a>
+                                            </div><p><input type="text" maxlength="5" title="Nhập mã hiển thị" /><label for="ctl00_mainContent_ctl02_captcha_CaptchaTextBox" id="ctl00_mainContent_ctl02_captcha_CaptchaTextBoxLabel"></label></p>
+                                        </div><input type="hidden" />
+                                    </div>-->
+
+                                </div>
+                                <input type="submit" value="Đặt lịch khám"/>
+                            </div>
+                            <div class="clear">
+                            </div>
+
+                        </div>
+
+                    </div><div class='frm-note Module Module-585'><em><strong>* Các thắc mắc vui lòng liên hệ hotline 08 3811 9783.</strong></em></div>
+
+
+                </div>
+
+
+            </div>
+            <div id="ctl00_divRight" class="col-right cmszone">
+
+                <div class='Module Module-400'>
+                    <div class="left-menu">
+                        <ul class="noli">
+                            <li class="active"><a class="active" href="/tanbinh/dat-lich-kham" target="_self" title="Đặt lịch khám">Đặt lịch khám</a></li>
+                            <li><a href="/tanbinh/danh-sach-bac-si" target="_self" title="Danh sách bác sĩ">Danh sách bác sĩ</a></li>
+                            <li><a href="/tanbinh/hoi-dap" target="_self" title="Hỏi đáp">Hỏi đáp</a></li>
+                            <li><a href="/tanbinh/hoi-dap-chuyen-khoa" target="_self" title="Hỏi đáp chuyên khoa">Hỏi đáp chuyên khoa</a></li>
+                        </ul>
+                    </div>
+                </div><div class='Module Module-372'>
+                    <div class="fb-page" data-href="https://www.facebook.com/Phòng-Khám-Hoàn-Mỹ-Sài-Gòn-1934658413425374" data-tabs="Facebook" data-width="231" data-small-header="false" data-adapt-container-width="false" data-hide-cover="false" data-show-facepile="true">Phòng Khám Hoàn Mỹ Sài Gòn</div>
+                    <div class="emhotline">
+                        CẤP CỨU <span>(08) 3811 9783</span>
+                    </div>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSemdqrYVGswrTxbQGKUwPzImgqXa6DMt5D_wBdiPKvhbyq2FA/viewform?c=0&amp;w=1" target="_blank"><img src="http://hoanmy.com/Data/Sites/1/userfiles/56/KS-ngoai-tru.png" alt="Khao-sat-ngoai-tru" /></a>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdGUagF2UaZ2U0QkNWDXj46q8fND-aIz46VN_9tZCQCezfSEw/viewform?c=0&amp;w=1" target="_blank"><img src="http://hoanmy.com/Data/Sites/1/userfiles/56/KS-noi-tru.png" alt="Khao-sat-noi-tru" /></a>
+                </div>
+
+            </div>
+            <div class="clear">
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+//<![CDATA[
+var Page_Validators =  new Array(document.getElementById("ctl00_mainContent_ctl02_reqGender"), document.getElementById("ctl00_mainContent_ctl02_reqAge"), document.getElementById("ctl00_mainContent_ctl02_reqFullname"), document.getElementById("ctl00_mainContent_ctl02_regexEmail"), document.getElementById("ctl00_mainContent_ctl02_reqPhone"), document.getElementById("ctl00_mainContent_ctl02_RegularExpressionValidator1"), document.getElementById("ctl00_mainContent_ctl02_RequiredFieldValidator3"), document.getElementById("ctl00_mainContent_ctl02_RequiredFieldValidator6"), document.getElementById("ctl00_mainContent_ctl02_captcha_ctl00"));
+//]]>
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+var ctl00_mainContent_ctl02_reqGender = document.all ? document.all["ctl00_mainContent_ctl02_reqGender"] : document.getElementById("ctl00_mainContent_ctl02_reqGender");
+ctl00_mainContent_ctl02_reqGender.controltovalidate = "ctl00_mainContent_ctl02_ddBookingGender";
+ctl00_mainContent_ctl02_reqGender.focusOnError = "t";
+ctl00_mainContent_ctl02_reqGender.display = "Dynamic";
+ctl00_mainContent_ctl02_reqGender.validationGroup = "Booking";
+ctl00_mainContent_ctl02_reqGender.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+ctl00_mainContent_ctl02_reqGender.initialvalue = "0";
+var ctl00_mainContent_ctl02_reqAge = document.all ? document.all["ctl00_mainContent_ctl02_reqAge"] : document.getElementById("ctl00_mainContent_ctl02_reqAge");
+ctl00_mainContent_ctl02_reqAge.controltovalidate = "ctl00_mainContent_ctl02_ddBookingAge";
+ctl00_mainContent_ctl02_reqAge.focusOnError = "t";
+ctl00_mainContent_ctl02_reqAge.display = "Dynamic";
+ctl00_mainContent_ctl02_reqAge.validationGroup = "Booking";
+ctl00_mainContent_ctl02_reqAge.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+ctl00_mainContent_ctl02_reqAge.initialvalue = "0";
+var ctl00_mainContent_ctl02_reqFullname = document.all ? document.all["ctl00_mainContent_ctl02_reqFullname"] : document.getElementById("ctl00_mainContent_ctl02_reqFullname");
+ctl00_mainContent_ctl02_reqFullname.controltovalidate = "ctl00_mainContent_ctl02_txtBookingFullname";
+ctl00_mainContent_ctl02_reqFullname.focusOnError = "t";
+ctl00_mainContent_ctl02_reqFullname.display = "Dynamic";
+ctl00_mainContent_ctl02_reqFullname.validationGroup = "Booking";
+ctl00_mainContent_ctl02_reqFullname.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+ctl00_mainContent_ctl02_reqFullname.initialvalue = "";
+var ctl00_mainContent_ctl02_regexEmail = document.all ? document.all["ctl00_mainContent_ctl02_regexEmail"] : document.getElementById("ctl00_mainContent_ctl02_regexEmail");
+ctl00_mainContent_ctl02_regexEmail.controltovalidate = "ctl00_mainContent_ctl02_txtBookingEmail";
+ctl00_mainContent_ctl02_regexEmail.focusOnError = "t";
+ctl00_mainContent_ctl02_regexEmail.display = "Dynamic";
+ctl00_mainContent_ctl02_regexEmail.validationGroup = "Booking";
+ctl00_mainContent_ctl02_regexEmail.evaluationfunction = "RegularExpressionValidatorEvaluateIsValid";
+ctl00_mainContent_ctl02_regexEmail.validationexpression = "^([0-9a-zA-Z]([-.\\w]*[0-9a-zA-Z])*@(([0-9a-zA-Z])+([-\\w]*[0-9a-zA-Z])*\\.)+[a-zA-Z]{2,9})$";
+var ctl00_mainContent_ctl02_reqPhone = document.all ? document.all["ctl00_mainContent_ctl02_reqPhone"] : document.getElementById("ctl00_mainContent_ctl02_reqPhone");
+ctl00_mainContent_ctl02_reqPhone.controltovalidate = "ctl00_mainContent_ctl02_txtBookingPhone";
+ctl00_mainContent_ctl02_reqPhone.focusOnError = "t";
+ctl00_mainContent_ctl02_reqPhone.display = "Dynamic";
+ctl00_mainContent_ctl02_reqPhone.validationGroup = "Booking";
+ctl00_mainContent_ctl02_reqPhone.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+ctl00_mainContent_ctl02_reqPhone.initialvalue = "";
+var ctl00_mainContent_ctl02_RegularExpressionValidator1 = document.all ? document.all["ctl00_mainContent_ctl02_RegularExpressionValidator1"] : document.getElementById("ctl00_mainContent_ctl02_RegularExpressionValidator1");
+ctl00_mainContent_ctl02_RegularExpressionValidator1.controltovalidate = "ctl00_mainContent_ctl02_txtBookingPhone";
+ctl00_mainContent_ctl02_RegularExpressionValidator1.display = "Dynamic";
+ctl00_mainContent_ctl02_RegularExpressionValidator1.validationGroup = "Booking";
+ctl00_mainContent_ctl02_RegularExpressionValidator1.evaluationfunction = "RegularExpressionValidatorEvaluateIsValid";
+ctl00_mainContent_ctl02_RegularExpressionValidator1.validationexpression = "^([0-9]{10,11})";
+var ctl00_mainContent_ctl02_RequiredFieldValidator3 = document.all ? document.all["ctl00_mainContent_ctl02_RequiredFieldValidator3"] : document.getElementById("ctl00_mainContent_ctl02_RequiredFieldValidator3");
+ctl00_mainContent_ctl02_RequiredFieldValidator3.controltovalidate = "ctl00_mainContent_ctl02_ddlBookingSpecialize";
+ctl00_mainContent_ctl02_RequiredFieldValidator3.focusOnError = "t";
+ctl00_mainContent_ctl02_RequiredFieldValidator3.display = "Dynamic";
+ctl00_mainContent_ctl02_RequiredFieldValidator3.validationGroup = "Booking";
+ctl00_mainContent_ctl02_RequiredFieldValidator3.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+ctl00_mainContent_ctl02_RequiredFieldValidator3.initialvalue = "0";
+var ctl00_mainContent_ctl02_RequiredFieldValidator6 = document.all ? document.all["ctl00_mainContent_ctl02_RequiredFieldValidator6"] : document.getElementById("ctl00_mainContent_ctl02_RequiredFieldValidator6");
+ctl00_mainContent_ctl02_RequiredFieldValidator6.controltovalidate = "ctl00_mainContent_ctl02_rdtBookingExaminationTime";
+ctl00_mainContent_ctl02_RequiredFieldValidator6.focusOnError = "t";
+ctl00_mainContent_ctl02_RequiredFieldValidator6.display = "Dynamic";
+ctl00_mainContent_ctl02_RequiredFieldValidator6.validationGroup = "Booking";
+ctl00_mainContent_ctl02_RequiredFieldValidator6.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+ctl00_mainContent_ctl02_RequiredFieldValidator6.initialvalue = "";
+var ctl00_mainContent_ctl02_captcha_ctl00 = document.all ? document.all["ctl00_mainContent_ctl02_captcha_ctl00"] : document.getElementById("ctl00_mainContent_ctl02_captcha_ctl00");
+ctl00_mainContent_ctl02_captcha_ctl00.errormessage = "Mã không đúng.";
+ctl00_mainContent_ctl02_captcha_ctl00.validationGroup = "Booking";
+ctl00_mainContent_ctl02_captcha_ctl00.evaluationfunction = "CustomValidatorEvaluateIsValid";
+//]]>
+</script>
+<script type="text/javascript">Sys.Application.add_load(function() { var form = Sys.WebForms.PageRequestManager.getInstance()._form; form._initialAction = form.action = window.location.href; }); </script>
+<script type="text/javascript"> $('div.gb-accordion').accordion({});$('div.gb-accordion-nh').accordion({heightStyle:'content',animate:{opacity:'toggle',duration:'400'}}); $('div.gb-tabs').tabs({}); $('input.jqbutton').button(); $('.faqs dd').hide();$('.faqs dt').hover(function(){$(this).addClass('hover')},function(){$(this).removeClass('hover')}).click(function(){ $(this).next().slideToggle('normal'); });  $("a.unclickable").click(function(){ return false; });</script>
+<script type='text/javascript'>
+<!--
+
+  var wmctl00_SearchInput1_txtSearch = document.getElementById('ctl00_SearchInput1_txtSearch'); if(wmctl00_SearchInput1_txtSearch){wmctl00_SearchInput1_txtSearch.value = 'Tìm kiếm';}
+//-->
+</script>
+<script type="text/javascript">
+//<![CDATA[
+
+var Page_ValidationActive = false;
+if (typeof(ValidatorOnLoad) == "function") {
+    ValidatorOnLoad();
+}
+
+function ValidatorOnSubmit() {
+    if (Page_ValidationActive) {
+        return ValidatorCommonOnSubmit();
+    }
+    else {
+        return true;
+    }
+}
+
+document.getElementById('ctl00_mainContent_ctl02_reqGender').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('ctl00_mainContent_ctl02_reqGender'));
+}
+
+document.getElementById('ctl00_mainContent_ctl02_reqAge').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('ctl00_mainContent_ctl02_reqAge'));
+}
+
+document.getElementById('ctl00_mainContent_ctl02_reqFullname').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('ctl00_mainContent_ctl02_reqFullname'));
+}
+
+document.getElementById('ctl00_mainContent_ctl02_regexEmail').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('ctl00_mainContent_ctl02_regexEmail'));
+}
+
+document.getElementById('ctl00_mainContent_ctl02_reqPhone').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('ctl00_mainContent_ctl02_reqPhone'));
+}
+
+document.getElementById('ctl00_mainContent_ctl02_RegularExpressionValidator1').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('ctl00_mainContent_ctl02_RegularExpressionValidator1'));
+}
+
+document.getElementById('ctl00_mainContent_ctl02_RequiredFieldValidator3').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('ctl00_mainContent_ctl02_RequiredFieldValidator3'));
+}
+Sys.Application.add_init(function() {
+    $create(Telerik.Web.UI.RadDateInput, {"_displayText":"05/07/2017 14:47","_focused":false,"_initialValueAsText":"2017-07-05-14-47-27","_postBackEventReferenceScript":"__doPostBack(\u0027ctl00$mainContent$ctl02$rdtBookingExaminationTime\u0027,\u0027\u0027)","_skin":"Default","_validationText":"2017-07-05-14-47-27","clientStateFieldID":"ctl00_mainContent_ctl02_rdtBookingExaminationTime_dateInput_ClientState","dateFormat":"dd/MM/yyyy HH:mm","dateFormatInfo":{"DayNames":["Chủ Nhật","Thứ Hai","Thứ Ba","Thứ Tư","Thứ Năm","Thứ Sáu","Thứ Bảy"],"MonthNames":["Tháng Giêng","Tháng Hai","Tháng Ba","Tháng Tư","Tháng Năm","Tháng Sáu","Tháng Bảy","Tháng Tám","Tháng Chín","Tháng Mười","Tháng Mười Một","Tháng Mười Hai",""],"AbbreviatedDayNames":["CN","Hai","Ba","Tư","Năm","Sáu","Bảy"],"AbbreviatedMonthNames":["Thg1","Thg2","Thg3","Thg4","Thg5","Thg6","Thg7","Thg8","Thg9","Thg10","Thg11","Thg12",""],"AMDesignator":"SA","PMDesignator":"CH","DateSeparator":"/","TimeSeparator":":","FirstDayOfWeek":1,"DateSlots":{"Month":1,"Day":0,"Year":2},"ShortYearCenturyEnd":2029,"TimeInputOnly":false},"displayDateFormat":"dd/MM/yyyy HH:mm","enabled":true,"incrementSettings":{InterceptArrowKeys:true,InterceptMouseWheel:true,Step:1},"maxDate":"2017-09-05-14-47-27","minDate":"2017-07-05-14-47-27","styles":{HoveredStyle: ["width:100%;", "riTextBox riHover"],InvalidStyle: ["width:100%;", "riTextBox riError"],DisabledStyle: ["width:100%;", "riTextBox riDisabled"],FocusedStyle: ["width:100%;", "riTextBox riFocused"],EmptyMessageStyle: ["width:100%;", "riTextBox riEmpty"],ReadOnlyStyle: ["width:100%;", "riTextBox riRead"],EnabledStyle: ["width:100%;", "riTextBox riEnabled"]}}, null, null, $get("ctl00_mainContent_ctl02_rdtBookingExaminationTime_dateInput"));
+});
+Sys.Application.add_init(function() {
+    $create(Telerik.Web.UI.RadCalendar, {"_DayRenderChangedDays":{"2017_7_2":["background-color:#EDEDED;","rcOutOfRange"],"2017_8_6":["background-color:#EDEDED;","rcOtherMonth"],"2017_7_16":["background-color:#EDEDED;","rcWeekend"],"2017_7_23":["background-color:#EDEDED;","rcWeekend"],"2017_7_30":["background-color:#EDEDED;","rcWeekend"],"2017_7_9":["background-color:#EDEDED;","rcWeekend"]},"_FormatInfoArray":[["Chủ Nhật","Thứ Hai","Thứ Ba","Thứ Tư","Thứ Năm","Thứ Sáu","Thứ Bảy"],["CN","Hai","Ba","Tư","Năm","Sáu","Bảy"],["Tháng Giêng","Tháng Hai","Tháng Ba","Tháng Tư","Tháng Năm","Tháng Sáu","Tháng Bảy","Tháng Tám","Tháng Chín","Tháng Mười","Tháng Mười Một","Tháng Mười Hai",""],["Thg1","Thg2","Thg3","Thg4","Thg5","Thg6","Thg7","Thg8","Thg9","Thg10","Thg11","Thg12",""],"dd MMMM yyyy h:mm:ss tt","dd MMMM yyyy","h:mm:ss tt","dd MMMM","ddd, dd MMM yyyy HH\u0027:\u0027mm\u0027:\u0027ss \u0027GMT\u0027","dd/MM/yyyy","h:mm tt","yyyy\u0027-\u0027MM\u0027-\u0027dd\u0027T\u0027HH\u0027:\u0027mm\u0027:\u0027ss","yyyy\u0027-\u0027MM\u0027-\u0027dd HH\u0027:\u0027mm\u0027:\u0027ss\u0027Z\u0027","MMMM yyyy","SA","CH","/",":",1],"_ViewRepeatableDays":{},"_ViewsHash":{"ctl00_mainContent_ctl02_rdtBookingExaminationTime_calendar_Top" : [[2017,7,1], 1]},"_calendarWeekRule":0,"_culture":"vi-VN","_enableKeyboardNavigation":false,"_enableViewSelector":false,"_firstDayOfWeek":7,"_postBackCall":"__doPostBack(\u0027ctl00$mainContent$ctl02$rdtBookingExaminationTime$calendar\u0027,\u0027@@\u0027)","_rangeSelectionMode":0,"clientStateFieldID":"ctl00_mainContent_ctl02_rdtBookingExaminationTime_calendar_ClientState","enableMultiSelect":false,"enabled":true,"monthYearNavigationSettings":["Today","OK","Cancel","Date is out of range.","False","True","300","1","300","1","False"],"skin":"Default","specialDaysArray":[[,[2017,7,2],0,0,1,0,64,0,,{"SpecialDayStyle_2017_7_2": ["", ""]}],[,[2017,7,9],0,0,1,0,64,0,,{"SpecialDayStyle_2017_7_9": ["", ""]}],[,[2017,7,16],0,0,1,0,64,0,,{"SpecialDayStyle_2017_7_16": ["", ""]}],[,[2017,7,23],0,0,1,0,64,0,,{"SpecialDayStyle_2017_7_23": ["", ""]}],[,[2017,7,30],0,0,1,0,64,0,,{"SpecialDayStyle_2017_7_30": ["", ""]}],[,[2017,8,6],0,0,1,0,64,0,,{"SpecialDayStyle_2017_8_6": ["", ""]}]],"stylesHash":{"DayStyle": ["", ""],"CalendarTableStyle": ["", "rcMainTable"],"OtherMonthDayStyle": ["", "rcOtherMonth"],"TitleStyle": ["", ""],"SelectedDayStyle": ["", "rcSelected"],"SelectorStyle": ["", ""],"DisabledDayStyle": ["", "rcDisabled"],"OutOfRangeDayStyle": ["", "rcOutOfRange"],"WeekendDayStyle": ["", "rcWeekend"],"DayOverStyle": ["", "rcHover"],"FastNavigationStyle": ["", "RadCalendarMonthView RadCalendarMonthView_Default"],"ViewSelectorStyle": ["", "rcViewSel"]},"useColumnHeadersAsSelectors":false,"useRowHeadersAsSelectors":false}, null, null, $get("ctl00_mainContent_ctl02_rdtBookingExaminationTime_calendar"));
+});
+Sys.Application.add_init(function() {
+    $create(Telerik.Web.UI.RadTimeView, {"_ItemsCount":24,"_OwnerDatePickerID":"ctl00_mainContent_ctl02_rdtBookingExaminationTime","_TimeOverStyleCss":"rcHover","_culture":"vi-VN","_renderDirection":"Horizontal","_timeFormat":"HH:mm","clientStateFieldID":"ctl00_mainContent_ctl02_rdtBookingExaminationTime_timeView_ClientState","itemStyles":{"TimeStyle": ["", ""],"AlternatingTimeStyle": ["", ""],"HeaderStyle": ["", "rcHeader"],"FooterStyle": ["", "rcFooter"],"TimeOverStyle": ["", "rcHover"]}}, null, null, $get("ctl00_mainContent_ctl02_rdtBookingExaminationTime_timeView"));
+});
+Sys.Application.add_init(function() {
+    $create(Telerik.Web.UI.RadDateTimePicker, {"_PopupButtonSettings":{ ResolvedImageUrl : "", ResolvedHoverImageUrl : ""},"_TimePopupButtonSettings":{  ResolvedImageUrl : "", ResolvedHoverImageUrl : ""},"_animationSettings":{ ShowAnimationDuration:300,ShowAnimationType:1,HideAnimationDuration:300,HideAnimationType:1},"_popupControlID":"ctl00_mainContent_ctl02_rdtBookingExaminationTime_popupButton","_timePopupControlID":"ctl00_mainContent_ctl02_rdtBookingExaminationTime_timePopupLink","clientStateFieldID":"ctl00_mainContent_ctl02_rdtBookingExaminationTime_ClientState","focusedDate":"2017-07-05-14-47-27","maxDate":"2017-09-05-14-47-27","minDate":"2017-07-05-14-47-27"}, null, {"calendar":"ctl00_mainContent_ctl02_rdtBookingExaminationTime_calendar","dateInput":"ctl00_mainContent_ctl02_rdtBookingExaminationTime_dateInput","timeView":"ctl00_mainContent_ctl02_rdtBookingExaminationTime_timeView"}, $get("ctl00_mainContent_ctl02_rdtBookingExaminationTime"));
+});
+
+document.getElementById('ctl00_mainContent_ctl02_RequiredFieldValidator6').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('ctl00_mainContent_ctl02_RequiredFieldValidator6'));
+}
+
+document.getElementById('ctl00_mainContent_ctl02_captcha_ctl00').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('ctl00_mainContent_ctl02_captcha_ctl00'));
+}
+Sys.Application.add_init(function() {
+    $create(Telerik.Web.UI.RadCaptcha, {"_audioUrl":"/Telerik.Web.UI.WebResource.axd?type=cah\u0026guid=3e9e5000-3afb-4540-bed2-d7749b581f6b","_enableAudio":false,"_persistCode":false,"clientStateFieldID":"ctl00_mainContent_ctl02_captcha_ClientState"}, null, null, $get("ctl00_mainContent_ctl02_captcha"));
+});
+//]]>
+</script>

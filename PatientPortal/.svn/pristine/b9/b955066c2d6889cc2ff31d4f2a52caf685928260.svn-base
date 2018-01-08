@@ -1,0 +1,7 @@
+﻿appManagement.factory("indexServices", ["$resource",
+    function ($resource) {
+        return $resource("Home", {}, {
+            
+        });
+    }
+]);

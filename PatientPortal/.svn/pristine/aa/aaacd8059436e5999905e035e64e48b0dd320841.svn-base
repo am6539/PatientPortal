@@ -1,0 +1,30 @@
+﻿'use strict';
+
+angular.
+module('spaApp').controller('MainController', ['$scope', "HomePageServices", "Params", 'CategoryService', 'ContactService', 'PostService',
+    function MainController($scope, HomePageServices, Params, CategoryService, ContactService, PostService) {
+    // get danh muc Post
+        HomePageServices.getListPost({ languageCode: 'vi', priority: Params.hotpriority, categoryId: Params.postParentCategoryId },
+        function (data) {
+            $scope.lstPost = data;
+        });
+
+        ContactService.get(function (data) {
+            $scope.contact = data;
+        });
+
+
+        CategoryService.query(function (data) {
+            var roots = nested(data);
+            var i = getIndexValue(roots, Params.postParentCategoryId);
+            if (i < roots.length + 1) {
+                $scope.categories = roots[i];
+            }
+        });
+
+        PostService.queryPostByCategory({ languageCode: Params.languageCode, priority: 0, categoryId: Params.aboutParentCategoryId }, function (data) {
+            $scope.abouts = data;
+        });
+    }
+]);
+

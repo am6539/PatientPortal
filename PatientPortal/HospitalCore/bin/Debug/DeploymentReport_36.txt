@@ -1,0 +1,51 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       [dbo].[Schedule]
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       The column [dbo].[Article].[IsClosed] on table [dbo].[Article] must be added, but the column has no default value and
+         does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must
+         either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults
+         as a deployment option.
+       The column [dbo].[Schedule].[DateFrom] is being dropped, data loss could occur.
+       The column [dbo].[Schedule].[DateTo] is being dropped, data loss could occur.
+       The column [dbo].[Schedule].[TimeFrom] is being dropped, data loss could occur.
+       The column [dbo].[Schedule].[TimeTo] is being dropped, data loss could occur.
+       The column [dbo].[Schedule].[End] on table [dbo].[Schedule] must be added, but the column has no default value and does
+         not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either:
+         add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a
+         deployment option.
+       The column [dbo].[Schedule].[Start] on table [dbo].[Schedule] must be added, but the column has no default value and
+         does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must
+         either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults
+         as a deployment option.
+
+** User actions
+     Alter
+       [dbo].[Article] (Table)
+       [dbo].[usp_Schedule_Transaction] (Procedure)
+       [dbo].[usp_User] (Procedure)
+     Table rebuild
+       [dbo].[Schedule] (Table)
+
+** Supporting actions
+     Drop
+       [dbo].[FK_Schedule_User] (Foreign Key)
+     Create
+       [dbo].[FK_Schedule_User] (Foreign Key)
+     Refresh
+       [dbo].[usp_Article] (Procedure)
+       [dbo].[usp_Article_Transaction] (Procedure)
+       [dbo].[usp_Schedule] (Procedure)
+
+The column [dbo].[Article].[IsClosed] on table [dbo].[Article] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+The column [dbo].[Schedule].[DateFrom] is being dropped, data loss could occur.
+The column [dbo].[Schedule].[DateTo] is being dropped, data loss could occur.
+The column [dbo].[Schedule].[TimeFrom] is being dropped, data loss could occur.
+The column [dbo].[Schedule].[TimeTo] is being dropped, data loss could occur.
+The column [dbo].[Schedule].[End] on table [dbo].[Schedule] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+The column [dbo].[Schedule].[Start] on table [dbo].[Schedule] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+

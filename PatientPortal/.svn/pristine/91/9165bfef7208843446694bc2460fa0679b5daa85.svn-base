@@ -1,0 +1,65 @@
+﻿using PatientPortal.DataAccess.Repo.CORE;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CORE;
+using System.Transactions;
+using PatientPortal.Domain.Utilities;
+using PatientPortal.DataAccess.Dapper;
+using Dapper;
+using PatientPortal.DataAccess.Repo.Wrapper;
+using PatientPortal.Domain.Common;
+
+namespace PatientPortal.DataAccess.CORE
+{
+    public class SettingImpl : ISetting
+    {
+        private readonly IAdapterPattern _adapterPattern;
+
+        public SettingImpl(IAdapterPattern adapterPattern)
+        {
+            this._adapterPattern = adapterPattern;
+        }
+
+        /// <summary>
+        /// Transaction of Setting
+        /// </summary>
+        /// <param name="data">Object Task</param>
+        /// <param name="action">I: Insert, U: Update, D: Delete</param>
+        /// <returns>true/false</returns>
+        public async Task<bool> Transaction(Setting data, char action)
+        {
+            try
+            {
+                var val = await _adapterPattern.SingleTransaction<Setting, bool>(data, "usp_Setting_Transaction", action, DataConfiguration.instanceCore);
+                return val;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog("Execute Appointment Transaction: " + ex.Message);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Get Setting
+        /// </summary>
+        /// <param name="param">Dictionary</param>
+        /// <returns>List Setting</returns>
+        public async Task<List<Setting>> Query(Dictionary<string, object> param)
+        {
+            try
+            {
+                var data = await _adapterPattern.ExecuteQuery<Setting>(param, "usp_Setting", DataConfiguration.instanceCore);
+                return data.ToList();
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog("Execute Appointment get data: " + ex.Message);
+                return null;
+            }
+        }
+    }
+}

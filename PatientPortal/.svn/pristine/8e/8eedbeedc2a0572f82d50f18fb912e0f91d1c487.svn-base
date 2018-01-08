@@ -1,0 +1,91 @@
+﻿@model PatientPortal.PatientServices.Models.AppointmentEditModel
+
+<ul class="nav nav-tabs">
+    <li class="active" onclick="showTab('Appointment')"><a data-toggle="tab" href="#appointment">Thông tin cuộc hẹn</a></li>
+    <li data-toggle="tab" onclick="showTab('CheckAndConfirm', '5')"><a href="#checkandConfirm">Kiểm tra và xác nhận</a></li>
+</ul>
+<div class="tab-content">
+    @using (Html.BeginForm("ConfirmAppointment", "Appointment", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        <div id="appointment" class="tab-pane fade in active col-md-12" style="width: 100%">
+            <div class="col-md-8" style="padding-left: 0px; padding-right: 0px">
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        @Html.HiddenFor(x => x.PatientId)
+                        <label class="col-md-3 col-sm-3 col-xs-4">Chọn bác sĩ:</label>
+                        <div class="col-md-9 col-sm-9 col-xs-8" id="selectDoctor">
+                            <select class="form-control">
+                                <option value="0">Chọn bác sĩ của bạn</option>
+                                <option value="1">Tư vấn một bác sĩ cho tôi</option>
+                                <option value="2">Tìm bác sĩ mà bạn biết</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="doctorSelected" class="form-group">
+                        <label class="col-md-3 col-sm-3 col-xs-4"></label>
+                        <div class="col-md-9 col-sm-9 col-xs-8" id="chooseADoctor">
+                            @Html.DropDownListFor(m => m.PhysicianId, new SelectList(ViewBag.Doctors, "Id", "Name"), "Chọn bác sĩ", new { @class = "chosen-select", @Id = "selectPhysician", @onchange = "quickReview(this.value)" })
+                            @Html.ValidationMessageFor(m => m.PhysicianId, null, new { @class = "field-validation-error" })
+                        </div>
+                    </div>
+                    <div class="form-group" style="display: none" id="searchDoctor">
+                        <label class="col-md-3 col-sm-3 col-xs-4"></label>
+                        <div class="col-md-9 col-sm-9 col-xs-8">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Nhập tên ...">
+                                <span class="input-group-btn">
+                                    @*<button class="btn btn-default" type="button" onclick="showDoctorList()" style="margin-right: 0px"><i class="fa fa-search"></i></button>*@
+
+                                    @Html.ActionLink(" ", "ViewDoctorList", "Appointment", new { search = "" }, new { @class = "modal-link btn btn-default", @style = "width: 100%; margin-right: 0px", @type = "button" })
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 col-sm-3 col-xs-4">Thời gian đặt hẹn: </label>
+                        <div class="col-md-6 col-sm-6 col-xs-5">
+                            @Html.TextBoxFor(m => m.Date, new { @class = "form-control", @id = "dateAppointment" })
+                            @Html.ValidationMessageFor(m => m.Date, null, new { @class = "field-validation-error" })
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                            <select class="form-control" id="timeAppointment"></select>
+                            @Html.HiddenFor(m => m.Time, new { @id= "timeAppointmentChoose" })
+                            @Html.ValidationMessageFor(m => m.Time, null, new { @class = "field-validation-error" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 col-sm-3 col-xs-4">Lý do/ Triệu chứng: </label>
+                        <div class="col-md-9 col-sm-9 col-xs-8">
+                            @Html.TextAreaFor(m => m.Symptom, new { @class = "form-control", @id = "symptomText" })
+                            @Html.ValidationMessageFor(m => m.Symptom, null, new { @class = "field-validation-error" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 col-sm-3 col-xs-4"></label>
+                        <div class="col-md-9 col-sm-6 col-xs-8">
+                            @*@Html.ActionLink("Đặt hẹn", "ConfirmAppointment", "Appointment", new { Date = Model.Date, Time = Model.Time, PhysicianId = Model.PhysicianId, Symptom = Model.Symptom }, new { @class = "modal-link btn btn-success", @style = "padding:1px 5px 1px 5px;" })*@
+                            <a class="btn btn-success" href="#" onclick="validate()">Đặt hẹn</a>
+                            <button class="btn btn-default">Hủy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 collapse" id="quickviewProfile">
+                @*@Html.Partial("_QuickViewDoctorProfile")*@
+            </div>
+
+        </div>
+        @*<div id="infoAppointment" class="tab-pane fade">
+            </div>*@
+        <div id="checkandConfirm" class="tab-pane fade">
+            <div id="inforOrder" class="form-group">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-success" type="submit">Xác nhận đặt hẹn</button>
+                @*<button class="btn btn-default" onclick="editAppointment()">Điều chỉnh</button>*@
+                <button class="btn btn-warning">Thoát</button>
+            </div>
+        </div>
+    }
+</div>

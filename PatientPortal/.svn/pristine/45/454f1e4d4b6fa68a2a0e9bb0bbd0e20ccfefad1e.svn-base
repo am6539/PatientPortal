@@ -1,0 +1,16 @@
+﻿using PatientPortal.Domain.Models.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.DataAccess.Repo.CMS
+{
+    public interface ILanguage
+    {
+        List<Language> GetAll();
+        bool LanguageTransaction(List<Language> data, char action);
+        bool CheckExist(byte Id, string name);
+    }
+}

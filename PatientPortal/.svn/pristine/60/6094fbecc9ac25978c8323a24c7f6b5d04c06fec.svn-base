@@ -1,0 +1,53 @@
+﻿using ProtoBuf;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.PatientServices.Models
+{
+    [ProtoContract]
+    public class ScheduleViewModel
+    {
+        [ProtoMember(1)]
+        [Display(Name = "Id")]
+        public int Id { get; set; }
+
+        [ProtoMember(2)]
+        [Display(Name = "Tiêu đề")]
+        public string Title { get; set; }
+
+        [ProtoMember(3)]
+        [Display(Name = "Ưu tiên")]
+        public byte Priority { get; set; }
+
+        [ProtoMember(4)]
+        [Display(Name = "Chi tiết")]
+        public string Detail { get; set; }
+
+        [ProtoMember(5)]
+        [Display(Name = "IsAlarm")]
+        public bool IsAlarm { get; set; }
+
+        [ProtoMember(6)]
+        [Display(Name = "Ngày")]
+        public DateTime Date { get; set; }
+
+        [ProtoMember(7)]
+        [Display(Name = "Từ giờ")]
+        public int From { get; set; }
+
+        [ProtoMember(8)]
+        [Display(Name = "Đến giờ")]
+        public int To { get; set; }
+
+        [ProtoMember(9)]
+        [Display(Name = "Color")]
+        public string Color { get; set; }
+
+        [ProtoMember(10)]
+        [Display(Name = "IsExamine")]
+        public bool IsExamine { get; set; }
+    }
+}

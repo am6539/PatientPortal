@@ -1,0 +1,38 @@
+﻿using AutoMapper;
+using PatientPortal.API.SPA.ViewModels;
+using PatientPortal.IRepository.SPA;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Mvc;
+
+namespace PatientPortal.API.SPA.Controllers
+{
+    public class SPAPostController : ApiController
+    {
+        private readonly IPostRepo _iPostRepo;
+
+        public SPAPostController(IPostRepo iPostRepo)
+        {
+            this._iPostRepo = iPostRepo;
+        }
+
+        //[HttpGet]
+        //public JsonResult GetListPost(string languageCode)
+        //{
+        //    try
+        //    {
+        //        var data = _iPostRepo.GetAll(languageCode);
+        //        var results = Mapper.Map<PostListViewModel>(data);
+        //        return Json(new { results = results }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+    }
+}

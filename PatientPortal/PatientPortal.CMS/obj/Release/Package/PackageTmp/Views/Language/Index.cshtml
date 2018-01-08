@@ -1,0 +1,27 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.CMS.Models.LanguagesModel
+@{
+    ViewBag.Title = "Ngôn ngữ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    
+    <div class="card-title">@Html.ITitle("Ngôn ngữ","language")</div>
+    <div class="card-content">
+        @Html.Raw(TempData["Alert"])
+        <div class="col-md-5">
+            <div id="panelAddLanguage">
+                @Html.Partial("_Create", Model.LanguageViewModel)
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div id="panelLanguageList">
+                @Html.Partial("_List", Model.lstLanguageViewModel)
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}

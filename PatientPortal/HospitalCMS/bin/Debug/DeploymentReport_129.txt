@@ -1,0 +1,22 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Alter
+       [dbo].[PostStateHistory] (Table)
+
+** Supporting actions
+     Refresh
+       [dbo].[usp_ApprovePost_Transaction] (Procedure)
+       [dbo].[usp_Post_Transaction] (Procedure)
+       [dbo].[usp_Post_WorkflowState_Transaction] (Procedure)
+       [dbo].[usp_PostStateHistory] (Procedure)
+       [dbo].[usp_PostStateHistory_Transaction] (Procedure)
+       [dbo].[usp_PublishPost_Transaction] (Procedure)

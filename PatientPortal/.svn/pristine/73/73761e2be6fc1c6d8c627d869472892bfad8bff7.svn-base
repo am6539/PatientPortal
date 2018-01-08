@@ -1,0 +1,199 @@
+﻿using PatientPortal.CMS.Common;
+using PatientPortal.CMS.Models;
+using PatientPortal.CMS.Utility;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.CMS.Controllers
+{
+    public class CategoryController : Controller
+    {
+        #region original code
+
+        //#region declare variables
+        //HttpClient client = new HttpClient { BaseAddress = new Uri("http://localhost:9502/") };
+        //#endregion
+
+        // GET: Category
+        //public ActionResult Index()
+        //{
+        //    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/x-protobuf"));
+        //    try
+        //    {
+        //        HttpResponseMessage response = client.GetAsync("api/category").Result;
+        //        if (response.IsSuccessStatusCode && response.Content != null)
+        //        {
+        //            // Parse the response body. Blocking!
+        //            var data = response.Content.ReadAsAsync<List<CategoryViewModel>>(new[] { new ProtoBufFormatter() }).Result;
+        //            ViewData["Categories"] = data;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        throw ex;
+        //    }
+        //    return View();
+        //}
+        #endregion
+            
+        public ActionResult Index()
+        {
+            #region old code
+
+            //var data = new List<CategoryViewModel>();
+            //try
+            //{
+            //    int parentId = 0;
+            //    if (TempData["parentId"] != null)
+            //    {
+            //        parentId = (byte)TempData["parentId"];
+            //    }
+            //    data = APIHelper.Get<List<CategoryViewModel>>($"api/Category?parentId=" + parentId + "");
+            //}
+            //catch (Exception ex)
+            //{
+
+            //    throw ex;
+            //}
+            //return View(data);
+            #endregion
+            var categories = new CategoriesModel();
+            var data = new List<CategoryViewModel>();
+            try
+            {
+                data = APIHelper.Get<List<CategoryViewModel>>($"api/Category");
+                data = data.OrderBy(a => a.ParentId).ToList();
+                categories.CategoryViewModelList = data;
+
+                categories.CategoryViewModel = new CategoryViewModel();
+                ///Category List
+                ViewBag.Categories = data;
+                TempData["Categories"] = data;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return View(categories);
+        }
+
+        public ActionResult CategoryList()
+        {
+            return PartialView("_CategoryList");
+        }
+
+        public ActionResult Create()
+        {
+            return PartialView("_AddNewCategory");
+        }
+
+        [HttpGet]
+        public ActionResult Edit(byte Id)
+        {
+            var data = new CategoryViewModel();
+            try
+            {
+                var list = APIHelper.Get<List<CategoryViewModel>>($"api/Category");
+                data = APIHelper.Get<CategoryViewModel>($"api/Category/" + Id);
+                if(data.Image != "")
+                {
+                    data.Image = ValueConstant.IMAGE_PATH + "/" + data.Image;
+                }
+                ///Category List
+                //ViewBag.Categories = list;
+                ViewBag.Categories = new SelectList(list.OrderBy(n => n.Name), "Id", "Name", data.ParentId);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return View(data);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Create(CategoryViewModel category, HttpPostedFileBase fileUpload)
+        {
+            category.Handler = "";
+            if (category == null)
+            {
+                return null;
+            }
+            if (ModelState.IsValid)
+            {
+                ImageUpload.Upload(fileUpload, ValueConstant.IMAGE_PATH);
+                CategoryViewModel cate = await SaveCategory(category, ValueConstant.ACTION_INSERT);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var categories = new CategoriesModel();
+                categories.CategoryViewModelList = (List<CategoryViewModel>)TempData["Categories"];
+                categories.CategoryViewModel = category;
+
+                ViewBag.Categories = categories.CategoryViewModelList;
+                return View("Index", categories);
+            }
+            
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Edit(CategoryViewModel model, HttpPostedFileBase fileUpload)
+        {
+            
+            if (model == null)
+            {
+                return null;
+            }
+            if (ModelState.IsValid)
+            {
+                ImageUpload.Upload(fileUpload, ValueConstant.IMAGE_PATH);
+                CategoryViewModel cate = await SaveCategory(model, ValueConstant.ACTION_UPDATE );
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var categories = new CategoriesModel();
+                categories.CategoryViewModelList = (List<CategoryViewModel>)TempData["Categories"];
+                categories.CategoryViewModel = model;
+
+                ViewBag.Categories = categories.CategoryViewModelList;
+                return View("Index", categories);
+            }
+
+        }
+        
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult CheckExistName(string name, byte id)
+        {
+
+            var isExist = APIHelper.Get<bool>($"api/Category/" + id + "?name=" + name);
+
+            return Json(!isExist, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<CategoryViewModel> SaveCategory(CategoryViewModel category, string action)
+        {
+            var result = new CategoryViewModel();
+            try
+            {
+                result = await APIHelper.TransactionAsync<CategoryViewModel>(category, "api/Category?action=" + action + "");
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("", e.Message);
+            }
+            return result;
+        }
+    }
+}

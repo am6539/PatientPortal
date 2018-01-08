@@ -1,0 +1,52 @@
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using ProtoBuf;
+
+namespace PatientPortal.Internal.Models
+{
+    public class RoleModel
+    {
+        public RoleViewModel RoleViewModel { get; set; }
+        public List<RoleViewModel> lstRoleViewModel { get; set; }
+    }
+
+    [ProtoContract]
+    public class RoleViewModel
+    {
+        [ProtoMember(1)]
+        public string Id { get; set; }
+        [ProtoMember(2)]
+        [Required(ErrorMessage = "Vui lòng nhập tên nhóm quyền.")]
+        [Display(Name = "Tên nhóm quyền")]
+        public string Name { get; set; }
+    }
+
+    [ProtoContract]
+    public class PermissionViewModel
+    {
+        [Key]
+        [ProtoMember(1)]
+        public string Id { get; set; }
+        [ProtoMember(2)]
+        public string Name { get; set; }
+        [ProtoMember(3)]
+        public string Description { get; set; }
+        [ProtoMember(4)]
+        public bool IsUsed { get; set; } //Only use in Internal Project
+        [ProtoMember(5)]
+        public string RoleId { get; set; }
+    }
+
+    [ProtoContract]
+    public class PermissionRole
+    {
+
+        [Key, Column("PermissionId", Order = 0)]
+        [ProtoMember(1)]
+        public string PermissionId { get; set; }
+        [Key, Column("RoleId", Order = 1)]
+        [ProtoMember(2)]
+        public string RoleId { get; set; }
+    }
+}

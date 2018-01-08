@@ -1,0 +1,72 @@
+﻿using AutoMapper;
+using PatientPortal.API.SPA.ViewModels;
+using PatientPortal.IRepository.SPA;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+
+namespace PatientPortal.API.SPA.Controllers
+{
+    public class SPAPostController : ApiController
+    {
+        private readonly string NUM_TOP = ConfigurationManager.AppSettings["numbLoadPost"];
+        private readonly IPostRepo _iPostRepo;
+
+        public SPAPostController(IPostRepo iPostRepo)
+        {
+            this._iPostRepo = iPostRepo;
+        }
+
+        [HttpGet]
+        public HttpResponseMessage GetListPost(string languageCode)
+        {
+            try
+            {
+                var data = _iPostRepo.GetAll(languageCode, NUM_TOP);
+                var results = Mapper.Map<List<PostListViewModel>>(data);
+                return Request.CreateResponse(HttpStatusCode.OK, results);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public HttpResponseMessage Get(int Id)
+        {
+            try
+            {
+                var data = _iPostRepo.Get(Id);
+                var result = Mapper.Map<PostViewModel>(data);
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        public HttpResponseMessage GetPosts(int Id, string languageCode)
+        {
+            try
+            {
+                var result = new PostsViewModel();
+                var list = _iPostRepo.GetAll(languageCode, NUM_TOP);
+                var post = _iPostRepo.Get(Id);
+
+                result.lstPostListViewModel = Mapper.Map<List<PostListViewModel>>(list);
+                result.PostViewModel = Mapper.Map<PostViewModel>(post);
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+    }
+}

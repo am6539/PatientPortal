@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.Internal.Common
+{
+    public class ValueConstant
+    {
+        // Value action in tracsaction
+        public const string ACTION_INSERT = "I";
+        public const string ACTION_UPDATE = "U";
+        public const string ACTION_DELETE = "D";
+        public const string ACTION_READ = "R";
+
+        public const string TOKEN = "Token";
+    }
+}

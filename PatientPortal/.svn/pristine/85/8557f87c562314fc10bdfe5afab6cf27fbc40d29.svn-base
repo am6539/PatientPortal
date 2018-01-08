@@ -1,0 +1,38 @@
+﻿@model PatientPortal.Internal.Models.RoleModel
+@{
+    ViewBag.Title = "Nhóm quyền";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    <link href="~/Libs/DataTable/jquery.dataTables.css" rel="stylesheet" />
+    <link href="~/Content/checkbox-radio-build.css" rel="stylesheet" />
+}
+<div class="card">
+    @Html.Raw(TempData["Alert"])
+    <div class="card-title">@ViewBag.Title</div>
+    <div class="card-content">
+        <div class="col-md-5">
+            <div id="panelAdd">
+                @Html.Partial("_Create", Model.RoleViewModel)
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div id="panelList">
+                @Html.Partial("_List", Model.lstRoleViewModel)
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Libs/DataTable/jquery.dataTables.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //Setting table
+            $('#table_id').DataTable({
+                "language": {
+                    url: '/Libs/Datatable/Vietnamese.json'
+                }
+            });
+        });
+    </script>
+}

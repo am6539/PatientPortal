@@ -1,0 +1,21 @@
+﻿using ProtoBuf;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.API.Identity.Models
+{
+    [ProtoContract]
+    public class UserRole
+    {
+        [ProtoMember(1)]
+        [Key]
+        public string UserId { get; set; }
+
+        [ProtoMember(2)]
+        [Key]
+        public string RoleId { get; set; }
+    }
+}

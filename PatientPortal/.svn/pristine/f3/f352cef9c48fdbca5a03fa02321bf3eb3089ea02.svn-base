@@ -1,0 +1,16 @@
+﻿using PatientPortal.Domain.Models.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.IRepository.CMS
+{
+    public interface IWorkflowNavigationRepo
+    {
+        List<WorkflowNavigation> GetAll();
+        List<WorkflowNavigation> GetByWorkflowId(byte Id);
+        bool Transaction(List<WorkflowNavigationEdit> data, char action);
+    }
+}

@@ -1,0 +1,17 @@
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CORE;
+
+namespace PatientPortal.IRepository.CORE
+{
+    public interface IOfferAdviseRepo
+    {
+        Task<IEnumerable<OfferAdvise>> Query(Dictionary<string, dynamic> para);
+
+        Task<OfferAdvise> SingleQuery(Dictionary<string, dynamic> para);
+
+        Task<int> Transaction(OfferAdvise data, char action);
+
+        Task<bool> CheckExist(Dictionary<string, dynamic> para);
+    }
+}

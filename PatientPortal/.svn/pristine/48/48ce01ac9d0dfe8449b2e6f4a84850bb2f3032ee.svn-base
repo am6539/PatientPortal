@@ -1,0 +1,25 @@
+﻿@helper GetTreeView(List<PatientPortal.CMS.Models.CategoryViewModel> siteMenu, int parentID) {
+    foreach (var i in siteMenu.Where(a => a.ParentId == parentID))
+    {
+        <li>
+            @{var submenu = siteMenu.Where(a => a.ParentId == i.Id).Count();}
+            @if (submenu > 0)
+            {
+                <span class="collapse collapsible"><i class="fa fa-caret-right" aria-hidden="true"></i></span>
+            }
+            else
+            {
+                <span style="width:15px; display:inline-block">&nbsp;</span>
+            }
+            <a href="#">@i.Name
+            </a>
+            @if (submenu > 0)
+            {
+                <ul>
+                    @Treeview.GetTreeView(siteMenu, i.Id)
+                    @* Recursive  Call for Populate Sub items here*@
+                </ul>
+            }
+        </li>
+    }
+}

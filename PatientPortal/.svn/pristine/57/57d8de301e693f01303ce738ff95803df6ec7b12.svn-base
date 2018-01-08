@@ -1,0 +1,13 @@
+﻿@using PatientPortal.Provider.Helpers
+@model PatientPortal.Internal.Models.Survey.SurveyModel
+<div class="card">
+    <div class="card-content">
+        @Html.HiddenFor(m => m.IsAction)
+        @Html.IGroupTextBoxFor(m => m.Title, true, "", null, 12)
+        @Html.IGroupTextAreaFor(m => m.Description, true, 5, "", null, 12)
+        @Html.IGroupTextAreaFor(m => m.Message, true, 5, "", null, 12)
+        @Html.IGroupCheckBoxFor(m => m.IsBranding, false, "IsBranding", 12)
+        @Html.IGroupTextBoxFor(m => m.Logo, false, "", null, 12)
+        @Html.IGroupCheckBoxFor(m => m.IsActive, false, "IsActive", 12)
+    </div>
+</div>

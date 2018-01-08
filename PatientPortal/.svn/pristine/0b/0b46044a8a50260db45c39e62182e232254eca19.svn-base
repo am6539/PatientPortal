@@ -1,0 +1,62 @@
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PatientPortal.Domain.Models.CORE;
+using PatientPortal.DataAccess.CORE;
+using PatientPortal.IDataAccess.CORE;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.UnitTest.Core
+{
+    [TestClass]
+    public class ArticleUnitTest
+    {
+        public IArticle _articleImpl;
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            _articleImpl = new ArticleImpl();
+        }
+
+        [TestMethod]
+        public void ArticleGetAll()
+        {
+            var count = _articleImpl.GetAll().Count;
+            Assert.IsTrue(count > 0);
+        }
+
+        [TestMethod]
+        public void ArticleInsert()
+        {
+            var list = new List<Article>() {
+                new Article {
+                Title = "ABC",
+                Detail = "ADC",
+                PatientId = 1,
+                Status = 1
+                }
+            };
+            var flag = _articleImpl.ArticalTransaction(list, 'I');
+
+            Assert.IsTrue(flag);
+        }
+
+        [TestMethod]
+        public void ArticleUpdate()
+        {
+            var list = new List<Article>() {
+                new Article {
+                Title = "ABC",
+                Detail = "AEC",
+                PatientId = 1,
+                Status = 1
+                }
+            };
+            var flag = _articleImpl.ArticalTransaction(list, 'U');
+
+            Assert.IsTrue(flag);
+        }
+    }
+}

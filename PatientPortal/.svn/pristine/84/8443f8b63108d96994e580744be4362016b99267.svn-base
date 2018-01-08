@@ -1,0 +1,9 @@
+﻿'use strict';
+
+angular.
+module('appTest').controller('MainTestController', ['$scope',
+    function MainTestController($scope) {
+    
+    }
+]);
+

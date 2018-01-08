@@ -1,0 +1,17 @@
+﻿"use strict";
+
+var appManagement = angular.module("MyApp", ["ngResource", "ngCookies", "ngRoute"]).run(function ($rootScope) {
+    $rootScope.title = "Home";
+})
+    .config([
+        "$routeProvider", "$locationProvider", function ($routeProvider, $locationProvider) {
+            //$locationProvider.html5Mode({
+            //    enabled: true,
+            //    requireBase: false
+            //});
+            $routeProvider.when('/index', {
+                templateUrl: '/templates/index.html',
+                controller: 'indexController'
+            })
+        }
+    ]);

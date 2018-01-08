@@ -1,0 +1,97 @@
+﻿using Autofac;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Web;
+using PatientPortal.IRepository.CORE;
+using PatientPortal.Repositoty.CORE;
+using PatientPortal.DataAccess.CORE;
+using PatientPortal.DataAccess.Repo.CORE;
+
+using PatientPortal.IRepository.Authorize;
+using PatientPortal.Repositoty.Authorize;
+using PatientPortal.DataAccess.Authorize;
+using PatientPortal.DataAccess.Repo.Authorize;
+
+using Autofac.Integration.WebApi;
+using PatientPortal.DataAccess.Repo.Core;
+using PatientPortal.DataAccess.Repo.Wrapper;
+using PatientPortal.DataAccess.Wrapper;
+using PatientPortal.API.Core.Models;
+using System.Web.Http;
+
+namespace PatientPortal.API.Core
+{
+    public class AutofacConfig
+    {
+        public static IContainer RegisterDependencies()
+        {
+            var builder = new ContainerBuilder();
+
+            // Get your HttpConfiguration.
+            var config = System.Web.Http.GlobalConfiguration.Configuration;
+
+            // Register your Web API controllers
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+
+            builder.RegisterType<AdapterPattern>().As<IAdapterPattern>().InstancePerRequest();
+
+            builder.RegisterType<AppointmentRepoImpl>().As<IAppointmentRepo>().InstancePerRequest();
+            builder.RegisterType<AppointmentImpl>().As<IAppointment>().InstancePerRequest();
+
+            builder.RegisterType<ScheduleRepoImpl>().As<IScheduleRepo>().InstancePerRequest();
+            builder.RegisterType<ScheduleImpl>().As<ISchedule>().InstancePerRequest();
+
+            builder.RegisterType<UserRepoImpl>().As<IUserRepo>().InstancePerRequest();
+            builder.RegisterType<UserImpl>().As<IUser>().InstancePerRequest();
+
+            builder.RegisterType<OfferAdviseRepoImpl>().As<IOfferAdviseRepo>().InstancePerRequest();
+            builder.RegisterType<OfferAdviseImpl>().As<IOfferAdvise>().InstancePerRequest();
+
+            builder.RegisterType<ArticleImpl>().As<IArticle>().InstancePerRequest();
+            builder.RegisterType<ArticleRepoImpl>().As<IArticleRepo>().InstancePerRequest();
+            builder.RegisterType<SettingRepoImpl>().As<ISettingRepo>().InstancePerRequest();
+            builder.RegisterType<SettingImpl>().As<ISetting>().InstancePerRequest();
+
+            builder.RegisterType<ArticleCommentImpl>().As<IArticleComment>().InstancePerRequest();
+            builder.RegisterType<ArticleCommentRepoImpl>().As<IArticleCommentRepo>().InstancePerRequest();
+
+            builder.RegisterType<AppointmentLogRepoImpl>().As<IAppointmentLogRepo>().InstancePerRequest();
+            builder.RegisterType<AppointmentLogImpl>().As<IAppointmentLog>().InstancePerRequest();
+
+            builder.RegisterType<EmailMarketingRepoImpl>().As<IEmailMarketingRepo>().InstancePerRequest();
+            builder.RegisterType<EmailMarketingImpl>().As<IEmailMarketing>().InstancePerRequest();
+
+            builder.RegisterType<SurveyRepoImpl>().As<ISurveyRepo>().InstancePerRequest();
+            builder.RegisterType<SurveyImpl>().As<ISurvey>().InstancePerRequest();
+
+            builder.RegisterType<DepartmentRepoImpl>().As<IDepartmentRepo>().InstancePerRequest();
+            builder.RegisterType<DepartmentImpl>().As<IDepartment>().InstancePerRequest();
+
+            builder.RegisterType<DepartmentServicesRepoImpl>().As<IDepartmentServicesRepo>().InstancePerRequest();
+            builder.RegisterType<DepartmentServicesImpl>().As<IDepartmentServices>().InstancePerRequest();
+
+            builder.RegisterType<ModuleRepoImpl>().As<IModuleRepo>().InstancePerRequest();
+            builder.RegisterType<ModuleImpl>().As<IModule>().InstancePerRequest();
+
+            builder.RegisterType<QARepoImpl>().As<IQARepo>().InstancePerRequest();
+            builder.RegisterType<QAImpl>().As<IQA>().InstancePerRequest();
+
+            builder.RegisterType<UserAuthorizationRepoImpl>().As<IUserAuthorizationRepo>().InstancePerRequest();
+            builder.RegisterType<UserAuthorizationImpl>().As<IUserAuthorization>().InstancePerRequest();
+
+            builder.RegisterType<DoctorProfileRepoImpl>().As<IDoctorProfileRepo>().InstancePerRequest();
+            builder.RegisterType<DoctorProfileImpl>().As<IDoctorProfile>().InstancePerRequest();
+
+            //Register Authorize Attribute
+            //builder.RegisterWebApiFilterProvider(config);
+            builder.RegisterType<AuthorizeRolesAttribute>().PropertiesAutowired();
+
+            var container = builder.Build();
+            config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+
+            return container;
+        }
+    }
+}

@@ -1,0 +1,3 @@
+﻿appManagement.constant("Params", {
+    rootUrl: 'http://localhost:18892/'
+});

@@ -1,0 +1,8 @@
+﻿'use strict';
+
+angular.
+module('MyApp').controller('MainController', ['$scope', "Params",
+    function MainController($scope, Params) {
+    }
+]);
+

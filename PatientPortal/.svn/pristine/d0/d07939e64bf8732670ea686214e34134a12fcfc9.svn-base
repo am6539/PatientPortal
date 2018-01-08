@@ -1,0 +1,9 @@
+﻿'use strict';
+
+angular.module('spaApp')
+    .controller("PostDetailController", [
+    "$scope", "$location", "$route", "Params", "PostDetailServices",
+    function ($scope, $location, $route, Params, PostDetailServices) {
+
+
+    }]);

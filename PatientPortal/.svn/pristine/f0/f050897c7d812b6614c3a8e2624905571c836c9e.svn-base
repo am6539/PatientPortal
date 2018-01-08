@@ -1,0 +1,57 @@
+﻿CREATE PROCEDURE [dbo].[usp_UserProfile_Transaction]
+(
+	@Action CHAR(1) = 'I',
+	@UserId NVARCHAR(128),
+	@TabCode VARCHAR(10),
+	@Description NVARCHAR(MAX)
+)
+AS BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+	DECLARE @return INT = 0
+
+	BEGIN TRY
+		BEGIN TRAN;
+		
+			IF @Action = 'I' --INSERT
+			BEGIN
+				INSERT [dbo].[UserProfile] VALUES(@UserId, @TabCode, @Description)
+
+				SET @return = 1
+			END
+
+			IF @Action = 'U' --UPDATE
+			BEGIN
+				UPDATE [dbo].[UserProfile]
+				SET [Description] = @Description
+				WHERE [UserId] = @UserId
+				AND [TabCode] = @TabCode
+
+				SET @return = 1
+			END
+
+			IF @Action = 'D' --DELETE
+			BEGIN
+				IF NOT EXISTS( SELECT TOP 1 1 FROM [dbo].[UserProfile] WHERE [UserId] = @UserId)
+				BEGIN
+					DELETE FROM [dbo].[UserProfile]
+					WHERE [UserId] = @UserId
+					AND [TabCode] = @TabCode
+
+					SET @return = 1
+				END
+				ELSE
+					SET @return = 0
+			END
+
+			COMMIT TRAN;
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0 
+		BEGIN
+			ROLLBACK TRAN;
+			SET  @return = 0
+		END
+	END CATCH
+	SELECT @return;
+END

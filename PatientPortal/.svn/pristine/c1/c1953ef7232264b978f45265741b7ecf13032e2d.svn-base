@@ -1,0 +1,233 @@
+﻿using PatientPortal.CMS.Common;
+using PatientPortal.CMS.Models;
+using PatientPortal.CMS.Utility;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.CMS.Controllers
+{
+    public class WorkflowStateController : Controller
+    {
+        string apiWorkflowstateUrl = $"api/workflowstate";
+        string apiWorkflowUrl = $"api/workflow";
+        string apiWorkflowNavigateUrl = $"api/WorkflowNavigation";
+
+        // GET: WorkflowState
+
+        public ActionResult Index(byte? Id)
+        {
+            var results = new WorkflowStatesModel();
+            try
+            {
+                List<WorkflowStateViewModel> list = ApplicationHelper.GetObject<List<WorkflowStateViewModel>>();
+                var WorkflowIds = APIHelper.Get<List<WorkflowViewModel>>(apiWorkflowUrl);
+                if (Id != null)
+                {
+                    results.WorkflowId = (byte)Id;
+                    ViewBag.WorkflowIdx = new SelectList(WorkflowIds, "Id", "Name", results.WorkflowId);
+                    list = APIHelper.Get<List<WorkflowStateViewModel>>(apiWorkflowstateUrl + $"/GetByWorkflowId?workflowId={Id}");
+                    if (list!= null && list.Any(a => a.IsFirst == true)) {
+                        //get workflow navigation
+                        var wfNavigation = APIHelper.Get<List<WorkflowNavigationViewModel>>(apiWorkflowNavigateUrl + $"/GetByWorkflowId/{Id}");
+                        var listwfNavigation = GetWfNavigation(wfNavigation, list);
+                        results.lstWorkflowNavigationViewModel = listwfNavigation;
+                    }
+                }
+                else
+                {
+                    ViewBag.WorkflowIdx = new SelectList(WorkflowIds, "Id", "Name");
+                }
+
+                var data = new WorkflowStateViewModel();
+                results.lstWorkflowStateViewModel = list;
+                results.WorkflowStateViewModel = data;
+
+                // Workflow list
+                ViewBag.WorkflowId = WorkflowIds;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(ex.Message);
+                throw ex;
+            }
+            TempData["resultsIndex"] = results;
+            return View(results);
+        }
+
+        private List<WorkflowNavigationOrderViewModel> GetWfNavigation(List<WorkflowNavigationViewModel> wfNavigation, List<WorkflowStateViewModel> list)
+        {
+            short workflowStateId = list.FirstOrDefault(a => a.IsFirst == true).Id;
+            var results = new List<WorkflowNavigationOrderViewModel>();
+            byte i = 1;
+
+            //add first item
+            var firstItem = wfNavigation.FirstOrDefault(x => x.WorkflowStateId == workflowStateId);
+            results.Add(new WorkflowNavigationOrderViewModel {
+                NumberOrder = i,
+                WorkflowStateId = firstItem.WorkflowStateId,
+                NextWorkflowStateId = firstItem.NextWorkflowStateId,
+                IsUsed = firstItem.IsUsed,
+                Name = list.FirstOrDefault(a => a.Id == firstItem.WorkflowStateId).Name
+            });
+
+            //add next step
+            foreach (var item in wfNavigation)
+            {
+                i++;
+                var newModel = new WorkflowNavigationOrderViewModel {
+                    NumberOrder = i,
+                    WorkflowStateId = item.WorkflowStateId,
+                    NextWorkflowStateId = item.NextWorkflowStateId,
+                    IsUsed = item.IsUsed,
+                    Name = list.FirstOrDefault(a => a.Id == item.NextWorkflowStateId).Name
+                };
+                results.Add(newModel);
+            }
+            return results;
+        }
+
+        #region Create
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Create(WorkflowStateViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                bool result = await Save(model, ValueConstant.ACTION_INSERT);
+                if (result)
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var workflowStates = new WorkflowStatesModel();
+                workflowStates.lstWorkflowStateViewModel = (List<WorkflowStateViewModel>)TempData["Data"];
+
+                if (workflowStates.lstWorkflowStateViewModel == null) workflowStates.lstWorkflowStateViewModel = ApplicationHelper.GetObject<List<WorkflowStateViewModel>>();
+                workflowStates.WorkflowStateViewModel = model;
+                ViewBag.WorkflowId = APIHelper.Get<List<WorkflowViewModel>>(apiWorkflowUrl);
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.FAIL));
+                return View("Index", workflowStates);
+            }
+        }
+        #endregion
+
+        #region Edit
+        [HttpGet]
+        public ActionResult Edit(byte id)
+        {
+            var data = new WorkflowStateViewModel();
+            try
+            {
+                data = APIHelper.Get<WorkflowStateViewModel>(apiWorkflowstateUrl + "/" + id);
+                var WorkflowIds = APIHelper.Get<List<WorkflowViewModel>>(apiWorkflowUrl);
+                ViewBag.WorkflowId = new SelectList(WorkflowIds, "Id", "Name", data.WorkflowId);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(ex.Message);
+                throw ex;
+            }
+            return View(data);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Edit(WorkflowStateViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                bool result = await Save(model, ValueConstant.ACTION_UPDATE);
+                if (result)
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.ERROR, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.ERROR));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.FAIL));
+                return View();
+            }
+        }
+        #endregion
+
+        #region Delete
+        public ActionResult ViewConfirmDelete(short Id)
+        {
+            WorkflowStateViewModel model = APIHelper.Get<WorkflowStateViewModel>(apiWorkflowstateUrl + $"/{Id}");
+            if (model == null) return null;
+            bool checkIsUsed = APIHelper.Get<bool>(apiWorkflowstateUrl + $"/CheckIsUsed/{model.Id}");
+            if (!checkIsUsed)
+            {
+                ViewBag.IsUsed = false;
+            }
+            else
+            {
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.ISUSED, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_DELETE, RenderMessage.TypeResult.ISUSED));
+                ViewBag.IsUsed = true;
+            }
+            return PartialView("_Delete", model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Delete(short id)
+        {
+            try
+            {
+                var model = new WorkflowStateViewModel();
+                model.Id = id;
+                var result = await Save(model, ValueConstant.ACTION_DELETE);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(ex.Message);
+                return View();
+            }
+        }
+
+        #endregion
+
+        #region API Transaction
+        private async Task<bool> Save(WorkflowStateViewModel workflow, string action)
+        {
+            var result = false;
+            try
+            {
+                result = await APIHelper.TransactionAsyncResult<WorkflowStateViewModel>(workflow, apiWorkflowstateUrl + "?action=" + action + "");
+            }
+            catch (Exception e)
+            {
+                LogHelper.WriteLog(e.Message);
+                ModelState.AddModelError("", e.Message);
+            }
+            return result;
+        }
+        #endregion
+
+        #region Check Exist
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult CheckExist(string Name, short Id, byte WorkflowId)
+        {
+            bool isExist = APIHelper.Get<bool>(apiWorkflowstateUrl + $"/{Id}?Name={Name}&WorkflowId={WorkflowId}");
+            return Json(!isExist, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+    }
+}

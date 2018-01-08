@@ -1,0 +1,23 @@
+﻿using PatientPortal.Domain.Models.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.DataAccess.Repo.CMS
+{
+    public interface IPost
+    {
+        List<PostList> GetAll(PostFilter param);
+        int Transaction(List<PostEdit> data, char action);
+        bool Approve(List<PostStateHistory> data, char action);
+        bool Publish(List<PostStateHistory> data, char action);
+        Post GetById(int PostId, string languageCode);
+        List<Post> GetListByCategory(byte categoryId);
+        List<Post> GetListByWorkflowState(short workflowStateId);
+        List<Post> GetListByStatus(byte status);
+        List<Post> GetListByCreateTime(string startTime, string endTime);
+        List<Post> GetListBySearchText(string searchText);
+    }
+}

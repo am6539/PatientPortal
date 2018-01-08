@@ -1,0 +1,14 @@
+﻿angular.module('spaApp')
+    .controller('ContactController', ['$scope', 'Params', 'ContactService', 'alertService',
+        function ContactController($scope, Params, ContactService, alertService) {
+            ContactService.get(function (data) {
+                $scope.contact = data;
+            });
+
+            $scope.sendMail = function (mail) {
+                ContactService.sendMail(mail, function (data) {
+                    alertService.add("success", "Success: It works! ", 3000);
+                });
+            }
+        }
+    ]);

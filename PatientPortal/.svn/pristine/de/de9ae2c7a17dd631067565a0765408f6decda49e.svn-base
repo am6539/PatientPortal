@@ -1,0 +1,403 @@
+﻿
+<!-- slider -->
+<ul class="slider">
+    <li ng-repeat="item in sliders" style="background-image: url('{{item.Image}}');">
+        <!--<img src="" />-->
+        &nbsp;
+    </li>
+</ul>
+<div class="page relative noborder">
+    <!--<div class="top_hint">
+        Give us a call: +123 356 123 124
+    </div>-->
+    <!-- slider content -->
+    <div class="slider_content_box clearfix">
+        <div class="slider_content" ng-repeat="item in sliders" name="sld{{$index}}">
+            <h1 class="title">
+                {{item.Title}}
+            </h1>
+            <h2 class="subtitle">
+                {{item.Description}}
+            </h2>
+        </div>
+    </div>
+    <!-- home box -->
+    <ul class="home_box_container clearfix">
+        <li class="home_box light_blue animated_element animation-fadeIn duration-500">
+            <h2>
+                <a href="#" title="Emergency Case">
+                    Khám và tư vấn miễn phí
+                </a>
+            </h2>
+            <div class="news clearfix">
+                <p class="text">
+                    Chúng tôi cung cấp dịch vụ khám sàng lọc bệnh tim bẩm sinh cho tất cả các đối tượng.
+                </p>
+                <a class="more light icon_small_arrow margin_right_white" href="#" title="Chi tiết">Chi tiết</a>
+            </div>
+        </li>
+        <li class="home_box blue animated_element animation-slideRight duration-800 delay-250">
+            <h2>
+                <a href="#" title="Lịch khám của bác sĩ">
+                    Lịch khám của bác sĩ
+                </a>
+            </h2>
+            <div class="news clearfix">
+                <p class="text">
+                    Chúng tôi cung cấp dịch vụ chọn bác sĩ khám bệnh, chọn Chi tiết để được hướng dẫn chi tiết các bước đặt lịch khám online.
+                </p>
+                <a class="more light icon_small_arrow margin_right_white" href="#" title="Chi tiết">Chi tiết</a>
+            </div>
+        </li>
+        <li class="home_box dark_blue animated_element animation-slideRight200 duration-800 delay-500">
+            <h2>
+                Giờ làm việc
+            </h2>
+            <ul class="items_list thin dark_blue opening_hours">
+                <li class="clearfix">
+                    <span>
+                        Thứ 2 - Thứ 6
+                    </span>
+                    <div class="value">
+                        8.00 - 17.00
+                    </div>
+                </li>
+                <li class="clearfix">
+                    <span>
+                        Thứ 7
+                    </span>
+                    <div class="value">
+                        9.30 - 17.30
+                    </div>
+                </li>
+                <li class="clearfix">
+                    <span>
+                        Chủ nhật
+                    </span>
+                    <div class="value">
+                        9.30 - 15.00
+                    </div>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <div class="clearfix">
+        <div class="columns columns_3 page_margin_top_section clearfix">
+
+            <ul class="column" ng-repeat="feature in features">
+                <li class="item_content clearfix">
+                    <a class="features_image" href="#" title="">
+                        <img src="{{ feature.Image }}" alt="" class="animated_element animation-scale" />
+                    </a>
+                    <div class="text">
+                        <h3>
+                            <a href="#" title="Lorem ipsum">
+                                {{ feature.Title }}
+                            </a>
+                        </h3>
+                        {{ feature.Description }}
+                    </div>
+                </li>
+            </ul>
+            
+        </div>
+        <div class="announcement page_margin_top_section clearfix">
+            <ul class="columns no_width">
+                <li class="column_left">
+                    <h1>Chúng tôi cung cấp dịch vụ đặt lịch khám bệnh online</h1>
+                    <p>Quý bệnh nhân có thể chọn giờ khám và bác sĩ khám khi sử dụng dịch vụ đặt lịch khám online.</p>
+                </li>
+                <li class="column_right">
+                    <div class="vertical_align">
+                        <div class="vertical_align_cell">
+                            <a title="Đặt lịch khám" href="/appointment" class="more blue medium animated_element animation-slideLeft">Đặt lịch khám</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="page_layout page_margin_top_section clearfix">
+        <div class="page_left">
+            <h3 class="box_header">
+                Tim mới nhất
+            </h3>
+            <ul class="blog clearfix">
+                <li ng-repeat="post in lstPost" class="post">
+                    <ul class="comment_box">
+                        <li class="date clearfix animated_element animation-slideRight">
+                            <div class="value">{{ post.PublishDate | dateNiceFilter }}</div>
+                            <div class="arrow_date"></div>
+                        </li>
+                        <li class="comments_number animated_element animation-slideUp duration-300 delay-500">
+                            <a href="#" title="2 comments">
+                                0 bình luận
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="post_content">
+                        <a class="post_image" href="/post/{{ post.Id }}" title="Lorem ipsum dolor sit amat velum">
+                            <img src="{{ post.Image }}" alt="" />
+                        </a>
+                        <h2>
+                            <a href="/post/{{ post.Id }}" title="Lorem ipsum dolor sit amat velum">
+                                {{ post.TitleTran }}
+                            </a>
+                        </h2>
+                        <p>
+                            {{ post.DescriptionTrans }}
+                        </p> 
+                        <a title="Chi tiết" href="/post/{{ post.Id }}" class="more">
+                            Chi tiết &rarr;
+                        </a>
+                        <div class="post_footer clearfix">
+                            <ul class="post_footer_details">
+                                <li>Bài viết tại </li>
+                                <li>
+                                    <a href="#" title="General">
+                                        Hồ Chí Minh,
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" title="Dental clinic">
+                                        Việt Nam
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="post_footer_details">
+                                <li>Tác giả </li>
+                                <li>
+                                    <a href="#" title="John Doe">
+                                        {{ post.Author }}
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="post_footer_details">
+                                <li>Chủ đề </li>
+                                <li>
+                                    <a href="#" title="Image">
+                                        {{ post.CategoryName }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                
+            </ul>
+            <div class="show_all clearfix">
+                <a class="more" href="#" title="Xem tất cả">
+                    Xem tất cả &rarr;
+                </a>
+            </div>
+        </div>
+        <div class="page_right">
+            <div class="sidebar_box first">
+                <h3 class="box_header">
+                    Chuyên khoa
+                </h3>
+                <ul class="accordion">
+                    <li>
+                        <div id="accordion-primary-health-care">
+                            <h3>Khoa khám bệnh</h3>
+                        </div>
+                        <div class="clearfix">
+                            <div class="item_content clearfix">
+                                <a class="thumb_image" href="#" title="Primary Health Care">
+                                    <img src="assets/img/samples/75x75/image_08.jpg" alt="" />
+                                </a>
+                                <p>
+                                    Tiếp nhận người bệnh đến khám bệnh ngoại trú từ 6h:30 đến 16h:30 mỗi ngày. Thứ 7, chủ nhật khám bệnh vào buổi sáng từ 7h:00 đến 11h:30
+                                </p>
+                            </div>
+                            <div class="item_footer clearfix">
+                                <a class="more blue icon_small_arrow margin_right_white" href="#" title="Timetable">Lịch khám</a>
+                                <a class="more blue icon_small_arrow margin_right_white" href="#" title="Details">Chi tiết</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div id="accordion-pediatric-clinic">
+                            <h3>Khoa nội tổng hợp</h3>
+                        </div>
+                        <div class="clearfix">
+                            <div class="item_content clearfix">
+                                <a class="thumb_image" href="#" title="Pediatric Clinic">
+                                    <img src="assets/img/samples/75x75/image_05.jpg" alt="" />
+                                </a>
+                                <p>
+                                    Tiếp nhận người bệnh đến khám bệnh ngoại trú từ 6 giờ 30 phút  đến 16 giờ 30 phút mỗi ngày. Riêng ngày thứ 7 và chủ nhật khám bệnh vào buổi sáng từ 7 giờ 00 đến 11 giờ 30 phút.
+                                </p>
+                            </div>
+                            <div class="item_footer clearfix">
+                                <a class="more blue icon_small_arrow margin_right_white" href="?page=timetable#pediatric-clinic" title="Timetable">Timetable</a>
+                                <a class="more blue icon_small_arrow margin_right_white" href="?page=departments#pediatric-clinic" title="Details">Details</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div id="accordion-outpatient-surgery">
+                            <h3>Khoa phẫu thuật</h3>
+                        </div>
+                        <div class="clearfix">
+                            <div class="item_content clearfix">
+                                <a class="thumb_image" href="#" title="Outpatient Surgery">
+                                    <img src="assets/img/samples/75x75/image_07.jpg" alt="" />
+                                </a>
+                                <p>
+                                    Mauris adisciping fringila turpis intend tellus ornare etos pelim. Pulvunar est cardio neque vitae elit. Lorem vulputat paentra nunc gravida.
+                                </p>
+                            </div>
+                            <div class="item_footer clearfix">
+                                <a class="more blue icon_small_arrow margin_right_white" href="?page=timetable#outpatient-surgery" title="Timetable">Timetable</a>
+                                <a class="more blue icon_small_arrow margin_right_white" href="?page=departments#outpatient-surgery" title="Details">Details</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div id="accordion-gynaecological-clinic">
+                            <h3>Ngoại tổng hợp</h3>
+                        </div>
+                        <div class="tab-pane fade clearfix">
+                            <div class="item_content clearfix">
+                                <a class="thumb_image" href="#" title="Gynaecological Clinic">
+                                    <img src="assets/img/samples/75x75/image_01.jpg" alt="" />
+                                </a>
+                                <p>
+                                    Mauris adisciping fringila turpis intend tellus ornare etos pelim. Pulvunar est cardio neque vitae elit. Lorem vulputat paentra nunc gravida.
+                                </p>
+                            </div>
+                            <div class="item_footer clearfix">
+                                <a class="more blue icon_small_arrow margin_right_white" href="?page=timetable#gynaecological-clinic" title="Timetable">Timetable</a>
+                                <a class="more blue icon_small_arrow margin_right_white" href="?page=departments#gynaecological-clinic" title="Details">Details</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div id="accordion-cardiac-clinic">
+                            <h3>Khoa xét nghiệm</h3>
+                        </div>
+                        <div class="clearfix">
+                            <div class="item_content clearfix">
+                                <a class="thumb_image" href="#" title="Cardiac Clinic">
+                                    <img src="assets/img/samples/75x75/image_04.jpg" alt="" />
+                                </a>
+                                <p>
+                                    Mauris adisciping fringila turpis intend tellus ornare etos pelim. Pulvunar est cardio neque vitae elit. Lorem vulputat paentra nunc gravida.
+                                </p>
+                            </div>
+                            <div class="item_footer clearfix">
+                                <a class="more blue icon_small_arrow margin_right_white" href="?page=timetable#cardiac-clinic" title="Timetable">Timetable</a>
+                                <a class="more blue icon_small_arrow margin_right_white" href="?page=departments#cardiac-clinic" title="Details">Details</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div id="accordion-laryngological-clinic">
+                            <h3>Khoa sản</h3>
+                        </div>
+                        <div class="clearfix">
+                            <div class="item_content clearfix">
+                                <a class="thumb_image" href="#" title="Laryngological Clinic">
+                                    <img src="assets/img/samples/75x75/image_08.jpg" alt="" />
+                                </a>
+                                <p>
+                                    Mauris adisciping fringila turpis intend tellus ornare etos pelim. Pulvunar est cardio neque vitae elit. Lorem vulputat paentra nunc gravida.
+                                </p>
+                            </div>
+                            <div class="item_footer clearfix">
+                                <a class="more blue icon_small_arrow margin_right_white" href="?page=timetable#laryngological-clinic" title="Timetable">Timetable</a>
+                                <a class="more blue icon_small_arrow margin_right_white" href="?page=departments#laryngological-clinic" title="Details">Details</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div id="accordion-ophthalmology-clinic">
+                            <h3>Khoa chuẩn đoán hình ảnh</h3>
+                        </div>
+                        <div class="clearfix">
+                            <div class="item_content clearfix">
+                                <a class="thumb_image" href="#" title="Ophthalmology Clinic">
+                                    <img src="assets/img/samples/75x75/image_06.jpg" alt="" />
+                                </a>
+                                <p>
+                                    Mauris adisciping fringila turpis intend tellus ornare etos pelim. Pulvunar est cardio neque vitae elit. Lorem vulputat paentra nunc gravida.
+                                </p>
+                            </div>
+                            <div class="item_footer clearfix">
+                                <a class="more blue icon_small_arrow margin_right_white" href="?page=timetable#ophthalmology-clinic" title="Timetable">Timetable</a>
+                                <a class="more blue icon_small_arrow margin_right_white" href="?page=departments#ophthalmology-clinic" title="Details">Details</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div id="accordion-dental-clinic">
+                            <h3>Khoa răng hàm mặt</h3>
+                        </div>
+                        <div class="clearfix">
+                            <div class="item_content clearfix">
+                                <a class="thumb_image" href="#" title="Dental Clinic">
+                                    <img src="assets/img/samples/75x75/image_03.jpg" alt="" />
+                                </a>
+                                <p>
+                                    Mauris adisciping fringila turpis intend tellus ornare etos pelim. Pulvunar est cardio neque vitae elit. Lorem vulputat paentra nunc gravida.
+                                </p>
+                            </div>
+                            <div class="item_footer clearfix">
+                                <a class="more blue icon_small_arrow margin_right_white" href="?page=timetable#dental-clinic" title="Timetable">Timetable</a>
+                                <a class="more blue icon_small_arrow margin_right_white" href="?page=departments#dental-clinic" title="Details">Details</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div id="accordion-outpatient-rehabilitation">
+                            <h3>Khoa thần kinh</h3>
+                        </div>
+                        <div class="clearfix">
+                            <div class="item_content clearfix">
+                                <a class="thumb_image" href="#" title="Outpatient Rehabilitation">
+                                    <img src="assets/img/samples/75x75/image_05.jpg" alt="" />
+                                </a>
+                                <p>
+                                    Mauris adisciping fringila turpis intend tellus ornare etos pelim. Pulvunar est cardio neque vitae elit. Lorem vulputat paentra nunc gravida.
+                                </p>
+                            </div>
+                            <div class="item_footer clearfix">
+                                <a class="more blue icon_small_arrow margin_right_white" href="?page=timetable#outpatient-rehabilitation" title="Timetable">Timetable</a>
+                                <a class="more blue icon_small_arrow margin_right_white" href="?page=departments#outpatient-rehabilitation" title="Details">Details</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="sidebar_box">
+                <h3 class="box_header">
+                    Đặt lịch khám
+                </h3>
+                <p class="info">
+                    Quý bệnh nhân có thể chọn giờ khám và bác sĩ khám khi sử dụng dịch vụ đặt lịch khám online của chúng tôi qua các cách dưới đây
+                </p>
+                <ul class="contact_data">
+                    <li class="clearfix">
+                        <span class="social_icon phone"></span>
+                        <p class="value">
+                            tổng đài: <strong>1080</strong>
+                        </p>
+                    </li>
+                    <li class="clearfix">
+                        <span class="social_icon mail"></span>
+                        <p class="value">
+                            gửi e-mail: <a href="thachtx@fpt.com.vn">thachtx@fpt.com.vn</a>
+                        </p>
+                    </li>
+                    <li class="clearfix">
+                        <span class="social_icon form"></span>
+                        <p class="value">
+                            hoặc <a href="/appointment" title="Đặt lịch khám online">điền thông tin cá nhân</a> để đặt lịch khám
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

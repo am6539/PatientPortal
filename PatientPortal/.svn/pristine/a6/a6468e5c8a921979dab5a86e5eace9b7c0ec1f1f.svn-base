@@ -1,0 +1,56 @@
+﻿using PatientPortal.API.SPA.ViewModels;
+using PatientPortal.IRepository.SPA;
+using PatientPortal.Utility.Files;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+
+namespace PatientPortal.API.SPA.Controllers
+{
+    public class AdvertiseController : ApiController
+    {
+        private readonly IAdvertiseRepo _iAdvertiseRepo;
+         public AdvertiseController(IAdvertiseRepo iAdvertiseRepo)
+        {
+            this._iAdvertiseRepo = iAdvertiseRepo;
+        }
+
+        [HttpGet]
+        public HttpResponseMessage Get()
+        {
+            try
+            {
+                var data = _iAdvertiseRepo.GetAll();
+                var results = new List<AdvertiseViewModel>();
+                foreach(var item in data)
+                {
+                    var advertise = new AdvertiseViewModel();
+                    advertise.Id = item.Id;
+                    advertise.Name = item.Name;
+                    advertise.Resouce = LayoutGuide.SPA_ResourcePath(Provider.Common.APIEnums.Application.CMS, item.Resouce);
+                    advertise.Handler = item.Handler;
+                    advertise.Type = item.Type;
+                    advertise.StartDate = item.StartDate;
+                    advertise.EndDate = item.EndDate;
+                    if(item.Type > 0)
+                    {
+                        advertise.Image = LayoutGuide.SPA_ResourcePath(Provider.Common.APIEnums.Application.CMS, item.Resouce.Split('.')[0]); 
+                    }
+                    else
+                    {
+                        advertise.Image = advertise.Resouce;
+                    }
+                    results.Add(advertise);
+                }
+                return Request.CreateResponse(HttpStatusCode.OK, results);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+    }
+}

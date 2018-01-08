@@ -1,0 +1,39 @@
+﻿using PatientPortal.IRepository.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CMS;
+using PatientPortal.DataAccess.Repo.CMS;
+
+namespace PatientPortal.Repositoty.CMS
+{
+    public class AdvertiseRepoImpl : IAdvertiseRepo
+    {
+        IAdvertise _advertise;
+        public AdvertiseRepoImpl(IAdvertise advertise)
+        {
+            this._advertise = advertise;
+        }
+        public bool CheckExist(string name, byte id)
+        {
+            return _advertise.CheckExist(name, id);
+        }
+
+        public Advertise Get(byte Id)
+        {
+            return _advertise.Get(Id);
+        }
+
+        public List<Advertise> GetAll()
+        {
+            return _advertise.GetAll();
+        }
+
+        public bool Transaction(List<Advertise> data, char action)
+        {
+            return _advertise.Transaction(data, action);
+        }
+    }
+}

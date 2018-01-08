@@ -1,0 +1,313 @@
+﻿using PatientPortal.CMS.Common;
+using PatientPortal.CMS.Models;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using PatientPortal.Utility.Application;
+using PatientPortal.Domain.LogManager;
+using PatientPortal.Utility.Files;
+
+namespace PatientPortal.CMS.Controllers
+{
+    [Authorize]
+    public class GalleryController : Controller
+    {
+        private static string controllerName = string.Empty;
+
+        #region Get List
+        // GET: Feature
+        public async Task<ActionResult> Index()
+        {
+            var results = new GalleryModel();
+            try
+            {
+                //Call API Provider
+                controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                var list = await APIProvider.Get<List<GalleryViewModel>>(controllerName);
+
+                var model = new GalleryViewModel();
+
+                results.lstGallery = list;
+                results.Gallery = model;
+
+                //Departments
+                string strUrl = APIProvider.APIGenerator("Department", new List<string> { "type" }, true, "available");
+                var departments = await APIProvider.Get<List<DepartmentViewModel>>(strUrl, APIConstant.API_Resource_CORE);
+                departments = (departments == null ? new List<DepartmentViewModel>() : departments);
+                ViewBag.Departments = departments;
+
+                TempData["Galleries"] = list;
+                TempData["Departments"] = departments;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw ex;
+            }
+            return View(results);
+        }
+        #endregion
+
+        #region Create
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Create(GalleryViewModel model, HttpPostedFileBase fileUpload)
+        {
+            if (ModelState.IsValid)
+            {
+                model.Id = Guid.NewGuid().ToString();
+
+                if (fileUpload != null)
+                {
+                    string imgName = "";
+                    FileManagement.UploadImage(fileUpload, Path.Combine(ValueConstant.IMAGE_GALLERY_PATH,model.Id), ref imgName);
+                    model.Img = imgName;
+                }
+
+                //Call API Provider
+                string strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_INSERT);
+                var result = await APIProvider.DynamicTransaction<GalleryViewModel, bool>(model, strUrl);
+
+                if (result)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var department = new GalleryModel();
+                department.lstGallery = (List<GalleryViewModel>)TempData["Galleries"];
+
+                var departments = (List<DepartmentViewModel>)TempData["Departments"];
+                if (departments == null) {
+                    string strUrl = APIProvider.APIGenerator("Department", new List<string> { "type" }, true, "available");
+                    departments = await APIProvider.Get<List<DepartmentViewModel>>(strUrl, APIConstant.API_Resource_CORE);
+                }
+                ViewBag.Departments = departments; 
+               
+
+                if (department.lstGallery == null) department.lstGallery = ApplicationGenerator.GetObject<List<GalleryViewModel>>();
+                department.Gallery = model;
+                
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                return RedirectToAction("Index", department);
+            }
+        }
+        #endregion
+
+        #region Edit
+
+        [HttpGet]
+        public async Task<ActionResult> Edit(string id)
+        {
+            var model = new GalleryViewModel();
+            try
+            {
+                //Call API Provider
+                string strUrl = APIProvider.APIGenerator(this, this.RouteData.Values["action"].ToString(), id);
+                model = await APIProvider.Get<GalleryViewModel>(controllerName + strUrl);
+                ViewBag.Img = Path.Combine(Path.Combine(ValueConstant.IMAGE_GALLERY_PATH, model.Id), model.Img);
+
+                //Departments
+                strUrl = APIProvider.APIGenerator("Department", new List<string> { "type" }, true, "available");
+                var departments = await APIProvider.Get<List<DepartmentViewModel>>(strUrl, APIConstant.API_Resource_CORE);
+
+                departments = (departments == null ? new List<DepartmentViewModel>() : departments);
+                ViewBag.Departments = departments;
+
+                TempData["Departments"] = departments;
+
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw ex;
+            }
+            return View(model);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Edit(GalleryViewModel model, HttpPostedFileBase fileUpload)
+        {
+            if (ModelState.IsValid)
+            {
+                if (fileUpload != null)
+                {
+                    string imgName = "";
+                    FileManagement.UploadImage(fileUpload, Path.Combine(ValueConstant.IMAGE_GALLERY_PATH, model.Id), ref imgName);
+                    model.Img = imgName;
+                }
+                //Call API Provider
+                string strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_UPDATE);
+                var result = await APIProvider.DynamicTransaction<GalleryViewModel, bool>(model, strUrl);
+
+                if (result)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var departments = (List<DepartmentViewModel>)TempData["Departments"];
+                if (departments == null) {
+                    string strUrl = APIProvider.APIGenerator("Department", new List<string> { "type" }, true, "available");
+                    departments = await APIProvider.Get<List<DepartmentViewModel>>(strUrl, APIConstant.API_Resource_CORE);
+                }
+                ViewBag.Departments = departments;
+
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.FAIL));
+                return View(model);
+            }
+        }
+        #endregion
+
+        #region Delete
+        public ActionResult Delete(GalleryViewModel model)
+        {
+            return PartialView("_Delete", model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Delete(string id)
+        {
+            try
+            {
+                var model = new GalleryViewModel();
+                model.Id = id;
+
+                //Call API Provider
+                string strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_DELETE);
+                var result = await APIProvider.DynamicTransaction<GalleryViewModel, bool>(model, strUrl);
+
+                if (result)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_DELETE, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_DELETE, ApplicationGenerator.TypeResult.FAIL));
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                return RedirectToAction("Index");
+            }
+        }
+
+        #endregion
+
+        #region Upload
+        public async Task<ActionResult> Store(string parentId)
+        {
+            //Initial
+            GalleryStoreModel store = new GalleryStoreModel();
+
+
+            //Call API Provider
+            string strUrl = APIProvider.APIGenerator(controllerName, new List<string> { "id"}, false, parentId);
+            var gallery = await APIProvider.Get<GalleryViewModel>(strUrl);
+
+            //Call API Provider
+            strUrl = APIProvider.APIGenerator("GalleryStore", new List<string> { "parentId" }, true, parentId);
+            var list = await APIProvider.Get<List<GalleryStoreViewModel>>(strUrl);
+
+            //Uploader
+            GalleryUploader uploader = new GalleryUploader();
+            uploader.Id = gallery.Id;
+            uploader.Title = gallery.Title;
+
+            //Set
+            store.ParentModel = uploader;
+            store.lstGalleryStore = (list == null ? new List<GalleryStoreViewModel>() : list);
+
+            return View(store);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Upload(FormCollection form, List<HttpPostedFileBase> fileUpload)
+        {
+            var parentId = Request.Form["ParentModel.Id"];
+            if (parentId != null && fileUpload != null && fileUpload.Count > 0)
+            {
+               // List<string> data = null;
+               
+                foreach (var item in fileUpload)
+                {
+                    if(item != null)
+                    {
+                        var model = new GalleryStoreViewModel();
+                        model.Id = Guid.NewGuid().ToString();
+                        model.Img = item.FileName;
+                        model.ParentId = parentId;
+
+                        //Call API Provider
+                        string strUrl = APIProvider.APIGenerator("GalleryStore", APIConstant.ACTION_INSERT);
+                        var result = await APIProvider.DynamicTransaction<GalleryStoreViewModel, bool>(model, strUrl);
+                        if (result)
+                        {
+                            var path = Path.Combine(ValueConstant.IMAGE_GALLERY_PATH);
+                            var up = FileManagement.UploadImage(item, path);
+                            if(!up)
+                            {
+                                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, "Có lỗi phát sinh khi upload hình ảnh lên bộ sưu tập: [" + model.Img + "]");
+                                return RedirectToAction("Store", new { parentId = parentId });
+                            }
+                           // data.Add(Path.Combine(path, item.FileName));
+
+                        }
+                        else
+                        {
+                            TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, "Có lỗi phát sinh khi upload hình ảnh lên bộ sưu tập: [" + model.Img + "]");
+                            return RedirectToAction("Store", new { parentId = parentId });
+                        }
+                    }
+                }
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, "Upload hình ảnh thành công. Xin kiểm tra dữ liệu hình ảnh bộ sưu tập bên dưới.");
+            }
+            else
+            {
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, "Không có file được chọn hoặc có lỗi phát sinh khi upload hình ảnh bộ sưu tập.");
+            }
+
+            return RedirectToAction("Store", new { parentId = parentId });
+        }
+        #endregion
+
+        #region Check exist
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<JsonResult> CheckExist(string name, string id)
+        {
+
+            //Call API Provider
+            string strUrl = APIProvider.APIGenerator(controllerName, new List<string> { nameof(id), nameof(name) }, false , id, name.Trim());
+            var isExist = await APIProvider.Get<bool>(strUrl);
+
+            return Json(!isExist, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
+    }
+}

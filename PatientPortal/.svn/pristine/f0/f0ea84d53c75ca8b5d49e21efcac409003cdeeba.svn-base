@@ -1,0 +1,44 @@
+﻿angular.module('spaApp')
+    .controller('DepartmentController', ['$scope', 'Params', 'DepartmentService', 'LoadJsService', '$route',
+        function DepartmentController($scope, Params, DepartmentService, LoadJsService, $route) {
+
+            var Id = $route.current.params.id;
+            DepartmentService.get({ id: Id }, function (data) {
+                $scope.department = data;
+
+                LoadJsService.calJquery();
+                LoadJsService.calJqueryMigrate();
+                LoadJsService.calJqueryBa();
+                LoadJsService.calJqueryUI();
+                LoadJsService.calJqueryEA();
+                LoadJsService.calJqueryCaRoul();
+                LoadJsService.calJquerySliderControl();
+                LoadJsService.calJquerySlider();
+                LoadJsService.calJqueryAccordion();
+                LoadJsService.calJqueryTimeago();
+                LoadJsService.calJqueryHint();
+                LoadJsService.calJqueryIO();
+                LoadJsService.calJqueryIOMas();
+                LoadJsService.calJqueryFanc();
+                LoadJsService.calJqueryQtip();
+                LoadJsService.calJqueryBlockUI();
+
+                $(".scrolling_list_control_left").css("display", "block");
+                $(".scrolling_list_control_right").css("display", "block");
+            });
+            DepartmentService.queryServiceDepartment({ departmentId: Id }, function (data) {
+                $scope.investigateServices = [];
+                $scope.treatmentServices = [];
+                if (data.length > 0) {
+                    for(var i=0; i< data.length; i++){
+                        if (data[i].Category == 1) {
+                            $scope.investigateServices.push(data[i]);
+                        }
+                        else {
+                            $scope.treatmentServices.push(data[i]);
+                        }
+                    }
+                }
+            })
+        }
+    ]);

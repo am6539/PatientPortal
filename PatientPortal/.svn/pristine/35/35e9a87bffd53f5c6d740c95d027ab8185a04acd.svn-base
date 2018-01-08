@@ -1,0 +1,62 @@
+﻿using AutoMapper;
+using PatientPortal.API.CMS.ViewModels;
+using PatientPortal.Domain.Utilities;
+using PatientPortal.IRepository.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+
+namespace PatientPortal.API.CMS.Controllers
+{
+    public class PostController : ApiController
+    {
+        /// <summary>
+        /// Declare variable
+        /// </summary>
+        /// 
+        IPostRepo _postRepo;
+
+        /// <summary>
+        /// Contructor PostController
+        /// </summary>
+        /// <param name="postRepo"></param>
+        public PostController(IPostRepo postRepo)
+        {
+            this._postRepo = postRepo;
+        }
+
+        #region API function
+        // GET: api/Post
+        public IEnumerable<PostListViewModel> GetAll(string languageCode)
+        {
+            var data = _postRepo.GetAll(GlobalVariables.IsTransParameter, languageCode);
+            var results = Mapper.Map<List<PostListViewModel>>(data);
+
+            return results;
+        }
+
+        // GET: api/Post/5
+        public PostViewModel GetById(int PostId)
+        {
+            var data = _postRepo.GetById(PostId, GlobalVariables.ByteTransParameter);
+            var result = Mapper.Map<PostViewModel>(data);
+
+            return result;
+        }
+
+        // POST: api/Post
+        public bool Post(List<PostTransViewModel> data, char action)
+        {
+            var post = Mapper.Map<Domain.Models.CMS.PostEdit>(data);
+            var param = new List<Domain.Models.CMS.PostEdit>();
+            param.Add(post);
+            var result = _postRepo.PostTransaction(param, action);
+
+            return result;
+        }
+        #endregion
+    }
+}

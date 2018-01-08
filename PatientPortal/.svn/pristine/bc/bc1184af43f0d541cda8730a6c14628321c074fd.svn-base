@@ -1,0 +1,30 @@
+﻿appManagement.controller('appointmentController', ['$scope', 'AppointmentService', function ($scope, AppointmentService) {
+    
+    $scope.initAppointment = function () {
+        $scope.renderTimeDefault();
+    }
+
+    //get doctor
+    $scope.getDoctor = function () {
+        AppointmentService.queryDoctor({ search: "", type: 2 }, function (data) {
+            $scope.doctors = data;
+        });
+    }
+    $scope.getDoctor();
+    //Init time 
+    $scope.renderTimeDefault = function () {
+        $scope.giohens = getGioKham();
+    }
+    function getGioKham() {
+        var now = moment().hours(8).minutes(0).seconds(0).milliseconds(0);
+        var max = moment().hours(19).minutes(0).seconds(0).milliseconds(0);
+        var gio = [];
+        var duration = moment.duration({ 'minutes': 15 });
+        now = now.add(duration);
+        while (now < max) {
+            gio.push(now.format('hh:mm'));
+            now = now.add(duration);
+        }
+        return gio;
+    }
+}]);

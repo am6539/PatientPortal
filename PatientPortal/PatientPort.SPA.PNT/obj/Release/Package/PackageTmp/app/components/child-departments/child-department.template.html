@@ -1,0 +1,108 @@
+﻿<style>
+    body {
+        margin: 100px 0;
+        padding: 25px;
+    }
+
+    #footer {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 100px;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    video::-internal-media-controls-download-button {
+        display: none;
+    }
+
+    video::-webkit-media-controls-enclosure {
+        overflow: hidden;
+    }
+
+    video::-webkit-media-controls-panel {
+        width: calc(100% + 30px); /* Adjust as needed */
+    }
+</style>
+<div ng-init="getChildDept()">
+
+    <header id="header">
+        <nav id="main-menu" class="navbar navbar-default navbar-fixed-top" role="banner">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" ng-href="/">
+                        <img src="../../../assets/images/logo.png" alt="Bệnh viện Phạm Ngọc Thạch" style="width:70%;" />
+                    </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right">
+                    <ul class="nav navbar-nav">
+                        <li><a ng-href="/">Trang chủ</a></li>
+                        <!--<li class="scroll"><a href="#features">Tin tức</a></li>-->
+                        <li><a ng-href="/index/services">Dịch vụ</a></li>
+                        <li><a ng-href="/index/portfolio">Chuyên khoa</a></li>
+                        <li><a ng-href="/index/about">Giới thiệu</a></li>
+                        <li><a ng-href="/index/blog">Tin tức</a></li>
+                        <li><a ng-href="/index/get-in-touch">Liên hệ</a></li>
+                        <li><a class="" style="padding-top:33px;" href="/appointment"> <span class="btn btn-success">Đặt lịch khám trực tuyến</span></a></li>
+                    </ul>
+                </div>
+            </div><!--/.container-->
+        </nav><!--/nav-->
+    </header><!--/header-->
+
+    <div class="container">
+
+        <div class="section-header">
+            <p class="text-center wow fadeInDown"></p>
+        </div>
+
+        <div class="row">
+            <div class='col-md-8 col-sm-7 news-home Module Module-255'>
+                <h1 class="module-title">Danh sách phòng ban</h1>
+                <div class="news-home-wrap">
+                    <div class="row news-home-item" ng-repeat="item in depts">
+                        <div class="col-md-3 col-sm-4 img-news-home">
+                            <a class="thumb" href="/detail/{{item.Id}}"
+                               title="{{item.Name}}">
+                                <img src="{{item.Image}}" alt="{{item.Name}}">
+                            </a>
+                        </div>
+                        <div class="col-md-9 col-sm-8 content-news-home">
+                            <h2 class="title">
+                                <a href="/detail/{{item.Id}}"
+                                   title="{{item.Name}}">{{item.Name}}</a>
+                            </h2>{{item.Handler}}
+                            <!--<a class="viewmore" target="_self" href="/post/{{item.Id}}">
+                        Xem thêm &gt;
+                    </a>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-show="Advertises != null">
+            <div class="col-md-9 col-sm-9 col-md-offset-3 col-sm-offset-3">
+                <h4 class="column-title">Quảng cáo</h4>
+                <div ng-repeat="advertise in Advertises">
+                    <div class="col-md-3 col-sm-3">
+                        <a href="#" ng-click="viewVideo(advertise)">
+                            <h6>{{advertise.Name}}</h6>
+                            <span ng-hide="true">{{advertise.Id}}</span><span ng-hide="true">{{advertise.Type}}</span>
+                            <img src="{{advertise.Image}}" class="img-responsive" style="height: 130px" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../../assets/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="../../../assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>

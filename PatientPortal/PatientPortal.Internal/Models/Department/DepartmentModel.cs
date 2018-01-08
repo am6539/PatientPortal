@@ -1,0 +1,55 @@
+﻿using ProtoBuf;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.Internal.Models
+{
+    public class DepartmentModel
+    {
+        public DepartmentViewModel DepartmentViewModel { get; set; }
+        public List<DepartmentViewModel> lstDepartmentViewModel { get; set; }
+    }
+
+    [ProtoContract]
+    public class DepartmentViewModel
+    {
+        public DepartmentViewModel()
+        {
+            Name = Description = Handler = Img = string.Empty;
+            IsUsed = true;
+            Sort = 1;
+        }
+        [ProtoMember(1)]
+        public short Id { get; set; }
+        [ProtoMember(2)]
+        [Display(Name = "Tên khoa")]
+        [Remote("CheckExist", "Department", HttpMethod = "POST", AdditionalFields = "Id", ErrorMessage = "Tên đã tồn tại. Vui lòng nhập lại.")]
+        [Required(ErrorMessage = "Bạn cần nhập tên khoa")]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        public string Name { get; set; }
+        [ProtoMember(3)]
+        [Display(Name = "Giới thiệu")]
+        [Required(ErrorMessage = "Bạn cần nhập nội dung giới thiệu")]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        public string Description { get; set; }
+        [ProtoMember(4)]
+        [Display(Name = "Url")]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        //[Required(ErrorMessage = "Bạn cần chọn đường dẫn thư mục")]
+        public string Handler { get; set; }
+        [ProtoMember(5)]
+        [Display(Name = "Ảnh đại diện")]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        public string Img { get; set; }
+        [ProtoMember(6)]
+        [Display(Name = "Sắp xếp")]
+        public byte Sort { get; set; }
+        [ProtoMember(7)]
+        [Display(Name = "Trạng thái")]
+        public bool IsUsed { get; set; }
+    }
+}

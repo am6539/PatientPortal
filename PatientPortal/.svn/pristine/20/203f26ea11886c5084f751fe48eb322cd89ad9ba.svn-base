@@ -1,0 +1,44 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model List<PatientPortal.Internal.Models.ModuleViewModel>
+<div class="card">
+    <div class="card-title">@Html.ITitle("Chức năng", TitleBar.List)</div>
+    <div class="card-content">
+        <div class="treeview">
+            @if (Model != null && Model.Count() > 0)
+            {
+                <ul>
+                    @GetTreeView(Model, Model.FirstOrDefault().ParentId)
+                </ul>
+            }
+        </div>
+
+        @helper GetTreeView(List<PatientPortal.Internal.Models.ModuleViewModel> siteMenu, short parentID)
+        {
+            foreach (var item in siteMenu.Where(a => a.ParentId == parentID))
+            {
+                    <li>
+                        @{var isHaveChild = siteMenu.Any(a => a.ParentId == item.Id);}
+                        @if (isHaveChild)
+                        {
+                            <span class="collapse collapsible"><i class="fa fa-plus-square-o" aria-hidden="true"></i></span>
+                        }
+                        else
+                        {
+                            <span style="width:15px; display:inline-block"><i class="fa fa-minus-square-o" aria-hidden="true"></i></span>
+                        }
+                        <a href="#" class="viewModule" onclick="viewModule(@item.Id)">
+                            @item.Title
+                        </a>
+                        @Html.IGridButton(@Url.Action("Delete", new { id = item.Id }), ActionButton.Delete, null, new { @class = "pull-right " }, true)
+                        @if (isHaveChild)
+                        {
+                            <ul>
+                                @GetTreeView(siteMenu, item.Id)
+                                @* Recursive  Call for Populate Sub items here*@
+                            </ul>
+                        }
+                    </li>
+                }
+            }
+    </div>
+</div>

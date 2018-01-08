@@ -1,0 +1,38 @@
+﻿using Microsoft.AspNet.Identity;
+using PatientPortal.CMS.Models;
+using System.Threading;
+using System.Web.Mvc;
+
+namespace PatientPortal.CMS.Controllers
+{
+    [Authorize]
+    [AppHandleError]
+    public class HomeController : Controller
+    {
+        public ActionResult Index()
+        {
+            var identity = Thread.CurrentPrincipal.Identity;
+            if (identity == null && HttpContext.User != null)
+            {
+                identity = HttpContext.User.Identity;
+            }
+            var userId = identity.GetUserId();
+
+            return View();
+        }
+
+        public ActionResult About()
+        {
+            ViewBag.Message = "Your application description page.";
+
+            return View();
+        }
+
+        public ActionResult Contact()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+    }
+}

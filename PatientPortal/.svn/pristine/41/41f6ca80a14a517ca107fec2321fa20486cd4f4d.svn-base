@@ -1,0 +1,65 @@
+﻿using AutoMapper;
+using PatientPortal.API.SPA.ViewModels;
+using PatientPortal.IRepository.SPA;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Results;
+
+namespace PatientPortal.API.SPA.Controllers
+{
+    public class DepartmentController : ApiController
+    {
+        private readonly string PATH_IMG_POST = ConfigurationManager.AppSettings["fullPathPost"];
+
+
+        readonly IDepartmentRepo _iDepartmentRepo;
+
+        public DepartmentController(IDepartmentRepo iDepartmentRepo)
+        {
+            this._iDepartmentRepo = iDepartmentRepo;
+        }
+
+        [HttpGet]
+        public HttpResponseMessage GetDepartment(int id)
+        {
+            try
+            {
+                if(id == 0)
+                {
+                    var data = _iDepartmentRepo.GetDepartment(id);
+                    var results = Mapper.Map<List<DepartmentViewModel>>(data);
+                    return Request.CreateResponse(HttpStatusCode.OK, results);
+                }
+                else
+                {
+                    var data = _iDepartmentRepo.GetDepartment(id);
+                    var item = Mapper.Map<List<DepartmentViewModel>>(data).FirstOrDefault();
+                    var results = new List<FileDeptViewModel>();
+                    if (item != null)
+                    {
+                        var fullPath = PATH_IMG_POST + item.Handler.Replace("~", "").Replace(@"\", @"/");
+                        results = Directory.GetFiles(fullPath).Select(x => new FileDeptViewModel
+                        {
+                            Id = item.Id,
+                            Name = item.Name,
+                            Description = item.Description,
+                            Url = Url.Content(fullPath + Path.GetFileName(x))
+                        }).ToList();
+                    }
+
+                    return Request.CreateResponse(HttpStatusCode.OK, results);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+    }
+}

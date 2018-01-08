@@ -1,0 +1,47 @@
+﻿angular.module('spaApp')
+    .controller('AppointmentController', ['$scope', 'Params', 'AppointmentService', 'ModalService',
+        function AppointmentController($scope, Params, AppointmentService, ModalService) {
+            AppointmentService.queryDoctors({ search: "" }, function (data) {
+                $scope.doctors = data;
+            });
+
+            $scope.changeType = function () {
+                if ($scope.typeDoctor == 0) {
+                    $("#choosedoctor").show(500);
+                    $("#doctorSelected").show(500);
+                    $("#searchDoctor").hide(500);
+                    $("#quickviewProfile").hide(500);
+                    $scope.IspassPara = true;
+                }
+                if ($scope.typeDoctor == 2) {
+                    $("#searchDoctor").show(500);
+                    $("#doctorSelected").hide(500);
+                    $("#quickviewProfile").hide(500);
+                    $("#choosedoctor").hide(500);
+                    $scope.IspassPara = true;
+                }
+                if ($scope.typeDoctor == 1) {
+                    $("#searchDoctor").hide(500);
+                    $("#doctorSelected").hide(500);
+                    $("#choosedoctor").hide(500);
+                    $scope.IspassPara = true;
+                }
+            }
+
+            $scope.viewDoctorProfile = function (id) {
+                var startTime = Date.parse(new Date());
+                AppointmentService.queryScheduleExamine({ userId: id, startTime: startTime }, function (data) {
+                    $scope.schedules = data;
+                    //$('#collapseThongTinModal').modal('toggle');
+
+                    //console.log('opening pop up');
+                    //var modalInstance = $uibModal.open({
+                    //    templateUrl: 'doctor_profile.html',
+                    //});
+
+                    ModalService.Open('custom-modal-1');
+
+                });
+            }
+        }
+    ]);

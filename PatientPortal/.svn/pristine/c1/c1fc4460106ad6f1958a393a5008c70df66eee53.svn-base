@@ -1,0 +1,74 @@
+﻿using PatientPortal.DataAccess.Repo.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using PatientPortal.Domain.Models.CMS;
+using System.Transactions;
+using PatientPortal.Domain.Utilities;
+using PatientPortal.DataAccess.Dapper;
+using Dapper;
+using PatientPortal.DataAccess.Repo.Wrapper;
+using System.Threading.Tasks;
+
+namespace PatientPortal.DataAccess.CMS
+{
+    public class PostImpl : IPost
+    {
+        private readonly IAdapterPattern _adapterPattern;
+
+        /// <summary>
+        /// Init
+        /// </summary>
+        /// <param name="adapterPattern"></param>
+        public PostImpl(IAdapterPattern adapterPattern)
+        {
+            this._adapterPattern = adapterPattern;
+        }
+
+        /// <summary>
+        /// Get by condition
+        /// </summary>
+        /// <param name="para"></param>
+        /// <returns></returns>
+        public async Task<PostList> SingleQuery(Dictionary<string, dynamic> para)
+        {
+            return await _adapterPattern.SingleExecuteQuery<PostList>(para, "usp_Post");
+        }
+
+        /// <summary>
+        /// Get all 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<PostList>> Query(Dictionary<string, dynamic> para)
+        {
+            return await _adapterPattern.ExecuteQuery<PostList>(para, "usp_Post");
+        }
+
+        /// <summary>
+        /// Transaction
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public async Task<int> Transaction(PostEdit data, char action)
+        {
+            return await _adapterPattern.SingleTransaction<PostEdit, int>(data, "usp_Post_Transaction", action);
+        }
+
+
+        /// <summary>
+        /// Transaction
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public async Task<bool> Transaction(PostStateHistory data, char action, bool isApprove)
+        {
+            if(isApprove)
+                return await _adapterPattern.SingleTransaction<PostStateHistory, bool>(data, "usp_ApprovePost_Transaction", action, 1, "WorkflowStateId");
+            else
+                return await _adapterPattern.SingleTransaction<PostStateHistory, bool>(data, "usp_PublishPost_Transaction", action, 1, "WorkflowStateId");
+        }
+
+    }
+}

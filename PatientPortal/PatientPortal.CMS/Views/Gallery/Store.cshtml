@@ -1,0 +1,54 @@
+﻿@using PatientPortal.Provider.Helpers;
+@using PatientPortal.CMS.Common;
+@model PatientPortal.CMS.Models.GalleryStoreModel
+@{
+    ViewBag.Title = "Bộ sưu tập";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    <link href="~/Libs/Chosen/css/chosen.css" rel="stylesheet" />
+    <link href="~/Content/checkbox-radio-build.css" rel="stylesheet" />
+}
+<div class="card">
+    @Html.Raw(TempData["Alert"])
+    <div class="card-title">@Html.ITitle(Model.ParentModel.Title, "object-group")</div>
+    <div class="card-content">
+        <div class="col-md-12">
+            @using (Html.IBeginForm("Upload", "Gallery"))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                @Html.HiddenFor(m => m.ParentModel.Id)
+                <div class="col-md-4">
+                    @Html.IFilesUpload()
+                </div>
+                <div class="col-md-8">
+                    @Html.ISubmitButton("Upload") <label><i class="fa fa-image"></i> Kích thước khuyến nghị 400x300 pixels</label>
+                </div>
+            }
+        </div>
+        <div class="col-md-12" style="margin-top:20px; padding:20px 10px 20px 10px; border:4px dotted #dadce1;">
+            @if (Model.lstGalleryStore != null && Model.lstGalleryStore.Count > 0)
+            {
+                foreach (var item in Model.lstGalleryStore)
+                {
+                    <div class="img-thumbnail img-responsive img-gallery">
+                        <img src="@Url.Content(Path.Combine(ValueConstant.IMAGE_GALLERY_PATH, @item.Img))" id="@item.Id" />
+                    </div>
+                }
+            }
+            else
+            {
+                <h4 class="inline-text-info text-center">KHÔNG CÓ HÌNH ẢNH TRONG BỘ SƯU TẬP</h4>
+            }
+        </div>
+    </div>
+</div>
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Libs/Chosen/js/chosen.jquery.min.js"></script>
+    <script type="text/javascript">
+
+    </script>
+}

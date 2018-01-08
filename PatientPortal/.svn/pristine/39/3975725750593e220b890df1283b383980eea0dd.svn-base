@@ -1,0 +1,296 @@
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
+using PatientPortal.API.Identity.Models;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Http;
+
+namespace PatientPortal.API.Identity.Controllers
+{
+    //[PortalAuthorization]
+    [AuthorizeRoles]
+    [RoutePrefix("api/Role")]
+    public class RoleController : ApiController
+    {
+        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationUserManager _userManager;
+        private ApplicationRoleManager _roleManager;
+        private PermissionManager _permissionManager;
+        private PermissionRoleManager _permissionRoleManager;
+
+        #region Initial
+        public PermissionManager PermissionManager
+        {
+            get
+            {
+                return _permissionManager ?? new PermissionManager();
+            }
+            private set
+            {
+                _permissionManager = value;
+            }
+        }
+        public PermissionRoleManager PermissionRoleManager
+        {
+            get
+            {
+                return _permissionRoleManager ?? new PermissionRoleManager();
+            }
+            private set
+            {
+                _permissionRoleManager = value;
+            }
+        }
+        public ApplicationRoleManager RoleManager
+        {
+            get
+            {
+                return _roleManager ?? HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
+            }
+            private set
+            {
+                _roleManager = value;
+            }
+        }
+        #endregion
+
+        public RoleController(PermissionRoleManager permissionRoleManager)
+        {
+            this.PermissionRoleManager = permissionRoleManager;
+        }
+        public RoleController()
+        {
+        }
+        #region Post
+        // POST api/Role/SetRole
+        [Route("SetRole")]
+        public async Task<IHttpActionResult> SetRole(Role role)
+        {
+            if (!ModelState.IsValid || role == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            //Create new object IdentityRole
+            var obj = new IdentityRole();
+            obj.Name = role.Name;
+
+            //Create
+            IdentityResult result = await this.RoleManager.CreateAsync(obj);
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+
+            return Ok();
+        }
+
+        // POST api/Role/UpdateRole
+        [Route("UpdateRole")]
+        public async Task<IHttpActionResult> UpdateRole(Role role)
+        {
+            if (!ModelState.IsValid || role == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            //Create new object IdentityRole
+            var obj = new IdentityRole();
+            obj.Id = role.Id;
+            obj.Name = role.Name;
+
+            //Update
+            IdentityResult result = await this.RoleManager.UpdateAsync(obj);
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+
+            return Ok();
+        }
+
+        // POST api/Role/RemoveRole
+        [Route("RemoveRole")]
+        public async Task<IHttpActionResult> RemoveRole(Role role)
+        {
+            if (!ModelState.IsValid || role == null)
+            {
+                return BadRequest(ModelState);
+            }
+            
+            var item = await this.RoleManager.FindByIdAsync(role.Id);
+
+            //Delete
+            try
+            {
+                ////Remove roleId in PermissionRole
+                await this.PermissionRoleManager.DeletePermissionRoleAsync(role.Id);
+                ////Remove RoleId in Role
+                IdentityResult result = await this.RoleManager.DeleteAsync(item);
+                if (!result.Succeeded)
+                {
+                    return GetErrorResult(result);
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                throw ex.GetBaseException();
+            }
+
+        }
+
+        // POST api/Role/UpdatePermission
+        [Route("UpdatePermission")]
+        public async Task<IHttpActionResult> UpdatePermission(List<PermissionRole> permissions)
+        {
+            if (!ModelState.IsValid || permissions == null || permissions.Count < 1)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Get Role Id
+            var roleId = permissions.FirstOrDefault(p => !(p.RoleId.Length < 1))?.RoleId;
+            if (!string.IsNullOrEmpty(roleId))
+            {
+                try
+                {
+                    //Delete
+                    var delete = await this.PermissionRoleManager.DeletePermissionRoleAsync(roleId);
+                    if (!delete.Succeeded)
+                    {
+                        return GetErrorResult(delete);
+                    }
+
+                    //Insert
+                    var insert = await this.PermissionRoleManager.InsertPermissionRoleAsync(permissions);
+                    if (!insert.Succeeded)
+                    {
+                        return GetErrorResult(insert);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex.GetBaseException();
+                }
+            }
+
+            return Ok();
+        }
+        #endregion
+
+        #region Get
+        // GET api/Role/GetAll
+        [Route("GetAll")]
+        public async Task<List<Role>> GetAll()
+        {
+            List<Role> roles = await this.RoleManager.Roles.Select(r => new Role { Id = r.Id, Name = r.Name }).ToListAsync();
+            return roles;
+        }
+        [HttpGet]
+        // GET api/Role/Info
+        [Route("Info")]
+        public async Task<Role> Info(string id)
+        {
+            //Get Identity Role by Id
+            var result = await this.RoleManager.FindByIdAsync(id);
+
+            //Create new role by view model
+            Role role = new Role();
+            role.Id = result.Id;
+            role.Name = result.Name;
+
+            return role;
+        }
+
+        [HttpGet]
+        // GET api/Role/Permissions
+        [Route("Permissions")]
+        public async Task<List<PermissionViewModel>> Permissions(string id)
+        {
+            try
+            {
+                //Non-Used
+                List<PermissionViewModel> nonUsedList = await this.PermissionManager.Permissions.
+                    Where(u => !u.PermissionRoles.Any(r => r.RoleId == id)).
+                    Select(p => new PermissionViewModel
+                    {
+                        Id = p.Id, Name = p.Name, Description = p.Description, IsUsed = false, RoleId = id
+                    }).ToListAsync();
+                //Used
+                List<PermissionViewModel> usedList = await this.PermissionManager.Permissions.
+                    Where(u => u.PermissionRoles.Any(r => r.RoleId == id)).
+                    Select(p => new PermissionViewModel
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                        Description = p.Description,
+                        IsUsed = true,
+                        RoleId = id
+                    }).ToListAsync();
+                return (usedList.Union(nonUsedList).ToList());
+            }
+            catch (Exception ex)
+            {
+                throw ex.GetBaseException();
+            }
+        }
+        #endregion
+
+        #region Helper
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && _userManager != null)
+            {
+                _userManager.Dispose();
+                _userManager = null;
+            }
+
+            if (disposing && _roleManager != null)
+            {
+                _roleManager.Dispose();
+                _roleManager = null;
+            }
+
+            base.Dispose(disposing);
+        }
+
+        private IHttpActionResult GetErrorResult(IdentityResult result)
+        {
+            if (result == null)
+            {
+                return InternalServerError();
+            }
+
+            if (!result.Succeeded)
+            {
+                if (result.Errors != null)
+                {
+                    foreach (string error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error);
+                    }
+                }
+
+                if (ModelState.IsValid)
+                {
+                    // No ModelState errors are available to send, so just return an empty BadRequest.
+                    return BadRequest();
+                }
+
+                return BadRequest(ModelState);
+            }
+
+            return null;
+        }
+        #endregion
+    }
+}

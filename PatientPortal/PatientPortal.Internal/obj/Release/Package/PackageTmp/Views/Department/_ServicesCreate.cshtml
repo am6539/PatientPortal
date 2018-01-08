@@ -1,0 +1,24 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.Internal.Models.DepartmentServicesViewModel
+@{ string departmentName = ViewData["Department"].ToString();}
+<div class="card">
+    <div class="card-title">
+        @Html.ITitle(departmentName, "hospital-o","h5")
+    </div>
+    <div class="card-content">
+        @using (Html.IBeginForm("ServicesCreate", "Department"))
+            {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            @Html.IGroupSubmitButton("Thêm dịch vụ", true, true, null, null, 3)
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.DepartmentId)
+            @Html.IGroupTextBoxFor(m => m.Name, true, "Tên dịch vụ", null, 12)
+            @Html.IGroupTextBoxFor(m => m.Price, true, 12)
+            @Html.IGroupDropDownListFor(m => m.Category, new SelectList(new[] {
+                new SelectListItem { Text = "Xét nghiệm, chuẩn đoán", Value = "1"},
+                new SelectListItem { Text = "Điều trị", Value = "2" }}, "Value", "Text"), false, null, null, 12)
+            }
+        </div>
+    </div>

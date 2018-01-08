@@ -1,0 +1,74 @@
+﻿angular.module('spaApp')
+    .controller('PostsController', ['$scope', 'PostService', 'CategoryService', 'PagerService', 'Params', '$route',
+        function PostsController($scope, PostService, CategoryService, PagerService, Params, $route) {
+            $scope.pager = {};
+            var Id = $route.current.params.id;
+
+            $scope.setPage = function (page) {
+                var categoryId = 0
+                if (Id != null) {
+                    categoryId = Id;
+                }
+
+                var para = { languageCode: 'vi', pageIndex: page, numberInPage: Params.numberPerPage, priority: Params.newpriority, categoryId: categoryId, Search: $scope.searchValue };
+
+                PostService.queryPostPaging(para, function (data) {
+                    if (data != null) {
+                        $scope.newposts = data.PostListViewModels;
+                        $scope.totalItems = data.TotalItem;
+
+                        if (page < 1 || (page > $scope.pager.totalPages && $scope.pager.totalPages != null)) {
+                            return;
+                        }
+
+                        // get pager object from service
+                        $scope.pager = PagerService.GetPager($scope.totalItems, page, Params.numberPerPage);
+                        $scope.pager.totalPages = $scope.pager.totalPages;
+                    }
+
+                });
+
+                CategoryService.queryNewsCategory({ parentId: Id }, function (data) {
+                    $scope.childCategories = data;
+                });
+            }
+
+            function queryPostPaging(page, categoryId) {
+                var para = { languageCode: 'vi', pageIndex: page, numberInPage: Params.numberPerPage, priority: Params.newpriority, categoryId: categoryId, Search: $scope.searchValue };
+
+                PostService.queryPostPaging(para, function (data) {
+                    if (data != null) {
+                        $scope.newposts = data.PostListViewModels;
+                        $scope.totalItems = data.TotalItem;
+
+                        if (page < 1 || (page > $scope.pager.totalPages && $scope.pager.totalPages != null)) {
+                            return;
+                        }
+
+                        // get pager object from service
+                        $scope.pager = PagerService.GetPager($scope.totalItems, page, Params.numberPerPage);
+                        $scope.pager.totalPages = $scope.pager.totalPages;
+                    }
+
+                });
+            }
+
+            $scope.setPage(1);
+
+            PostService.queryPost({ languageCode: 'vi', priority: Params.hotpriority, categoryId: Params.postParentCategoryId }, function (data) {
+                $scope.hotposts = data;
+            });
+
+            PostService.queryPost({ languageCode: 'vi', priority: Params.focuspriority, categoryId: Params.postParentCategoryId }, function (data) {
+                $scope.focusposts = data;
+            });
+
+            CategoryService.queryNewsCategory({ parentId: Params.postParentCategoryId}, function (data) {
+                $scope.categories = data;
+            });
+
+            $scope.doSearch = function () {
+                $scope.setPage(1);
+            }
+        }
+]);

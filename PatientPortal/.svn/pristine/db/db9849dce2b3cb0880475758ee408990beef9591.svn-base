@@ -1,0 +1,77 @@
+﻿using AutoMapper;
+using PatientPortal.API.SPA.ViewModels;
+using PatientPortal.IRepository.SPA;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Http;
+
+namespace PatientPortal.API.SPA.Controllers
+{
+    public class FeatureController : ApiController
+    {
+        private readonly IFeatureRepo _iFeatureRepo;
+        private readonly string PATH_IMG = ConfigurationManager.AppSettings["web:cms"];
+        public FeatureController(IFeatureRepo iFeatureRepo)
+        {
+            this._iFeatureRepo = iFeatureRepo;
+        }
+
+        [HttpGet]
+        public async Task<HttpResponseMessage> Get()
+        {
+            try
+            {
+                List<string> list = new List<string> { "Id" };
+                var para = APIProvider.APIDefaultParameter(list, 0);
+
+                var data = await _iFeatureRepo.Query(para);
+                var listFeatures = Mapper.Map<List<FeatureViewModel>>(data);
+                var results = new List<FeatureViewModel>();
+                foreach (var item in listFeatures)
+                {
+                    var feature = new FeatureViewModel
+                    {
+                        Id = item.Id,
+                        Title = item.Title,
+                        Image = PATH_IMG + item.Image.Replace("~", "").Replace(@"\", @"/").Replace(@" ", "%20"),
+                        Description = item.Description,
+                        Handler = item.Handler,
+                        IsUsed = item.IsUsed
+                    };
+                    results.Add(feature);
+                }
+                return Request.CreateResponse(HttpStatusCode.OK, results);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public async Task<HttpResponseMessage> Get(byte id)
+        {
+            List<string> list = new List<string> { "Id" };
+            var para = APIProvider.APIDefaultParameter(list, id);
+
+            var data = await _iFeatureRepo.SingleQuery(para);
+            var result = new FeatureViewModel
+            {
+                Id = data.Id,
+                Title = data.Title,
+                Image = PATH_IMG + data.Image.Replace("~", "").Replace(@"\", @"/").Replace(@" ", "%20"),
+                Description = data.Description,
+                Handler = data.Handler,
+                IsUsed = data.IsUsed
+            };
+
+            return Request.CreateResponse(HttpStatusCode.OK, result); ;
+        }
+    }
+}

@@ -1,0 +1,75 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.Internal.Models.OfferAdviseViewModel
+@{
+    ViewBag.Title = "Góp ý xây dựng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    <link href="~/Libs/jquery-ui/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Libs/TagIt/css/jquery.tagit.css" rel="stylesheet" />
+    <link href="~/Content/checkbox-radio-build.css" rel="stylesheet" />
+}
+<div class="card">
+    @Html.Raw(TempData["Alert"])
+    <div class="card-title">@Html.ITitle("Tiếp nhận thư góp ý xây dựng","comments-o","h5")</div>
+    <div class="card-content">
+        @using (Html.IBeginForm("Edit", "OfferAdvise"))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            @Html.IGroupSubmitButton("Tiếp nhận thông tin", true, true, null, null, 3, Url.Action("Index"))
+            @Html.HiddenFor(m => m.Id)
+         
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.ITextAreaFor(m => m.Detail, 10, "Nội dung góp ý", new {@readonly = "readonly" })
+                    @Html.IValidationMessageFor(m => m.Detail)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.LabelFor(m => m.Tag, new { @class = "badge" })
+                    <ul id="myTags">
+                        @if (ViewBag.Tags != null)
+                        {
+                            var tags = ViewBag.Tags.Split(';');
+                            for (var i = 0; i < tags.Length; i++)
+                            {
+                                <li> @tags[i] </li>
+                            }
+                        }
+                    </ul>
+                    @Html.IValidationMessageFor(m => m.Tag)
+                    @Html.IRadioButtonFor(m => m.Status, "Status1", "Duyệt", 2)
+                    @Html.IRadioButtonFor(m => m.Status, "Status2", "Không duyệt", 3)
+
+                    @*<div class="checkbox checkbox-info">
+                        @Html.CheckBoxFor(m => m.Status, new { @class = "styled" })<label for="Status"></label>
+                    </div>*@
+
+                    @Html.IGroupTextAreaFor(m => m.Message, true, 5, "Nội dung phản hồi", null, 12)
+                    @*@Html.IValidationMessageFor(m => m.Message)*@
+                    @Html.HiddenFor(m => m.Tag)
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("#myTags").tagit();
+        $("#myTags").focusout(function (e) {
+            var arrayTag = $("#myTags").tagit("assignedTags");
+            var tags = "";
+            for (var index = 0; index < arrayTag.length; ++index) {
+                tags = tags + (tags == "" ? "" : ";") + arrayTag[index];
+            }
+            $("#Tag").val(tags);
+            return true;
+        });
+    });
+    </script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Libs/TagIt/js/tag-it.js"></script>
+}

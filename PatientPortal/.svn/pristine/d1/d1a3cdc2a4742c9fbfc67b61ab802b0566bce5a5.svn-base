@@ -1,0 +1,30 @@
+﻿'use strict';
+
+angular.
+module('spaApp').
+config(['$routeProvider', '$locationProvider', '$logProvider', '$compileProvider', '$stateProvider', function ($routeProvider, $locationProvider, $logProvider, $compileProvider, $stateProvider) {
+    $logProvider.debugEnabled(true);
+    $locationProvider.html5Mode(true).hashPrefix('!'); //the hashPrefix is for SEO
+    $compileProvider.debugInfoEnabled(false);
+    $routeProvider
+        //.when('/', {
+        //    template: '<home-page></home-page>'
+        //})
+        .when('/about', {
+            template: '<about></about>'
+        })
+        .otherwise('/');
+
+    $stateProvider
+    .state('homepage', {
+        url: "/",
+        //component: "homePage",
+        resolve: {
+        loadMyService: ['$ocLazyLoad', function($ocLazyLoad) {
+            return $ocLazyLoad.load('app/js/jquery.carouFredSel-5.6.4-packed.js', 'app/js/jquery.sliderControl.js');
+        }]
+    },
+    templateUrl: "app/home-page/home-page.template.html"
+    })
+
+}]);

@@ -1,0 +1,59 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CORE;
+using System.Transactions;
+using PatientPortal.DataAccess.Dapper;
+using Dapper;
+using PatientPortal.Domain.Utilities;
+using PatientPortal.DataAccess.Repo.CORE;
+
+namespace PatientPortal.DataAccess.CORE
+{
+    public class OrganizationImpl : IOrganization
+    {
+        public List<Organization> Query()
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    DapperConfiguration.OpenConnection(2);
+
+                    var data = DapperConfiguration.db.Query<Organization>("usp_Organization", commandType: System.Data.CommandType.StoredProcedure).ToList();
+
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Appointment get data: " + ex.Message);
+                    return null;
+                }
+            }
+        }
+
+        public bool Transaction(List<Organization> data, char action)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    var val = new Lib.DataGenerator().CommitData<Organization>(data, "usp_Organization_Transaction", action, 2);
+                    scope.Complete();
+                    return val;
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Appointment Transaction: " + ex.Message);
+                    return false;
+                }
+            }
+        }
+    }
+}

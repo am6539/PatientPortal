@@ -1,0 +1,36 @@
+﻿@model PatientPortal.PatientServices.Models.Article.ArticleCommentViewModel
+
+<div>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+</div>
+
+@using (Html.BeginForm("EditComment", "Article", FormMethod.Post, new { @class = "modal-form form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.ArticleId)
+    <div class="modal-body">
+        <div class="row-fluid">
+            <div class="control-group">
+                <div class="form-group">
+                    <label for="Detail" class="col-sm-2 control-label">Nội dung</label>
+                    <div class="col-sm-10">
+                        @Html.TextAreaFor(m => m.Detail, new { @id = "Detail", @class = "form-control", @rows = "5" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-success">Cập nhật</button>
+        <button class="btn" type="button" id="btn-dismiss" data-dismiss="modal" aria-hidden="true">Hủy bỏ</button>
+    </div>
+}
+<script type="text/javascript">
+    $(function () {
+        $('#btn-dismiss').click(function () {
+            $('#modal-container').modal('hide');
+        });
+    });
+</script>

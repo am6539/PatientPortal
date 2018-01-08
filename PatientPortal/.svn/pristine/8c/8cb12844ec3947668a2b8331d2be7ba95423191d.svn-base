@@ -1,0 +1,28 @@
+﻿@model PatientPortal.CMS.Models.SliderModel
+@{
+    ViewBag.Title = "Slide";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+
+<link href="~/Content/checkbox-radio-build.css" rel="stylesheet" />
+}
+<div class="card">
+    @Html.Raw(TempData["Alert"])
+    <div class="card-title">@ViewBag.Title</div>
+    <div class="card-content">
+        <div class="col-md-5">
+            <div id="panelAdd">
+                @Html.Partial("_Create", Model.SliderViewModel)
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div id="panelList">
+                @Html.Partial("_List", Model.lstSliderViewModel)
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}

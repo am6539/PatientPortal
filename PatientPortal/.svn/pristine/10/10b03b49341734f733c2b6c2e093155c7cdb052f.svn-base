@@ -1,0 +1,88 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using PatientPortal.Internal.Models;
+using PatientPortal.Internal.Models.Schedule;
+using PatientPortal.Internal.Utility;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+
+namespace PatientPortal.Internal.Controllers
+{
+    [Authorize]
+    public class AppointmentController : Controller
+    {
+        // GET: Appointment
+        public async Task<ActionResult> Index()
+        {
+            const string apiUrl = "AppointmentLog";
+            var model = await APIProvider.Get<List<AppointmentLogViewModel>>(apiUrl, APIConstant.API_Resource_CORE);
+            if (model != null)
+            {
+                foreach (var item in model)
+                {
+                    //HACK: No loop item here, using store procedure/relation table to set StatusName, PhysicianName
+                    item.StatusName = (item.Status == 1) ? "Mới đặt hẹn" : (item.Status == 2) ? "Đã khám" : (item.Status == 3) ? "Đã hủy" : "";
+                    var physician = await GetPhysician(item.PhysicianId);
+                    item.PhysicianName = physician.Name;
+                }
+            }
+            return View(model);
+        }
+
+        private async Task<UserViewModel> GetPhysician(string physicianId)
+        {
+            var id = physicianId;
+            var apiUrl = APIProvider.APIGenerator("User", new List<string> { nameof(id) }, false, id);
+            var doctor = await APIProvider.Get<UserViewModel>(apiUrl, APIConstant.API_Resource_Authencation);
+            if (doctor == null) doctor = ApplicationHelper.GetObject<UserViewModel>();
+            return doctor;
+        }
+
+        public async Task<ActionResult> Details(Guid id)
+        {
+            var apiUrl = "AppointmentLog/" + id;
+            var model = await APIProvider.Get<AppointmentLogViewModel>(apiUrl, APIConstant.API_Resource_CORE);
+            if (model != null)
+            {
+                model.StatusName = (model.Status == 1) ? "Mới đặt hẹn" : (model.Status == 2) ? "Đã khám" : (model.Status == 3) ? "Đã hủy" : "";
+                var physician = await GetPhysician(model.PhysicianId);
+                model.PhysicianName = physician.Name;
+
+                var result = TimeSpan.FromMinutes(model.Time);
+                var fromTimeString = result.ToString("hh':'mm");
+                model.TimeString = fromTimeString;
+            }
+            return PartialView(model);
+        }
+
+        public async Task<ActionResult> SearchAppointment(int? status, DateTime? fromDate, DateTime? toDate)
+        {
+            long fDate = 0;
+            long tDate = 0;
+            if (fromDate != null)
+            {
+                fDate = fromDate.Value.Ticks;
+            }
+            if (toDate != null)
+            {
+                tDate = toDate.Value.Ticks;
+            }
+            var apiUrl = $"AppointmentLog?status={status}&fromDate={fDate}&toDate={tDate}";
+            var model = await APIProvider.Get<AppointmentLogViewModel>(apiUrl, APIConstant.API_Resource_Authencation);
+            return PartialView("Details", model);
+        }
+
+        public async Task<ActionResult> ConfirmAppointment(AppointmentLogViewModel item)
+        {
+            var strUrl = APIProvider.APIGenerator("AppointmentLog", "Confirm", APIConstant.ACTION_UPDATE);
+            var result = await APIProvider.DynamicTransaction<AppointmentLogViewModel, bool>(item, strUrl, APIConstant.API_Resource_CORE);
+            if (result)
+            {
+                
+            }
+            return RedirectToAction("Index");
+        }
+    }
+}

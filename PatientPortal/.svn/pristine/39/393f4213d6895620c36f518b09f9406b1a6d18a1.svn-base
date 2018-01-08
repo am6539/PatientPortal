@@ -1,0 +1,105 @@
+﻿using PatientPortal.DataAccess.Repo.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using PatientPortal.Domain.Models.CMS;
+using System.Transactions;
+using PatientPortal.Domain.Utilities;
+using PatientPortal.DataAccess.Dapper;
+using Dapper;
+using PatientPortal.DataAccess.Repo.Wrapper;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CMS.Report;
+using PatientPortal.Domain.Caching.Redis.StackExchange;
+using PatientPortal.Domain.Common;
+using System.Diagnostics;
+
+namespace PatientPortal.DataAccess.CMS
+{
+    public class PostImpl : IPost
+    {
+        private readonly IAdapterPattern _adapterPattern;
+        private RedisCacheService _redis;
+
+        /// <summary>
+        /// Init
+        /// </summary>
+        /// <param name="adapterPattern"></param>
+        public PostImpl(IAdapterPattern adapterPattern)
+        {
+            this._adapterPattern = adapterPattern;
+            this._redis = new RedisCacheService();
+        }
+
+        /// <summary>
+        /// Get by condition
+        /// </summary>
+        /// <param name="para"></param>
+        /// <returns></returns>
+        public async Task<Post> SingleQuery(Dictionary<string, dynamic> para)
+        {
+            var cache = await _redis.GetAsync<Post>(para[ValueConstant.DefaultKeyObject]);
+            if(cache == null)
+            {
+                return await _adapterPattern.SingleExecuteQuery<Post>(para, "usp_Post");
+            }
+            return cache;
+        }
+
+        /// <summary>
+        /// Get all 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<PostList>> Query(Dictionary<string, dynamic> para)
+        {
+            var cache = await _redis.GetListAsync<PostList>();
+
+            if (cache == null || cache.Count() < 1)
+            {
+                var data = await _adapterPattern.ExecuteQuery<PostList>(para, "usp_Post");
+                _redis.AddList<PostList>(data);
+
+                return data;
+            }
+            return cache;
+            //var data = await _adapterPattern.ExecuteQuery<PostList>(para, "usp_Post");
+            //_redis.AddList<PostList>(data);
+
+            //return data;
+        }
+
+
+        /// <summary>
+        /// Get all 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<DashboardCounter>> Counter(Dictionary<string, dynamic> para)
+        {
+            return await _adapterPattern.ExecuteQuery<DashboardCounter>(para, "usp_Dashboard_Counter");
+        }
+
+        /// <summary>
+        /// Transaction
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public async Task<int> Transaction(PostEdit data, char action)
+        {
+            return await _adapterPattern.SingleTransaction<PostEdit, int>(data, "usp_Post_Transaction", action);
+        }
+
+
+        /// <summary>
+        /// Transaction
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public async Task<bool> Transaction(PostStateHistory data, char action)
+        {
+            return await _adapterPattern.SingleTransaction<PostStateHistory, bool>(data, "usp_Post_WorkflowState_Transaction", action);
+        }
+
+    }
+}

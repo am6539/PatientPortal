@@ -1,0 +1,352 @@
+﻿using PatientPortal.CMS.Models;
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Configuration;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Linq.Dynamic;
+using PatientPortal.CMS.Common;
+using System.Threading.Tasks;
+using System.IO;
+using PatientPortal.Provider.Models;
+using PatientPortal.Provider.Common;
+using PatientPortal.Utility.Files;
+using PatientPortal.Utility.Application;
+using PatientPortal.Domain.LogManager;
+
+namespace PatientPortal.CMS.Controllers
+{
+    public class CMSPostController : Controller
+    {
+        private static string controllerName = string.Empty;
+        private static string controllerPost = "Post";
+        private static string controllerCategory = "Category";
+
+        #region Get
+        // GET: Post
+        [HttpGet]
+        public async Task<ActionResult> Index(PostFilterViewModel param)
+        {
+            try
+            {
+                param.LanguageCode = ConfigurationManager.AppSettings["AdminLanguageCode"];
+                if (param.WorkflowStateId == 0)
+                    param.WorkflowStateId = ValueConstant.WORK_STATE_ID_DRAFF;
+
+                //Category
+                controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                var listCatg = await APIProvider.Get<List<CategoryViewModel>>("Category", APIConstant.API_Resource_CMS);
+
+                ViewBag.CategoryId = listCatg;
+
+                //WorkflowState
+                var lstWorkState = await APIProvider.Get<List<WorkflowStateViewModel>>("WorkflowState", APIConstant.API_Resource_CMS);
+                ViewBag.WorkStateId = lstWorkState;
+
+
+                //Post
+                var lstPost = await APIProvider.Get<List<PostListViewModel>>("Post", "GetAll", param, APIConstant.API_Resource_CMS);
+                param.PostListViewModel = lstPost;
+
+                return View(param);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw;
+            }
+        }
+        #endregion
+
+        #region Create
+        // GET: Post/Create
+        public async Task<ActionResult> Create()
+        {
+            var listPri = new InitPriority();
+            ViewBag.Priorities = listPri.InitItemPriority();
+
+            var listCatg = await APIProvider.Get<List<CategoryViewModel>>(controllerCategory, APIConstant.API_Resource_CMS);
+            ViewBag.Categories = listCatg;
+
+            var model = new PostViewModel();
+            model.MetaRobotFollow = model.MetaRobotIndex = model.MetaRobotAdvanced = 1;
+            model.PublishDate = DateTime.Now;
+            model.Status = 1;
+
+            return View(model);
+        }
+        
+        // POST: Post/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create(PostViewModel model, HttpPostedFileBase fileUpload)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    string name = string.Empty;
+                    if (fileUpload != null)
+                    {
+                        string imagePath = CreateFolder();
+                        FileManagement.UploadImage(fileUpload, imagePath, ref name);
+                    }
+                    else
+                    {
+                        name = ValueConstant.PATH_IMAGE_DEFAULT;
+                    }
+
+                    model.Image = name;
+                    model.LanguageId = ValueConstant.LANG_VIETNAM;
+                    model.WorkflowStateId = ValueConstant.WORK_STATE_ID_DRAFF;
+
+                    var _status = model.Status;
+
+                    //Call API Provider 
+                    string strUrl = APIProvider.APIGenerator(controllerPost, "PostTrans", APIConstant.ACTION_INSERT);
+                    var result = await APIProvider.DynamicTransaction<PostViewModel, int>(model, strUrl);
+
+                    if (result > 0) //Id has a value
+                    {
+                        TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.SUCCESS));
+
+                        if (_status == (int)ValueConstant.POST_STATUS.DRAFT) //Status is Draft
+                        {
+                            return RedirectToAction("Edit", new { Id = result });
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index");
+                        }
+                    }
+                    else //Default null data
+                    {
+                        ViewBag.Tags = model.Tag;
+
+                        var listPri = new InitPriority();
+                        ViewBag.Priorities = listPri.InitItemPriority();
+
+                        var listCatg = await APIProvider.Get<List<CategoryViewModel>>(controllerCategory);
+                        ViewBag.Categories = listCatg;
+
+                        TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                        return View(model);
+                    }
+                }
+                catch(Exception ex)
+                {
+                    Logger.LogError(ex);
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ERROR, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.ERROR));
+                    return RedirectToAction("Index");
+                }
+            }
+            else
+            {
+                ViewBag.Tags = model.Tag;
+
+                var listPri = new InitPriority();
+                ViewBag.Priorities = listPri.InitItemPriority();
+
+                var listCatg = await APIProvider.Get<List<CategoryViewModel>>(controllerCategory);
+                ViewBag.Categories = listCatg;
+
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                return View(model);
+            }
+        }
+
+        private string CreateFolder()
+        {
+            try
+            {
+                string nameFolder = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString("00") + DateTime.Now.Day.ToString("00");
+                string path = ValueConstant.IMAGE_PATH + ValueConstant.IMAGE_POST_PATH + nameFolder;
+                string mapPath = Server.MapPath(path);
+                if (!Directory.Exists(mapPath))
+                {
+                    Directory.CreateDirectory(mapPath);
+                    return path;
+                }
+                else
+                    return path;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        #endregion
+
+        #region Edit
+        // GET: Post/Edit/5
+        public async Task<ActionResult> Edit(int id)
+        {
+            try
+            {
+                var listPri = new InitPriority();
+                ViewBag.Priorities = listPri.InitItemPriority();
+
+                //Call API Provider
+                string strUrl = APIProvider.APIGenerator(this, this.RouteData.Values["action"].ToString(), id);
+                var model = await APIProvider.Get<PostViewModel>(controllerPost + strUrl);
+
+                if (string.IsNullOrEmpty(model.Image))
+                {
+                    model.Image = ValueConstant.IMAGE_PATH + ValueConstant.IMAGE_POST_PATH + ValueConstant.IMAGE_DEFAULT;
+                }
+                var listCatg = await APIProvider.Get<List<CategoryViewModel>>(controllerCategory);
+                 ViewBag.Categories = listCatg;
+
+                if (model.Tag != string.Empty)
+                    ViewBag.Tags = model.Tag;
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw;
+            }
+        }
+        
+        // POST: Post/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(PostViewModel model, HttpPostedFileBase fileUpload)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        if (fileUpload != null)
+                        {
+                            if (string.IsNullOrEmpty(model.Image) || model.Image == ValueConstant.IMAGE_DEFAULT)
+                            {
+                                string imagePath = CreateFolder();
+                                string name = "";
+                                FileManagement.UploadImage(fileUpload, imagePath, ref name);
+                                model.Image = name;
+                            }
+                            else
+                            {
+                                string name = "";
+                                string directory = Path.GetDirectoryName(model.Image);
+                                FileManagement.UploadImage(fileUpload, directory, ref name);
+                                model.Image = name;
+                            }
+                        }
+                        model.LanguageId = ValueConstant.LANG_VIETNAM;
+                        model.Status = 1;
+                        model.ModifiedBy = ValueConstant.TEMP_USERID;
+
+                        var _status = model.Status;
+
+                        //Call API Provider 
+                        string strUrl = APIProvider.APIGenerator(controllerPost ,"PostTrans", APIConstant.ACTION_UPDATE);
+                        var result = await APIProvider.DynamicTransaction<PostViewModel, int>(model, strUrl);
+
+                        if (result > 0) //Id has a value
+                        {
+                            if (_status == (int)ValueConstant.POST_STATUS.DRAFT) //Status is Draft
+                            {
+                                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.SUCCESS));
+                                return RedirectToAction("Edit", new { Id = result });
+                            }
+                            else if(_status == (int)ValueConstant.POST_STATUS.TRASH)
+                            {
+                                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_DELETE, ApplicationGenerator.TypeResult.SUCCESS));
+                                return RedirectToAction("Index");
+                            }
+                            else
+                            {
+                                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.SUCCESS));
+                                return RedirectToAction("Index");
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.Tags = model.Tag;
+
+                            var listPri = new InitPriority();
+                            ViewBag.Priorities = listPri.InitItemPriority();
+
+                            var listCatg = await APIProvider.Get<List<CategoryViewModel>>(controllerCategory);
+                            ViewBag.Categories = listCatg;
+
+                            TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.FAIL));
+                            return View(model);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.LogError(ex);
+                        TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ERROR, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.ERROR));
+                        return View();
+                    }
+                }
+                else
+                {
+                    ViewBag.Tags = model.Tag;
+
+                    var listPri = new InitPriority();
+                    ViewBag.Priorities = listPri.InitItemPriority();
+
+                    var listCatg = await APIProvider.Get<List<CategoryViewModel>>(controllerCategory);
+                    ViewBag.Categories = listCatg;
+
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.FAIL));
+                    return View(model);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw;
+            }
+        }
+        #endregion
+
+        #region Delete
+        // POST: Post/Delete/5
+        [HttpPost]
+        public async Task<ActionResult> Delete(int id)
+        {
+            try
+            {
+                var model = new PostViewModel();
+                model.Id = id;
+                model.ExpiredDate = DateTime.Now;
+
+                //Call API Provider
+                string strUrl = APIProvider.APIGenerator(this, this.RouteData.Values["action"].ToString(), id);
+                var result = await APIProvider.Get<PostViewModel>(controllerPost + strUrl);
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                return View();
+            }
+        }
+
+        public ActionResult Delete(PostListViewModel model)
+        {
+            try
+            {
+                return PartialView("_Delete", model);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw;
+            }
+        }
+
+        #endregion
+    }
+}

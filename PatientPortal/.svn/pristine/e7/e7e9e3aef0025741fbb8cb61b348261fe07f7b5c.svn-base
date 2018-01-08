@@ -1,0 +1,41 @@
+﻿
+@model PatientPortal.CMS.Models.WorkflowStateViewModel
+
+@using (Html.BeginForm("Create", "WorkflowState", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="form-group" style="display: none">
+        @Html.LabelFor(m => m.Id, new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.Id, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.WorkflowId, new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.DropDownListFor(m => m.WorkflowId, new SelectList(ViewBag.WorkflowId, "Id", "Name"), " ", new { @class = "chosen-select", @data_placeholder = " --- Chọn workflow --- ", required = "required" })
+            @Html.ValidationMessageFor(m => m.WorkflowId, null, new { @class = "field-validation-error" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @placeholder = "Nhập tên nhóm bài viết" })
+            @Html.ValidationMessageFor(model => model.Name, null, new { @class = "field-validation-error" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.IsActive, new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.CheckBoxFor( m => m.IsActive, new { @checked = "checked" } )
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3"></label>
+        <div class="col-md-9">
+            <button type="submit" class="btn btn-success btn-sm" style="width:100%;"><i class="fa fa-check" aria-hidden="true"></i> Thêm chuyên mục</button>
+        </div>
+    </div>
+}

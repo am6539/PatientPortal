@@ -1,0 +1,42 @@
+﻿<!-- Modal -->
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h4 class="modal-title">Chọn thư mục</h4>
+</div>
+<div class="modal-body">
+    <div id="container">
+        <div id="treeFolder">
+
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" id="btnSelFolder" class="btn btn-success btn-sm" ><i class="fa fa-check" aria-hidden="true"></i> Chọn</button>
+    <button type="button" id="btnCancel" class="btn btn-default btn-sm" data-dismiss="modal"><i class="fa fa-long-arrow-right"></i>Hủy</button>
+</div>
+
+
+@section scripts{
+    <script>
+        var url = '';
+
+        $('#treeFolder')
+                .on('changed.jstree', function (e, data) {
+                    var i, j, r = [];
+                    for (i = 0, j = data.selected.length; i < j; i++) {
+                        r.push(data.instance.get_node(data.selected[i]).id);
+                    }
+
+                    url = r.join(', ');
+                })
+
+        $('#btnSelFolder').click(function () {
+            $('#txtUrl').show("slow");
+            $('#txtUrl').val(url);
+        })
+
+        $('#btnCancel').click(function () {
+            $('#modal-container').modal('hide');
+        });
+    </script>
+    }

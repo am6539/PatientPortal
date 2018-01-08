@@ -1,0 +1,30 @@
+﻿using PatientPortal.IRepository.CORE;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CORE;
+using PatientPortal.DataAccess.Repo.Core;
+
+namespace PatientPortal.Repositoty.CORE
+{
+    public class AppointmentRepoImpl : IAppointmentRepo
+    {
+        IAppointment _appointment;
+        public AppointmentRepoImpl(IAppointment appointment)
+        {
+            this._appointment = appointment;
+        }
+
+        public List<Appointment> Query()
+        {
+            return _appointment.Query();
+        }
+
+        public bool Transaction(List<Appointment> data, char action)
+        {
+            return _appointment.Transaction(data, action);
+        }
+    }
+}

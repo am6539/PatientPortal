@@ -1,0 +1,63 @@
+﻿using PatientPortal.DataAccess.Repo.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using PatientPortal.Domain.Models.CMS;
+using PatientPortal.Domain.Utilities;
+using PatientPortal.DataAccess.Dapper;
+using System.Transactions;
+using Dapper;
+using PatientPortal.DataAccess.Repo.Wrapper;
+using System.Threading.Tasks;
+
+namespace PatientPortal.DataAccess.CMS
+{
+    public class AdvertiseImpl : IAdvertise
+    {
+        private readonly IAdapterPattern _adapterPattern;
+
+        /// <summary>
+        /// Init
+        /// </summary>
+        /// <param name="adapterPattern"></param>
+        public AdvertiseImpl(IAdapterPattern adapterPattern)
+        {
+            this._adapterPattern = adapterPattern;
+        }
+
+        public async Task<bool> CheckExist(Dictionary<string, dynamic> para)
+        {
+            return await _adapterPattern.SingleExecuteQuery<bool>(para, "usp_Advertise_CheckExistName");
+        }
+
+        /// <summary>
+        /// Get by condition
+        /// </summary>
+        /// <param name="para"></param>
+        /// <returns></returns>
+        public async Task<Advertise> SingleQuery(Dictionary<string, dynamic> para)
+        {
+            return await _adapterPattern.SingleExecuteQuery<Advertise>(para, "usp_Advertise");
+        }
+
+        /// <summary>
+        /// Get all 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<Advertise>> Query(Dictionary<string, dynamic> para)
+        {
+            return await _adapterPattern.ExecuteQuery<Advertise>(para, "usp_Advertise");
+        }
+
+        /// <summary>
+        /// Transaction
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public async Task<bool> Transaction(Advertise data, char action)
+        {
+            return await _adapterPattern.SingleTransaction<Advertise, bool>(data, "usp_Advertise_Transaction", action);
+        }
+    }
+}

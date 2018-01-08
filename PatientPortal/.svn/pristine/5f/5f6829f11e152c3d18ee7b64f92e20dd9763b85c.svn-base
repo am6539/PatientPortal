@@ -1,0 +1,4 @@
+@using PatientPortal.API.SPA.Areas.HelpPage
+@model ImageSample
+
+<img src="@Model.Src" />

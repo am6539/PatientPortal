@@ -1,0 +1,11 @@
+﻿using PatientPortal.Domain.Models.CORE;
+using System.Collections.Generic;
+
+namespace PatientPortal.IRepository.CORE
+{
+    public interface IAppointmentRepo
+    {
+        List<Appointment> GetAll();
+        bool Transaction(List<Appointment> data, char action);
+    }
+}

@@ -1,0 +1,55 @@
+﻿using PatientPortal.PatientServices.Models;
+using PatientPortal.PatientServices.Utility;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.PatientServices.Controllers
+{
+    public class AppointmentController : Controller
+    {
+        private string apiAppointmentUrl = $"api/Appointment";
+        private string apiUserUrl = $"api/User";
+        private string apiShedule = $"api/Schedule";
+
+        // GET: Appointment
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult MakeAppointment()
+        {
+            ////get list of doctors
+            //var doctorList = APIHelper.Get<List<UserViewModel>>(apiUserUrl);
+            //if (doctorList == null) doctorList = ApplicationHelper.GetObject<List<UserViewModel>>();
+
+            ////get list schedule of a doctor
+            //var schedulesByDoctor = APIHelper.Get<List<ScheduleViewModel>>(apiShedule);
+            //if (schedulesByDoctor == null) schedulesByDoctor = ApplicationHelper.GetObject<List<ScheduleViewModel>>();
+
+            //ViewBag.Doctors = doctorList;
+            return View();
+        }
+
+        public ActionResult ViewDoctorList(string search)
+        {
+            //var doctor = APIHelper.Get<UserViewModel>(apiUserUrl);
+            var doctors = new List<UserViewModel>();
+            return PartialView("_DoctorList", doctors);
+        }
+
+        public ActionResult DoctorDetail(int doctorId)
+        {
+            var doctor = new UserViewModel();
+            return PartialView("_DoctorDetail", doctor);
+        }
+
+        public ActionResult AppointmentPartial()
+        {
+            return PartialView("_Appointment");
+        }
+    }
+}

@@ -1,0 +1,48 @@
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using ProtoBuf;
+
+namespace PatientPortal.API.Core.Models
+{
+    [ProtoContract]
+    public class SurveyViewModel
+    {
+        [ProtoMember(1)]
+        [Display(Name = "Id")]
+        public string Id { get; set; }
+        [ProtoMember(2)]
+        [Required(ErrorMessage = "Vui lòng nhập chủ đề khảo sát")]
+        [Display(Name = "Chủ đề")]
+        public string Title { get; set; }
+        [ProtoMember(3)]
+        [Required(ErrorMessage = "Vui lòng nhập mô tả khảo sát")]
+        [Display(Name = "Mô tả")]
+        public string Description { get; set; }
+        [ProtoMember(4)]
+        [Required(ErrorMessage = "Vui lòng nhập tin nhắn cảm ơn")]
+        [Display(Name = "Tin nhắn cảm ơn")]
+        public string Message { get; set; }
+        [ProtoMember(5)]
+        [Display(Name = "Hiển thị thương hiệu")]
+        public bool IsBranding { get; set; }
+        [ProtoMember(6)]
+        [Display(Name = "Logo")]
+        public string Logo { get; set; }
+        [ProtoMember(7)]
+        [Display(Name = "Liên kết")]
+        public string Url { get; set; }
+        [ProtoMember(8)]
+        [Display(Name = "Mời khảo sát")]
+        public bool IsSurveyInvite { get; set; }
+        [ProtoMember(9)]
+        [Display(Name = "Công khai")]
+        public bool IsPublic { get; set; }
+        [ProtoMember(10)]
+        [Display(Name = "Trạng thái hoạt động")]
+        public bool IsActive { get; set; }
+
+        public string IsAction { get; set; }
+
+        public List<SurveyQuestionsViewModel> SurveyQuestionsModel { get; set; }
+    }
+}

@@ -1,0 +1,25 @@
+﻿using PatientPortal.DataAccess.Repo.SPA;
+using PatientPortal.DataAccess.Repo.Wrapper;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.DataAccess.SPA
+{
+    public class GalleryImpl: IGallery
+    {
+        private readonly IAdapterPattern _adapterPattern;
+
+        /// <summary>
+        /// Init
+        /// </summary>
+        /// <param name="adapterPattern"></param>
+        public GalleryImpl(IAdapterPattern adapterPattern)
+        {
+            this._adapterPattern = adapterPattern;
+        }
+
+    }
+}

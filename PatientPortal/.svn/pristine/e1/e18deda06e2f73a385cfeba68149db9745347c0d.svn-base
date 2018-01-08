@@ -1,0 +1,9 @@
+﻿'use strict';
+
+angular.module('spaPHCN')
+    .controller("PostDetailController", [
+    "$scope", "$location", "$route", "Params", "PostDetailServices",
+    function ($scope, $location, $route, Params, PostDetailServices) {
+
+        $scope.subTitle = "Tin tức";
+    }]);

@@ -1,0 +1,107 @@
+﻿using PatientPortal.Domain.LogManager;
+using PatientPortal.Domain.Models.AUTHEN;
+using PatientPortal.Internal.Common;
+using PatientPortal.Internal.Models.Account;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using PatientPortal.Utility.Application;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.Internal.Controllers
+{
+    [Authorize]
+    public class UserProfileController : Controller
+    {
+        private readonly IUserSession _userSession;
+
+        #region Get UserProfile
+        // GET: UserProfile
+        public async Task<ActionResult> Index(string userId)
+        {
+            string apiUrl = "User/GetUserProfile?userId=" + userId;
+            var model = await APIProvider.Get<List<UserProfileViewModel>>(apiUrl, APIConstant.API_Resource_CORE);
+            if(model == null)
+                model = new List<UserProfileViewModel>();
+            return View(model);
+        }
+
+        #endregion
+
+        #region Edit UserProfile
+        public ActionResult Edit(string id)
+        {
+            var model = new UserProfileViewModel();
+            return View(model);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult Edit(UserProfileViewModel model)
+        {
+            return View();
+        }
+        #endregion
+
+        #region Create UserProfile
+
+        public ActionResult Create()
+        {
+            var model = new UserProfileViewModel();
+            return View(model);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Create(UserProfileViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try 
+	            {	        
+		            string apiUrl = "User/UserProfileTransaction";
+                    var token = _userSession.BearerToken;
+
+                    var result = await APIProvider.Authorize_DynamicTransaction<UserProfileViewModel, int>(model, token, apiUrl, ValueConstant.AUTHEN_TAG);
+                    if(result > 0)
+                    {
+                        TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.SUCCESS));
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                        return View();
+                    }
+                }
+	            catch (Exception ex)
+	            {
+                    Logger.LogError(ex);
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ERROR, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.ERROR));
+                    throw ex;
+                }
+            }
+            else
+            {
+                StringBuilder errorBuilder = new StringBuilder();
+                foreach (var modelError in ModelState)
+                {
+                    if (modelError.Value.Errors.Count > 0)
+                    {
+                        errorBuilder.AppendLine(modelError.Value.Errors[0].ErrorMessage.ToString());
+                    }
+                }
+
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, errorBuilder.ToString());
+                return View(model);
+            }
+        }
+
+        #endregion
+    }
+}

@@ -1,0 +1,20 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.PatientServices.Common
+{
+    public class ValueConstant
+    {
+
+        //Value path image Upload
+        public const string IMAGE_PATH = "~\\Assets\\Images";
+        public const string LOGS_PATH = "~\\Assets\\Logs";
+
+        // Value action in tracsaction
+        public const string ACTION_INSERT = "I";
+        public const string ACTION_UPDATE = "U";
+        public const string ACTION_DELETE = "D";
+    }
+}

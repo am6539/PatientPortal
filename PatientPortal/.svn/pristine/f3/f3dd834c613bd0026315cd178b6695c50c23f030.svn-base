@@ -1,0 +1,187 @@
+﻿using PatientPortal.CMS.Common;
+using PatientPortal.CMS.Models;
+using PatientPortal.CMS.Utility;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.CMS.Controllers
+{
+    public class LanguageController : Controller
+    {
+        private string apiUrl = $"api/language";
+
+        #region Get List
+        // GET: Languages
+        public ActionResult Index()
+        {
+            var results = new LanguagesModel();
+            try
+            {
+                var list = APIHelper.Get<List<LanguageViewModel>>(apiUrl);
+                if (list == null) list = ApplicationHelper.GetObject<List<LanguageViewModel>>();
+
+                var language = new LanguageViewModel();
+
+                results.lstLanguageViewModel = list;
+                results.LanguageViewModel = language;
+
+                TempData["Data"] = list;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(ex.Message);
+                throw ex;
+            }
+            return View(results);
+        }
+        #endregion
+
+        #region Create
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Create(LanguageViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                bool result = await Save(model, ValueConstant.ACTION_INSERT);
+                if(result)
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var languages = new LanguagesModel();
+                languages.lstLanguageViewModel = (List<LanguageViewModel>)TempData["Data"];
+
+                if (languages.lstLanguageViewModel == null) languages.lstLanguageViewModel = ApplicationHelper.GetObject<List<LanguageViewModel>>();
+                languages.LanguageViewModel = model;
+                
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.FAIL));
+                return View("Index", languages);
+            }
+        }
+        #endregion
+
+        #region Edit
+
+        [HttpGet]
+        public ActionResult Edit(byte id)
+        {
+            var data = new LanguageViewModel();
+            try
+            {
+                data = APIHelper.Get<LanguageViewModel>(apiUrl + "/" + id);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(ex.Message);
+                throw ex;
+            }
+            return View(data);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Edit(LanguageViewModel model, HttpPostedFileBase fileUpload)
+        {
+            if (ModelState.IsValid)
+            {
+                bool result = await Save(model, ValueConstant.ACTION_UPDATE);
+                if (result)
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.FAIL));
+                return View();
+            }
+        }
+        #endregion
+
+        #region Delete
+        public ActionResult ViewConfirmDelete(LanguageViewModel model)
+        {
+            bool checkIsused = APIHelper.Get<bool>(apiUrl + "/CheckIsUsed/" + model.Id);
+            if (!checkIsused)
+            {
+                return PartialView("_Delete", model);
+            }
+            else
+            {
+                var languages = new LanguagesModel();
+                languages.lstLanguageViewModel = (List<LanguageViewModel>)TempData["Data"];
+
+                if (languages.lstLanguageViewModel == null) languages.lstLanguageViewModel = ApplicationHelper.GetObject<List<LanguageViewModel>>();
+                languages.LanguageViewModel = model;
+
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.ERROR, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_DELETE, RenderMessage.TypeResult.ISUSED));
+                return View("Index", languages);
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Delete(byte id)
+        {
+            try
+            {
+                var model = new LanguageViewModel();
+                model.Id = id;
+                var result = await Save(model, ValueConstant.ACTION_DELETE);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(ex.Message);
+                return RedirectToAction("Index");
+            }
+        }
+
+        #endregion
+
+        #region Check exist
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult CheckExist(string code, byte id)
+        {
+
+            var isExist = APIHelper.Get<bool>(apiUrl + "/" + id + "?Code=" + code);
+
+            return Json(!isExist, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
+        #region API Transaction
+        private async Task<bool> Save(LanguageViewModel language, string action)
+        {
+            var result = false;
+            try
+            {
+                result = await APIHelper.TransactionAsyncResult<LanguageViewModel>(language, apiUrl + "?action=" + action + "");
+            }
+            catch (Exception e)
+            {
+                LogHelper.WriteLog(e.Message);
+                ModelState.AddModelError("", e.Message);
+            }
+            return result;
+        }
+        #endregion
+    }
+}

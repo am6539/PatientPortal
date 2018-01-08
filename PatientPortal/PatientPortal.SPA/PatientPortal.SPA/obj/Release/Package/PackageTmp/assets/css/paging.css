@@ -1,0 +1,15 @@
+﻿ .disabled {
+       pointer-events: none;
+       cursor: not-allowed;
+       color: #777;
+       background-color: #fff;
+       border-color: #ddd;
+    }
+    .newpostpagination .active{
+        z-index: 2;
+        pointer-events: none;
+        cursor: not-allowed;
+        color: #777;
+        background-color: #fff;
+        border-color: #ddd;
+    }

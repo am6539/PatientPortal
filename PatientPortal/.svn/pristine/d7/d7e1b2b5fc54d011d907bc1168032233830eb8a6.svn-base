@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e2e944c2979a48508170eb5db9f7edca" Name="Diagram1" ZoomLevel="64">
+        <EntityTypeShape EntityType="HospitalCMSModel.Category" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalCMSModel.Language" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalCMSModel.PostSEO" Width="1.5" PointX="5.25" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalCMSModel.PostStateHistory" Width="1.5" PointX="5.25" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalCMSModel.PostTran" Width="1.5" PointX="8.25" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalCMSModel.sysdiagram" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <AssociationConnector Association="HospitalCMSModel.FK_PostTrans_Language" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="HospitalCMSModel.Workflow" Width="1.5" PointX="8.375" PointY="1.375" />
+        <EntityTypeShape EntityType="HospitalCMSModel.WorkflowNavigation" Width="1.5" PointX="12.875" PointY="1.125" />
+        <EntityTypeShape EntityType="HospitalCMSModel.WorkflowState" Width="1.5" PointX="10.625" PointY="1" />
+        <AssociationConnector Association="HospitalCMSModel.FK_WorkflowState_Workflow" />
+        <AssociationConnector Association="HospitalCMSModel.FK_WorkflowNavigation_WorkflowState" />
+        <AssociationConnector Association="HospitalCMSModel.FK_WorkflowNavigation_WorkflowState1" />
+        <EntityTypeShape EntityType="HospitalCMSModel.Post" Width="1.5" PointX="12.875" PointY="4.375" />
+        <AssociationConnector Association="HospitalCMSModel.FK_Post_Category" />
+        <AssociationConnector Association="HospitalCMSModel.FK_Post_WorkflowState" />
+        <AssociationConnector Association="HospitalCMSModel.FK_PostSEO_Post" />
+        <AssociationConnector Association="HospitalCMSModel.FK_PostStateHistory_Post" />
+        <AssociationConnector Association="HospitalCMSModel.FK_PostTrans_Post" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

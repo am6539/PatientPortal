@@ -1,0 +1,35 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.CMS.Models.PostStateHistoryViewModel
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    @Html.ITitle("Bài viết", TitleBar.View)
+</div>
+
+@using (Html.IBeginForm("Approve", "ApprovePost"))
+{
+    @Html.HiddenFor(model => model.PostId)
+    <div class="modal-body">
+        <div class="row-fluid">
+            <div class="col-md-12 form-group">
+                @Html.IDropDownListFor(m => m.WorkflowStateId, new SelectList(new[]{
+                                    new SelectListItem { Text = "Không duyệt bản tin - Trở về trạng thái Soạn thảo", Value = "1" },
+                                    new SelectListItem { Text = "Duyệt bản tin - trình duyệt Xuất bản", Value = "2" }}, "Value", "Text",2))
+            </div>
+            <div class="col-md-12 form-group">
+                @Html.ITextAreaFor(m => m.Note, 5, "Ghi chú duyệt")
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    @Html.IGroupModalSubmitButton("Xác nhận duyệt")
+}
+
+<script type="text/javascript">
+        var config = {
+          '.chosen-select'           : {}
+        }
+        for (var selector in config) {
+          $(selector).chosen(config[selector]);
+        }
+</script>

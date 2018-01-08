@@ -1,0 +1,71 @@
+﻿@model PatientPortal.PatientServices.Models.OfferAdviseViewModel
+@{
+    ViewBag.Title = "Cập nhật ý kiến xây dựng";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    <link href="~/Libs/jquery-ui/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Libs/TagIt/css/jquery.tagit.css" rel="stylesheet" />
+}
+<div class="card">
+    @Html.Raw(TempData["Alert"])
+    <div class="card-title">@ViewBag.Title</div>
+    <div class="card-content">
+        @using (Html.BeginForm("Edit", "OfferAdvise", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            <div class="form-group" style="display: none">
+                @Html.HiddenFor(m => m.Id)
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.TextAreaFor(m => m.Detail, 10, 10, new { @class = "form-control", @placeholder = "Nhập ý kiến đóng góp" })
+                    @Html.ValidationMessageFor(m => m.Detail)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.LabelFor(m => m.Tag, new { @class = "badge" })
+                    @*<label class="badge">Tags</label>*@
+                    <ul id="myTags">
+                        @if (ViewBag.Tags != null)
+                        {
+                            var tags = ViewBag.Tags.Split(';');
+                            for (var i = 0; i < tags.Length; i++)
+                            {
+                                <li> @tags[i] </li>
+                            }
+                        }
+                    </ul>
+                    @Html.ValidationMessageFor(m => m.Tag)
+                    @Html.HiddenFor(m => m.Tag)
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3"></label>
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-success btn-sm" style="width:100%;"><i class="fa fa-check" aria-hidden="true"></i> Cập nhật</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("#myTags").tagit();
+        $("#myTags").focusout(function (e) {
+            var arrayTag = $("#myTags").tagit("assignedTags");
+            var tags = "";
+            for (var index = 0; index < arrayTag.length; ++index) {
+                tags = tags + (tags == "" ? "" : ";") + arrayTag[index];
+            }
+            $("#Tag").val(tags);
+            return true;
+        });
+    });
+    </script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Libs/TagIt/js/tag-it.js"></script>
+}

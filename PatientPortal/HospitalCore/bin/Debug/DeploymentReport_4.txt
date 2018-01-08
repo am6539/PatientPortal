@@ -1,0 +1,55 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       The column [dbo].[Module].[GroupId] on table [dbo].[Module] must be added, but the column has no default value and does
+         not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either:
+         add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a
+         deployment option.
+       The column [dbo].[OfferAdvise].[IsRead] on table [dbo].[OfferAdvise] must be added, but the column has no default value
+         and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must
+         either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults
+         as a deployment option.
+       The column [dbo].[OfferAdvise].[IsSent] on table [dbo].[OfferAdvise] must be added, but the column has no default value
+         and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must
+         either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults
+         as a deployment option.
+
+** User actions
+     Create
+       [dbo].[IntList] (User-Defined Table Type)
+       [dbo].[Module].[idxModuleGroup] (Index)
+       [dbo].[FK_Module_Module] (Foreign Key)
+       [dbo].[FK_Organization_Organization] (Foreign Key)
+       [dbo].[ufnGetDate] (Function)
+       [dbo].[usp_Message_Transaction] (Procedure)
+       [dbo].[usp_Module] (Procedure)
+       [dbo].[usp_Module_Transaction] (Procedure)
+       [dbo].[usp_OfferAdvise] (Procedure)
+       [dbo].[usp_OfferAdvise_Transaction] (Procedure)
+       [dbo].[usp_Organization] (Procedure)
+       [dbo].[usp_Organization_Transaction] (Procedure)
+     Alter
+       [dbo].[Group] (Table)
+       [dbo].[Module] (Table)
+       [dbo].[OfferAdvise] (Table)
+       [dbo].[Organization] (Table)
+       [dbo].[usp_Group_Transaction] (Procedure)
+       [dbo].[usp_Appointment_Transaction] (Procedure)
+       [dbo].[usp_Article_Transaction] (Procedure)
+       [dbo].[usp_ArticleComment_Transaction] (Procedure)
+       [dbo].[usp_Message] (Procedure)
+
+** Supporting actions
+     Refresh
+       [dbo].[usp_Group] (Procedure)
+       [dbo].[usp_Login] (Procedure)
+
+The column [dbo].[Module].[GroupId] on table [dbo].[Module] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+The column [dbo].[OfferAdvise].[IsRead] on table [dbo].[OfferAdvise] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+The column [dbo].[OfferAdvise].[IsSent] on table [dbo].[OfferAdvise] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+

@@ -1,0 +1,87 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CMS;
+using PatientPortal.Domain.Utilities;
+using PatientPortal.DataAccess.Dapper;
+using Dapper;
+using System.Transactions;
+using PatientPortal.DataAccess.Repo.CMS;
+
+namespace PatientPortal.DataAccess.CMS
+{
+    public class LanguageImpl : ILanguage
+    {
+        public bool LanguageTransaction(List<Language> data, char action)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    var val = new Lib.DataGenerator().CommitData<Language>(data, "usp_Language_Transaction", action);
+                    scope.Complete();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute LanguageTransaction: " + ex.Message);
+                    return false;
+                }
+            }
+        }
+
+        public List<Language> GetAll()
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    DapperConfiguration.OpenConnection(1);
+
+                    var data = DapperConfiguration.db.Query<Language>("usp_Language",
+                        new { Id = GlobalVariables.IsTransParameter },
+                        commandType: System.Data.CommandType.StoredProcedure).ToList();
+
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Language get data: " + ex.Message);
+                    return null;
+                }
+            }
+        }
+
+        public bool CheckExist(byte Id, string name)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    DapperConfiguration.OpenConnection(1);
+
+                    var data = DapperConfiguration.db.Query<bool>("usp_Language_CheckExist",
+                        new { Name = name, Id = Id },
+                        commandType: System.Data.CommandType.StoredProcedure).FirstOrDefault();
+
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Category get data: " + ex.Message);
+                    return false;
+                }
+            }
+        }
+    }
+}

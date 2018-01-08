@@ -1,0 +1,50 @@
+﻿@model PatientPortal.PatientServices.Models.ScheduleUserViewModel
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Thông tin bác sĩ</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+    @if (Model.DoctorProfileViewModel.Image != null)
+    {
+        <div class="col-md-3 col-sm-3 col-xs-3">
+            <div class="profile_pic">
+                <img src="~/img/picture.jpg" style="width: 100%" />
+            </div>
+        </div>
+    }
+        <div class="col-md-9 col-sm-9 col-xs-9">
+            @Html.HiddenFor(m => m.DoctorProfileViewModel.UserId)
+            <div class="row">
+                <div class="col-md-9 col-sm-9 col-xs-9">
+                    <span class="blue"><b>@Model.DoctorProfileViewModel.Name</b></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (Model.lstScheduleViewModel != null)
+    {
+        <div class="row">
+            <table style="width: 90%; margin-top: 20px; margin-left: 20px; margin-right: 20px" class="table table-bordered table-hover">
+                <thead>
+                    <tr style="background-color: #c7c7c7; height: 20px">
+                        <td>Ngày</td>
+                        <td>Thời gian</td>
+                        <td>Ghi chú</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.lstScheduleViewModel)
+                    {
+                        <tr>
+                            <td>@item.Start.ToString("dd-MM-yyyy")</td>
+                            <td>@item.Start.ToString("HH:mm") - @item.End.ToString("HH:mm") </td>
+                            <td>@item.Detail</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

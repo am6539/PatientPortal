@@ -1,0 +1,46 @@
+﻿'use strict';
+
+angular.module('spaPHCN')
+    .controller("PostDetailController", [
+    "$scope", "$location", "$route", "Params", "PostDetailServices", "PostsServices", 'CategoryService', 'MetaPostService', '$rootScope',
+    function ($scope, $location, $route, Params, PostDetailServices, PostsServices, CategoryService, MetaPostService, $rootScope) {
+        //$rootScope.metaservice = MetaPageService;
+        $rootScope.metapostservice = MetaPostService;
+        //$rootScope.metafaceservice = MetaFaceService;
+
+        $scope.subTitle = "Tin tức";
+        var Id = $route.current.params.id;
+        PostDetailServices.get({ Id: Id }, function (data) {
+            if (data != null) {
+                $scope.post = data;
+                $rootScope.metaservice.set(data.TitleSEO, data.DescriptionSEO);
+                var robotArr = [];
+                if (data.MetaRobotIndex == 1) {
+                    robotArr.push('index');
+                }
+                if (data.MetaRobotFollow) {
+                    robotArr.push('follow');
+                }
+                if (data.MetaRobotAdvanced) {
+                    robotArr.push('advance');
+                }
+                var robots = '';
+                if (robotArr.length > 1) {
+                    for (var i = 0; i < robotArr.length - 1; ++i) {
+                        robots = robots + robotArr[i] + ', ';
+                    }
+                    robots = robots + robotArr[robotArr.length - 1];
+                }
+                $rootScope.metapostservice.set(data.Canonical, data.BreadcrumbsTitle, robots);
+                $rootScope.metafaceservice.set(window.location.href, "Bài viết", data.TitleTrans, data.DescriptionTrans, data.Image);
+            }
+        });
+
+        PostsServices.queryPost({ languageCode: 'vi', priority: Params.newpriority, categoryId: 0, numTop: Params.numTopPost }, function (data) {
+            $scope.posts = data;
+        });
+
+        CategoryService.queryNewsCategory({ parentId: Params.postParentCategoryId }, function (data) {
+            $scope.categories = data;
+        });
+    }]);

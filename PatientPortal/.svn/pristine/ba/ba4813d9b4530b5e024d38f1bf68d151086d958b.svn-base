@@ -1,0 +1,49 @@
+﻿using AutoMapper;
+using PatientPortal.API.SPA.ViewModels;
+using PatientPortal.IRepository.SPA;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+
+namespace PatientPortal.API.SPA.Controllers
+{
+    public class SliderController : ApiController
+    {
+        private readonly ISliderRepo _iSliderRepo;
+        private readonly string PATH_IMG = ConfigurationManager.AppSettings["fullPathPost"];
+        public SliderController(ISliderRepo iSliderRepo)
+        {
+            this._iSliderRepo = iSliderRepo;
+        }
+
+        [HttpGet]
+        public HttpResponseMessage Get()
+        {
+            try
+            {
+                var data = _iSliderRepo.GetAll();
+                //var result = Mapper.Map<List<SliderViewModel>>(data);
+                var results = new List<SliderViewModel>();
+                foreach(var item in data)
+                {
+                    var slider = new SliderViewModel();
+                    slider.Id = item.Id;
+                    slider.Title = item.Title;
+                    slider.Description = item.Description;
+                    slider.Image = PATH_IMG + item.Image.Replace("~", "").Replace(@"\",@"/"); // item.Image.Remove(0, 1);
+                    slider.ExpiredDate = item.ExpiredDate;
+                    slider.IsUsed = item.IsUsed;
+                    results.Add(slider);
+                }
+                return Request.CreateResponse(HttpStatusCode.OK, results);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+    }
+}

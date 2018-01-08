@@ -1,0 +1,83 @@
+﻿using AutoMapper;
+using PatientPortal.API.SPA.Common;
+using PatientPortal.API.SPA.ViewModels;
+using PatientPortal.Domain.Caching.Redis.StackExchange;
+using PatientPortal.Domain.Models.SPA;
+using PatientPortal.IRepository.SPA;
+using PatientPortal.Provider.Models;
+using PatientPortal.Utility.Files;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Http;
+
+namespace PatientPortal.API.SPA.Controllers
+{
+    public class CategoryController : ApiController
+    {
+        private readonly ICategoryRepo _iCategoryRepo;
+        private RedisCacheService redisCache = new RedisCacheService();
+        string KeyName = "ParentId";
+
+        public CategoryController(ICategoryRepo iCategoryRepo)
+        {
+            this._iCategoryRepo = iCategoryRepo;
+        }
+
+        public async Task<IEnumerable<CategoryViewModel>> GetMenu()
+        {
+            var results = await redisCache.GetListAsync<CategoryViewModel>();
+            if(results.ToList().Count == 0)
+            {
+                IList<string> list = new List<string> { KeyName };
+                var para = APIProvider.APIDefaultParameter(list, 0);
+                var source = await _iCategoryRepo.Query(para);
+                List<CategoryViewModel> dest = Mapper.Map<List<CategoryViewModel>>(source);
+                //
+                await redisCache.AddListAsync<CategoryViewModel>(dest, KeyName, "Id");
+                return dest;
+            }
+            return results;
+        }
+
+        public async Task<IEnumerable<CategoryViewModel>> GetPostCategory(byte parentId)
+        {
+            var results = await redisCache.GetListAsync<CategoryViewModel>(KeyName);
+            if(results.Count() == 0)
+            {
+                IList<string> list = new List<string> { KeyName };
+                var para = APIProvider.APIDefaultParameter(list, parentId);
+                var source = await _iCategoryRepo.QueryPostCategory(para);
+                List<CategoryViewModel> dest = Mapper.Map<List<CategoryViewModel>>(source);
+                return dest;
+            }
+            return results;
+        }
+
+        public async Task<IEnumerable<CategoryViewModel>> GetCategoryChuyenKhoa(string handler)
+        {
+            var results = await redisCache.GetListAsync<CategoryViewModel>(handler);
+            if (results.Count() == 0)
+            {
+                IList<string> list = new List<string> { "Handler" };
+                var para = APIProvider.APIDefaultParameter(list, handler);
+                var source = await _iCategoryRepo.QueryPostCategoryDept(para);
+                results = source.Select(x => new CategoryViewModel()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Handler = x.Handler,
+                    Image = (x.Image != null ? LayoutGuide.SPA_ResourcePath(Provider.Common.APIEnums.Application.CMS, Path.Combine(string.Empty, x.Image)) : ""),
+                    Sort = x.Sort,
+                    ParentId = x.ParentId
+                }).AsEnumerable();
+                await redisCache.AddListAsync<CategoryViewModel>(results, "Handler");
+            }
+            return results;
+        }
+    }
+}

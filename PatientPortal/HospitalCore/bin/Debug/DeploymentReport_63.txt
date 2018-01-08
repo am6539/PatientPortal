@@ -1,0 +1,54 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       [dbo].[Survey]
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       The column [dbo].[Survey].[IsBrading] is being dropped, data loss could occur.
+       The column [dbo].[SurveyAnswers].[IsRandomize] is being dropped, data loss could occur.
+       The column [dbo].[SurveyAnswers].[IsRequired] is being dropped, data loss could occur.
+       The column [dbo].[SurveyQuestions].[IsRandomize] on table [dbo].[SurveyQuestions] must be added, but the column has no
+         default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this
+         issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of
+         smart-defaults as a deployment option.
+       The column [dbo].[SurveyQuestions].[IsRequired] on table [dbo].[SurveyQuestions] must be added, but the column has no
+         default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this
+         issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of
+         smart-defaults as a deployment option.
+
+** User actions
+     Drop
+       unnamed constraint on [dbo].[Survey] (Default Constraint)
+       unnamed constraint on [dbo].[Survey] (Default Constraint)
+       unnamed constraint on [dbo].[Survey] (Default Constraint)
+       unnamed constraint on [dbo].[Survey] (Default Constraint)
+       unnamed constraint on [dbo].[SurveyAnswers] (Default Constraint)
+       unnamed constraint on [dbo].[SurveyAnswers] (Default Constraint)
+     Table rebuild
+       [dbo].[Survey] (Table)
+     Alter
+       [dbo].[SurveyAnswers] (Table)
+       [dbo].[SurveyQuestions] (Table)
+       [dbo].[usp_spa_User_HasScheduleExamine] (Procedure)
+     Create
+       [dbo].[usp_Survey] (Procedure)
+       [dbo].[usp_Survey_Transaction] (Procedure)
+       [dbo].[usp_SurveyAnswers_Transaction] (Procedure)
+       [dbo].[usp_SurveyQuestions_Transaction] (Procedure)
+
+** Supporting actions
+     Drop
+       [dbo].[FK_SurveyQuestions_Survey] (Foreign Key)
+     Create
+       Default Constraint: unnamed constraint on [dbo].[SurveyAnswers] (Default Constraint)
+       Default Constraint: unnamed constraint on [dbo].[SurveyAnswers] (Default Constraint)
+       [dbo].[FK_SurveyQuestions_Survey] (Foreign Key)
+
+The column [dbo].[Survey].[IsBrading] is being dropped, data loss could occur.
+The column [dbo].[SurveyAnswers].[IsRandomize] is being dropped, data loss could occur.
+The column [dbo].[SurveyAnswers].[IsRequired] is being dropped, data loss could occur.
+The column [dbo].[SurveyQuestions].[IsRandomize] on table [dbo].[SurveyQuestions] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+The column [dbo].[SurveyQuestions].[IsRequired] on table [dbo].[SurveyQuestions] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+

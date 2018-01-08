@@ -1,0 +1,93 @@
+﻿using AutoMapper;
+using Newtonsoft.Json;
+using PatientPortal.API.SPA.Common;
+using PatientPortal.API.SPA.Utility;
+using PatientPortal.API.SPA.ViewModels;
+using PatientPortal.IRepository.SPA;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Mvc;
+
+namespace PatientPortal.API.SPA.Controllers
+{
+    public class DepartmentController : ApiController
+    {
+        readonly IDepartmentRepo _department;
+        private readonly string PATH_IMG = ConfigurationManager.AppSettings["web:internal"];
+        public DepartmentController(IDepartmentRepo department)
+        {
+            this._department = department;
+        }
+
+        public async Task<DepartmentViewModel> Get(short id)
+        {
+            try
+            {
+                IList<string> list = new List<string> { "id" };
+                var para = APIProvider.APIDefaultParameter(list, id);
+
+                var data = await _department.SingleQuery(para);
+                var result = new DepartmentViewModel();
+                result.Id = data.Id;
+                result.Name = data.Name;
+                result.Description = data.Description;
+                result.Handler = data.Handler;
+                if (data.Img != null)
+                {
+
+                    result.Img = PATH_IMG + Path.Combine(ValueConstants.IMAGE_DEPARTMENT_PATH, data.Img).Replace("~", "").Replace(@"\", @"/");
+                }
+                result.Sort = data.Sort;
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public async Task<List<DepartmentViewModel>> Get()
+        {
+            try
+            {
+                IList<string> list = new List<string> { "id" };
+                var para = APIProvider.APIDefaultParameter(list, 0);
+
+                var data = await _department.Query(para);
+                var results = new List<DepartmentViewModel>();
+                if(data != null)
+                {
+                    foreach(var item in data)
+                    {
+                        var department = new DepartmentViewModel();
+                        if (item.Img != null)
+                        {
+
+                            department.Img = PATH_IMG + Path.Combine(ValueConstants.IMAGE_DEPARTMENT_PATH, item.Img).Replace("~", "").Replace(@"\", @"/");
+                        }
+                        department.Id = item.Id;
+                        department.Name = item.Name;
+                        department.Description = item.Description;
+                        department.Handler = item.Handler;
+                        department.Sort = item.Sort;
+                        results.Add(department);
+                    }
+                }
+                return results;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+    }
+}

@@ -1,0 +1,20 @@
+﻿using PatientPortal.IRepository.CORE;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+
+namespace PatientPortal.API.Core.Controllers
+{
+    public class AppointmentController : ApiController
+    {
+        private readonly IAppointmentRepo _appointment;
+        public AppointmentController(IAppointmentRepo appointment)
+        {
+            this._appointment = appointment;
+        }
+
+    }
+}

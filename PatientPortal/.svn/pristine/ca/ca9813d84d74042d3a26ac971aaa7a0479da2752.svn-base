@@ -1,0 +1,12 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.API.SPA.Common
+{
+    public class ValueConstants
+    {
+        public const string CATG_ABOUT = "About";
+    }
+}

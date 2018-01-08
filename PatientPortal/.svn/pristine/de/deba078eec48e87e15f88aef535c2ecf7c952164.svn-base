@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - CMS - Patient Portal</title>
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("styles", required: false)
+</head>
+<body>
+    <header class="cd-main-header">
+        <a href="#0" class="cd-logo">
+            <span class="fa fa-cogs fa-2x"></span> ADMIN PANEL
+        </a>
+        <div class="navicon">
+            <span class="navicon-breadcrumb">@ViewBag.Title</span>
+        </div>
+        <div class="cd-search is-hidden">
+            <form action="#0">
+                <input type="search" placeholder="Tìm kiếm...">
+            </form>
+        </div> <!-- cd-search -->
+        <a href="#0" class="cd-nav-trigger"><span></span></a>
+        <nav class="cd-nav">
+            <ul class="cd-top-nav">
+                <li><a href="#0"><span class="fa fa-bell"></span></a></li>
+                <li><a href="#0"><span class="fa fa-envelope-o"></span></a></li>
+                <li class="has-children account">
+                    <a href="#0">
+                        @*<img src="#" alt="avatar">
+                            Admin*@
+                        <img src="~/img/user-128-2.png" />ADMIN
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="#">
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header> <!-- .cd-main-header -->
+    <main class="cd-main-content">
+        <nav class="cd-side-nav">
+            <div class="wrapper-user">
+                <div class="icon-user">
+                    <div class="box">
+                        <img src="~/img/adminicon.png" style="width:75%; height:auto; border:2px solid #5c637c" class="img-circle" />
+                        <div class="icon">
+                            <a href="/Demo/Personal" class="icon1"><i class="fa fa-link"></i></a>
+                            <a href="#" class="icon2"><i class="fa fa-plus"></i></a>
+                        </div>
+                        <div class="box-content">
+                            <h3 class="title">ADMIN</h3>
+                            <span class="post">admin@hospital.vn</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="welcome-note">
+                </div>
+            </div>
+            <ul>
+                <li class="cd-label">POST MANAGEMENT</li>
+                <li class="has-children category">
+                    <a href="@Url.Action("Index","Language")">Ngôn ngữ</a>
+                </li>
+                <li class="has-children category">
+                    <a href="@Url.Action("Index","Category")">Chuyên mục</a>
+                </li>
+                <li class="has-children posts">
+                    <a href="@Url.Action("Index","CMSPost")">Bản tin</a>
+                </li>
+                <li class="has-children approved-posts ">
+                    <a href="@Url.Action("Index","ApprovePost")">Duyệt tin</a>
+                </li>
+                <li class="has-children publish-post">
+                    <a href="@Url.Action("Index","PublishPost")">Xuất bản</a>
+                </li>
+
+                <li class="has-children link-building ">
+                    <a href="@Url.Action("Index", "Workflow")">Workflow</a>
+                </li>
+                <li class="has-children link-building ">
+                    <a href="@Url.Action("Index", "WorkflowState")">Workflow State</a>
+                </li>
+            </ul>
+            <ul>
+                <li class="cd-label">APPLICATION</li>
+                <li class="has-children link-building ">
+                    <a href="@Url.Action("Index", "LinkBuilding")">Liên kết Website</a>
+                </li>
+                <li class="has-children feature ">
+                    <a href="@Url.Action("Index", "Feature")">Dịch vụ nổi bật</a>
+                </li>
+                <li class="has-children slider ">
+                    <a href="@Url.Action("Index", "Slider")">Slide</a>
+                </li>
+                <li class="has-children slider ">
+                    <a href="@Url.Action("Index", "Advertise")">Quảng cáo</a>
+                </li>
+                <li class="has-children department ">
+                    <a href="@Url.Action("Index", "Department")">Chuyên khoa</a>
+                </li>
+            </ul>
+            <ul>
+                <li class="cd-label">SYSTEM</li>
+                <li class="has-children link-configuration">
+                    <a href="@Url.Action("Index","Configuration")">Cài đặt</a>
+                </li>
+            </ul>
+            <ul>
+                <li class="cd-label">LIBRARY</li>
+
+                <li class="has-children image-lib">
+                    <a href="@Url.Action("Index","Gallerry")">Hình ảnh</a>
+                </li>
+                <li class="has-children video-lib">
+                    <a href="@Url.Action("Index","Video")">Video</a>
+                </li>
+            </ul>
+            <ul>
+                <li class="cd-label">Action</li>
+                <li class="action-btn"><a href="#0">Đăng bản tin</a></li>
+            </ul>
+        </nav>
+        <div class="content-wrapper">
+            <div class="content-render">
+                @RenderBody()
+            </div>
+        </div> <!-- .content-wrapper -->
+    </main> <!-- .cd-main-content -->
+
+    <!--Back to top-->
+    <div class="fis_backtop"><i class="fa fa-chevron-up"></i></div>
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @Scripts.Render("~/bundles/app")
+        @RenderSection("scripts", required: false)
+
+    <!--Modal confirm-->
+    <div id="modal-container" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-content">
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            $('body').on('click', '.modal-link', function (e) {
+                e.preventDefault();
+                $(this).attr('data-target', '#modal-container');
+                $(this).attr('data-toggle', 'modal');
+            });
+            // Attach listener to .modal-close-btn's so that when the button is pressed the modal dialog disappears
+            $('body').on('click', '.modal-close-btn', function () {
+                $('#modal-container').modal('hide');
+            });
+            //clear modal cache, so that new content can be loaded
+            $('#modal-container').on('hidden.bs.modal', function () {
+                $(this).removeData('bs.modal');
+            });
+            $('#CancelModal').on('click', function () {
+                return false;
+            });
+
+            function HideModal() {
+                $('#modal-container').modal('hide');
+            }
+        });
+    </script>
+</body>
+</html>

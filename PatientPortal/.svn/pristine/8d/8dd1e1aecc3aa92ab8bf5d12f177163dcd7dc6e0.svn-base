@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.Internal.Models.Role
+{
+    public class RoleModel
+    {
+        public RoleViewModel RoleViewModel { get; set; }
+        public List<RoleViewModel> lstRoleViewModel { get; set; }
+    }
+    public class RoleViewModel
+    {
+        public string Id { get; set; }
+        [Required(AllowEmptyStrings = false)]
+        [Display(Name = "Tên nhóm quyền")]
+        public string Name { get; set; }
+    }
+}

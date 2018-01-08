@@ -1,0 +1,128 @@
+﻿
+@model IEnumerable<PatientPortal.CMS.Models.FileViewModel>
+
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<style>
+    .thumb {
+        margin-bottom: 30px;
+    }
+
+        .thumb img {
+            width: 200px;
+            height: 200px;
+        }
+
+    body {
+        padding-top: 70px;
+    }
+
+    .navbar-inverse {
+        background-color: #394263;
+        border-color: #080808;
+    }
+    .navbar-inverse .navbar-brand {
+    color: #eee;
+}
+</style>
+<link href="~/Libs/jstree/dist/themes/default/style.min.css" rel="stylesheet" />
+
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Thư viện hình ảnh</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3 col-sm-12">
+            <h3 class="site_map_title">Thư mục</h3>
+            <div id="container">
+                <div id="MainTree">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9 col-sm-12">
+            <h3 class="page-header">Chọn hình ảnh cần thêm</h3>
+
+            @foreach (var image in Model)
+            {
+                <div class="col-md-4 col-md-4 col-xs-5 thumb">
+                    <a href="#" class="returnImage" data-url="@Request.Url.GetLeftPart(UriPartial.Authority)@image.Url">
+                        <img class="img-responsive" src="@image.Url" id="#image" data-source="@image.Url" />
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- jQuery -->
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<!-- Bootstrap -->
+<script src="~/Scripts/bootstrap.js"></script>
+
+<script src="~/Libs/jstree/dist/jstree.js"></script>
+
+<script>
+        $(document).ready(function () {
+            $(".returnImage").click("click", function (e) {
+                var urlImage = $(this).attr("data-url");
+                window.opener.updateValue("cke_77_textInput", urlImage);
+                window.close();
+            });
+        });
+</script>
+
+<script>
+
+    $(function () {
+        $.ajax({
+            type: "POST",
+            url: "/Library/GetTreeData",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                createJSTrees(data);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            }
+        });
+
+        function createJSTrees(jsonData) {
+            $('#MainTree').jstree({
+                'core': {
+                    'data': jsonData,
+                    'check_callback': true,
+                    'themes': { "stripes": true },
+                },
+                "plugins": ["themes", "dnd", "ui", "crrm"]
+            });
+        }
+
+        $('#MainTree')
+        // listen for event
+        .on('changed.jstree', function (e, data) {
+            var i, j, r = [];
+            for (i = 0, j = data.selected.length; i < j; i++) {
+                r.push(data.instance.get_node(data.selected[i]).id);
+            }
+
+            var url = "/Library/UploadPartial?folder=" + r.join(', ');
+            $.ajax({
+                url: url,
+                type: 'GET',
+                datatype: 'json',
+                success: function (data) {  },
+                error: function () { alert('something bad happened'); }
+            });
+        })
+    });
+
+</script>
+
+

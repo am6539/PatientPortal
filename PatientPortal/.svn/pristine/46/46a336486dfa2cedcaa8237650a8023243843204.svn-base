@@ -1,0 +1,61 @@
+﻿using PatientPortal.IRepository.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CMS;
+using PatientPortal.DataAccess.Repo.CMS;
+
+namespace PatientPortal.Repositoty.CMS
+{
+    public class WorkflowRepoImpl : IWorkflowRepo
+    {
+        /// <summary>
+        /// declare variables
+        /// </summary>
+        IWorkflow _workflow;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="workflow"></param>
+        public WorkflowRepoImpl(IWorkflow workflow)
+        {
+            this._workflow = workflow;
+        }
+
+        #region Function
+
+        /// <summary>
+        /// Action: Insert/Update/Delete category
+        /// </summary>
+        /// <param name="data">object "Workflow"</param>
+        /// <param name="action">Action: 'I' - Insert; 'U'- Update; 'D'- Delete</param>
+        /// <returns>Result: Success- true; Fail- false</returns>
+        public bool WorkflowTransaction(List<Workflow> data, char action)
+        {
+            return _workflow.WorkflowTransaction(data, action);
+        }
+
+        /// <summary>
+        /// Get all Workflow
+        /// </summary>
+        /// <returns>List: Workflow</returns>
+        public List<Workflow> GetAll()
+        {
+            return _workflow.GetAll();
+        }
+
+        public bool CheckExistName(string name, byte id)
+        {
+            return _workflow.CheckExistName(name, id);
+        }
+
+        public Workflow GetById(byte Id)
+        {
+            return _workflow.GetById(Id);
+        }
+        #endregion
+    }
+}

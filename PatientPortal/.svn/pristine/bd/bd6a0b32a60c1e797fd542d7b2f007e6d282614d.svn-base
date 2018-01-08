@@ -1,0 +1,151 @@
+﻿using Newtonsoft.Json;
+using PatientPortal.CMS.Models;
+using PatientPortal.CMS.Utility;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using WebApiContrib.Formatting;
+
+namespace PatientPortal.CMS.Controllers
+{
+    public class CategoryController : Controller
+    {
+        #region original code
+
+        //#region declare variables
+        //HttpClient client = new HttpClient { BaseAddress = new Uri("http://localhost:9502/") };
+        //#endregion
+
+        // GET: Category
+        //public ActionResult Index()
+        //{
+        //    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/x-protobuf"));
+        //    try
+        //    {
+        //        HttpResponseMessage response = client.GetAsync("api/category").Result;
+        //        if (response.IsSuccessStatusCode && response.Content != null)
+        //        {
+        //            // Parse the response body. Blocking!
+        //            var data = response.Content.ReadAsAsync<List<CategoryViewModel>>(new[] { new ProtoBufFormatter() }).Result;
+        //            ViewData["Categories"] = data;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        throw ex;
+        //    }
+        //    return View();
+        //}
+        #endregion
+            
+        public ActionResult Index()
+        {
+            #region old code
+
+            //var data = new List<CategoryViewModel>();
+            //try
+            //{
+            //    int parentId = 0;
+            //    if (TempData["parentId"] != null)
+            //    {
+            //        parentId = (byte)TempData["parentId"];
+            //    }
+            //    data = APIHelper.Get<List<CategoryViewModel>>($"api/Category?parentId=" + parentId + "");
+            //}
+            //catch (Exception ex)
+            //{
+
+            //    throw ex;
+            //}
+            //return View(data);
+            #endregion
+            var categories = new CategoriesModel();
+            var data = new List<CategoryViewModel>();
+            try
+            {
+                data = APIHelper.Get<List<CategoryViewModel>>($"api/Category");
+                data = data.OrderBy(a => a.ParentId).ToList();
+                categories.CategoryViewModelList = data;
+
+                categories.CategoryViewModel = new CategoryViewModel();
+                ///Category List
+                ViewBag.Categories = data;
+                ViewData["Categories"] = data;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return View(categories);
+        }
+
+        public ActionResult CategoryList()
+        {
+            return PartialView("_CategoryList");
+        }
+
+        public ActionResult AddNewCategory()
+        {
+            return PartialView("_AddNewCategory");
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> SaveChange(CategoryViewModel category, HttpPostedFileBase fileUpload)
+        {
+            category.Handler = "";
+            if (category == null)
+            {
+                return null;
+            }
+            if (ModelState.IsValid)
+            {
+                if(fileUpload != null)
+                {
+                    var fileName = Path.GetFileName(fileUpload.FileName);
+
+                    //Lưu đường dẫn của file
+                    var path = Path.Combine(Server.MapPath("~/Assets/images/Category"), fileName);
+
+                    //Kiểm tra hình ảnh đã tồn tại chưa
+                    if (!System.IO.File.Exists(path))
+                    {
+                        fileUpload.SaveAs(path);
+                    }
+                }
+                CategoryViewModel cate = await SaveCategory(category);
+                return View("Index");
+            }
+            else
+            {
+                var categories = new CategoriesModel();
+                categories.CategoryViewModelList = (List<CategoryViewModel>)ViewData["Categories"];
+                categories.CategoryViewModel = category;
+                return View("Index", categories);
+            }
+            
+        }
+
+        public async Task<CategoryViewModel> SaveCategory(CategoryViewModel category)
+        {
+            var result = new CategoryViewModel();
+            try
+            {
+                result = await APIHelper.TransactionAsync<CategoryViewModel>(category, "api/Category?action=I");
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("", e.Message);
+            }
+            return result;
+        }
+    }
+}

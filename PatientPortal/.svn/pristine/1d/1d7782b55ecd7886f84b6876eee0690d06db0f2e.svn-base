@@ -1,0 +1,181 @@
+﻿using PatientPortal.CMS.Common;
+using PatientPortal.CMS.Models;
+using PatientPortal.CMS.Utility;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.CMS.Controllers
+{
+    public class WorkflowController : Controller
+    {
+        private string apiUrl = $"api/workflow";
+
+        // GET: Workflow
+        public ActionResult Index()
+        {
+            var results = new WorkflowsModel();
+            try
+            {
+                var list = APIHelper.Get<List<WorkflowViewModel>>(apiUrl);
+                if (list == null) list = ApplicationHelper.GetObject<List<WorkflowViewModel>>();
+
+                var data = new WorkflowViewModel();
+                results.lstWorkflowViewModel = list;
+                results.WorkflowViewModel = data;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(ex.Message);
+                throw ex;
+            }
+            return View(results);
+        }
+
+        #region Create
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Create(WorkflowViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                bool result = await Save(model, ValueConstant.ACTION_INSERT);
+                if (result)
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var workflows = new WorkflowsModel();
+                workflows.lstWorkflowViewModel = (List<WorkflowViewModel>)TempData["Data"];
+
+                if (workflows.lstWorkflowViewModel == null) workflows.lstWorkflowViewModel = ApplicationHelper.GetObject<List<WorkflowViewModel>>();
+                workflows.WorkflowViewModel = model;
+
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.FAIL));
+                return View("Index", workflows);
+            }
+        }
+        #endregion
+
+        #region Edit
+        [HttpGet]
+        public ActionResult Edit(byte id)
+        {
+            var data = new WorkflowViewModel();
+            try
+            {
+                data = APIHelper.Get<WorkflowViewModel>(apiUrl + "/" + id);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(ex.Message);
+                throw ex;
+            }
+            return View(data);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Edit(WorkflowViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                bool result = await Save(model, ValueConstant.ACTION_UPDATE);
+                if (result)
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.ERROR, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.ERROR));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.FAIL));
+                return View();
+            }
+        }
+        #endregion
+
+        #region Delete
+        public ActionResult ViewConfirmDelete(WorkflowViewModel model)
+        {
+            bool checkIsused = APIHelper.Get<bool>($"language/CheckIsUsed/" + model.Id);
+            if (!checkIsused)
+            {
+                return PartialView("_Delete", model);
+            }
+            else
+            {
+                var workflows = new WorkflowsModel();
+                workflows.lstWorkflowViewModel = (List<WorkflowViewModel>)TempData["Data"];
+
+                if (workflows.lstWorkflowViewModel == null) workflows.lstWorkflowViewModel = ApplicationHelper.GetObject<List<WorkflowViewModel>>();
+                workflows.WorkflowViewModel = model;
+
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.ERROR, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_DELETE, RenderMessage.TypeResult.ISUSED));
+                return View("Index", workflows);
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Delete(byte id)
+        {
+            try
+            {
+                var model = new WorkflowViewModel();
+                model.Id = id;
+                var result = await Save(model, ValueConstant.ACTION_DELETE);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(ex.Message);
+                return View();
+            }
+        }
+
+        #endregion
+
+        #region Check Exist
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult CheckExistName(string name, byte id)
+        {
+
+            var isExist = APIHelper.Get<bool>(apiUrl + "/" + id + "?name=" + name);
+
+            return Json(!isExist, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
+        #region API Transaction
+        private async Task<bool> Save(WorkflowViewModel workflow, string action)
+        {
+            var result = false;
+            try
+            {
+                result = await APIHelper.TransactionAsyncResult<WorkflowViewModel>(workflow, apiUrl + "?action=" + action + "");
+            }
+            catch (Exception e)
+            {
+                LogHelper.WriteLog(e.Message);
+                ModelState.AddModelError("", e.Message);
+            }
+            return result;
+        }
+        #endregion
+    }
+}

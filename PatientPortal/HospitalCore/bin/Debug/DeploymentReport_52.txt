@@ -1,0 +1,32 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Create
+       [dbo].[Permission] (Table)
+       [dbo].[Role] (Table)
+       [dbo].[UserGroup] (Table)
+       [dbo].[UserRole] (Table)
+       [dbo].[Users] (Table)
+       [dbo].[Users].[idxUserAccess] (Index)
+       [dbo].[FK_Permission_Module] (Foreign Key)
+       [dbo].[FK_UserGroup_Group] (Foreign Key)
+       [dbo].[FK_UserGroup_Users] (Foreign Key)
+       [dbo].[FK_UserRole_Role] (Foreign Key)
+       [dbo].[FK_UserRole_Users] (Foreign Key)
+       [dbo].[FK_Users_Organization] (Foreign Key)
+       [dbo].[ufnGenerationNumber] (Function)
+       [dbo].[usp_AppointmentLog_Confirm] (Procedure)
+       [dbo].[usp_AppointmentLog_Search] (Procedure)
+     Alter
+       [dbo].[usp_AppointmentLog] (Procedure)
+       [dbo].[usp_Setting_Transaction] (Procedure)
+
+** Supporting actions

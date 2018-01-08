@@ -1,0 +1,17 @@
+﻿using PatientPortal.Domain.Models.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.IRepository.CMS
+{
+    public interface IAdvertiseRepo
+    {
+        List<Advertise> GetAll();
+        Advertise Get(byte Id);
+        bool Transaction(List<Advertise> data, char action);
+        bool CheckExist(string name, byte id);
+    }
+}

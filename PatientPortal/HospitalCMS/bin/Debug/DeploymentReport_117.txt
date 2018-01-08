@@ -1,0 +1,22 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       [dbo].[Gallery]
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Table rebuild
+       [dbo].[Gallery] (Table)
+     Alter
+       [dbo].[GalleryStore] (Table)
+       [dbo].[usp_spa_Post_Paging] (Procedure)
+
+** Supporting actions
+     Drop
+       [dbo].[FK_GalleryStore_Gallery] (Foreign Key)
+     Create
+       [dbo].[FK_GalleryStore_Gallery] (Foreign Key)

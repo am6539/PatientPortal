@@ -1,0 +1,265 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HospitalCMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Image" Type="varchar" MaxLength="256" />
+    <Property Name="Handler" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="Sort" Type="tinyint" Nullable="false" />
+    <Property Name="ParentId" Type="tinyint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Language">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="char" MaxLength="3" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Post">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Date" Type="date" Nullable="false" />
+    <Property Name="Image" Type="varchar" MaxLength="256" Nullable="false" />
+    <Property Name="Author" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="WorkflowStateId" Type="smallint" Nullable="false" />
+    <Property Name="CategoryId" Type="tinyint" Nullable="false" />
+    <Property Name="Status" Type="tinyint" Nullable="false" />
+    <Property Name="CreatedDate" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="CreatedBy" Type="int" Nullable="false" />
+    <Property Name="ModifiedDate" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="MdifiedBy" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PostSEO">
+    <Key>
+      <PropertyRef Name="PostId" />
+    </Key>
+    <Property Name="PostId" Type="int" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="71" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="160" Nullable="false" />
+    <Property Name="Canonical" Type="varchar" MaxLength="256" Nullable="false" />
+    <Property Name="BreadcrumbsTitle" Type="nvarchar" MaxLength="71" Nullable="false" />
+    <Property Name="MetaRobotIndex" Type="tinyint" Nullable="false" />
+    <Property Name="MetaRobotFollow" Type="tinyint" Nullable="false" />
+    <Property Name="MetaRobotAdvanced" Type="tinyint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PostStateHistory">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PostId" Type="int" Nullable="false" />
+    <Property Name="WorkflowStateId" Type="tinyint" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="Note" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="CreatedDate" Type="varchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PostTrans">
+    <Key>
+      <PropertyRef Name="PostId" />
+      <PropertyRef Name="LanguageId" />
+    </Key>
+    <Property Name="PostId" Type="int" Nullable="false" />
+    <Property Name="LanguageId" Type="tinyint" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="1000" Nullable="false" />
+    <Property Name="Detail" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Tag" Type="nvarchar" MaxLength="60" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Workflow">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="WorkflowNavigation">
+    <Key>
+      <PropertyRef Name="WorkflowStateId" />
+      <PropertyRef Name="NextWorkflowStateId" />
+    </Key>
+    <Property Name="WorkflowStateId" Type="smallint" Nullable="false" />
+    <Property Name="NextWorkflowStateId" Type="smallint" Nullable="false" />
+    <Property Name="IsUsed" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="WorkflowState">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="WorkflowId" Type="tinyint" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Post_Category">
+    <End Role="Category" Type="Self.Category" Multiplicity="1" />
+    <End Role="Post" Type="Self.Post" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Post">
+        <PropertyRef Name="CategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Post_WorkflowState">
+    <End Role="WorkflowState" Type="Self.WorkflowState" Multiplicity="1" />
+    <End Role="Post" Type="Self.Post" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WorkflowState">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Post">
+        <PropertyRef Name="WorkflowStateId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PostSEO_Post">
+    <End Role="Post" Type="Self.Post" Multiplicity="1" />
+    <End Role="PostSEO" Type="Self.PostSEO" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Post">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PostSEO">
+        <PropertyRef Name="PostId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PostStateHistory_Post">
+    <End Role="Post" Type="Self.Post" Multiplicity="1" />
+    <End Role="PostStateHistory" Type="Self.PostStateHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Post">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PostStateHistory">
+        <PropertyRef Name="PostId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PostTrans_Language">
+    <End Role="Language" Type="Self.Language" Multiplicity="1" />
+    <End Role="PostTrans" Type="Self.PostTrans" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Language">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PostTrans">
+        <PropertyRef Name="LanguageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PostTrans_Post">
+    <End Role="Post" Type="Self.Post" Multiplicity="1" />
+    <End Role="PostTrans" Type="Self.PostTrans" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Post">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PostTrans">
+        <PropertyRef Name="PostId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_WorkflowNavigation_WorkflowState">
+    <End Role="WorkflowState" Type="Self.WorkflowState" Multiplicity="1" />
+    <End Role="WorkflowNavigation" Type="Self.WorkflowNavigation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WorkflowState">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="WorkflowNavigation">
+        <PropertyRef Name="WorkflowStateId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_WorkflowNavigation_WorkflowState1">
+    <End Role="WorkflowState" Type="Self.WorkflowState" Multiplicity="1" />
+    <End Role="WorkflowNavigation" Type="Self.WorkflowNavigation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WorkflowState">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="WorkflowNavigation">
+        <PropertyRef Name="NextWorkflowStateId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_WorkflowState_Workflow">
+    <End Role="Workflow" Type="Self.Workflow" Multiplicity="1" />
+    <End Role="WorkflowState" Type="Self.WorkflowState" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Workflow">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="WorkflowState">
+        <PropertyRef Name="WorkflowId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="HospitalCMSModelStoreContainer">
+    <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Language" EntityType="Self.Language" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PostSEO" EntityType="Self.PostSEO" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PostStateHistory" EntityType="Self.PostStateHistory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PostTrans" EntityType="Self.PostTrans" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Workflow" EntityType="Self.Workflow" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="WorkflowNavigation" EntityType="Self.WorkflowNavigation" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="WorkflowState" EntityType="Self.WorkflowState" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Post_Category" Association="Self.FK_Post_Category">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="Post" EntitySet="Post" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Post_WorkflowState" Association="Self.FK_Post_WorkflowState">
+      <End Role="WorkflowState" EntitySet="WorkflowState" />
+      <End Role="Post" EntitySet="Post" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PostSEO_Post" Association="Self.FK_PostSEO_Post">
+      <End Role="Post" EntitySet="Post" />
+      <End Role="PostSEO" EntitySet="PostSEO" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PostStateHistory_Post" Association="Self.FK_PostStateHistory_Post">
+      <End Role="Post" EntitySet="Post" />
+      <End Role="PostStateHistory" EntitySet="PostStateHistory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PostTrans_Language" Association="Self.FK_PostTrans_Language">
+      <End Role="Language" EntitySet="Language" />
+      <End Role="PostTrans" EntitySet="PostTrans" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PostTrans_Post" Association="Self.FK_PostTrans_Post">
+      <End Role="Post" EntitySet="Post" />
+      <End Role="PostTrans" EntitySet="PostTrans" />
+    </AssociationSet>
+    <AssociationSet Name="FK_WorkflowNavigation_WorkflowState" Association="Self.FK_WorkflowNavigation_WorkflowState">
+      <End Role="WorkflowState" EntitySet="WorkflowState" />
+      <End Role="WorkflowNavigation" EntitySet="WorkflowNavigation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_WorkflowNavigation_WorkflowState1" Association="Self.FK_WorkflowNavigation_WorkflowState1">
+      <End Role="WorkflowState" EntitySet="WorkflowState" />
+      <End Role="WorkflowNavigation" EntitySet="WorkflowNavigation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_WorkflowState_Workflow" Association="Self.FK_WorkflowState_Workflow">
+      <End Role="Workflow" EntitySet="Workflow" />
+      <End Role="WorkflowState" EntitySet="WorkflowState" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

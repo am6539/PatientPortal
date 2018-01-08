@@ -1,0 +1,18 @@
+﻿using PatientPortal.Domain.Models.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.IRepository.CMS
+{
+    public interface IPostRepo
+    {
+        List<PostList> GetAll(int PostId, string languageCode);
+        Post GetById(int PostId, string languageCode);
+        bool PostTransaction(List<PostEdit> data, char action);
+        bool ApprovePost(List<PostStateHistory> data, char action);
+        bool PublishPost(List<PostStateHistory> data, char action);
+    }
+}

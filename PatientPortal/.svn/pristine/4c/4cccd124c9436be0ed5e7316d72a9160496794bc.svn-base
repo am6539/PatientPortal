@@ -1,0 +1,37 @@
+﻿using AutoMapper;
+using PatientPortal.API.SPA.ViewModels;
+using PatientPortal.Domain.Models.SPA;
+
+namespace PatientPortal.API.SPA.App_Start
+{
+    public class AutoMapperConfig
+    {
+        public static void Configure()
+        {
+            Mapper.Initialize(x =>
+            {
+                x.AddProfile<DomainToViewModelMappingProfile>();
+                x.AddProfile<ViewModelToDomainMappingProfile>();
+            });
+        }
+    }
+
+    public class DomainToViewModelMappingProfile : Profile
+    {
+        public DomainToViewModelMappingProfile()
+        {
+            CreateMap<PostList, PostListViewModel>();
+            CreateMap<Post, PostViewModel>();
+            CreateMap<Configuration, ConfigurationViewModel>();
+            CreateMap<Slider, SliderViewModel>();
+            CreateMap<Department, DepartmentViewModel>();
+        }
+    }
+    public class ViewModelToDomainMappingProfile : Profile
+    {
+        public ViewModelToDomainMappingProfile()
+        {
+            CreateMap<PostListViewModel, PostList>();
+        }
+    }
+}

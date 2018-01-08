@@ -1,0 +1,123 @@
+﻿using PatientPortal.Domain;
+using PatientPortal.Domain.Common;
+using PatientPortal.PatientServices.Models;
+using PatientPortal.PatientServices.Utility;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using PatientPortal.Domain.LogManager;
+
+namespace PatientPortal.PatientServices.Controllers
+{
+    public class AppointmentController : Controller
+    {
+        private static string controllerName = string.Empty;
+        private static string controllerUser = "User";
+
+        // GET: Appointment
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public async Task<ActionResult> Make()
+        {
+            //get list of doctors
+            controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+            byte type = (byte)EnumUserConstants.Type.ISDOCTOR;
+            string search = "";
+            string apiUrl = APIProvider.APIGenerator(controllerUser, new List<string> { nameof(search), nameof(type) }, true, search, type);
+            var doctorList = await APIProvider.Get<List<UserViewModel>>(apiUrl, APIConstant.API_Resource_CORE);
+            //var doctorList = await APIProvider.Get<List<UserViewModel>>(controllerUser + ApiUrlConstant.GET_USERS(null, (byte)EnumUserConstants.Type.ISDOCTOR), APIConstant.API_Resource_CORE);
+            if (doctorList == null) doctorList = ApplicationHelper.GetObject<List<UserViewModel>>();
+            TempData["Doctors"] = doctorList;
+            
+            ViewBag.Doctors = doctorList;
+            var appointmentModel = new AppointmentEditModel() { PatientId = 5 };
+            return View(appointmentModel);
+        }
+
+        public async Task<ActionResult> ViewDoctorList(string search)
+        {
+            var doctors = new List<UserViewModel>();
+            doctors = (List<UserViewModel>)TempData["Doctors"];
+            if(doctors == null)
+            {
+                byte type = (byte)EnumUserConstants.Type.ISDOCTOR;
+                string apiUrl = APIProvider.APIGenerator(controllerUser, new List<string> { nameof(search), nameof(type) }, true, search, type);
+                //var doctorList = await APIProvider.Get<List<UserViewModel>>(apiUrl, APIConstant.API_Resource_CORE);
+                doctors = await APIProvider.Get<List<UserViewModel>>(apiUrl, APIConstant.API_Resource_CORE);
+                if (doctors == null) doctors = ApplicationHelper.GetObject<List<UserViewModel>>();
+            }
+            else
+            {
+                doctors = doctors.Where(x => x.Name == search || search == null).ToList();
+            }
+            return PartialView("_DoctorList", doctors);
+        }
+
+        public async Task<ActionResult> DoctorDetail(int doctorId)
+        {
+            string apiUrl = APIProvider.APIGenerator(controllerUser, this.RouteData.Values["action"].ToString(), doctorId);
+            var doctor = await APIProvider.Get<UserViewModel>(apiUrl, APIConstant.API_Resource_CORE);
+            if(doctor == null) doctor = ApplicationHelper.GetObject<UserViewModel>();
+            return PartialView("_DoctorDetail", doctor);
+        }
+
+        public async Task<ActionResult> AppointmentPartial(int Id)
+        {
+            var appointment = new AppointmentEditModel() { PatientId = 5 };
+            appointment.PhysicianId = Id;
+            appointment.PatientId = 5;
+
+            string search = "";
+            byte type = (byte)EnumUserConstants.Type.ISDOCTOR;
+            string apiUrl = APIProvider.APIGenerator(controllerUser, new List<string> { nameof(search), nameof(type) }, true, search, type);
+            //var doctor = await APIProvider.Get<UserViewModel>(apiUrl, APIConstant.API_Resource_CORE);
+            var doctorList = await APIProvider.Get<List<UserViewModel>>(apiUrl, APIConstant.API_Resource_CORE);
+            if (doctorList == null) doctorList = ApplicationHelper.GetObject<List<UserViewModel>>();
+            ViewBag.Doctors = doctorList;
+
+            return PartialView("_Appointment", appointment);
+        }
+
+        public async Task<ActionResult> InfoOrder(int patientId)
+        {
+            //var patient = await APIProvider.Get<UserViewModel>(controllerUser + ApiUrlConstant.GET_USER_DETAILS(patientId));
+            string apiUrl = APIProvider.APIGenerator(controllerUser, this.RouteData.Values["action"].ToString(), patientId);
+            var patient = await APIProvider.Get<UserViewModel>(apiUrl, APIConstant.API_Resource_CORE);
+            if (patient == null) patient = ApplicationHelper.GetObject<UserViewModel>();
+            return PartialView("_InfoOrder", patient);
+        }
+
+        public async Task<ActionResult> ConfirmAppointment(AppointmentEditModel model)
+        {
+            model.Time = 8;
+            if (ModelState.IsValid)
+            {
+                await Save(model, ValueConstant.INSERT);
+            }
+            return RedirectToAction("Make");
+        }
+        private async Task<int> Save(AppointmentEditModel model, char action)
+        {
+            int result = 0;
+            try
+            {
+                string strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_INSERT);
+                result = await APIProvider.DynamicTransaction<AppointmentEditModel, int>(model, strUrl);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                Logger.LogError(ex);
+            }
+            return result;
+        }
+    }
+}

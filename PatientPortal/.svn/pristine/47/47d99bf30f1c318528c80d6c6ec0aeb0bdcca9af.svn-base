@@ -1,0 +1,73 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.CMS.Models.PostTranViewModel
+@{
+    ViewBag.Title = "Ngôn ngữ khác";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+<link href="~/Libs/Chosen/css/chosen.css" rel="stylesheet" />
+<link href="~/Libs/jquery-ui/jquery-ui.css" rel="stylesheet" />
+    }
+<div class="card">
+    <div class="card-title">@Html.ITitle("Ngôn ngữ khác", "file-text-o")</div>
+    <div class="card-content">
+        @using (Html.IBeginForm("PostTransUpdate", "Post", FormMethod.Post))
+        {
+            <div class="col-md-9">
+                <div class="form-horizontal">
+                    @Html.HiddenFor(model => model.PostId)
+                    @Html.IGroupTextBoxFor(m => m.Title, true, null, null, 12)
+                    @Html.IGroupTextAreaFor(m => m.Description, true, 5, null, null, 12)
+                    @Html.IGroupTextAreaFor(m => m.Detail, true, 12, null, null, 12)
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label class="badge">Tags</label>
+                            <ul id="PostTags">
+                                @if (ViewBag.Tags != null)
+                                {
+                                    var tags = ViewBag.Tags.Split(';');
+                                    for (var i = 0; i < tags.Length; i++)
+                                    {
+                                        <li> @tags[i] </li>
+                                    }
+                                }
+                            </ul>
+                            @Html.HiddenFor(m => m.Tag)
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><label>Chức năng</label></div>
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            @Html.IGroupDropDownListFor(m => m.LanguageId, new SelectList(ViewBag.Languages, "Id", "Name"), true, null, null, 12)
+                            <hr />
+                            @Html.ISubmitButton("cập nhật")
+                            @Html.IButton(Url.Action("Index", "Post"), ActionButton.Cancel, null)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section scripts{
+<script src="~/Libs/Chosen/js/chosen.jquery.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script>
+        var config = {
+            '.chosen-select': {},
+            '.chosen-select-deselect': { allow_single_deselect: true },
+            '.chosen-select-no-single': { disable_search_threshold: 10 },
+            '.chosen-select-no-results': { no_results_text: 'Không tìm thấy thông tin!' },
+            '.chosen-select-width': { width: "95%" }
+        }
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
+    </script>
+    }

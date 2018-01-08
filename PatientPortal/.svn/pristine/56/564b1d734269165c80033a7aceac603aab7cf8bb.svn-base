@@ -1,0 +1,42 @@
+﻿using AutoMapper;
+using PatientPortal.API.SPA.ViewModels;
+using PatientPortal.Domain.Models.SPA;
+using PatientPortal.IRepository.SPA;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Http;
+
+namespace PatientPortal.API.SPA.Controllers
+{
+    public class CategoryController : ApiController
+    {
+        private readonly ICategoryRepo _iCategoryRepo;
+        public CategoryController(ICategoryRepo iCategoryRepo)
+        {
+            this._iCategoryRepo = iCategoryRepo;
+        }
+
+        public async Task<List<CategoryViewModel>> GetMenu()
+        {
+            IList<string> list = new List<string> { "ParentId" };
+            var para = APIProvider.APIDefaultParameter(list, 0);
+            var source = await _iCategoryRepo.Query(para);
+            List<CategoryViewModel> dest = Mapper.Map<List<CategoryViewModel>>(source);
+            return dest;
+        }
+
+        public async Task<List<CategoryViewModel>> GetPostCategory(byte parentId)
+        {
+            IList<string> list = new List<string> { "ParentId" };
+            var para = APIProvider.APIDefaultParameter(list, parentId);
+            var source = await _iCategoryRepo.QueryPostCategory(para);
+            List<CategoryViewModel> dest = Mapper.Map<List<CategoryViewModel>>(source);
+            return dest;
+        }
+    }
+}

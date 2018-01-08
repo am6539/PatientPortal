@@ -1,0 +1,56 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.IRepository.CMS;
+using PatientPortal.Domain.Models.CMS;
+using PatientPortal.DataAccess.Repo.CMS;
+
+namespace PatientPortal.Repositoty.CMS
+{
+    public class FeatureRepoImpl : IFeatureRepo
+    {
+        IFeature _feature;
+        public FeatureRepoImpl(IFeature feature)
+        {
+            this._feature = feature;
+        }
+
+        /// <summary>
+        /// Get all
+        /// </summary>
+        /// <returns>List</returns>
+        public List<Feature> GetAll()
+        {
+            return _feature.GetAll();
+        } 
+
+        public Feature GetById(byte id)
+        {
+            return _feature.GetById(id);
+        }
+
+        /// <summary>
+        /// Transaction
+        /// </summary>
+        /// <param name="data">List</param>
+        /// <param name="action">I: Insert, U: Update, D: Delete</param>
+        /// <returns>true/false</returns>
+        public bool Transaction(List<Feature> data, char action)
+        {
+            return _feature.Transaction(data, action);
+        }
+
+        /// <summary>
+        /// Check exist data
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public bool CheckExist(string title, byte id)
+        {
+            return _feature.CheckExist(title, id);
+        }
+    }
+}

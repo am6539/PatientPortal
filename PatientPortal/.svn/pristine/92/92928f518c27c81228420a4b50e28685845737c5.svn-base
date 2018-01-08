@@ -1,0 +1,111 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <style>
+    .bg-green {
+            background: #1ABB9C !important;
+            border: 1px solid #1ABB9C !important;
+            color: #fff;
+        }
+
+        .bg-orange {
+            background: #F39C12 !important;
+            border: 1px solid #F39C12 !important;
+            color: #fff;
+        }
+
+        .bg-blue {
+            background: #337ab7 !important;
+            border: 1px solid #337ab7 !important;
+            color: #fff;
+        }
+    </style>
+}
+
+<div class="card">
+    <div class="card-title">DANH SÁCH TẤT CẢ CÁC ĐẶT HẸN KHÁM BỆNH</div>
+    <div class="card-actionbar">
+        <div class="col-md-3 filter-drop-categories">
+            <select data-placeholder="Chọn tình trạng lịch hẹn ..." class="chosen-select" tabindex="2">
+                <option value=""></option>
+                <option value="one">Mới đặt hẹn</option>
+                <option value="two">Đã xác nhận</option>
+                <option value="three">Đã khám bệnh</option>
+                <option value="four">Đã hủy</option>
+            </select>
+            @*@Html.DropDownListFor(model => model.UserId, new SelectList(ViewBag.Users, "Id", "Name"), new { @class = "chosen-select", @data_placeholder = "Chọn bác sĩ" })*@
+        </div>
+        <div class="col-md-3 filter-drop-categories">
+            <input type="text" class="form-control" id="Start">
+        </div>
+        <div class="col-md-3 filter-drop-categories">
+            <input type="text" class="form-control" id="End">
+        </div>
+        <div class="col-md-3 filter-drop-categories">
+            <button type="submit" class="btn btn-default"><i class="fa fa-search" fa-search" aria-hidden="true"> Tìm kiếm</i></button>
+        </div>
+    </div>
+    <div class="card-content table-actionbar-top">
+        <table class="table table-responsive table-bordered">
+            <thead>
+                <tr>
+                    <td title="Time"></td>
+                    <td>
+                        Ngày
+                    </td>
+                    <td>
+                        Bệnh nhân
+                    </td>
+                    <td>
+                        Số điện thoại
+                    </td>
+                    <td>
+                        Bác sĩ
+                    </td>
+                    <td>
+                        Tình trạng
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>08:00</td>
+                    <td>06/03/2107</td>
+                    <td>Vũ Thị Thanh Hoa</td>
+                    <td>0125 5642 345</td>
+                    <td>Lê Thanh Nhã</td>
+                    <td>
+                        <small class="badge bg-green">Mới đặt hẹn</small>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        var config = {
+            '.chosen-select': {}
+        }
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
+        $("#Start").datetimepicker({
+            format: 'DD/MM/YYYY',
+            locale: 'vi',
+            //minDate: Date.now(),
+        });
+
+        $("#End").datetimepicker({
+            format: 'DD/MM/YYYY',
+            locale: 'vi',
+            //minDate: Date.now(),
+        });
+    </script>
+}
+

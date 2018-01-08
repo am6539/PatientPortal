@@ -1,0 +1,90 @@
+﻿using PatientPortal.DataAccess.Repo.CMS;
+using PatientPortal.Domain.Models.CMS;
+using PatientPortal.IRepository.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.Repositoty.CMS
+{
+    public class PostRepoImpl: IPostRepo
+    {
+        /// <summary>
+        /// Declare variables
+        /// </summary>
+        IPost _post;
+
+        /// <summary>
+        /// Contructor
+        /// </summary>
+        /// <param name="post"></param>
+        public PostRepoImpl(IPost post)
+        {
+            this._post = post;
+        }
+
+        /// <summary>
+        /// Get list post
+        /// </summary>
+        /// <param name="languageId"></param>
+        /// <returns>List post</returns>
+        public List<PostList> GetAll(PostFilter param)
+        {
+            var results = _post.GetAll(param);
+
+            return results;
+        }
+
+        /// <summary>
+        /// Get post by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="languageId"></param>
+        /// <returns>Post</returns>
+        public Post GetById(int PostId, string languageCode)
+        {
+            var result = _post.GetById(PostId, languageCode);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Transaction in post include: Insert - Update - Delete
+        /// </summary>
+        /// <param name="data">Object: PostEdit</param>
+        /// <param name="action">Action: I: Insert - U: Update - D: Delete</param>
+        /// <returns>true/false</returns>
+        public bool PostTransaction(List<PostEdit> data, char action)
+        {
+            var result = _post.PostTransaction(data, action);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Approve post when review
+        /// </summary>
+        /// <param name="data">Object: PostStateHistory</param>
+        /// <param name="action">Action: U: Update</param>
+        /// <returns></returns>
+        public bool ApprovePost(List<PostStateHistory> data, char action)
+        {
+            var result = _post.ApprovePost(data, action);
+            return result;
+        }
+
+        /// <summary>
+        /// Publish post when approve
+        /// </summary>
+        /// <param name="data">Object: PostStateHistory</param>
+        /// <param name="action">Action: U: Update</param>
+        /// <returns></returns>
+        public bool PublishPost(List<PostStateHistory> data, char action)
+        {
+            var result = _post.PublishPost(data, action);
+            return result;
+        }
+    }
+}

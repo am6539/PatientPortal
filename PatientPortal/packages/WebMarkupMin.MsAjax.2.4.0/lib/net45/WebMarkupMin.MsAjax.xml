@@ -1,0 +1,601 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebMarkupMin.MsAjax</name>
+    </assembly>
+    <members>
+        <member name="T:WebMarkupMin.MsAjax.BlockStart">
+            <summary>
+            Describes how to output the opening curly-brace for blocks when the OutputMode
+            is set to MultipleLines
+            </summary>
+        </member>
+        <member name="F:WebMarkupMin.MsAjax.BlockStart.NewLine">
+            <summary>
+            Output the opening curly-brace block-start character on its own new line.
+            Example:
+            <code>if (condition)
+            {
+            	...
+            }</code>
+            </summary>
+        </member>
+        <member name="F:WebMarkupMin.MsAjax.BlockStart.SameLine">
+            <summary>
+            Output the opening curly-brace block-start character at the end of the previous line.
+            Example:
+            <code>if (condition) {
+            	...
+            }</code>
+            </summary>
+        </member>
+        <member name="F:WebMarkupMin.MsAjax.BlockStart.UseSource">
+            <summary>
+            Output the opening curly-brace block-start character on the same line or a new line
+            depending on how it was specified in the sources
+            </summary>
+        </member>
+        <member name="F:WebMarkupMin.MsAjax.CssColor.Strict">
+            <summary>
+            Convert strict names to hex values if shorter; hex values to strict names if shorter. Leave all other
+            color names or hex values as-specified.
+            </summary>
+        </member>
+        <member name="F:WebMarkupMin.MsAjax.CssColor.Hex">
+            <summary>
+            Always use hex values; do not convert any hex values to color names
+            </summary>
+        </member>
+        <member name="F:WebMarkupMin.MsAjax.CssColor.Major">
+            <summary>
+            Convert known hex values to major-browser color names if shorter; and known major-browser color
+            names to hex if shorter
+            </summary>
+        </member>
+        <member name="F:WebMarkupMin.MsAjax.CssColor.NoSwap">
+            <summary>
+            Don't swap names for hex or hex for names, whether or not one is shorter
+            </summary>
+        </member>
+        <member name="F:WebMarkupMin.MsAjax.CssComment.Important">
+            <summary>
+            Remove all comments except those marked as important (<code>//!</code> or <code>/*!</code>)
+            </summary>
+        </member>
+        <member name="F:WebMarkupMin.MsAjax.CssComment.None">
+            <summary>
+            Remove all source comments from the output
+            </summary>
+        </member>
+        <member name="F:WebMarkupMin.MsAjax.CssComment.All">
+            <summary>
+            Keep all source comments in the output
+            </summary>
+        </member>
+        <member name="F:WebMarkupMin.MsAjax.CssComment.Hacks">
+            <summary>
+            Remove all source comments except those for approved comment-based hacks
+            </summary>
+        </member>
+        <member name="F:WebMarkupMin.MsAjax.EvalTreatment.Ignore">
+            <summary>
+            Ignore all eval statements. This assumes that code that is eval'd will not attempt
+            to access any local variables or functions, as those variables and function may be renamed.
+            </summary>
+        </member>
+        <member name="F:WebMarkupMin.MsAjax.EvalTreatment.MakeImmediateSafe">
+            <summary>
+            Assume any code that is eval'd will attempt to access local variables and functions declared
+            in the same scope as the eval statement. This will turn off local variable and function renaming
+            in any scope that contains an eval statement.
+            </summary>
+        </member>
+        <member name="F:WebMarkupMin.MsAjax.EvalTreatment.MakeAllSafe">
+            <summary>
+            Assume that any local variable or function in any accessible scope chain may be referenced by
+            code that is eval'd. This will turn off local variable and function renaming for all scopes that
+            contain an eval statement, and all their parent scopes up the chain to the global scope.
+            </summary>
+        </member>
+        <member name="F:WebMarkupMin.MsAjax.LocalRenaming.KeepAll">
+            <summary>
+            Keep all names; don't rename anything
+            </summary>
+        </member>
+        <member name="F:WebMarkupMin.MsAjax.LocalRenaming.KeepLocalizationVars">
+            <summary>
+            Rename all local variables and functions that do not begin with "L_"
+            </summary>
+        </member>
+        <member name="F:WebMarkupMin.MsAjax.LocalRenaming.CrunchAll">
+            <summary>
+            Rename all local variables and functions
+            </summary>
+        </member>
+        <member name="T:WebMarkupMin.MsAjax.MsAjaxCommonMinificationSettingsBase">
+            <summary>
+            Common settings of the Microsoft Ajax Minifier
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxCommonMinificationSettingsBase.BlocksStartOnSameLine">
+            <summary>
+            Gets or sets a value indicating whether the opening curly brace for blocks is
+            on its own line (<code>NewLine</code>) or on the same line as
+            the preceding code (<code>SameLine</code>)
+            or taking a hint from the source code position (<code>UseSource</code>).
+            Only relevant when OutputMode is set to <code>MultipleLines</code>.
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxCommonMinificationSettingsBase.IgnoreAllErrors">
+            <summary>
+            Gets or sets a flag for whether to ignore all errors found in the input code
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxCommonMinificationSettingsBase.IgnoreErrorList">
+            <summary>
+            Gets or sets a string representation of the list of
+            debug lookups (comma-separated)
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxCommonMinificationSettingsBase.IndentSize">
+            <summary>
+            Gets or sets a number of spaces per indent level when in
+            <code>MultipleLines</code> output mode
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxCommonMinificationSettingsBase.LineBreakThreshold">
+            <summary>
+            Gets or sets a column position at which the line
+            will be broken at the next available opportunity
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxCommonMinificationSettingsBase.OutputMode">
+            <summary>
+            Gets or sets a output mode:
+            <code>SingleLine</code> - output all code on a single line;
+            <code>MultipleLines</code> - break the output into multiple lines to be more human-readable
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxCommonMinificationSettingsBase.PreprocessorDefineList">
+            <summary>
+            Gets or sets a string representation of the list
+            of names defined for the preprocessor (comma-separated)
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxCommonMinificationSettingsBase.TermSemicolons">
+            <summary>
+            Gets or sets a flag for whether to add a semicolon
+            at the end of the parsed code
+            </summary>
+        </member>
+        <member name="M:WebMarkupMin.MsAjax.MsAjaxCommonMinificationSettingsBase.#ctor">
+            <summary>
+            Constructs an instance of common settings of the Microsoft Ajax Minifier
+            </summary>
+        </member>
+        <member name="T:WebMarkupMin.MsAjax.MsAjaxCssMinificationSettings">
+            <summary>
+            Microsoft Ajax CSS Minifier settings
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxCssMinificationSettings.ColorNames">
+            <summary>
+            Gets or sets ColorNames setting
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxCssMinificationSettings.CommentMode">
+            <summary>
+            Gets or sets CommentMode setting
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxCssMinificationSettings.MinifyExpressions">
+            <summary>
+            Gets or sets a value indicating whether to minify the
+            JavaScript within expression functions
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxCssMinificationSettings.RemoveEmptyBlocks">
+            <summary>
+            Gets or sets a value indicating whether empty blocks removes
+            the corresponding rule or directive
+            </summary>
+        </member>
+        <member name="M:WebMarkupMin.MsAjax.MsAjaxCssMinificationSettings.#ctor">
+            <summary>
+            Constructs an instance of the Microsoft Ajax CSS Minifier settings
+            </summary>
+        </member>
+        <member name="T:WebMarkupMin.MsAjax.MsAjaxCssMinifier">
+            <summary>
+            Minifier, which produces minifiction of CSS-code by using the Microsoft Ajax CSS Minifier
+            </summary>
+        </member>
+        <member name="F:WebMarkupMin.MsAjax.MsAjaxCssMinifier._originalEmbeddedCssSettings">
+            <summary>
+            Original CSS minifier settings for embedded code
+            </summary>
+        </member>
+        <member name="F:WebMarkupMin.MsAjax.MsAjaxCssMinifier._originalInlineCssSettings">
+            <summary>
+            Original CSS minifier settings for inline code
+            </summary>
+        </member>
+        <member name="F:WebMarkupMin.MsAjax.MsAjaxCssMinifier._originalJsSettings">
+            <summary>
+            Original JS minifier settings
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxCssMinifier.IsInlineCodeMinificationSupported">
+            <summary>
+            Gets a value indicating the minifier supports inline code minification
+            </summary>
+        </member>
+        <member name="M:WebMarkupMin.MsAjax.MsAjaxCssMinifier.#ctor">
+            <summary>
+            Constructs an instance of the Microsoft Ajax CSS Minifier
+            </summary>
+        </member>
+        <member name="M:WebMarkupMin.MsAjax.MsAjaxCssMinifier.#ctor(WebMarkupMin.MsAjax.MsAjaxCssMinificationSettings)">
+            <summary>
+            Constructs an instance of the Microsoft Ajax CSS Minifier
+            </summary>
+            <param name="settings">Microsoft Ajax CSS Minifier settings</param>
+        </member>
+        <member name="M:WebMarkupMin.MsAjax.MsAjaxCssMinifier.Minify(System.String,System.Boolean)">
+            <summary>
+            Produces a code minifiction of CSS content by using the Microsoft Ajax CSS Minifier
+            </summary>
+            <param name="content">CSS content</param>
+            <param name="isInlineCode">Flag whether the content is inline code</param>
+            <returns>Minification result</returns>
+        </member>
+        <member name="M:WebMarkupMin.MsAjax.MsAjaxCssMinifier.Minify(System.String,System.Boolean,System.Text.Encoding)">
+            <summary>
+            Produces a code minifiction of CSS content by using the Microsoft Ajax CSS Minifier
+            </summary>
+            <param name="content">CSS content</param>
+            <param name="isInlineCode">Flag whether the content is inline code</param>
+            <param name="encoding">Text encoding</param>
+            <returns>Minification result</returns>
+        </member>
+        <member name="M:WebMarkupMin.MsAjax.MsAjaxCssMinifier.CreateOriginalCssMinifierSettings(WebMarkupMin.MsAjax.MsAjaxCssMinificationSettings,System.Boolean)">
+            <summary>
+            Creates a original CSS minifier settings
+            </summary>
+            <param name="settings">CSS minifier settings</param>
+            <param name="isInlineCode">Flag for whether to create a settings for inline code</param>
+            <returns>Original CSS minifier settings</returns>
+        </member>
+        <member name="M:WebMarkupMin.MsAjax.MsAjaxCssMinifier.MapCssSettings(Microsoft.Ajax.Utilities.CssSettings,WebMarkupMin.MsAjax.MsAjaxCssMinificationSettings)">
+            <summary>
+            Maps a CSS minifier settings
+            </summary>
+            <param name="originalSettings">Original CSS minifier settings</param>
+            <param name="settings">CSS minifier settings</param>
+        </member>
+        <member name="T:WebMarkupMin.MsAjax.MsAjaxCssMinifierFactory">
+            <summary>
+            Microsoft Ajax CSS Minifier factory
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxCssMinifierFactory.MinificationSettings">
+            <summary>
+            Gets or sets a minification settings used to configure the Microsoft Ajax CSS Minifier
+            </summary>
+        </member>
+        <member name="M:WebMarkupMin.MsAjax.MsAjaxCssMinifierFactory.#ctor">
+            <summary>
+            Constructs an instance of the Microsoft Ajax CSS Minifier factory
+            </summary>
+        </member>
+        <member name="M:WebMarkupMin.MsAjax.MsAjaxCssMinifierFactory.#ctor(WebMarkupMin.MsAjax.MsAjaxCssMinificationSettings)">
+            <summary>
+            Constructs an instance of the Microsoft Ajax CSS Minifier factory
+            </summary>
+            <param name="settings">Minification settings used to configure the Microsoft Ajax CSS Minifier</param>
+        </member>
+        <member name="M:WebMarkupMin.MsAjax.MsAjaxCssMinifierFactory.CreateMinifier">
+            <summary>
+            Creates a instance of the Microsoft Ajax CSS Minifier
+            </summary>
+            <returns>Instance of the Microsoft Ajax CSS Minifier</returns>
+        </member>
+        <member name="T:WebMarkupMin.MsAjax.MsAjaxJsMinificationSettings">
+            <summary>
+            Microsoft Ajax JS Minifier settings
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxJsMinificationSettings.AlwaysEscapeNonAscii">
+            <summary>
+            Gets or sets a flag indicating whether to always escape non-ASCII characters as <code>\uXXXX</code>
+            or to let the output encoding object handle that via the <code>JsEncoderFallback</code> object for the
+            specified output encoding format
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxJsMinificationSettings.AmdSupport">
+            <summary>
+            Gets or sets a flag indicating whether to perform extra tasks on AMD-style defines
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxJsMinificationSettings.CollapseToLiteral">
+            <summary>
+            Gets or sets a flag for whether to collapse <code>new Array()</code>
+            to <code>[]</code> and <code>new Object()</code> to <code>{}</code>
+            (true) or leave as-is (false)
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxJsMinificationSettings.ConstStatementsMozilla">
+            <summary>
+            Gets or sets a boolean value indicating whether to use old-style
+            const statements (just var-statements that define unchangeable fields)
+            or new EcmaScript 6 lexical declarations
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxJsMinificationSettings.DebugLookupList">
+            <summary>
+            Gets or sets a string representation of the list of debug
+            lookups (comma-separated)
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxJsMinificationSettings.ErrorIfNotInlineSafe">
+            <summary>
+            Gets or sets a flag for whether to throw an error
+            if a source string is not safe for inclusion in an
+            HTML inline script block
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxJsMinificationSettings.EvalLiteralExpressions">
+            <summary>
+            Gets or sets a flag for whether to evaluate expressions containing
+            only literal bool, string, numeric, or null values (true).
+            Leave literal expressions alone and do not evaluate them (false).
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxJsMinificationSettings.EvalTreatment">
+            <summary>
+            EvalTreatment setting
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxJsMinificationSettings.IgnoreConditionalCompilation">
+            <summary>
+            Gets or sets a flag for whether or not to ignore conditional-compilation
+            comment syntax (true) or to try to retain the comments in the output (false)
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxJsMinificationSettings.IgnorePreprocessorDefines">
+            <summary>
+            Gets or sets a boolean value indicating whether or not to ignore preprocessor
+            defines comment syntax (true) or to evaluate them (false)
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxJsMinificationSettings.InlineSafeStrings">
+            <summary>
+            Gets or sets a flag for whether to break up string literals containing
+            <code>&lt;/script&gt;</code> so inline code won't break (true).
+            Leave string literals as-is (false).
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxJsMinificationSettings.KnownGlobalNamesList">
+            <summary>
+            Gets or sets the known global names list as a single comma-separated string
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxJsMinificationSettings.LocalRenaming">
+            <summary>
+            Gets or sets a value indicating whether to how to rename local variables and functions:
+            <code>KeepAll</code> - do not rename local variables and functions;
+            <code>CrunchAll</code> - rename all local variables and functions to shorter names;
+            <code>KeepLocalizationVars</code> - rename all local variables and functions that do NOT start with L_
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxJsMinificationSettings.MacSafariQuirks">
+            <summary>
+            Gets or sets a value indicating whether to add characters to the output
+            to make sure Mac Safari bugs are not generated (true).
+            Disregard potential Mac Safari bugs (false).
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxJsMinificationSettings.ManualRenamesProperties">
+            <summary>
+            Gets or sets a boolean value indicating whether object property
+            names with the specified "from" names will get renamed to
+            the corresponding "to" names (true) when using
+            the manual-rename feature, or left alone (false)
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxJsMinificationSettings.NoAutoRenameList">
+            <summary>
+            Get or sets the no-automatic-renaming list as a single string of
+            comma-separated identifiers
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxJsMinificationSettings.PreserveFunctionNames">
+            <summary>
+            Gets or sets a value indicating whether all function names
+            must be preserved and remain as-named
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxJsMinificationSettings.PreserveImportantComments">
+            <summary>
+            Gets or sets a value indicating whether to preserve important
+            comments in the output
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxJsMinificationSettings.QuoteObjectLiteralProperties">
+            <summary>
+            Gets or sets a value indicating whether to always quote object literal property names
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxJsMinificationSettings.RemoveFunctionExpressionNames">
+            <summary>
+            Gets or sets a value indicating whether or not to remove
+            unreferenced function expression names
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxJsMinificationSettings.RemoveUnneededCode">
+            <summary>
+            Remove unneeded code, like uncalled local functions (true).
+            Keep all code (false).
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxJsMinificationSettings.RenamePairs">
+            <summary>
+            Gets or sets a string representation of all the indentifier
+            replacements as a comma-separated list of "source=target" identifiers
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxJsMinificationSettings.ReorderScopeDeclarations">
+            <summary>
+            Gets or sets a value indicating whether or not to reorder function and variable
+            declarations within scopes (true), or to leave the order as specified in
+            the original source
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxJsMinificationSettings.StrictMode">
+            <summary>
+            Gets or sets a boolean value indicating whether or not to force
+            the input code into strict mode (can still specify strict-mode in
+            the sources if this value is false)
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxJsMinificationSettings.StripDebugStatements">
+            <summary>
+            Strip debug statements (true).
+            Leave debug statements (false).
+            </summary>
+        </member>
+        <member name="M:WebMarkupMin.MsAjax.MsAjaxJsMinificationSettings.#ctor">
+            <summary>
+            Constructs an instance of the Microsoft Ajax JS Minifier settings
+            </summary>
+        </member>
+        <member name="T:WebMarkupMin.MsAjax.MsAjaxJsMinifier">
+            <summary>
+            Minifier, which produces minifiction of JS-code by using the Microsoft Ajax JS Minifier
+            </summary>
+        </member>
+        <member name="F:WebMarkupMin.MsAjax.MsAjaxJsMinifier._originalEmbeddedJsSettings">
+            <summary>
+            Original JS minifier settings for embedded code
+            </summary>
+        </member>
+        <member name="F:WebMarkupMin.MsAjax.MsAjaxJsMinifier._originalInlineJsSettings">
+            <summary>
+            Original JS minifier settings for inline code
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxJsMinifier.IsInlineCodeMinificationSupported">
+            <summary>
+            Gets a value indicating the minifier supports inline code minification
+            </summary>
+        </member>
+        <member name="M:WebMarkupMin.MsAjax.MsAjaxJsMinifier.#ctor">
+            <summary>
+            Constructs an instance of the Microsoft Ajax JS Minifier
+            </summary>
+        </member>
+        <member name="M:WebMarkupMin.MsAjax.MsAjaxJsMinifier.#ctor(WebMarkupMin.MsAjax.MsAjaxJsMinificationSettings)">
+            <summary>
+            Constructs an instance of the Microsoft Ajax JS Minifier
+            </summary>
+            <param name="settings">Microsoft Ajax JS Minifier settings</param>
+        </member>
+        <member name="M:WebMarkupMin.MsAjax.MsAjaxJsMinifier.Minify(System.String,System.Boolean)">
+            <summary>
+            Produces a code minifiction of JS content by using the Microsoft Ajax JS Minifier
+            </summary>
+            <param name="content">JS content</param>
+            <param name="isInlineCode">Flag whether the content is inline code</param>
+            <returns>Minification result</returns>
+        </member>
+        <member name="M:WebMarkupMin.MsAjax.MsAjaxJsMinifier.Minify(System.String,System.Boolean,System.Text.Encoding)">
+            <summary>
+            Produces a code minifiction of JS content by using the Microsoft Ajax JS Minifier
+            </summary>
+            <param name="content">JS content</param>
+            <param name="isInlineCode">Flag whether the content is inline code</param>
+            <param name="encoding">Text encoding</param>
+            <returns>Minification result</returns>
+        </member>
+        <member name="M:WebMarkupMin.MsAjax.MsAjaxJsMinifier.CreateOriginalJsMinifierSettings(WebMarkupMin.MsAjax.MsAjaxJsMinificationSettings,System.Boolean)">
+            <summary>
+            Creates a original JS minifier settings
+            </summary>
+            <param name="settings">JS minifier settings</param>
+            <param name="isInlineCode">Flag for whether to create a settings for inline code</param>
+            <returns>Original JS minifier settings</returns>
+        </member>
+        <member name="M:WebMarkupMin.MsAjax.MsAjaxJsMinifier.MapJsSettings(Microsoft.Ajax.Utilities.CodeSettings,WebMarkupMin.MsAjax.MsAjaxJsMinificationSettings)">
+            <summary>
+            Maps a JS minifier settings
+            </summary>
+            <param name="originalSettings">Original JS minifier settings</param>
+            <param name="settings">JS minifier settings</param>
+        </member>
+        <member name="T:WebMarkupMin.MsAjax.MsAjaxJsMinifierFactory">
+            <summary>
+            Microsoft Ajax JS Minifier factory
+            </summary>
+        </member>
+        <member name="P:WebMarkupMin.MsAjax.MsAjaxJsMinifierFactory.MinificationSettings">
+            <summary>
+            Gets or sets a minification settings used to configure the Microsoft Ajax JS Minifier
+            </summary>
+        </member>
+        <member name="M:WebMarkupMin.MsAjax.MsAjaxJsMinifierFactory.#ctor">
+            <summary>
+            Constructs an instance of the Microsoft Ajax JS Minifier factory
+            </summary>
+        </member>
+        <member name="M:WebMarkupMin.MsAjax.MsAjaxJsMinifierFactory.#ctor(WebMarkupMin.MsAjax.MsAjaxJsMinificationSettings)">
+            <summary>
+            Constructs a instance of the Microsoft Ajax JS Minifier factory
+            </summary>
+            <param name="settings">Minification settings used to configure the Microsoft Ajax JS Minifier</param>
+        </member>
+        <member name="M:WebMarkupMin.MsAjax.MsAjaxJsMinifierFactory.CreateMinifier">
+            <summary>
+            Creates a instance of the Microsoft Ajax JS Minifier
+            </summary>
+            <returns>Instance of the Microsoft Ajax JS Minifier</returns>
+        </member>
+        <member name="T:WebMarkupMin.MsAjax.MsAjaxMinifierBase">
+            <summary>
+            Base class for the Microsoft Ajax Minifier
+            </summary>
+        </member>
+        <member name="M:WebMarkupMin.MsAjax.MsAjaxMinifierBase.MapCommonSettings(Microsoft.Ajax.Utilities.CommonSettings,WebMarkupMin.MsAjax.MsAjaxCommonMinificationSettingsBase)">
+            <summary>
+            Maps a common minifier settings
+            </summary>
+            <param name="originalSettings">Original common minifier settings</param>
+            <param name="settings">Common minifier settings</param>
+        </member>
+        <member name="M:WebMarkupMin.MsAjax.MsAjaxMinifierBase.MapErrors(System.Collections.Generic.ICollection{Microsoft.Ajax.Utilities.ContextError},System.Collections.Generic.IList{WebMarkupMin.Core.MinificationErrorInfo},System.Collections.Generic.IList{WebMarkupMin.Core.MinificationErrorInfo})">
+            <summary>
+            Maps a list of errors
+            </summary>
+            <param name="originalErrors">Original list of errors</param>
+            <param name="errors">List of errors</param>
+            <param name="warnings">List of warnings</param>
+        </member>
+        <member name="T:WebMarkupMin.MsAjax.OutputMode">
+            <summary>
+            Output mode setting
+            </summary>
+        </member>
+        <member name="F:WebMarkupMin.MsAjax.OutputMode.SingleLine">
+            <summary>
+            Output the minified code on a single line for maximum minification.
+            LineBreakThreshold may still break the single line into multiple lines
+            at a syntactically correct point after the given line length is reached.
+            Not easily human-readable.
+            </summary>
+        </member>
+        <member name="F:WebMarkupMin.MsAjax.OutputMode.MultipleLines">
+            <summary>
+            Output the minified code on multiple lines to increase readability
+            </summary>
+        </member>
+    </members>
+</doc>

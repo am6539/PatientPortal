@@ -1,0 +1,58 @@
+﻿using PatientPortal.CMS.Models;
+using PatientPortal.CMS.Utility;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Web;
+using System.Web.Mvc;
+using WebApiContrib.Formatting;
+
+namespace PatientPortal.CMS.Controllers
+{
+    public class CategoryController : Controller
+    {
+        #region original code
+
+        //#region declare variables
+        //HttpClient client = new HttpClient { BaseAddress = new Uri("http://localhost:9502/") };
+        //#endregion
+
+        // GET: Category
+        //public ActionResult Index()
+        //{
+        //    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/x-protobuf"));
+        //    try
+        //    {
+        //        HttpResponseMessage response = client.GetAsync("api/category").Result;
+        //        if (response.IsSuccessStatusCode && response.Content != null)
+        //        {
+        //            // Parse the response body. Blocking!
+        //            var data = response.Content.ReadAsAsync<List<CategoryViewModel>>(new[] { new ProtoBufFormatter() }).Result;
+        //            ViewData["Categories"] = data;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        throw ex;
+        //    }
+        //    return View();
+        //}
+        #endregion
+        public ActionResult Index()
+        {
+            try
+            {
+                var data = APIHelper.Get<List<CategoryViewModel>>($"api/category");
+                ViewData["Categories"] = data;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return View();
+        }
+    }
+}

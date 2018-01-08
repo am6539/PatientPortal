@@ -1,0 +1,52 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.CMS.Utility
+{
+    public static class UploadFileHelper
+    {
+        public static bool UploadFile(HttpPostedFileBase file, string folder, ref string savedFile)
+        {
+            //Check file name
+            if (file == null || file.FileName.Length < 1)
+            {
+                LogHelper.WriteLog("File doese not exist!");
+                return false;
+            }
+
+            string _file = Path.Combine(folder);
+            string _path = HttpContext.Current.Server.MapPath(_file);
+
+            //Create folder
+            if (!Directory.Exists(_path))
+                Directory.CreateDirectory(_path);
+
+            _file = Path.Combine(folder, Path.GetFileName(file.FileName));
+            _path = Path.Combine(_path, Path.GetFileName(file.FileName));
+
+            if (!File.Exists(_path))
+            {
+                try
+                {
+                    file.SaveAs(_path);
+                    savedFile = _file;
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog(ex.Message);
+                    return false;
+                }
+            }
+            else
+            {
+                LogHelper.WriteLog("Duplicate File: " + _file);
+                savedFile = _file;
+            }
+
+            return true;
+        }
+    }
+}

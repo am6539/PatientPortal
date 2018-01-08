@@ -1,0 +1,9 @@
+﻿'use strict';
+
+angular.module('spaPHCN')
+    .controller("DepartmentDetailController", [
+    "$scope", "$location", "$route", "Params", "DepartmentDetailServices",
+    function ($scope, $location, $route, Params, DepartmentDetailServices) {
+
+
+    }]);

@@ -1,0 +1,280 @@
+﻿using PatientPortal.CMS.Common;
+using PatientPortal.CMS.Models;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using PatientPortal.Utility.Application;
+using PatientPortal.Domain.LogManager;
+
+namespace PatientPortal.CMS.Controllers
+{
+    [Authorize]
+    public class WorkflowStateController : Controller
+    {
+        private static string controllerName = "workflowstate";
+        private static string controllerWorkflow = "workflow";
+        private static string controllerWorkflowNavigate = "WorkflowNavigation";
+
+        // GET: WorkflowState
+
+        public async Task<ActionResult> Index(byte? id)
+        {
+            var results = new WorkflowStatesModel();
+            try
+            {
+                //Call API Provider
+                controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                var workflow = await APIProvider.Get<List<WorkflowViewModel>>(controllerWorkflow);
+
+                List<WorkflowStateViewModel> list = ApplicationGenerator.GetObject<List<WorkflowStateViewModel>>();
+                if (id.HasValue)
+                {
+                    results.WorkflowId = (byte)id;
+                    ViewBag.WorkflowIdx = new SelectList(workflow, "Id", "Name", results.WorkflowId);
+
+                    string apiUrl = APIProvider.APIGenerator(controllerName, "GetByWorkflowId", new List <string> { "id" },false, id);
+                    list = await APIProvider.Get<List<WorkflowStateViewModel>>(apiUrl);
+
+                    if (list!= null && list.Any(a => a.IsFirst == true)) {
+                        //get workflow navigation
+                        apiUrl = APIProvider.APIGenerator(controllerWorkflowNavigate, "GetByWorkflowId", new List <string> { "id" }, false, id);
+                        var wfNavigation = await APIProvider.Get<List<WorkflowNavigationViewModel>>(apiUrl);
+
+                        var listwfNavigation = GetWfNavigation(wfNavigation, list);
+                        results.lstWorkflowNavigationViewModel = listwfNavigation;
+                    }
+                    else
+                    {
+                        //list = ApplicationGenerator.GetObject<List<WorkflowStateViewModel>>();
+                        TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, "Chưa khai báo trạng thái bước khởi tạo.");
+                    }
+                }
+                else
+                {
+                    ViewBag.WorkflowIdx = new SelectList(workflow, "Id", "Name");
+                }
+
+                var data = new WorkflowStateViewModel();
+                results.lstWorkflowStateViewModel = list;
+                results.WorkflowStateViewModel = data;
+
+                // Workflow list
+                ViewBag.WorkflowId = workflow;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw ex;
+            }
+            TempData["resultsIndex"] = results;
+            return View(results);
+        }
+
+        private List<WorkflowNavigationOrderViewModel> GetWfNavigation(List<WorkflowNavigationViewModel> wfNavigation, List<WorkflowStateViewModel> list)
+        {
+            short workflowStateId = list.FirstOrDefault(a => a.IsFirst == true).Id;
+            var results = new List<WorkflowNavigationOrderViewModel>();
+            byte i = 1;
+
+            //add first item
+            var firstItem = wfNavigation.FirstOrDefault(x => x.WorkflowStateId == workflowStateId);
+            if(firstItem != null)
+            {
+                results.Add(new WorkflowNavigationOrderViewModel
+                {
+                    NumberOrder = i,
+                    WorkflowStateId = firstItem.WorkflowStateId,
+                    NextWorkflowStateId = firstItem.NextWorkflowStateId,
+                    IsUsed = firstItem.IsUsed,
+                    Name = list.FirstOrDefault(a => a.Id == firstItem.WorkflowStateId).Name
+                });
+
+                //add next step
+                foreach (var item in wfNavigation)
+                {
+                    i++;
+                    var newModel = new WorkflowNavigationOrderViewModel
+                    {
+                        NumberOrder = i,
+                        WorkflowStateId = item.WorkflowStateId,
+                        NextWorkflowStateId = item.NextWorkflowStateId,
+                        IsUsed = item.IsUsed,
+                        Name = list.FirstOrDefault(a => a.Id == item.NextWorkflowStateId).Name
+                    };
+                    results.Add(newModel);
+                }
+            }
+            return results;
+        }
+
+        #region Create
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Create(WorkflowStateViewModel model)
+        {
+            if(model.WorkflowId == 0)
+            {
+                ModelState.AddModelError("WorkflowId", "Vui lòng chọn workflow");
+            }
+            if (ModelState.IsValid)
+            {
+                //Call API Provider
+                string strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_INSERT);
+                var result = await APIProvider.DynamicTransaction<WorkflowStateViewModel, bool>(model, strUrl);
+
+                if (result)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var workflowStates = new WorkflowStatesModel();
+                if(TempData["Data"] != null)
+                {
+                    workflowStates.lstWorkflowStateViewModel = (List<WorkflowStateViewModel>)TempData["Data"];
+                }
+
+                if (workflowStates.lstWorkflowStateViewModel == null) workflowStates.lstWorkflowStateViewModel = ApplicationGenerator.GetObject<List<WorkflowStateViewModel>>();
+                workflowStates.WorkflowStateViewModel = model;
+
+                ViewBag.WorkflowId = await APIProvider.Get<List<WorkflowViewModel>>(controllerWorkflow);
+
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                return View("Index", workflowStates);
+            }
+        }
+        #endregion
+
+        #region Edit
+        [HttpGet]
+        public async Task<ActionResult> Edit(byte id)
+        {
+            var data = new WorkflowStateViewModel();
+            try
+            {
+                //Call API Provider
+                string strUrl = APIProvider.APIGenerator(this, this.RouteData.Values["action"].ToString(), id);
+                data = await APIProvider.Get<WorkflowStateViewModel>(controllerName + strUrl);
+
+                var workflow = await APIProvider.Get<List<WorkflowViewModel>>(controllerWorkflow);
+
+                ViewBag.WorkflowId = workflow;
+
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ERROR, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_READ, ApplicationGenerator.TypeResult.ERROR));
+            }
+            return View(data);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Edit(WorkflowStateViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //Call API Provider 
+                string strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_UPDATE);
+                var result = await APIProvider.DynamicTransaction<WorkflowStateViewModel, bool>(model, strUrl);
+
+                if (result)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ERROR, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.ERROR));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.FAIL));
+                return View();
+            }
+        }
+        #endregion
+
+        #region Delete
+        public async Task<ActionResult> ViewConfirmDelete(short id)
+        {
+            //Call API Provider
+            string strUrl = APIProvider.APIGenerator(controllerName, string.Empty, new List<string> {"id"}, id);
+            var model = await APIProvider.Get<WorkflowStateViewModel>(strUrl);
+
+            if (model == null) return null;
+
+            strUrl = APIProvider.APIGenerator(controllerName, "CheckIsUsed", new List<string> { "id" }, id);
+            var checkIsUsed = await APIProvider.Get<bool>(strUrl);
+
+            if (!checkIsUsed)
+            {
+                ViewBag.IsUsed = false;
+            }
+            else
+            {
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ISUSED, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_DELETE, ApplicationGenerator.TypeResult.ISUSED));
+                ViewBag.IsUsed = true;
+            }
+            return PartialView("_Delete", model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Delete(short id)
+        {
+            try
+            {
+                var model = new WorkflowStateViewModel();
+                model.Id = id;
+                
+                //Call API Provider - Transaction
+                string apiUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_DELETE);
+                var result = await APIProvider.DynamicTransaction<WorkflowStateViewModel, bool>(model, apiUrl);
+
+                if (result)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, "Xóa thành công");
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, "Xóa không thành công");
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                return View();
+            }
+        }
+
+        #endregion
+
+        #region Check Exist
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<JsonResult> CheckExist(string name, short id, byte workflowId)
+        {
+            //Call API Provider - Get data
+            string apiUrl = APIProvider.APIGenerator(controllerName, new List <string> { nameof(id), nameof(name) ,nameof(workflowId) }, false, id, name, workflowId);
+            var isExist = await APIProvider.Get<bool>(apiUrl);
+
+            return Json(!isExist, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+    }
+}

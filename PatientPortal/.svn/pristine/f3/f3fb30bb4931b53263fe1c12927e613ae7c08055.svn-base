@@ -1,0 +1,22 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.PatientServices.Utility
+{
+    public class ApiUrlConstant
+    {
+        #region APPOINTMENT
+
+        #endregion
+
+        #region USER
+
+        #endregion
+
+        #region SCHEDULE
+        public const string GET_SCHEDULE = "api/Schedule/GetSchedule";
+        #endregion
+    }
+}

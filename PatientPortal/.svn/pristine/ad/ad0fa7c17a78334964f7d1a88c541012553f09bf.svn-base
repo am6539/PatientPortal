@@ -1,0 +1,20 @@
+﻿using PatientPortal.IRepository.SPA;
+using PatientPortal.Domain.Models.SPA;
+
+namespace PatientPortal.Repositoty.SPA
+{
+    public class ConfigurationRepoImpl : IConfigurationRepo
+    {
+        private IConfigurationRepo _iConfigurationRepo;
+
+        public ConfigurationRepoImpl(IConfigurationRepo iConfigurationRepo)
+        {
+            this._iConfigurationRepo = iConfigurationRepo;
+        }
+
+        public Configuration Get(byte Id)
+        {
+            return _iConfigurationRepo.Get(Id);
+        }
+    }
+}

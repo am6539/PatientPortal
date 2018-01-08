@@ -1,0 +1,13 @@
+﻿CREATE TABLE [dbo].[Survey]
+(
+	[Id] VARCHAR(128) NOT NULL PRIMARY KEY,
+	[Title] NVARCHAR(150) NOT NULL, -- Will appear at the top of the Survey page
+	[Description] NVARCHAR(MAX) NOT NULL, -- /INTRODUCTION - Will appear on the Survey page after the title
+	[Message] NVARCHAR(300) NOT NULL, --Thank you message
+	[IsBrading] BIT DEFAULT 1, --Portal Branding
+	[Logo] VARCHAR(256) NULL,
+	[URL] VARCHAR(256) NULL,
+	[IsSurveyInvite] BIT DEFAULT 0, -- Invite people visiting your site to fill in the Survey
+	[IsPublic] BIT DEFAULT 0, -- Show survey in SPA
+	[IsActive] BIT DEFAULT 0 -- While inactive, the Survey will not be accessible
+)

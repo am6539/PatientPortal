@@ -1,0 +1,48 @@
+﻿using System.Collections.Generic;
+using System.Web.Http;
+using PatientPortal.IRepository.CMS;
+using AutoMapper;
+using PatientPortal.API.CMS.ViewModels;
+using PatientPortal.Domain.Utilities;
+
+namespace PatientPortal.API.CMS.Controllers
+{
+    public class ConfigurationController : ApiController
+    {
+        private readonly IConfigurationRepo _config;
+        public ConfigurationController(IConfigurationRepo config)
+        {
+            this._config = config;
+        }
+
+
+
+        /// <summary>
+        /// Get by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Category view model</returns>
+        // GET api/values/5
+        public CMSConfigurationViewModel GetById(byte id)
+        {
+            var source = _config.GetById(id);
+            CMSConfigurationViewModel dest = Mapper.Map<CMSConfigurationViewModel>(source);
+            return dest;
+        }
+
+        /// <summary>
+        /// Action: Insert/Update/Delete 
+        /// </summary>
+        /// <param name="categoryModel">object "model"</param>
+        /// <param name="action">Action: 'I' - Insert; 'U'- Update; 'D'- Delete</param>
+        /// <returns>Result: Success- true; Fail- false</returns>
+        [HttpPost]
+        public bool Transaction(CMSConfigurationViewModel model, char action)
+        {
+            var obj = Mapper.Map<Domain.Models.CMS.CMSConfiguration>(model);
+            var data = new List<Domain.Models.CMS.CMSConfiguration>();
+            data.Add(obj);
+            return _config.Transaction(data, action);
+        }
+    }
+}

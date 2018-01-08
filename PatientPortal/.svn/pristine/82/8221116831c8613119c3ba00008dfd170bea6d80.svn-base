@@ -1,0 +1,76 @@
+﻿using AutoMapper;
+using Newtonsoft.Json;
+using PatientPortal.API.SPA.Common;
+using PatientPortal.API.SPA.Utility;
+using PatientPortal.API.SPA.ViewModels;
+using PatientPortal.IRepository.SPA;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Mvc;
+
+namespace PatientPortal.API.SPA.Controllers
+{
+    public class DepartmentController : ApiController
+    {
+        private readonly string PATH_IMG_POST = ConfigurationManager.AppSettings["fullPathPost"];
+
+
+        readonly IDepartmentRepo _iDepartmentRepo;
+
+        public DepartmentController(IDepartmentRepo iDepartmentRepo)
+        {
+            this._iDepartmentRepo = iDepartmentRepo;
+        }
+
+        public async Task<IEnumerable<DepartmentViewModel>> GetDepartment(int id)
+        {
+            try
+            {
+                if(id == 0)
+                {
+                    var data = await _iDepartmentRepo.GetDepartment(id);
+                    var results = Mapper.Map<List<DepartmentViewModel>>(data);
+                    return results;
+                }
+                else
+                {
+                    var data = _iDepartmentRepo.GetDepartment(id);
+                    var item = Mapper.Map<List<DepartmentViewModel>>(data).FirstOrDefault();
+                    var results = new List<DepartmentViewModel>();
+
+                    if (item != null)
+                    {
+                        var files = APIHelper.Get<List<FileViewModel>>($"api/Libary?folder={ item.Handler.Replace("~", "") }");
+                        if (files != null)
+                        {
+                            foreach (var file in files)
+                            {
+                                var fileDept = new DepartmentViewModel()
+                                {
+                                    Id = item.Id,
+                                    Name = item.Name,
+                                    Description = item.Description,
+                                    Handler = file.Url
+                                };
+                                results.Add(fileDept);
+                            }
+                        }
+                    }
+
+                    return results;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+    }
+}

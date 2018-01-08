@@ -1,0 +1,27 @@
+﻿using Autofac;
+using Microsoft.Owin;
+using Owin;
+using System.Web.Http;
+
+[assembly: OwinStartup("APICMSConfiguration", typeof(PatientPortal.API.CMS.Startup))]
+
+namespace PatientPortal.API.CMS
+{
+    public partial class Startup
+    {
+        public void Configuration(IAppBuilder app)
+        {
+            HttpConfiguration config = new HttpConfiguration();
+            ConfigureAuth(app);
+
+            //Allow CORS for ASP.NET Web API
+            WebApiConfig.Register(config);
+
+            //Autofac
+            IContainer container = AutofacConfig.RegisterDependencies();
+            app.UseAutofacMiddleware(container);
+            app.UseAutofacWebApi(config);
+            app.UseWebApi(config);
+        }
+    }
+}

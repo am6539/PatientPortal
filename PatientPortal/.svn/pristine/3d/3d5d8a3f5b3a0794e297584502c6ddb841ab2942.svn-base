@@ -1,0 +1,82 @@
+﻿
+<link href="assets/css/site/menuPage.css" rel="stylesheet" />
+<div class="brd-wrap" ng-include="'app/shared/template-include/submenu.template.html'">
+</div>
+
+<div class="top-content">
+    <div class="content container">
+        <div class="row">
+            <div class="content-bg">
+                <div id="ctl00_divCenter" class="col-left">
+                    <div class="content-bg2">
+                        <div class='Module Module-256'>
+                            <div id="ctl00_mainContent_ctl00_NewsView1_pnlInnerWrap">
+                                <div class="news" ng-repeat="item in about">
+                                    <div class="newsdt-slimg">
+                                        <img src="{{item.Image}}" alt="">
+                                    </div>
+                                    <div class="newsdt-slshadow"></div>
+                                    <h1 class="newsdt-title title1">{{item.TitleTrans}} </h1>
+                                    <div class="newstext">
+                                        <p data-ng-bind-html="item.Detail"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="ctl00_divRight" class="col-right cmszone">
+
+                    <div class='Module Module-257'>
+                        <div class="left-menu">
+                            <ul class="noli">
+                                <li class="active"><a class="active" href="/about" target="_self" title="Giới thiệu chung">Giới thiệu chung</a></li>
+                                <li><a href="/saigon/ban-lanh-dao" target="_self" title="Ban lãnh đạo">Ban lãnh đạo</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class='Module Module-258'>
+                        <div class="fb-page" data-href="https://www.facebook.com/hoanmysaigon" data-tabs="Facebook" data-width="231" data-small-header="false" data-adapt-container-width="false" data-hide-cover="false" data-show-facepile="true">
+                            <div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/hoanmysaigon"><a href="https://www.facebook.com/hoanmysaigon">BV Hoàn Mỹ Sài Gòn</a></blockquote></div>
+                        </div>
+                        <div class="emhotline">
+                            Cấp cứu<span>(08) 3995 9860</span>
+                        </div>
+                        <a href="#" target="_blank">
+                            <img src="assets/images/adv/KS-ngoai-tru.png" alt="Khao-sat-ngoai-tru" />
+                        </a>
+                        <a href="#" target="_blank">
+                            <img src="assets/images/adv/KS-noi-tru.png" alt="Khao-sat-noi-tru" />
+                        </a>
+                    </div>
+                    <div class='Module Module-795'>
+                        <div class="cc-wrap">
+                            <h4>
+                                <a href="/saigon/cau-chuyen-benh-nhan">Câu chuyện bệnh nhân</a>
+                            </h4>
+                            <table></table>
+                        </div>
+                    </div>
+                    <!--<div class='cn-wrap Module Module-796'>
+                        <div class="cc-wrap">
+                            <h4>
+                                <a href="/saigon/cam-nhan-benh-nhan">Cảm nhận bệnh nhân</a>
+                            </h4>
+                            <section class="bg-cn">
+                                <div class="cn-slide">
+                                </div>
+                                <div class="pagination" id="foo2_pag">
+                                </div>
+                            </section>
+                        </div>
+                    </div>-->
+                    <div class='rmodule Module Module-568'>
+                        <img alt="" src="http://manage.hoanmy.com/Data/Sites/5/media/News/HMSG/kham%20suc%20khoe%20HMSG2.jpg" style="border: 0px none; margin: 0px; padding: 0px; font-size: 0px; color: transparent; vertical-align: middle; max-width: 100%; font-family: Arial,sans-serif; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px;" />
+                    </div>
+                </div>
+                <div class="clear">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

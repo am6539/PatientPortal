@@ -1,0 +1,96 @@
+﻿using AutoMapper;
+using Newtonsoft.Json;
+using PatientPortal.API.SPA.Common;
+using PatientPortal.API.SPA.Utility;
+using PatientPortal.API.SPA.ViewModels;
+using PatientPortal.Domain.Caching.Redis.StackExchange;
+using PatientPortal.IRepository.SPA;
+using PatientPortal.Provider.Models;
+using PatientPortal.Utility.Files;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Mvc;
+
+namespace PatientPortal.API.SPA.Controllers
+{
+    public class DepartmentController : ApiController
+    {
+        readonly IDepartmentRepo _department;
+        private RedisCacheService redisCache = new RedisCacheService();
+
+        public DepartmentController(IDepartmentRepo department)
+        {
+            this._department = department;
+        }
+
+        public async Task<DepartmentViewModel> Get(short id)
+        {
+            try
+            {
+                var result = await redisCache.GetAsync<DepartmentViewModel>(id);
+                if(result == null)
+                {
+                    IList<string> list = new List<string> { "id" };
+                    var para = APIProvider.APIDefaultParameter(list, id);
+
+                    var data = await _department.SingleQuery(para);
+                    result = new DepartmentViewModel();
+                    result.Id = data.Id;
+                    result.Name = data.Name;
+                    result.Description = data.Description;
+                    result.Handler = data.Handler;
+                    if (data.Img != null)
+                    {
+                        result.Img = LayoutGuide.SPA_ResourcePath(Provider.Common.APIEnums.Application.Internal, Path.Combine(ValueConstants.IMAGE_DEPARTMENT_PATH, data.Img));
+                    }
+                    result.Sort = data.Sort;
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<DepartmentViewModel>> Get()
+        {
+            try
+            {
+                var results = await redisCache.GetListAsync<DepartmentViewModel>();
+                if (results == null)
+                {
+                    IList<string> list = new List<string> { "id" };
+                    var para = APIProvider.APIDefaultParameter(list, 0);
+
+                    var data = await _department.Query(para);
+                    results = data.Select(s => new DepartmentViewModel()
+                    {
+                        Id = s.Id,
+                        Name = s.Name,
+                        Description = s.Description,
+                        Handler = s.Handler,
+                        Sort = s.Sort,
+                        Img = (s.Img != null ? LayoutGuide.SPA_ResourcePath(Provider.Common.APIEnums.Application.Internal, Path.Combine(ValueConstants.IMAGE_DEPARTMENT_PATH, s.Img)) : "")
+                    }).AsEnumerable();
+
+                    //
+                    await redisCache.AddListAsync<DepartmentViewModel>(results);
+                }
+                return results;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+    }
+}

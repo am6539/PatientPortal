@@ -1,0 +1,6 @@
+﻿angular.module('spaApp')
+    .controller('GalleryController', ['$scope', 'Params', 'GalleryService', '$route',
+        function DepartmentController($scope, Params, GalleryService, $route) {
+
+        }
+    ]);

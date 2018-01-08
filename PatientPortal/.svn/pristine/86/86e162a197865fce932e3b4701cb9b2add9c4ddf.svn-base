@@ -1,0 +1,14 @@
+﻿appManagement.controller('detailController', ['$scope', 'PostService', '$filter', function ($scope, PostService, $filter) {
+    $scope.Post = new Object();
+    var url = window.location.href;
+    var Id = url.split('/:')[1];
+    //get post
+    $scope.query = function () {
+        $scope.Post = PostService.query({ Id: Id }, function (data) {
+            $scope.Post = data;
+            $scope.Post.PublishDate = $filter('date')(data.PublishDate, 'dd/MM/yyyy');
+        });
+    };
+
+    $scope.query();
+}]);

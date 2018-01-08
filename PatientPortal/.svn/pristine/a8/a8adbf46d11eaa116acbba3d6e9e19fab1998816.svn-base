@@ -1,0 +1,694 @@
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
+using Newtonsoft.Json;
+using PatientPortal.Domain.Models.AUTHEN;
+using PatientPortal.Internal.Models.Account;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using PatientPortal.Utility.Application;
+using ConstValInternal = PatientPortal.Internal.Common.ValueConstant;
+using ConstantDomain = PatientPortal.Domain.Common.ValueConstant;
+using System;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using WebMatrix.WebData;
+using System.IO;
+using PatientPortal.Utility.Files;
+using PatientPortal.Domain.LogManager;
+using PatientPortal.Internal.Models;
+using System.Text;
+using PatientPortal.Internal.Common;
+using static PatientPortal.Utility.Application.ApplicationGenerator;
+using System.Net;
+using Newtonsoft.Json.Linq;
+using WebMarkupMin.AspNet4.Mvc;
+using PatientPortal.Domain.Caching.MemCache;
+using PatientPortal.Domain.Common;
+
+namespace PatientPortal.Internal.Controllers
+{
+    [Authorize]
+    [AppHandleError]
+    public class AccountController : Controller
+    {
+        
+        private static string controllerName = string.Empty;
+        private UserCache userCache;
+
+        #region Authentication Manager
+        private readonly IUserSession _userSession;
+        private IAuthenticationManager AuthenticationManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().Authentication;
+            }
+        }
+
+        public AccountController(IUserSession userSession)
+        {
+            _userSession = userSession;
+            userCache = (UserCache)MemoryCacheObject.GetCacheObject(ObjectCacheProfile.CACHE_PROFILE_USER);
+        }
+        #endregion
+
+
+        #region Get
+        public async Task<ActionResult> Index()
+        {
+            try
+            {
+                var token = _userSession.BearerToken;
+                controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                string strUrl = controllerName + ConstantDomain.GET_USER_LIST;
+
+                var lstUser = await APIProvider.Authorize_Get<List<UserListViewModel>>(token, strUrl, APIConstant.API_Resource_Authorize, ARS.Get);
+                if (lstUser == null) lstUser = new List<UserListViewModel>();
+
+                return View(lstUser);
+            }
+            catch (HttpException ex)
+            {
+                Logger.LogError(ex);
+                int statusCode = ex.GetHttpCode();
+                if (statusCode == 401)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(FuntionType.Department, APIConstant.ACTION_ACCESS);
+                    return new HttpUnauthorizedResult();
+                }
+
+                throw ex;
+            }
+        }
+        public PartialViewResult _NavAccount()
+        {
+
+            return PartialView((userCache == null ? AccessCacheUserData() : userCache));
+        }
+        public PartialViewResult _NavSideAccount()
+        {
+            return PartialView((userCache == null ? AccessCacheUserData() : userCache));
+        }
+
+        private UserCache AccessCacheUserData()
+        {
+            var userCache = (UserCache)MemoryCacheObject.GetCacheObject(ObjectCacheProfile.CACHE_PROFILE_USER);
+            if (userCache == null)
+            {
+                UserSecretInfoViewModel info = APIProvider.Authorize_GetNonAsync<UserSecretInfoViewModel>(_userSession.BearerToken, "Account", "GetSecretInfo", null, APIConstant.API_Resource_Authorize);
+                if (info != null)
+                {
+                    var patientId = (info.PatientId == null ? string.Empty : info.PatientId);
+                    UserCache cacheUserData = new UserCache();
+                    cacheUserData.Image = (info.Image != null ? FileManagement.ByteArrayToImageBase64(info.Image) : string.Empty);
+                    cacheUserData.UserName = _userSession.UserName;
+                    cacheUserData.PatientId = patientId;
+                    MemoryCacheObject.CacheObject(ObjectCacheProfile.CACHE_PROFILE_USER, cacheUserData);
+
+                    return cacheUserData;
+                }
+            }
+            return userCache;
+        }
+        #endregion
+
+        #region Create
+        public async Task<ActionResult> Create()
+        {
+            var token = _userSession.BearerToken;
+
+            //Check add new
+            if(!await APIProvider.Authorization(token, ARS.Insert))
+            {
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.FuntionType.Account, APIConstant.ACTION_INSERT);
+                return RedirectToAction("Index");
+            }
+        
+            var listRole = await APIProvider.Authorize_Get<List<RoleViewModel>>(token, ConstantDomain.GET_ROLE, APIConstant.API_Resource_Authorize, ARS.IgnoredARS);
+            if (listRole != null)
+                ViewBag.Role = listRole;
+            else
+                ViewBag.Role = new List<RoleViewModel>();
+
+            RegisterBindingModel model = new RegisterBindingModel();
+
+            return View(model);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Create(RegisterBindingModel model, HttpPostedFileBase fileUpload)
+        {
+            controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+            string strUrl = controllerName + ConstantDomain.REGISTER;
+            var token = _userSession.BearerToken;
+
+            if (ModelState.IsValid)
+            {
+                //Call API Provider
+                try
+                {
+                    string name = string.Empty;
+                    if (fileUpload != null)
+                    {
+                        string imagePath = CreateFolder();
+                        FileManagement.UploadImage(fileUpload, imagePath, ref name);
+                    }
+                    else
+                    {
+                        name = ConstValInternal.PATH_IMAGE_DEFAULT;
+                    }
+
+                    model.Image = name;
+                    var result = await APIProvider.Authorize_DynamicTransaction<RegisterBindingModel, string>(model, token, strUrl, APIConstant.API_Resource_Authorize, ARS.IgnoredARS);
+
+                    if (Response.StatusCode == 200)
+                    {
+                        TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.SUCCESS));
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        if (result.Contains(UserStatus.IsUsed.ToString()))
+                        {
+                            TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.USER_EXIST));
+                            var listRole = await APIProvider.Authorize_Get<List<RoleViewModel>>(token, ConstantDomain.GET_ROLE,APIConstant.API_Resource_Authorize, ARS.IgnoredARS);
+                            if (listRole != null)
+                                ViewBag.Role = listRole;
+                            else
+                                ViewBag.Role = new List<RoleViewModel>();
+
+                            return View();
+                        }
+                        else
+                        {
+                            TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                            var listRole = await APIProvider.Authorize_Get<List<RoleViewModel>>(token, ConstantDomain.GET_ROLE, APIConstant.API_Resource_Authorize, ARS.IgnoredARS);
+                            if (listRole != null)
+                                ViewBag.Role = listRole;
+                            else
+                                ViewBag.Role = new List<RoleViewModel>();
+
+                            return View();
+                        }
+                    }
+                }
+                catch (HttpException ex)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.FuntionType.Account, APIConstant.ACTION_INSERT);
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogError(ex);
+                    throw ex;
+                }
+            }
+            else
+            {
+                StringBuilder errorBuilder = new StringBuilder();
+                foreach (var modelError in ModelState)
+                {
+                    if (modelError.Value.Errors.Count > 0)
+                    {
+                        errorBuilder.AppendLine(modelError.Value.Errors[0].ErrorMessage.ToString());
+                    }
+                }
+                var listRole = await APIProvider.Authorize_Get<List<RoleViewModel>>(token, ConstantDomain.GET_ROLE, APIConstant.API_Resource_Authorize, ARS.IgnoredARS);
+                if (listRole != null)
+                    ViewBag.Role = listRole;
+                else
+                    ViewBag.Role = new List<RoleViewModel>();
+
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, errorBuilder.ToString());
+                return View(model);
+            }
+        }
+
+        private string CreateFolder()
+        {
+            try
+            {
+                //string nameFolder = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString("00") + DateTime.Now.Day.ToString("00");
+                //string path = ValueConstant.IMAGE_PATH + ValueConstant.IMAGE_POST_PATH + nameFolder;
+                string mapPath = Server.MapPath(ConstValInternal.PATH_AVATAR);
+                if (!Directory.Exists(mapPath))
+                {
+                    Directory.CreateDirectory(mapPath);
+                    return ConstValInternal.PATH_AVATAR;
+                }
+                else
+                    return ConstValInternal.PATH_AVATAR;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        #endregion
+
+        #region Edit
+        public async Task<ActionResult> Edit(Guid id)
+        {
+            var model = new UpdateUserInfoBindingModel();
+            try
+            {
+                var token = _userSession.BearerToken;
+                controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+
+                var listRole = await APIProvider.Authorize_Get<List<RoleViewModel>>(token, ConstantDomain.GET_ROLE, APIConstant.API_Resource_Authorize, ARS.IgnoredARS);
+                if (listRole != null)
+                    ViewBag.Role = listRole;
+                else
+                    ViewBag.Role = new List<RoleViewModel>();
+
+                //Call API Provider
+                string strUrl = controllerName + "/GetInfoEdit?userId=" + id;
+                model = await APIProvider.Authorize_Get<UpdateUserInfoBindingModel>(token, strUrl, APIConstant.API_Resource_Authorize, ARS.Edit);
+                if (model != null)
+                {
+                    ViewBag.ListRole = model.RoleName;
+                    return View(model);
+                }
+                else
+                    return View(model);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(UpdateUserInfoBindingModel model, HttpPostedFileBase fileUpload)
+        {
+            controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+            string strUrl = controllerName + ConstantDomain.UPDATE_USER;
+            var token = _userSession.BearerToken;
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    string name = string.Empty;
+                    if (fileUpload != null)
+                    {
+                        string imagePath = CreateFolder();
+                        FileManagement.UploadImage(fileUpload, imagePath, ref name);
+                    }
+                    else
+                    {
+                        name = ConstValInternal.PATH_IMAGE_DEFAULT;
+                    }
+
+                    model.Image = name;
+                    var result = await APIProvider.Authorize_DynamicTransaction<UpdateUserInfoBindingModel, string>(model, token, strUrl, APIConstant.API_Resource_Authorize, ARS.IgnoredARS);
+
+                    if (Response.StatusCode == 200)
+                    {
+                        TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.SUCCESS));
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        if (result.Contains(UserStatus.IsUsed.ToString()))
+                        {
+                            TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.USER_EXIST));
+                            var listRole = await APIProvider.Authorize_Get<List<RoleViewModel>>(token, ConstantDomain.GET_ROLE, APIConstant.API_Resource_Authorize, ARS.IgnoredARS);
+                            if (listRole != null)
+                                ViewBag.Role = listRole;
+                            else
+                                ViewBag.Role = new List<RoleViewModel>();
+
+                            return View();
+                        }
+                        else
+                        {
+                            TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                            var listRole = await APIProvider.Authorize_Get<List<RoleViewModel>>(token, ConstantDomain.GET_ROLE, APIConstant.API_Resource_Authorize, ARS.IgnoredARS);
+                            if (listRole != null)
+                                ViewBag.Role = listRole;
+                            else
+                                ViewBag.Role = new List<RoleViewModel>();
+
+                            return View();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogError(ex);
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ERROR, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.ERROR));
+                    throw ex;
+                }
+            }
+            else
+            {
+                StringBuilder errorBuilder = new StringBuilder();
+                foreach (var modelError in ModelState)
+                {
+                    if (modelError.Value.Errors.Count > 0)
+                    {
+                        errorBuilder.AppendLine(modelError.Value.Errors[0].ErrorMessage.ToString());
+                    }
+                }
+                var listRole = await APIProvider.Authorize_Get<List<RoleViewModel>>(token, ConstantDomain.GET_ROLE, APIConstant.API_Resource_Authorize, ARS.IgnoredARS);
+                if (listRole != null)
+                    ViewBag.Role = listRole;
+                else
+                    ViewBag.Role = new List<RoleViewModel>();
+
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, errorBuilder.ToString());
+                return View(model);
+            }
+        }
+
+        #endregion
+
+        #region Delete
+        // POST: Post/Delete/5
+        [HttpPost]
+        public async Task<ActionResult> Delete(string Id)
+        {
+            try
+            {
+                var model = new DeleteUserBindingModel();
+                model.Id = Id;
+
+                //Call API Provider
+                controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                var token = _userSession.BearerToken;
+
+                string strUrl = controllerName + ConstantDomain.DELETE_USER;
+                var result = await APIProvider.Authorize_DynamicTransaction<DeleteUserBindingModel, string>(model, token, strUrl, APIConstant.API_Resource_Authorize,  ARS.Delete);
+                if (Response.StatusCode == 200)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_DELETE, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ISUSED, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_DELETE, ApplicationGenerator.TypeResult.ISUSED));
+                }
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.FuntionType.Account, APIConstant.ACTION_DELETE);
+                return RedirectToAction("Index");
+            }
+        }
+
+        public ActionResult Delete(UserListViewModel model)
+        {
+            try
+            {
+                return PartialView("_Delete", model);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw;
+            }
+        }
+
+        #endregion
+
+        #region Login
+        // GET: /Account/Login
+        [AllowAnonymous]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
+        public ActionResult Login()
+        {
+            controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+            if (WebSecurity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                Session.Abandon();
+            }
+            return View();
+        }
+
+        // POST: /Account/Login
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Login(LoginModel model, string returnUrl)
+        {
+            //Check Captcha
+            if (GlobalVar.IsreCaptcha)
+            {
+                var response = Request["g-recaptcha-response"];
+                var client = new WebClient();
+                var result = client.DownloadString(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", ConstantDomain.GooglereCAPTCHA_SecretKey, response));
+                var obj = JObject.Parse(result);
+                var status = (bool)obj.SelectToken("success");
+                if (!status)
+                {
+                    ModelState.AddModelError(string.Empty, "");
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ERROR,
+                        ApplicationGenerator.GeneralActionMessage(null, ApplicationGenerator.TypeResult.reCAPTCHA));
+                    return View(model);
+                }
+            }
+
+
+            var token = AuthenAPIHelper.GetToken(model.UserName, model.Password);
+            if (string.IsNullOrEmpty(token.AccessToken))
+            {
+                var error = JsonConvert.DeserializeObject<dynamic>(token.Json.ToString());
+                ModelState.AddModelError(string.Empty, error.error_description.ToString());
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ERROR,
+                    ApplicationGenerator.GeneralActionMessage(null, ApplicationGenerator.TypeResult.reCAPTCHA));
+
+                return View(model);
+            }
+            var tokenDynamic = JsonConvert.DeserializeObject<dynamic>(token.Json.ToString());
+            string username = tokenDynamic.userName;
+            string access_token = tokenDynamic.access_token;
+
+            //Get Secret User Info
+            UserSecretInfoViewModel info = await APIProvider.Authorize_Get<UserSecretInfoViewModel>(access_token, controllerName, "GetSecretInfo", null, APIConstant.API_Resource_Authorize);
+            if (info == null)
+            {
+                ModelState.AddModelError(string.Empty, "Không tìm thấy thông tin tài khoản");
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ERROR,
+                    ApplicationGenerator.GeneralActionMessage(null, ApplicationGenerator.TypeResult.USER_NOT_EXIST));
+
+                return View(model);
+            }
+           // info.Image = FileManagement.ImageBase64(info.Image);
+
+
+            var claims = new List<Claim> {
+                new Claim(ClaimTypes.NameIdentifier,info.NameIdentifier , ClaimValueTypes.String),
+                new Claim(ClaimTypes.Email,info.Email , ClaimValueTypes.String),
+                new Claim(ClaimTypes.Name,info.Name , ClaimValueTypes.String),
+                new Claim(ConstantDomain.AccountName, username, ClaimValueTypes.String),
+                //new Claim(ConstantDomain.AccountImage, info.Image, ClaimValueTypes.String),
+                new Claim(ConstantDomain.AccountPatient, (info.PatientId == null ? string.Empty : info.PatientId), ClaimValueTypes.String),
+                new Claim(ConstantDomain.TOKEN, string.Format("{0}", access_token), ClaimValueTypes.String)
+            };
+            var claimsIdentity = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
+
+            AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = false }, claimsIdentity);
+
+            HttpContext.User = AuthenticationManager.AuthenticationResponseGrant.Principal;
+
+            if (returnUrl == null || returnUrl.Length < 1) return RedirectToAction("Index", "Home");
+
+            return RedirectToAction(returnUrl);
+        }
+        #endregion
+
+        #region Logout
+        // GET: /Account/LogOff
+        public ActionResult LogOff()
+        {
+            AuthenticationManager.SignOut();
+            Session.Abandon();
+            return RedirectToAction("Index", "Home");
+        }
+
+        #endregion
+
+        #region User edit profile and change password
+
+        public async Task<ActionResult> ViewProfile()
+        {
+            var model = new UpdateUserInfoBindingModel();
+            try
+            {
+                var token = _userSession.BearerToken;
+                controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                var id = HttpContext.User.Identity.GetUserId();
+
+                string strUrl = controllerName + "/GetInfoEdit?userId=" + id;
+                model = await APIProvider.Authorize_Get<UpdateUserInfoBindingModel>(token, strUrl, APIConstant.API_Resource_Authorize, ARS.IgnoredARS);
+                model.Id = HttpContext.User.Identity.GetUserId();
+                //model.Image = FileManagement.ImageURLBase64(_userSession.Image, APIConstant.HostAddress_Internal);
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw ex;
+            }
+            
+        }
+
+        public async Task<ActionResult> ViewEditProfile()
+        {
+            var model = new UpdateUserInfoBindingModel();
+            try
+            {
+                var token = _userSession.BearerToken;
+                controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                var id = HttpContext.User.Identity.GetUserId();
+
+                string strUrl = controllerName + "/GetInfoEdit?userId=" + id;
+                model = await APIProvider.Authorize_Get<UpdateUserInfoBindingModel>(token, strUrl, APIConstant.API_Resource_Authorize, ARS.Edit);
+                model.Id = HttpContext.User.Identity.GetUserId();
+
+                return PartialView("_EditProfile", model);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw ex;
+            }
+        }
+
+        public async Task<ActionResult> EditProfile(UpdateUserInfoBindingModel model, HttpPostedFileBase fileUpload)
+        {
+            controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+            string strUrl = controllerName + ConstantDomain.UPDATE_USER;
+            var token = _userSession.BearerToken;
+            
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    string name = string.Empty;
+                    if (fileUpload != null)
+                    {
+                        string imagePath = CreateFolder();
+                        FileManagement.UploadImage(fileUpload, imagePath, ref name);
+                    }
+                    else
+                    {
+                        name = ConstValInternal.PATH_IMAGE_DEFAULT;
+                    }
+
+                    model.Image = name;
+                    var result = await APIProvider.Authorize_DynamicTransaction<UpdateUserInfoBindingModel, string>(model, token, strUrl, APIConstant.API_Resource_Authorize);
+
+                    if (Response.StatusCode == 200)
+                    {
+                        TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.SUCCESS));
+                        return View("ViewProfile");
+                    }
+                    else
+                    {
+                        TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.USER_EXIST));
+
+                        return View("ViewProfile");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogError(ex);
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ERROR, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.ERROR));
+                    throw ex;
+                }
+            }
+            else
+            {
+                StringBuilder errorBuilder = new StringBuilder();
+                foreach (var modelError in ModelState)
+                {
+                    if (modelError.Value.Errors.Count > 0)
+                    {
+                        errorBuilder.AppendLine(modelError.Value.Errors[0].ErrorMessage.ToString());
+                    }
+                }
+
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, errorBuilder.ToString());
+                return View("ViewProfile");
+            }
+            
+        }
+
+        public ActionResult ViewChangePassword()
+        {
+            return PartialView("_ChangePassword");
+        }
+
+        public async Task<ActionResult> ChangePassword(ChangePasswordBindingModel model)
+        {
+            controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+            string strUrl = controllerName + ConstantDomain.CHANGE_PASSWORD;
+            var token = _userSession.BearerToken;
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var result = await APIProvider.Authorize_DynamicTransaction<ChangePasswordBindingModel, string>(model, token, strUrl, APIConstant.API_Resource_Authorize);
+
+                    if (result.Contains(UserStatus.Success.ToString()))
+                    {
+                        TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.SUCCESS));
+                        return RedirectToAction("ViewProfile");
+                    }
+                    else if (result.Contains(ConstValInternal.INCORRECT_PASSWORD))
+                    {
+                        TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.INCORRECT_PASS, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.INCORRECT_PASS));
+                        return View("ViewProfile");
+                    }
+                    else
+                    {
+                        TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                        return View("ViewProfile");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogError(ex);
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ERROR, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.ERROR));
+                    return View("ViewProfile");
+                }
+            }
+            else
+            {
+                StringBuilder errorBuilder = new StringBuilder();
+                foreach (var modelError in ModelState)
+                {
+                    if (modelError.Value.Errors.Count > 0)
+                    {
+                        errorBuilder.AppendLine(modelError.Value.Errors[0].ErrorMessage.ToString());
+                    }
+                }
+
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, errorBuilder.ToString());
+                return View("ViewProfile");
+            }
+        }
+
+        public ActionResult InfoProfile()
+        {
+            return PartialView("_InfoProfile");
+        }
+
+        #endregion
+    }
+}

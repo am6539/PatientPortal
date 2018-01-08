@@ -1,0 +1,139 @@
+﻿using AutoMapper;
+using PatientPortal.API.CMS.ViewModels;
+using PatientPortal.Domain.Models.CMS;
+using PatientPortal.IRepository.CMS;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Http;
+
+namespace PatientPortal.API.CMS.Controllers
+{
+    public class WorkflowStateController : ApiController
+    {
+        /// <summary>
+        /// Declare variable
+        /// </summary>
+        private readonly IWorkflowStateRepo _workflowStateRepo;
+        private readonly IWorkflowNavigationRepo _workflowNavigationRepo;
+
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="IWorkflowStateRepo"></param>
+        public WorkflowStateController(IWorkflowStateRepo workflowStateRepo, IWorkflowNavigationRepo workflowNavigationRepo)
+        {
+            this._workflowStateRepo = workflowStateRepo;
+            _workflowNavigationRepo = workflowNavigationRepo;
+        }
+
+        #region API function
+
+        /// <summary>
+        /// get all WorkflowState
+        /// </summary>
+        /// <returns>list of WorkflowState</returns>
+        public async Task<List<WorkflowStateViewModel>> GetAll()
+        {
+            List<string> list = new List<string> { "Id","WorkflowId" };
+            var para = APIProvider.APIDefaultParameter(list, 0,0);
+
+            var source = await _workflowStateRepo.Query(para);
+            List<WorkflowStateViewModel> dest = Mapper.Map<List<WorkflowStateViewModel>>(source);
+
+            return dest;
+        }
+
+        /// <summary>
+        /// Get workflowstates by workflowId
+        /// </summary>
+        /// <param name="id">workflowId</param>
+        /// <returns>list of WorkflowState</returns>
+        /// 
+        [HttpGet]
+        [Route("api/WorkflowState/GetByWorkflowId/{id}")]
+        public async Task<List<WorkflowStateViewModel>> GetByWorkflowId(byte id)
+        {
+            List<string> list = new List<string> { "Id", "WorkflowId" };
+            var para = APIProvider.APIDefaultParameter(list, 0, id);
+
+            var source = await _workflowStateRepo.Query(para);
+            List<WorkflowStateViewModel> dest = Mapper.Map<List<WorkflowStateViewModel>>(source);
+
+            return dest;
+        }
+
+        /// <summary>
+        /// Action: Insert/Update/Delete workflow
+        /// </summary>
+        /// <param name="workflowSateModel">object "WorkflowStateViewModel"</param>
+        /// <param name="action">Action: 'I' - Insert; 'U'- Update; 'D'- Delete</param>
+        /// <returns>Result: Success- true; Fail- false</returns>
+        [HttpPost]
+        public async Task<bool> Transaction(WorkflowStateViewModel workflowSateModel, char action)
+        {
+            var obj = Mapper.Map<WorkflowStateEdit>(workflowSateModel);
+            return await _workflowStateRepo.Transaction(obj, action);
+        }
+
+        [HttpGet]
+        public async Task<bool> CheckExistName(string name, short id, byte workflowId)
+        {
+            var list = this.RequestContext.RouteData.Values.Keys;
+            var para = APIProvider.APIGeneratorParameter(list, name, id, workflowId);
+
+            return await _workflowStateRepo.CheckExist(para);
+        }
+
+        [HttpGet]
+        [Route("api/WorkflowState/CheckIsUsed/{Id}")]
+        public async Task<bool> CheckIsUsed(short id)
+        {
+            var list = this.RequestContext.RouteData.Values.Keys;
+            var para = APIProvider.APIGeneratorParameter(list, id);
+            return await _workflowStateRepo.CheckIsUsed(para);
+        }
+
+        public async Task<WorkflowStateViewModel> GetById(byte id)
+        {
+            List<string> list = new List<string> { "Id", "WorkflowId" };
+            var para = APIProvider.APIDefaultParameter(list, id, 0);
+
+            var source = await _workflowStateRepo.SingleQuery(para);
+            WorkflowStateViewModel dest = Mapper.Map<WorkflowStateViewModel>(source);
+
+            return dest;
+        }
+        #endregion
+
+        [HttpGet]
+        [Route("api/WorkflowState/GetStateNavigation/{id}")]
+        public async Task<List<WorkflowStateViewModel>> GetStateNavigation(byte id)
+        {
+            List<string> list = new List<string> { "WorkflowId" };
+            var para = APIProvider.APIDefaultParameter(list, 0);
+            IEnumerable<WorkflowNavigation> listNav = await _workflowNavigationRepo.Query(para);
+
+            list = new List<string> { "Id", "WorkflowId" };
+            para = APIProvider.APIDefaultParameter(list, 0, id);
+            IEnumerable<WorkflowState> listFlow = await _workflowStateRepo.Query(para);
+
+            List<WorkflowState> source = new List<WorkflowState>();
+            foreach (var item in listFlow)
+            {
+                if (item.IsFirst == true || (listNav.FirstOrDefault(a => a.NextWorkflowStateId == item.Id) != null))
+                {
+                    source.Add(item);
+                }
+            }
+
+            List<WorkflowStateViewModel> dest = Mapper.Map<List<WorkflowStateViewModel>>(source);
+            return dest;
+        }
+    }
+}

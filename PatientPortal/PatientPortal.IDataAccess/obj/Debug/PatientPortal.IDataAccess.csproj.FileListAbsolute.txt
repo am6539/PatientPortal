@@ -1,0 +1,7 @@
+D:\ProjectsFIS\PatientPortal\PatientPortal.IDataAccess\bin\Debug\PatientPortal.IDataAccess.dll
+D:\ProjectsFIS\PatientPortal\PatientPortal.IDataAccess\bin\Debug\PatientPortal.IDataAccess.pdb
+D:\ProjectsFIS\PatientPortal\PatientPortal.IDataAccess\bin\Debug\PatientPortal.Core.dll
+D:\ProjectsFIS\PatientPortal\PatientPortal.IDataAccess\bin\Debug\PatientPortal.Core.pdb
+D:\ProjectsFIS\PatientPortal\PatientPortal.IDataAccess\obj\Debug\PatientPortal.IDataAccess.csprojResolveAssemblyReference.cache
+D:\ProjectsFIS\PatientPortal\PatientPortal.IDataAccess\obj\Debug\PatientPortal.IDataAccess.dll
+D:\ProjectsFIS\PatientPortal\PatientPortal.IDataAccess\obj\Debug\PatientPortal.IDataAccess.pdb

@@ -1,0 +1,8 @@
+﻿CREATE TABLE [dbo].[SupportOnline]
+(
+	[Id] TINYINT IDENTITY(1,1) NOT NULL PRIMARY KEY, 
+    [Code] VARCHAR(50) NOT NULL, 
+    [Name] NVARCHAR(50) NOT NULL, 
+    [WelcomeNote] NVARCHAR(150) NOT NULL, 
+    [IsUsed] BIT NOT NULL
+)

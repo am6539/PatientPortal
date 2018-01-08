@@ -1,0 +1,211 @@
+﻿<style>
+    .homepage .brd-wrap {
+        display: block;
+    }
+
+    .homepage .hotlink {
+        position: unset;
+        bottom: -450px;
+        z-index: 2000;
+        right: 0;
+    }
+</style>
+<div class="brd-wrap" style="background: #73b844;">
+    <div class="container">
+        <div class="row">
+            <div class='hotlink Module Module-514'>
+                <a href="/saigon/cau-chuyen-benh-nhan">
+                    <img alt="" src="assets/images/media/3/img-4.png" />
+                </a>
+                <a href="/saigon/dat-lich-kham">
+                    <img alt="" src="assets/images/media/3/img1.png" />
+                </a>
+                <a href="/saigon/danh-sach-bac-si">
+                    <img alt="" src="assets/images/media/3/img2.png" />
+                </a>
+                <a href="/saigon/hoi-dap">
+                    <img alt="" src="assets/images/media/3/img3.png" />
+                </a>
+            </div>
+            <h2 class="crrpage-name">Chuyên Khoa</h2>
+            <div id="ctl00_Breadcrumbs_pnlWrapper" class="breadcrum">
+                <ul class='nav'>
+                    <li itemscope itemtype='http://data-vocabulary.org/Breadcrumb'>
+                        <a href='http://www.hoanmy.com/saigon/Default.aspx' class='itemcrumb' itemprop="url"><span itemprop="title">Trang chủ</span></a>
+                    </li>
+                    <li>/</li>
+                    <li itemscope itemtype='http://data-vocabulary.org/Breadcrumb'>
+                        <a href='/saigon/chuyen-khoa' class='itemcrumb' itemprop="url"><span itemprop="title">Chuyên Khoa</span></a>
+                    </li>
+                    <li>/</li>
+                    <li itemscope itemtype='http://data-vocabulary.org/Breadcrumb'>
+                        <a href='/saigon/khoa-tim-mach' class='itemcrumb active' itemprop="url"><span itemprop="title">Khoa Tim mạch</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="top-content">
+</div>
+<div class="content container">
+    <div class="row">
+        <div class="content-bg">
+            <div id="ctl00_divCenter" class="col-left">
+                <div class="content-bg2">
+                    <div class='Module Module-262'>
+                        <div id="ctl00_mainContent_ctl00_NewsView1_pnlInnerWrap">
+                            <div class="news">
+                                <div class="newsdt-slimg"><img src="assets/images/data/news/ck_tim_bb.jpg" alt=""></div>
+                                <div class="newsdt-slshadow newsdt-slshadow1"></div>
+                                <h1 class="newsdt-title title1">Khoa Tim mạch </h1>
+                                <div class="newstext">
+                                    <div style="text-align: justify;">
+                                        <br />
+                                        <br />
+                                    </div>
+                                </div><div class="ser-attr">
+                                    <div id="serarr"></div>
+                                    <div class="tab-nav">
+                                        <ul class="nav">
+                                            <li>
+                                                <a href="#tab1">Giới thiệu</a>
+                                            </li>
+                                            <li>
+                                                <a href="#tab2">Đội ngũ bác sĩ</a>
+                                            </li>
+                                            <li>
+                                                <a href="#tab3">Dịch vụ</a>
+                                            </li>
+                                            <li>
+                                                <a href="#tab4">Trang thiết bị</a>
+                                            </li>
+                                            <li>
+                                                <a href="#tab5">HỎI ĐÁP CHUYÊN KHOA</a>
+                                            </li>
+                                            <li>
+                                                <a href="#tab6">TIN TỨC CHUYÊN KHOA</a>
+                                            </li>
+                                        </ul>
+                                        <div class="clear"></div>
+                                    </div><div class="tab-contents">
+                                        <div class="tab-content" id="tab1">
+                                            <div style="text-align: justify;">
+                                                <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+                                                <meta name="ProgId" content="Word.Document" />
+                                                <meta name="Generator" content="Microsoft Word 14" />
+                                                <meta name="Originator" content="Microsoft Word 14" />
+                                                <p class="MsoNormal">Khám và điều trị toàn diện các bệnh lý về tim mạch với hiệu quả cao và chi phí hợp lý.</p>
+                                                <p class="MsoNormal">Khoa Tim Mạch là một trong những chuyên khoa được đầu tư mạnh cả về cở sở vật chất lẫn năng lực chuyên môn. Mỗi một dịch vụ khám chữa bệnh đều được thực hiện bởi đội ngũ y bác sĩ được đào tạo chuyên sâu từ các trường danh tiếng trong và ngoài nước, là thành viên Ban chấp hành của Hội Tim Mạch Việt Nam, được cấp nhiều chứng chỉ chuyên khoa tại những đơn vị uy tín.</p>
+                                                <p class="MsoNormal">Chúng tôi đã thực hiện thành công nhiều ca phẫu thuật khó mà trước đó chỉ có thể thực hiện ở bệnh viện nước ngoài. Hầu hết các công nghệ điều trị ưu tú nhất trên thế giới và trang thiết bị hiện đại đều được ứng dụng thành công tại BV Hoàn Mỹ Sài Gòn như Kỹ Thuật Mổ Tim Hở Ít Xâm Lấn, Mổ Tim Xâm Lấn Tối Thiểu…</p>
+                                                <p class="MsoNormal">
+                                                    <img alt="" src="images/data/HMSG 2.jpg" /><br />
+                                                    <br />
+                                                </p>
+                                            </div>
+                                        </div><div class="tab-content" id="tab2">
+                                            <p>
+                                                <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+                                                <meta name="ProgId" content="Word.Document" />
+                                                <meta name="Generator" content="Microsoft Word 14" />
+                                                <meta name="Originator" content="Microsoft Word 14" />
+                                            </p>
+                                            <p><strong>Ths. BS. Phạm Thế Việt – Trưởng Khoa Tim Mạch</strong></p>
+                                            <p class="MsoNormal" style="text-align: justify;">
+                                                Với hơn 14 năm kinh nghiệm điều trị các bệnh lý tim mạch.<br />
+                                                Tốt nghiệp Thạc Sĩ Y Khoa và Nghiên Cứu Sinh Đại Học Y Dược TP.HCM.<br />
+                                                Chứng Chỉ Phẫu Thuật Lồng Ngực Mạch Máu BV Chợ Rẫy.<br />
+                                                Chứng chỉ Phẫu Thuật Tim tại Viện Tim Texas Hospital (Hoa Kỳ) và Viện Tim Fortis Escort (Ấn Độ).<br />
+                                                Thành viên Hội Tim Mạch Việt Nam, Hội Phẫu Thuật Tim Mạch – Lồng Ngực Việt Nam &amp; Châu Á.
+                                            </p>
+                                            <p class="MsoNormal" style="text-align: justify;"><strong>Ths. BS. Nguyễn Ngọc Bảo Long</strong></p>
+                                            <p class="MsoNormal" style="text-align: justify;">
+                                                Tốt nghiệp Thạc Sĩ Y Khoa Đại Học Y Dược TP.HCM<br />
+                                                Chứng Chỉ Phẫu Thuật Tim tại Thái Lan<br />
+                                                Chứng Chỉ Phẫu Thuật Nội Soi Lồng Ngực tại TP.HCM<br />
+                                                Chứng Chỉ Phẫu Thuật Mạch Máu tại BV Đại Học Y Dược TP.HCM<br />
+                                                Chứng Chỉ Phẫu Thuật Tim BV Chợ Rẫy<br />
+                                                Hơn 12 năm kinh nghiệm điều trị: Tim Bẩm Sinh, Thông Liên Thất, Thông Liên Nhĩ, TOF…
+                                            </p>
+                                            <p class="MsoNormal" style="text-align: justify;"><strong>Ths. BS Trần Phước Hòa</strong></p>
+                                            <p class="MsoNormal" style="text-align: justify;">
+                                                Tốt nghiệp Đại Học Y Dược TP.HCM<br />
+                                                Hơn 12 năm kinh nghiệm điều trị các bệnh lý Nội Khoa Tim Mạch.<br />
+                                                Tham gia nhiều lớp đào tạo mổ tim hở trong và ngoài nước.<br />
+                                                Thành viên Hội Tim Mạch – Lồng Ngực Việt Nam.
+                                            </p>
+                                            <p class="MsoNormal" style="text-align: justify;"><img alt="" src="images/data/bac_si.jpg" /></p>
+                                            <div style="text-align: center;"><span style="font-size: 11pt; line-height: 16.8666667938232px; font-family: Calibri, sans-serif;"><em>“Chúng tôi luôn đặt sức khỏe và sự an toàn của bệnh nhân lên hàng đầu.”</em></span></div>
+                                            <p>&nbsp;</p>
+                                            <p>&nbsp;</p>
+                                        </div><div class="tab-content" id="tab3">Thông tin đang được cập nhật. <br /></div>
+                                        <div class="tab-content" id="tab4">
+                                            Khoa tim mạch luôn chú trọng đầu tư trang thiết bị và kỹ thuật hiện đại nhằm gia nâng cao tỷ lệ điều trị thành công cho bệnh nhân.
+                                            <p><strong>Máy MSCT 64 lát</strong>: Chụp hệ động mạch cảnh, động mạch đốt sống, động mạch chủ…</p>
+                                            <p><strong>Máy chụp DSA</strong>: chẩn đoán chính xác các triệu chứng bất thướng của mạch máu như Chứng Nghẽn Mạch, Mảng Sơ Vữa và Phình Động Mạch.</p>
+                                            <p>
+                                                <strong>Máy siêu âm tim qua thực quản:</strong> Chẩn đoán bệnh lý tim mạch bẩm sinh, phình động mạch chủ, huyết khối động mạch chủ…<br />
+                                                Máy đo ECG: Ghi lại hoạt động của điện tim
+                                            </p>
+                                            <p>
+                                                <strong>Máy siêu âm tim Doppler màu – 3D:</strong> Siêu âm mạch máu, hệ động mạch – tĩnh mạch và cả mao mạch trong các mô, u. <br />
+                                                Máy X Quang: Chẩn đoán các thay đổi về hình thái và sự hoạt động của tim.
+                                            </p>
+                                            <p>
+                                                <img alt="" src="assets/images/data/may_thiet_bi.png" />
+                                            </p>
+                                        </div>
+                                        <div class="tab-content" id="tab5"></div>
+                                        <div class="tab-content" id="tab6"></div>
+                                    </div><div class="clear"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="ctl00_divRight" class="col-right cmszone">
+
+                <div class='Module Module-258'>
+                    <div class="fb-page" data-href="https://www.facebook.com/hoanmysaigon" data-tabs="Facebook" data-width="231" data-small-header="false" data-adapt-container-width="false" data-hide-cover="false" data-show-facepile="true">
+                        <div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/hoanmysaigon"><a href="https://www.facebook.com/hoanmysaigon">BV Hoàn Mỹ Sài Gòn</a></blockquote></div>
+                    </div>
+                    <div class="emhotline">
+                        Cấp cứu<span>(08) 3995 9860</span>
+                    </div>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSemdqrYVGswrTxbQGKUwPzImgqXa6DMt5D_wBdiPKvhbyq2FA/viewform?c=0&amp;w=1" target="_blank"><img src="http://hoanmy.com/Data/Sites/1/userfiles/56/KS-ngoai-tru.png" alt="Khao-sat-ngoai-tru" /></a>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdGUagF2UaZ2U0QkNWDXj46q8fND-aIz46VN_9tZCQCezfSEw/viewform?c=0&amp;w=1" target="_blank"><img src="http://hoanmy.com/Data/Sites/1/userfiles/56/KS-noi-tru.png" alt="Khao-sat-noi-tru" /></a>
+                </div><div class='Module Module-795'>
+                    <div class="cc-wrap">
+                        <h4>
+                            <a href="/saigon/cau-chuyen-benh-nhan">Câu chuyện bệnh nhân</a>
+                        </h4>
+                        <table></table>
+                    </div>
+                </div>
+                <div class='cn-wrap Module Module-796'>
+                    <div class="cc-wrap">
+                        <h4>
+                            <a href="/saigon/cam-nhan-benh-nhan">Cảm nhận bệnh nhân</a>
+                        </h4>
+                        <section class="bg-cn">
+                            <div class="cn-slide">
+                            </div>
+                            <div class="pagination" id="foo2_pag">
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class='Module Module-573'>
+                    <p>
+                        <span style="font-size: 13px;">&nbsp;</span>
+                        <img alt="" src="assets/images/media/5/banner/Banner_GIF.gif" />
+                    </p>
+                </div>
+
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+    </div>
+</div>

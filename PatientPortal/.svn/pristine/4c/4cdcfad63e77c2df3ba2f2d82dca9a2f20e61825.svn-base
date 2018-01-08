@@ -1,0 +1,15 @@
+﻿using PatientPortal.Domain.Models.CORE;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.IDataAccess.CORE
+{
+    public interface IUser
+    {
+        List<User> GetAll();
+        bool Transaction(List<User> data, char action);
+    }
+}

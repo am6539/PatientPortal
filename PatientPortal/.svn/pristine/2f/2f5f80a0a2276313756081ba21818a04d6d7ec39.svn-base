@@ -1,0 +1,244 @@
+﻿using LinqToExcel;
+using PatientPortal.Domain;
+using PatientPortal.Domain.LogManager;
+using PatientPortal.Domain.Models.AUTHEN;
+using PatientPortal.Internal.Common;
+using PatientPortal.Internal.Models;
+using PatientPortal.Internal.Models.Schedule;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using PatientPortal.Utility.Application;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.OleDb;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using System.Xml;
+using WebMarkupMin.AspNet4.Mvc;
+using static PatientPortal.Utility.Application.ApplicationGenerator;
+
+namespace PatientPortal.Internal.Controllers
+{
+    [Authorize]
+    [AppHandleError]
+    //[CompressContent]
+    //[MinifyHtml]
+    public class ScheduleController : Controller
+    {
+        private static string controllerName = string.Empty;
+        private static string controllerUser = "User";
+        private readonly IUserSession _userSession;
+
+        public ScheduleController(IUserSession userSession)
+        {
+            _userSession = userSession;
+        }
+
+        // GET: Schedule
+        public async Task<ActionResult> Index(ScheduleMultipleViewModel data)
+        {
+            try
+            {
+                byte type = (byte)EnumUserConstants.UserType.ISDOCTOR;
+                string search = "";
+                string apiUrl = APIProvider.APIGenerator(controllerUser, new List<string> { nameof(search), nameof(type) }, true, search, type);
+                var doctorList = await APIProvider.Authorize_Get<List<UserViewModel>>(_userSession.BearerToken, apiUrl, APIConstant.API_Resource_CORE, ARS.Get);
+                if (doctorList == null)
+                    doctorList = ApplicationGenerator.GetObject<List<UserViewModel>>();
+                ViewBag.Users = doctorList;
+
+                if (data.ScheduleFilter == null)
+                    data.ScheduleFilter = new ScheduleFilter();
+                var param = data.ScheduleFilter;
+                //Call API Provider
+                if (param.Start == DateTime.MinValue && param.End == DateTime.MinValue)
+                {
+                    param.Start = DateTime.Now;
+                    param.End = DateTime.Now;
+                }
+                controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                string apiUrlSchedule = APIProvider.APIGenerator(controllerName, new List<string> { nameof(param.UserId),
+                nameof(param.Start), nameof(param.End) }, true, param.UserId, param.Start.ToString("yyyy-MM-dd"), param.End.ToString("yyyy-MM-dd"));
+                var schedule = await APIProvider.Authorize_Get<List<ScheduleViewModel>>(_userSession.BearerToken, apiUrlSchedule, APIConstant.API_Resource_CORE, ARS.Get);
+                if (schedule.Count == 0)
+                    schedule = new List<ScheduleViewModel>();
+
+                ViewBag.Schedule = schedule;
+
+                var schedules = new ScheduleMultipleViewModel();
+                var model = schedules.ScheduleFilter;
+                return View(model);
+            }
+            catch (HttpException ex)
+            {
+                Logger.LogError(ex);
+                int statusCode = ex.GetHttpCode();
+                if (statusCode == 401)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(FuntionType.Department, APIConstant.ACTION_ACCESS);
+                    return new HttpUnauthorizedResult();
+                }
+
+                throw ex;
+            }
+        }
+
+        public async Task<ActionResult> Create(ScheduleMultipleViewModel param)
+        {
+            if (ModelState.IsValid)
+            {
+                controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                string strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_INSERT);
+
+                var model = param.CreateScheduleViewModel;
+                model.Start = DateTime.Parse(model.StartDate + " " + model.StartTime);
+                model.End = DateTime.Parse(model.StartDate + " " + model.EndTime);
+                model.Color = string.Empty;
+                if(param.CreateScheduleViewModel.UserId == null)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ERROR, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                    return RedirectToAction("Index");
+                }
+                    
+                var result = await APIProvider.Authorize_DynamicTransaction<CreateScheduleViewModel, int>(model, _userSession.BearerToken, strUrl, APIConstant.API_Resource_CORE, ARS.Insert);
+                if(result > 0)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                return View("Index");
+            }
+        }
+
+        public async Task<ActionResult> Edit(ScheduleMultipleViewModel param)
+        {
+            if (ModelState.IsValid)
+            {
+                controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                string strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_UPDATE);
+
+                var model = param.CreateScheduleViewModel;
+                model.Start = DateTime.Parse(model.StartDate.Split('T')[0] + " " + model.StartTime);
+                model.End = DateTime.Parse(model.StartDate.Split('T')[0] + " " + model.EndTime);
+                model.Color = string.Empty;
+                var result = await APIProvider.Authorize_DynamicTransaction<CreateScheduleViewModel, int>(model, _userSession.BearerToken, strUrl, APIConstant.API_Resource_CORE, ARS.IgnoredARS);
+
+                if (result > 0)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.FAIL));
+                return View("Index");
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Delete(int id)
+        {
+            if(id > 0)
+            {
+                controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                string strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_DELETE);
+
+                var model = new CreateScheduleViewModel();
+                model.Detail = string.Empty;
+                model.Title = string.Empty;
+                model.UserId = string.Empty;
+                model.Color = string.Empty;
+                model.Start = DateTime.Now;
+                model.End = DateTime.Now;
+                model.Id = id;
+                var result = await APIProvider.Authorize_DynamicTransaction<CreateScheduleViewModel, int>(model, _userSession.BearerToken, strUrl, APIConstant.API_Resource_CORE, ARS.IgnoredARS);
+
+                if (result > 0)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_DELETE, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_DELETE, ApplicationGenerator.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_DELETE, ApplicationGenerator.TypeResult.FAIL));
+                return View("Index");
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ImportExcel()
+        {
+            var fileupload = Request.Files[0];
+            if (fileupload != null)
+            {
+                var allowedExtensions = new[] { ".xls", ".xlsx", ".XLS", ".XLSX" };
+                var extension = Path.GetExtension(fileupload.FileName);
+                if (allowedExtensions.Contains(extension))
+                {
+                    try
+                    {
+                        string filename = Path.GetFileName(fileupload.FileName);
+                        string fullPath = Server.MapPath(ValueConstant.PATH_DOCS) + filename;
+                        fileupload.SaveAs(fullPath);
+                        var excel = new ExcelQueryFactory(fullPath);
+                        var schedule = from c in excel.Worksheet<ScheduleExcelViewModel>("Sheet1")
+                                       select c;
+
+                        controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                        string strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_INSERT);
+                        if (schedule != null)
+                        {
+                            foreach (var item in schedule)
+                            {
+                                string apiUrl = "User?email=" + item.UserId;
+                                var userid = await APIProvider.Authorize_Get<string>(_userSession.BearerToken, apiUrl, APIConstant.API_Resource_CORE, ARS.Get);
+                                var model = new CreateScheduleViewModel()
+                                {
+                                    Title = item.Title,
+                                    Priority = item.Priority,
+                                    Detail = item.Detail,
+                                    IsAlarm = item.IsAlarm,
+                                    Start = item.Start,
+                                    End = item.End,
+                                    Color = item.Color,
+                                    IsExamine = item.IsExamine,
+                                    UserId = userid
+                                };
+                                var result = await APIProvider.Authorize_DynamicTransaction<CreateScheduleViewModel, int>(model, _userSession.BearerToken, strUrl, APIConstant.API_Resource_CORE, ARS.Insert);
+                            }
+                            TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.SUCCESS));
+                            return RedirectToAction("Index");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw;
+                    }
+                }
+            }
+            return RedirectToAction("Index");
+        }
+    }
+}

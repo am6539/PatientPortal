@@ -1,0 +1,10 @@
+﻿using PatientPortal.Domain.Models.SPA;
+using System.Collections.Generic;
+
+namespace PatientPortal.DataAccess.Repo.SPA
+{
+    public interface IFeature
+    {
+        List<Feature> GetAll();
+    }
+}

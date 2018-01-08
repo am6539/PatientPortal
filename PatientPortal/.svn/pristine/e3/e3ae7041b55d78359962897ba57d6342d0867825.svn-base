@@ -1,0 +1,42 @@
+﻿@model List<PatientPortal.CMS.Models.LanguageViewModel>
+@{
+    ViewBag.Title = "Ngôn ngữ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-title">@ViewBag.Title</div>
+    <div class="card-actionbar">
+        <a style="margin-top: 6px; padding-top: 8px;" href="@Url.Action("Create", "CMSPost")" class="btn btn-success btn-sm pull-left"><span class="fa fa-plus"></span> Thêm ngôn ngữ</a>
+    </div>
+    <div class="card-content">
+        <table id="table_id" class="table table-striped table-bordered dataTable no-footer" cellspacing="0" role="grid" aria-describedby="example_info" style="width: 100%;">
+            <thead>
+                <tr role="row">
+                    <th class="sorting_asc" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: auto" aria-sort="ascending">STT</th>
+                    <th style="display: none">Id</th>
+                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: auto">Tên ngôn ngữ</th>
+                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: auto">Code</th>
+                    <th style="width: 15%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ var i = 0; }
+                @foreach (var item in Model)
+                {
+                    <tr role="row">
+                        <td class="sorting_1">@i++</td>
+                        <td style="display: none">@item.Id</td>
+                        <td class="">@item.Name</td>
+                        <td class="">@item.Code/td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-view btn-warning" title="Cập nhật" data-toggle="modal" data-target="#categoriesModal" style="padding:1px 5px 1px 5px;"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                            <a href="#" class="btn btn-sm btn-delete btn-danger" title="Xóa" data-toggle="modal" data-target="#deleteCateModal" style="padding:1px 5px 1px 5px;"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>

@@ -1,0 +1,17 @@
+﻿appManagement.controller("indexController", [
+    "$scope", "$rootScope", "$location", 'indexServices',
+    function ($scope, $rootScope, $location, indexServices) {
+        $rootScope.title = "Trang chủ";
+        $scope.Post = new Object();
+
+        //var Id = 144;
+        ////get post
+        //$scope.query = function () {
+        //    indexServices.get({ postId: Id }, function (data) {
+        //        $scope.Post = data.toArrayBuffer();
+        //    });
+        //};
+
+        //$scope.query();
+    }
+]);

@@ -1,0 +1,105 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using PatientPortal.Domain.Models.CORE;
+using System.Threading.Tasks;
+using PatientPortal.DataAccess.Repo.Wrapper;
+using PatientPortal.Domain.Common;
+using PatientPortal.Domain.LogManager;
+using PatientPortal.DataAccess.Repo.CORE;
+
+namespace PatientPortal.DataAccess.CORE
+{
+    public class AppointmentLogImpl : IAppointmentLog
+    {
+        private readonly IAdapterPattern _adapterPattern;
+        public AppointmentLogImpl(IAdapterPattern adapterPattern)
+        {
+            this._adapterPattern = adapterPattern;
+        }
+
+        public async Task<List<Schedule>> GetScheduleExamine(Dictionary<string, object> param)
+        {
+            try
+            {
+                var data = await _adapterPattern.ExecuteQuery<Schedule>(param, "usp_ScheduleExamine", DataConfiguration.instanceCore);
+                return data.ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                return null;
+            }
+        }
+
+        public async Task<bool> Transaction(AppointmentLogEdit data, char action)
+        {
+            try
+            {
+                var val = await _adapterPattern.SingleTransaction<AppointmentLogEdit, bool>(data, "usp_AppointmentLog_Transaction", action, DataConfiguration.instanceCore);
+                return val;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                return false;
+            }
+        }
+
+        public async Task<List<AppointmentLog>> Query(Dictionary<string, object> param)
+        {
+            try
+            {
+                var data = await _adapterPattern.ExecuteQuery<AppointmentLog>(param, "usp_AppointmentLog", DataConfiguration.instanceCore);
+                return data.ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                return null;
+            }
+        }
+
+        public async Task<AppointmentLog> SingleQuery(Dictionary<string, object> param)
+        {
+            try
+            {
+                var data = await _adapterPattern.ExecuteQuery<AppointmentLog>(param, "usp_AppointmentLog", DataConfiguration.instanceCore);
+                return data.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                return null;
+            }
+        }
+
+        public async Task<bool> Confirm(AppointmentLog data, char action)
+        {
+            try
+            {
+                var val = await _adapterPattern.SingleTransaction<AppointmentLog, bool>(data, "usp_AppointmentLog_Confirm", action, DataConfiguration.instanceCore);
+                return val;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                return false;
+            }
+        }
+
+        public async Task<List<AppointmentLog>> QuerySearch(Dictionary<string, object> param)
+        {
+            try
+            {
+                var data = await _adapterPattern.ExecuteQuery<AppointmentLog>(param, "usp_AppointmentLog_Search", DataConfiguration.instanceCore);
+                return data.ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                return null;
+            }
+        }
+    }
+}

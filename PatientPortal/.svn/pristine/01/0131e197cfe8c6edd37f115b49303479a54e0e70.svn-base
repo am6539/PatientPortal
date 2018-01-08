@@ -1,0 +1,6 @@
+﻿angular.module('spaApp').factory('ServiceDetailServices', ['$resource', 'Params',
+    function ($resource, Params) {
+        return $resource(Params.rootUrl + 'SPAPost', {}, {
+
+        });
+    }]);

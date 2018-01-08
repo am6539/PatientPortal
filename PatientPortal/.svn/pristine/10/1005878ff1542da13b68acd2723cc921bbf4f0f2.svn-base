@@ -1,0 +1,165 @@
+﻿using PatientPortal.Domain.LogManager;
+using PatientPortal.Internal.Models;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using PatientPortal.Provider.Common;
+using System.Threading;
+using Microsoft.AspNet.Identity;
+using PatientPortal.Domain.Models.AUTHEN;
+using PatientPortal.Internal.Common;
+using static PatientPortal.Internal.Common.ValueConstant;
+using PatientPortal.Utility.Application;
+using System.Web;
+using static PatientPortal.Utility.Application.ApplicationGenerator;
+using WebMarkupMin.AspNet4.Mvc;
+
+namespace PatientPortal.Internal.Controllers
+{
+    [Authorize]
+    [AppHandleError]
+    [CompressContent]
+    [MinifyHtml]
+    public class ArticleController : Controller
+    {
+        #region declare variable
+        private readonly IUserSession _userSession;
+        private static string controllerName = string.Empty;
+        #endregion
+
+        #region constructor
+        public ArticleController(IUserSession userSession)
+        {
+            _userSession = userSession;
+        }
+        #endregion
+
+        // GET: Article
+        public async Task<ActionResult> Index(byte type = 0)
+        {
+            controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+            var model = new List<ArticleViewModel>();
+            try
+            {
+                //Call API Provider
+                string patientId = null;
+                string apiUrl = APIProvider.APIGenerator(controllerName, new List<string> { nameof(patientId) }, true, patientId);
+                var list = await APIProvider.Authorize_Get<List<ArticleViewModel>>(_userSession.BearerToken, apiUrl, APIConstant.API_Resource_CORE, ARS.Get);
+
+                if (type == 1 && list != null)
+                {
+                    //Get list Unanswer
+                    list = list.Where(i => i.CountComments == 0).ToList();
+                }
+                ViewBag.TypePage = type;
+                model = list != null ? list.OrderByDescending(i => i.Date).ToList() : model;
+            }
+            catch (HttpException ex)
+            {
+                Logger.LogError(ex);
+                int statusCode = ex.GetHttpCode();
+                if (statusCode == 401)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(FuntionType.Department, APIConstant.ACTION_ACCESS);
+                    return new HttpUnauthorizedResult();
+                }
+
+                throw ex;
+            }
+
+            return View(model);
+        }
+
+        #region view details
+        public async Task<ActionResult> Details(int id)
+        {
+            if (!await APIProvider.Authorization(_userSession.BearerToken, ARS.Edit))
+            {
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.FuntionType.Article, APIConstant.ACTION_UPDATE);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ArticlesModel model = new ArticlesModel();
+                var article = await GetArticle(id);
+                var comments = await GetComments(id);
+
+                model.ArticleViewModel = article;
+                model.lstArticleCommentModel = comments;
+
+                model.ArticleCommentModel = new ArticleCommentViewModel()
+                {
+                    CreatedUser = _userSession.UserId,
+                    ArticleId = id
+                };
+                return View(model);
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Details(ArticlesModel model)
+        {
+            var comment = model.ArticleCommentModel;
+            comment.Status = (byte)ArticleStatus.JustCreated;
+            comment.Date = DateTime.Now;
+            if (ModelState.IsValid)
+            {
+                string strUrl = APIProvider.APIGenerator(controllerName + "/Comment", APIConstant.ACTION_INSERT);
+                var result = await InvokeTransaction(comment, strUrl);
+                if (result > 0)
+                {
+                    return RedirectToAction("Details", new { id = comment.ArticleId });
+                }
+                else
+                {
+                    model = await SetArticleComment(comment);
+                    return View("Details", model);
+                }
+            }
+            else
+            {
+                model = await SetArticleComment(comment);
+                return View("Details", model);
+            }
+        }
+        #endregion
+
+        #region private method
+        private async Task<ArticlesModel> SetArticleComment(ArticleCommentViewModel comment)
+        {
+            ArticlesModel articlecomment = new ArticlesModel();
+            var article = await GetArticle(comment.ArticleId);
+            var comments = await GetComments(comment.ArticleId);
+
+            articlecomment.ArticleViewModel = article;
+            articlecomment.lstArticleCommentModel = comments;
+
+            articlecomment.ArticleCommentModel = comment;
+
+            return articlecomment;
+        }
+
+        private async Task<ArticleViewModel> GetArticle(int id)
+        {
+            var apiUrl = controllerName + APIProvider.APIGenerator(this, this.RouteData.Values["action"].ToString(), id);
+            return await APIProvider.Authorize_Get<ArticleViewModel>(_userSession.BearerToken, apiUrl, APIConstant.API_Resource_CORE, ARS.Get);
+        }
+
+        private async Task<List<ArticleCommentViewModel>> GetComments(int id)
+        {
+            var apiUrl = controllerName + "/GetAllComment?idArticle=" + Convert.ToString(id);
+            var model = await APIProvider.Authorize_Get<List<ArticleCommentViewModel>>(_userSession.BearerToken, apiUrl, APIConstant.API_Resource_CORE, ARS.Get);
+            return model;
+        }
+        private async Task<int> InvokeTransaction(ArticleCommentViewModel model, string strUrl)
+        {
+            var result =
+                await APIProvider.Authorize_DynamicTransaction<ArticleCommentViewModel, int>(model, _userSession.BearerToken, strUrl, APIConstant.API_Resource_CORE, ARS.IgnoredARS);
+            return result;
+        }
+        #endregion
+    }
+}

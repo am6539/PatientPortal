@@ -1,0 +1,47 @@
+﻿'use strict';
+
+angular.
+module('spaPHCN')
+    .config(['$routeProvider', '$locationProvider', '$logProvider',
+    function ($routeProvider, $locationProvider, $logProvider) {
+        $logProvider.debugEnabled(true);
+        $locationProvider.html5Mode(true).hashPrefix('!'); //the hashPrefix is for SEO
+        $routeProvider
+            .when('/', {
+                templateUrl: "app/components/home-page/home-page.template.html",
+                controller: "HomeController"
+            })
+            .when('/career', {
+                templateUrl: "app/components/career/career.template.html",
+                controller: "CareerController"
+            })
+            .when('/about', {
+                templateUrl: "app/components/about/about.template.html",
+                controller: "AboutController"
+            })
+            .when('/department', {
+                templateUrl: "app/components/department/department.template.html",
+                controller: "DepartmentController"
+            })
+            .when('/department/:id', {
+                templateUrl: "app/components/departmentdetail/departmentdetail.template.html",
+                controller: "DepartmentDetailController"
+            })
+            .when('/posts', {
+                templateUrl: "app/components/posts/posts.template.html",
+                controller: "PostsController"
+            })
+            .when('/post/:id', {
+                templateUrl: "app/components/post-detail/post-detail.template.html",
+                controller: "PostDetailController"
+            })
+            .when('/post-list', {
+                templateUrl: "app/components/post-list/post-list.template.html",
+                controller: "PostListController"
+            })
+            .when('/contact', {
+                templateUrl: "app/components/contact/contact.template.html",
+                controller: "ContactController"
+            })
+            .otherwise('/');
+    }]);

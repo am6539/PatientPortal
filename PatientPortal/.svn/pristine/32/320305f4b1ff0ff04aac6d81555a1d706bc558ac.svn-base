@@ -1,0 +1,20 @@
+﻿CREATE PROC [dbo].[usp_Appointment]
+AS BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+
+	BEGIN TRY
+		SELECT a.*,
+			b.[Date], b.[Time], b.[AppointmentNo],
+			b.[PatientName], b.[PatientAddress], b.[PatientEmail], b.[PatientPhone],
+			b.[PatientGender], b.[PatientDoB], b.[Status]
+		FROM [dbo].[Appointment] a RIGHT JOIN [dbo].[AppointmentCollection] b 
+		ON a.Id = b.Id
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0 
+		BEGIN
+			RETURN NULL
+		END
+	END CATCH
+END

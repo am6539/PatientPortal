@@ -1,0 +1,23 @@
+﻿'use strict';
+
+angular.
+module('spaPHCN').controller('AppController', ['$scope', '$rootScope', '$location', "Params", 'ContactService', 'MetaPageService', 'MetaFaceService',
+    function MainController($scope, $rootScope, $location, Params, ContactService, MetaPageService, MetaFaceService) {
+        $rootScope.metaservice = MetaPageService;
+        $rootScope.metafaceservice = MetaFaceService;
+
+        ContactService.get(function (data) {
+            if (data != null) {
+                $scope.contact = data;
+                $rootScope.metaservice.set(data.SEOTitle, data.SEODescription, data.SEOKeyword);
+                $rootScope.metafaceservice.set(window.location.href, "website", data.Name, "Bệnh viện phục hồi chức năng", data.Image);
+            }
+        });
+
+        $scope.search = function () {
+            if ($scope.searchText != undefined) {
+                $location.url('/search/' + $scope.searchText);
+            }
+        }
+    }
+]);

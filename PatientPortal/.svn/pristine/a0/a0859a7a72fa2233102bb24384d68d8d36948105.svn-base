@@ -1,0 +1,59 @@
+﻿using PatientPortal.DataAccess.Repo.CORE;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CORE;
+using PatientPortal.DataAccess.Dapper;
+using Dapper;
+using System.Transactions;
+using PatientPortal.Domain.Utilities;
+
+namespace PatientPortal.DataAccess.CORE
+{
+    public class MessageFolderImpl : IMessageFolder
+    {
+        public List<MessageFolder> Query()
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    DapperConfiguration.OpenConnection(2);
+
+                    var data = DapperConfiguration.db.Query<MessageFolder>("usp_MessageFolder", commandType: System.Data.CommandType.StoredProcedure).ToList();
+
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Appointment get data: " + ex.Message);
+                    return null;
+                }
+            }
+        }
+
+        public bool Transaction(List<MessageFolder> data, char action)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    var val = new Lib.DataGenerator().CommitData<MessageFolder>(data, "usp_MessageFolder_Transaction", action, 2);
+                    scope.Complete();
+                    return val;
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Appointment Transaction: " + ex.Message);
+                    return false;
+                }
+            }
+        }
+    }
+}

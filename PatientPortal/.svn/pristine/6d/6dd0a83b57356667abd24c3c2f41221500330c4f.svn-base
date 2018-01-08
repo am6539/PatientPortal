@@ -1,0 +1,88 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.CMS.Models.DepartmentModel
+@{
+    ViewBag.Title = "Chuyên khoa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+
+<link href="~/Content/checkbox-radio-build.css" rel="stylesheet" />
+<link href="~/Libs/jstree/dist/themes/default/style.min.css" rel="stylesheet" />
+}
+<div class="card">
+    @Html.Raw(TempData["Alert"])
+    <div class="card-title">@Html.ITitle("Chuyên khoa", "hospital-o")</div>
+    <div class="card-content">
+        <div class="col-md-5">
+            <div id="panelAdd">
+                @Html.Partial("_Create", Model.DepartmentViewModel)
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div id="panelList">
+                @Html.Partial("_List", Model.lstDepartmentViewModel)
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+<script src="~/Libs/jstree/dist/jstree.js"></script>
+
+<script>
+
+        $(function () {
+            $("#Handler").hide();
+            var url = '';
+
+            $('#myModal').on('show.bs.modal', function () {
+                $.ajax({
+                    type: "GET",
+                    url: "/Department/GetTreeData",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        createJSTrees(data);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                        alert(thrownError);
+                    }
+                });
+            });
+
+            function createJSTrees(jsonData) {
+                $('#MainTree').jstree({
+                    'core': {
+                        'data': jsonData,
+                        'check_callback': true,
+                        'themes': { "stripes": true },
+                    },
+                    "plugins": ["themes", "dnd", "contextmenu", "ui", "crrm"]
+                });
+            }
+
+            $('#MainTree')
+                .on('changed.jstree', function (e, data) {
+                    var i, j, r = [];
+                    for (i = 0, j = data.selected.length; i < j; i++) {
+                        r.push(data.instance.get_node(data.selected[i]).id);
+                    }
+
+                    url = r.join(', ');
+                })
+
+            $(document).on("click", "#btnSelFolder", function (e) {
+                $('#myModal').modal('hide');
+                $('#Handler').show("slow");
+                $('#Handler').val('~' + url);
+            });
+
+            $(document).on("click", "#btnBrowser", function (e) {
+                $('#myModal').modal('show');
+                $('#txtUrl').hide("slow");
+                $('#txtUrl').val('');
+            });
+        });
+</script>
+}

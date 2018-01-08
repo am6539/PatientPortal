@@ -1,0 +1,52 @@
+﻿using AutoMapper;
+using PatientPortal.API.SPA.ViewModels;
+using PatientPortal.IRepository.SPA;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+
+namespace PatientPortal.API.SPA.Controllers
+{
+    public class AdvertiseController : ApiController
+    {
+        private readonly IAdvertiseRepo _iAdvertiseRepo;
+        private readonly string PATH_IMG = ConfigurationManager.AppSettings["webapi:library"];
+        public AdvertiseController(IAdvertiseRepo iAdvertiseRepo)
+        {
+            this._iAdvertiseRepo = iAdvertiseRepo;
+        }
+
+        [HttpGet]
+        public HttpResponseMessage Get()
+        {
+            try
+            {
+                var data = _iAdvertiseRepo.GetAll();
+                var results = new List<AdvertiseViewModel>();
+                foreach(var item in data)
+                {
+                    var advertise = new AdvertiseViewModel();
+                    advertise.Id = item.Id;
+                    advertise.Name = item.Name;
+                    advertise.Resouce = PATH_IMG + item.Resouce.Replace("~", "").Replace(@"\", @"/").Replace(" ", "%20");
+                    advertise.Handler = item.Handler;
+                    advertise.Type = item.Type;
+                    if(item.Type > 0)
+                    {
+                        advertise.Image = PATH_IMG + item.Resouce.Replace("~", "").Replace(@"\", @"/").Split('.')[0] + ".jpg";
+                    }
+                    results.Add(advertise);
+                }
+                return Request.CreateResponse(HttpStatusCode.OK, results);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+    }
+}

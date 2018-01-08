@@ -1,0 +1,45 @@
+﻿CREATE PROCEDURE [dbo].[usp_User_ByGroupType]
+	@GroupType NVARCHAR(128)
+AS BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+
+	BEGIN TRY
+		-- là Bệnh nhân
+		IF @GroupType = 'BenhNhan'
+		BEGIN
+			SELECT DISTINCT *
+			FROM   [dbo].Users u
+			WHERE  u.PatientId <> NULL
+		END
+
+		-- là Bác sĩ
+		IF @GroupType = 'BacSi'
+		BEGIN
+			SELECT DISTINCT *
+			FROM   [dbo].Users u
+			WHERE  u.IsDoctor = 1
+		END
+
+		-- là Nội bộ
+		IF @GroupType = 'NoiBo'
+		BEGIN
+			SELECT DISTINCT *
+			FROM   [dbo].Users u
+			WHERE  u.PatientId = NULL
+		END
+
+		-- Tất cả
+		IF @GroupType = 'TatCa'
+		BEGIN
+			SELECT DISTINCT *
+			FROM   [dbo].Users u
+		END
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0 
+		BEGIN
+			RETURN NULL
+		END
+	END CATCH
+END

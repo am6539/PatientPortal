@@ -1,0 +1,23 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.Provider.Common
+{
+    public class APIConstant
+    {
+        //API Resource
+        public const string API_Resource_CMS = "cms";
+        public const string API_Resource_CORE = "core";
+        public const string API_Resource_Authencation = "authen";
+
+        //API Action
+        public const string ACTION_INSERT = "I";
+        public const string ACTION_UPDATE = "U";
+        public const string ACTION_DELETE = "D";
+        public const string ACTION_SEND = "S";
+
+
+    }
+}

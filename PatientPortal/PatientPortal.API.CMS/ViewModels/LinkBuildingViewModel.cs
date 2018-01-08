@@ -1,0 +1,24 @@
+﻿using ProtoBuf;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.API.CMS.ViewModels
+{
+    [ProtoContract]
+    public class LinkBuildingViewModel
+    {
+        [ProtoMember(1)]
+        public short Id { get; set; }
+        [ProtoMember(2)]
+        [Required]
+        public string Title { get; set; }
+        [ProtoMember(3)]
+        [Required]
+        public string Url { get; set; }
+        [ProtoMember(4)]
+        public bool IsUsed { get; set; }
+    }
+}

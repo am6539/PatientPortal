@@ -1,0 +1,16 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.PatientServices.Models.UserInfoBindingModel
+@{
+    ViewBag.Title = "Thông tin cá nhân";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var Descpt = (Model.Gender == 1 ? "Nam" : "Nữ") + "," + ((DateTime.Now.Year - ((DateTime) Model.DoB).Year) + 1).ToString() + " tuổi";
+    var DOB = " Ngày sinh: " + ((DateTime)Model.DoB).ToString("dd/MM/yyyy");
+}
+
+<div class="card">
+    <div class="card-title">@Html.ITitle("Hồ sơ bệnh nhân", "address-card-o")</div>
+    <div class="card-content">
+        <h3 style="color:gray;">@Model.Name</h3>
+        <label>@Descpt</label><span>@DOB</span>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+﻿CREATE PROCEDURE [dbo].[usp_UserProfile]
+	@UserId NVARCHAR(128) = '',
+	@TabCode VARCHAR(10) = ''
+AS BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+
+	BEGIN TRY
+		IF (@TabCode = '')
+			SELECT up.*, u.Name, u.[Image] 
+			FROM [dbo].[UserProfile] up
+			INNER JOIN [dbo].[Users] u ON up.UserId = u.Id 
+			WHERE [UserId] = @UserId
+		ELSE
+			SELECT * FROM [dbo].[UserProfile]
+			WHERE [UserId] = @UserId
+			AND [TabCode] = @TabCode
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0 
+		BEGIN
+			RETURN NULL
+		END
+	END CATCH
+END

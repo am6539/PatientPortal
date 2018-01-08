@@ -1,0 +1,63 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       [dbo].[MessageRecipient]
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Drop
+       unnamed constraint on [dbo].[MessageRecipient] (Default Constraint)
+     Alter
+       [dbo].[Article] (Table)
+       [dbo].[ArticleComment] (Table)
+       [dbo].[Message] (Table)
+       [dbo].[OfferAdvise] (Table)
+       [dbo].[usp_Article_Transaction] (Procedure)
+       [dbo].[usp_ArticleComment_Transaction] (Procedure)
+       [dbo].[usp_Message] (Procedure)
+       [dbo].[usp_Message_Transaction] (Procedure)
+       [dbo].[usp_MessageRecipient_Transaction] (Procedure)
+       [dbo].[usp_OfferAdvise_Transaction] (Procedure)
+       [dbo].[usp_Appointment_Transaction] (Procedure)
+       [dbo].[usp_Role_Transaction] (Procedure)
+       [dbo].[usp_Schedule_Transaction] (Procedure)
+       [dbo].[usp_spa_ScheduleExamine] (Procedure)
+       [dbo].[usp_spa_User_HasScheduleExamine] (Procedure)
+       [dbo].[usp_User_HasScheduleExamine] (Procedure)
+       [dbo].[usp_UserGroup_Transaction] (Procedure)
+       [dbo].[usp_UserRole_Transaction] (Procedure)
+       [dbo].[usp_Users_Transaction] (Procedure)
+     Table rebuild
+       [dbo].[MessageRecipient] (Table)
+     Create
+       [dbo].[Permission] (Table)
+       [dbo].[Role] (Table)
+       [dbo].[UserGroup] (Table)
+       [dbo].[UserRole] (Table)
+       [dbo].[Users] (Table)
+       [dbo].[Users].[idxUserAccess] (Index)
+       [dbo].[FK_Permission_Module] (Foreign Key)
+       [dbo].[FK_UserGroup_Group] (Foreign Key)
+       [dbo].[FK_UserGroup_Users] (Foreign Key)
+       [dbo].[FK_UserRole_Role] (Foreign Key)
+       [dbo].[FK_UserRole_Users] (Foreign Key)
+       [dbo].[FK_Users_Organization] (Foreign Key)
+
+** Supporting actions
+     Drop
+       [dbo].[Message].[idxMessageReceiver] (Index)
+       [dbo].[Message].[idxMessageSender] (Index)
+       [dbo].[FK_MessageRecipient_Message] (Foreign Key)
+     Create
+       [dbo].[Message].[idxMessageReceiver] (Index)
+       [dbo].[Message].[idxMessageSender] (Index)
+       [dbo].[FK_MessageRecipient_Message] (Foreign Key)
+     Refresh
+       [dbo].[usp_Article] (Procedure)
+       [dbo].[usp_ArticleComment] (Procedure)
+       [dbo].[usp_MessageFolder_Transaction] (Procedure)
+       [dbo].[usp_OfferAdvise] (Procedure)

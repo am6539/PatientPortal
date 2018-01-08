@@ -1,0 +1,92 @@
+﻿@model PatientPortal.Domain.Models.AUTHEN.LoginModel
+@{
+    ViewBag.Title = "Patient Portal";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+@section styles{
+    <style>
+        #inputEmail,
+        #inputPassword {
+            direction: ltr;
+            height: 44px;
+            font-size: 16px;
+            width: 100%;
+            display: block;
+            margin-bottom: 10px;
+            z-index: 1;
+            position: relative;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        
+    </style>
+}
+<script src='https://www.google.com/recaptcha/api.js'></script>
+<div class="login-form">
+    <div class="loginform-head">
+        <div class="pull-left brand-name">
+            PATIENT PORTAL
+        </div>
+        <div class="pull-right">
+            <ul class="horizontal-list">
+                <li>Bạn có thể tương tác với chúng tôi qua </li>
+                <li><span class="fa fa-facebook"></span></li>
+                <li><span class="fa fa-twitter"></span></li>
+                <li><span class="fa fa-envelope-o"></span></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="loginform-box-info col-md-7">
+            <div>
+                <span class="fa fa-newspaper-o fa-3x"></span>
+            </div>
+            <span class="title-prefix">Content</span><span class="title">Management System</span>
+            <p class="desct">Hệ thống quản trị nội dung, cho phép biên tập và quản trị nội dung chuyên sâu. Là công cụ hữu ích hỗ trợ hoạt động quảng bá hình ảnh của Bệnh viện</p>
+            <a href="#"></a>
+        </div>
+
+        <div class="loginform-box-form col-md-5">
+            <div class="loginform-box-form-title">
+                <div class="pull-left form-title">
+                    <h3>LOGIN</h3>
+                    <small>Điền đầy đủ các thông tin để tiến hành đăng nhập hệ thống</small>
+                </div>
+                <div class="pull-right form-ico ">
+                    <span class="fa fa-hospital-o fa-3x"></span>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+                <form class="form-signin">
+                    <span id="reauth-email" class="reauth-email"></span>
+                    @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @type = "text", @class = "form-control", @id = "inputEmail", @placeholder = "Tên đăng nhập", @required = "", @autofocus = "" } })
+                    @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @type = "password", @class = "form-control", @id = "inputPassword", @placeholder = "Mật khẩu", @required = "" } })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    @* Captcha *@
+                   @* <div class="g-recaptcha" data-sitekey="6LeViRIUAAAAADz-mCpf53nk8z9ysp-T-YszTOS8"></div>*@
+                    @Html.Raw(TempData["Alert"])
+
+                    <div id="remember" class="checkbox checkbox-warning " style="text-align:left">
+                        @Html.TextBoxFor(model => model.Password, new { @type = "checkbox", @value = "remember-me" }) <label for="Password">Nhớ mật khẩu đăng nhập</label>
+                        <a href="#" class="forgot-password">Quên mật khẩu?</a>
+                    </div>
+
+                    <button class="btn btn-lg btn-block btn-signin" type="submit">Đăng nhập</button>
+                </form><!-- /form -->
+
+            }
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+</div>
+
+

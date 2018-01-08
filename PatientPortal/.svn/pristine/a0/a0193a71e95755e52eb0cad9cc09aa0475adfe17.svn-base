@@ -1,0 +1,49 @@
+﻿using AutoMapper;
+using PatientPortal.API.Core.Models;
+using PatientPortal.API.Core.ViewModels;
+using PatientPortal.Domain.Models.CORE;
+
+namespace PatientPortal.API.Core
+{
+    public class AutoMapperConfig
+    {
+        public static void Configure()
+        {
+            Mapper.Initialize(x =>
+            {
+                x.AddProfile<DomainToViewModelMappingProfile>();
+                x.AddProfile<ViewModelToDomainMappingProfile>();
+            });
+        }
+
+        public class DomainToViewModelMappingProfile : Profile
+        {
+            public DomainToViewModelMappingProfile()
+            {
+                //CreateMap<Appointment, AppointmentViewModel>();
+                CreateMap<Schedule, ScheduleViewModel>();
+                CreateMap<User, UserViewModel>();
+                CreateMap<OfferAdvise, OfferAdviseViewModel>();
+                CreateMap<Setting, SettingViewModel>();
+                CreateMap<Article, ArticleViewModel>();
+                CreateMap<ArticleComment, ArticleCommentViewModel>();
+                CreateMap<AppointmentLog, AppointmentLogViewModel>();
+            }
+        }
+        public class ViewModelToDomainMappingProfile : Profile
+        {
+            public ViewModelToDomainMappingProfile()
+            {
+                CreateMap<ScheduleViewModel, Schedule>();
+                CreateMap<AppointmentEditModel, AppointmentEdit>();
+                CreateMap<UserViewModel, User>();
+                CreateMap<OfferAdviseViewModel, OfferAdvise>();
+                CreateMap<SettingViewModel, Setting>();
+                CreateMap<ArticleViewModel, Article>();
+                CreateMap<ArticleCommentViewModel, ArticleComment>();
+                CreateMap<AppointmentLogEditModel, AppointmentLogEdit>();
+                CreateMap<AppointmentLogViewModel, AppointmentLog>();
+            }
+        }
+    }
+}

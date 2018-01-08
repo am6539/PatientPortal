@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CMS;
+
+namespace PatientPortal.IRepository.CMS
+{
+    public interface ICategoryRepo
+    {
+        List<Category> GetAll(int Id);
+        Category GetById(int Id);
+        bool CategoryTransaction(List<Category> data, char action);
+    }
+}

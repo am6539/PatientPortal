@@ -1,0 +1,19 @@
+﻿CREATE PROCEDURE [dbo].[usp_spa_CategoryDept]
+	@handler NVARCHAR(256) = ''
+AS
+BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+	BEGIN TRY
+		SELECT * FROM [dbo].[Category]
+		WHERE [Handler] = @handler
+		AND [ParentId] = 0
+		ORDER BY [Id]
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0 
+		BEGIN
+			RETURN NULL
+		END
+	END CATCH
+END

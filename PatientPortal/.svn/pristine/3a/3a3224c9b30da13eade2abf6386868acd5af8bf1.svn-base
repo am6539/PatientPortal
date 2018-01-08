@@ -1,0 +1,15 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.CMS.Models.SliderViewModel
+
+@using (Html.IBeginForm("Create", "Slider"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    
+    @Html.IGroupSubmitButton("Thêm trình chiếu", true, true, null, null, 3)
+    @Html.IGroupTextBoxFor(m => m.Title, true, "Tiêu đề", null, 12)
+    @Html.IGroupFileUpload(m => m.Image, "fileUpload", false, 12)
+    @Html.IGroupCheckBoxFor(m => m.IsUsed, false, "IsUsed", 12, "Chọn để sử dụng")
+    @Html.IGroupTextBoxFor(m => m.ExpiredDate, true, "Ngày hết hạn", null, 12)
+}
+

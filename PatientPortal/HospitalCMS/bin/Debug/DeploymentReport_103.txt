@@ -1,0 +1,25 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Create
+       [dbo].[Department] (Table)
+       [dbo].[Slider] (Table)
+       [dbo].[usp_Department] (Procedure)
+       [dbo].[usp_Department_CheckExistName] (Procedure)
+       [dbo].[usp_Department_Transaction] (Procedure)
+       [dbo].[usp_Slider] (Procedure)
+       [dbo].[usp_Slider_Transaction] (Procedure)
+       [dbo].[usp_spa_Department] (Procedure)
+       [dbo].[usp_spa_Slider] (Procedure)
+     Alter
+       [dbo].[usp_spa_Post] (Procedure)
+
+** Supporting actions

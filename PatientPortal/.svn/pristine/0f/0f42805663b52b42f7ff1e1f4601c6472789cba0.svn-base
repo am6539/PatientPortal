@@ -1,0 +1,243 @@
+﻿using PatientPortal.CMS.Common;
+using PatientPortal.CMS.Models;
+using PatientPortal.CMS.Utility;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.CMS.Controllers
+{
+    public class AdvertiseController : Controller
+    {
+        private string apiUrl = $"api/Advertise";
+        private static string folderUpload = string.Empty;
+        // GET: Advertise
+        public ActionResult Index()
+        {
+            var model = new AdvertisesModel();
+            var list = new List<AdvertiseViewModel>();
+            try
+            {
+                list = APIHelper.Get<List<AdvertiseViewModel>>(apiUrl);
+                if (list == null) list = ApplicationHelper.GetObject<List<AdvertiseViewModel>>();
+
+                model.lstAdvertiseViewModel = list.OrderBy(x => x.Id).ToList();
+                model.AdvertiseViewModel = new AdvertiseViewModel();
+
+                ///Category List
+                ViewBag.Categories = list;
+                TempData["Data"] = list;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(ex.Message);
+                throw ex;
+            }
+            return View(model);
+        }
+
+        #region Create
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Create(AdvertiseViewModel model, HttpPostedFileBase fileUpload)
+        {
+            if (fileUpload == null)
+            {
+                ModelState.AddModelError("Resouce", "Vui lòng chọn video hoặc hình ảnh");
+            }
+            if (ModelState.IsValid)
+            {
+                if (fileUpload != null)
+                {
+                    string name = "";
+                    if (fileUpload.ContentType.Contains("image"))
+                    {
+                        WebImageHelper.UploadImage(fileUpload, ValueConstant.IMAGE_ADVERTISE_PATH, ref name);
+                        model.Type = (Byte)ValueConstant.MEDIA_TYPE.IMAGE;
+                        model.Resouce = name;
+                    }
+                    else
+                    {
+                        UploadFileHelper.UploadFile(fileUpload, ValueConstant.IMAGE_ADVERTISE_PATH, ref name);
+                        string pathVideo = Server.MapPath(name);
+
+                        string pathThumbnail = Server.MapPath(ValueConstant.IMAGE_ADVERTISE_PATH);
+                        var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
+                        string[] arrTemp = fileUpload.FileName.Split('.');
+                        string fileName = pathThumbnail + "/" +arrTemp[0] + ".jpg";
+                        ffMpeg.GetVideoThumbnail(pathVideo, fileName, 10.0f);
+                        model.Type = (byte)ValueConstant.MEDIA_TYPE.VIDEO;
+                        model.Resouce = name;
+                    }
+                }
+
+                bool result = await Save(model, ValueConstant.ACTION_INSERT);
+                if (result)
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var slider = new AdvertisesModel();
+                if (TempData["Data"] == null)
+                {
+                    slider.lstAdvertiseViewModel = APIHelper.Get<List<AdvertiseViewModel>>(apiUrl);
+                }
+                else
+                {
+                    slider.lstAdvertiseViewModel = (List<AdvertiseViewModel>)TempData["Data"];
+                }
+
+                if (slider.lstAdvertiseViewModel == null) slider.lstAdvertiseViewModel = ApplicationHelper.GetObject<List<AdvertiseViewModel>>();
+                slider.AdvertiseViewModel = model;
+
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.FAIL));
+                return View("Index", slider);
+            }
+        }
+        #endregion
+
+        #region Edit
+
+        [HttpGet]
+        public ActionResult Edit(short id)
+        {
+            var model = new AdvertiseViewModel();
+            try
+            {
+                model = APIHelper.Get<AdvertiseViewModel>(apiUrl + "/" + id);
+                //ViewBag.Image = model.Resouce.Split('.')[0] + ".jpg";
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(ex.Message);
+                throw ex;
+            }
+            return View(model);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Edit(AdvertiseViewModel model, HttpPostedFileBase fileUpload)
+        {
+            if (fileUpload == null && String.IsNullOrEmpty(model.Resouce))
+            {
+                ModelState.AddModelError("Resouce", "Vui lòng chọn hình");
+            }
+
+            if (ModelState.IsValid)
+            {
+                if (fileUpload != null)
+                {
+                     string name = "";
+                    if (fileUpload.ContentType.Contains("image"))
+                    {
+                        WebImageHelper.UploadImage(fileUpload, ValueConstant.IMAGE_ADVERTISE_PATH, ref name);
+                        model.Type = (Byte)ValueConstant.MEDIA_TYPE.IMAGE;
+                        model.Resouce = name;
+                    }
+                    else
+                    {
+                        UploadFileHelper.UploadFile(fileUpload, ValueConstant.IMAGE_ADVERTISE_PATH, ref name);
+                        string pathVideo = Server.MapPath(name);
+
+                        string pathThumbnail = Server.MapPath(ValueConstant.IMAGE_ADVERTISE_PATH);
+                        var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
+                        string[] arrTemp = fileUpload.FileName.Split('.');
+                        string fileName = pathThumbnail + "/" +arrTemp[0] + ".jpg";
+                        ffMpeg.GetVideoThumbnail(pathVideo, fileName, 10.0f);
+                        model.Type = (byte)ValueConstant.MEDIA_TYPE.VIDEO;
+                        model.Resouce = name.Replace(fileUpload.FileName, arrTemp[0] + ".jpg");
+                    }
+                }
+
+                bool result = await Save(model, ValueConstant.ACTION_UPDATE);
+                if (result)
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.FAIL));
+                return View(model);
+            }
+        }
+        #endregion
+
+        #region Delete
+        public ActionResult ViewConfirmDelete(AdvertiseViewModel model)
+        {
+            return PartialView("_ConfirmDelete", model);
+        }
+        [HttpPost]
+        public async Task<ActionResult> Delete(byte id)
+        {
+            try
+            {
+                var model = APIHelper.Get<AdvertiseViewModel>(apiUrl + "/" + id);
+                model.Id = id;
+                var result = await Save(model, ValueConstant.ACTION_DELETE);
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_DELETE, RenderMessage.TypeResult.SUCCESS));
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(ex.Message);
+                return View();
+            }
+        }
+
+        public ActionResult ViewVideo(AdvertiseViewModel model)
+        {
+            model.Resouce = model.Resouce.Replace(@"\", @"/");
+            return PartialView("_ViewVideo", model);
+        }
+
+        #endregion
+
+        #region Check exist
+        //[HttpPost]
+        //[AllowAnonymous]
+        public JsonResult CheckExist(string name, byte id)
+        {
+
+            var isExist = APIHelper.Get<bool>(apiUrl + "/" + id + "?name=" + name);
+
+            return Json(!isExist, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
+        #region API Transaction
+        private async Task<bool> Save(AdvertiseViewModel model, string action)
+        {
+            var result = false;
+            try
+            {
+                result = await APIHelper.TransactionAsyncResult<AdvertiseViewModel>(model, apiUrl + "?action=" + action + "");
+            }
+            catch (Exception e)
+            {
+                LogHelper.WriteLog(e.Message);
+                ModelState.AddModelError("", e.Message);
+            }
+            return result;
+        }
+        #endregion
+    }
+}

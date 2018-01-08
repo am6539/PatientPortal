@@ -1,0 +1,27 @@
+﻿<div ng-controller="ContactPartialController"></div>
+<h3 class="box_header">
+    Đặt hẹn khám bệnh
+</h3>
+<p class="info">
+    Quý bệnh nhân có thể chọn giờ khám và bác sĩ khám khi sử dụng dịch vụ đặt lịch khám online của chúng tôi qua các cách dưới đây
+</p>
+<ul class="contact_data">
+    <li class="clearfix" ng-show="contact.Phone != null">
+        <span class="social_icon phone"></span>
+        <p class="value">
+            Điện thoại: <strong>{{contact.Phone}}</strong>
+        </p>
+    </li>
+    <li class="clearfix" ng-show="contact.Email != null">
+        <span class="social_icon mail"></span>
+        <p class="value">
+            Email: <a href="#">{{contact.Email}}</a>
+        </p>
+    </li>
+    <li class="clearfix">
+        <span class="social_icon form"></span>
+        <p class="value">
+            hoặc <a href="/appointment" title="Contact form">điền thông tin</a> trên trang đặt lịch khám
+        </p>
+    </li>
+</ul>

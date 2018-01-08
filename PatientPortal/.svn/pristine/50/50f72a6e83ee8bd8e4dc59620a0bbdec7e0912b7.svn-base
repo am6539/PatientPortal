@@ -1,0 +1,180 @@
+﻿using PatientPortal.CMS.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.CMS.Controllers
+{
+    public class GallerryController : Controller
+    {
+        // GET: Gallerry
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult FileContentPartial()
+        {
+            return PartialView();
+        }
+
+        public ActionResult MenuFileManagerPartial()
+        {
+            return PartialView();
+        }
+
+        public ActionResult GallerryPartial()
+        {
+            return PartialView();
+        }
+
+        public void PopulateTree(string dir, JsTreeModel node)
+        {
+            if (node.children == null)
+            {
+                node.children = new List<JsTreeModel>();
+            }
+            // get the information of the directory
+            DirectoryInfo directory = new DirectoryInfo(dir);
+            // loop through each subdirectory
+            foreach (DirectoryInfo d in directory.GetDirectories())
+            {
+                // create a new node
+                JsTreeModel t = new JsTreeModel();
+                t.attr = new JsTreeAttribute();
+                t.attr.id = d.FullName;
+                t.data = d.Name.ToString();
+                // populate the new node recursively
+                PopulateTree(d.FullName, t);
+                node.children.Add(t); // add the node to the "master" node
+            }
+            // lastly, loop through each file in the directory, and add these as nodes
+            foreach (FileInfo f in directory.GetFiles())
+            {
+                // create a new node
+                JsTreeModel t = new JsTreeModel();
+                t.attr = new JsTreeAttribute();
+                t.attr.id = f.FullName;
+                t.data = f.Name.ToString();
+                // add it to the "master"
+                node.children.Add(t);
+            }
+        }
+
+        public bool AlreadyPopulated
+        {
+            get
+            {
+                return (Session["AlreadyPopulated"] == null ? false : (bool)Session["AlreadyPopulated"]);
+            }
+            set
+            {
+                Session["AlreadyPopulated"] = (bool)value;
+            }
+
+        }
+
+        [HttpPost]
+        public ActionResult CreateFolder(string path, string newname)
+        {
+            Directory.CreateDirectory(path + "\\" + newname);
+            AlreadyPopulated = false;
+            return null;
+        }
+
+        [HttpGet]
+        public JsonResult GetTreeData()
+        {
+            if (AlreadyPopulated == false)
+            {
+                JsTreeModel rootNode = new JsTreeModel();
+                rootNode.attr = new JsTreeAttribute();
+                rootNode.data = "ROOT";
+                string rootPath = Request.MapPath("/Assets");
+                rootNode.attr.id = rootPath;
+                PopulateTree(rootPath, rootNode);
+                AlreadyPopulated = true;
+                return Json(rootNode, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        // GET: Gallerry/Details/5
+        public ActionResult Details(int id)
+        {
+            return View();
+        }
+
+        // GET: Gallerry/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Gallerry/Create
+        [HttpPost]
+        public ActionResult Create(FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add insert logic here
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: Gallerry/Edit/5
+        public ActionResult Edit(int id)
+        {
+            return View();
+        }
+
+        // POST: Gallerry/Edit/5
+        [HttpPost]
+        public ActionResult Edit(int id, FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add update logic here
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: Gallerry/Delete/5
+        public ActionResult Delete(int id)
+        {
+            return View();
+        }
+
+        // POST: Gallerry/Delete/5
+        [HttpPost]
+        public ActionResult Delete(int id, FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add delete logic here
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+    }
+}

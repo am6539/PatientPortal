@@ -1,0 +1,7 @@
+﻿angular.module('spaPHCN')
+    .controller('AppointmentController', ['$scope', 'Params', 'AppointmentService', '$route',
+        function AppointmentController($scope, Params, AppointmentService, $route) {
+
+            $scope.subTitle = "Đặt lịch khám";
+        }
+    ]);

@@ -1,0 +1,40 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       [dbo].[UserNotification]
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       The column [dbo].[SystemNotification].[Link] on table [dbo].[SystemNotification] must be added, but the column has no
+         default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this
+         issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of
+         smart-defaults as a deployment option.
+       The column [dbo].[SystemNotification].[SendFrom] on table [dbo].[SystemNotification] must be added, but the column has
+         no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid
+         this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation
+         of smart-defaults as a deployment option.
+       The column [dbo].[UserNotification].[SendTo] is being dropped, data loss could occur.
+       The column [dbo].[UserNotification].[UserId] on table [dbo].[UserNotification] must be added, but the column has no
+         default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this
+         issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of
+         smart-defaults as a deployment option.
+
+** User actions
+     Alter
+       [dbo].[SystemNotification] (Table)
+       [dbo].[usp_OfferAdvise_Transaction] (Procedure)
+       [dbo].[usp_UserNotification] (Procedure)
+       [dbo].[usp_UserNotification_Transaction] (Procedure)
+     Table rebuild
+       [dbo].[UserNotification] (Table)
+
+** Supporting actions
+     Refresh
+       [dbo].[usp_UserNotification_UpdateStatus] (Procedure)
+
+The column [dbo].[SystemNotification].[Link] on table [dbo].[SystemNotification] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+The column [dbo].[SystemNotification].[SendFrom] on table [dbo].[SystemNotification] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+The column [dbo].[UserNotification].[SendTo] is being dropped, data loss could occur.
+The column [dbo].[UserNotification].[UserId] on table [dbo].[UserNotification] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+

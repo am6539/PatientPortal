@@ -1,0 +1,5 @@
+﻿function HomePageController($scope, HomePage) {
+    $scope.sliders = HomePage.querySlider(function (data) {
+        $scope.sliders = data;
+    });
+}

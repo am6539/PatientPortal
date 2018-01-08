@@ -1,0 +1,47 @@
+﻿CREATE PROC [dbo].[usp_MailSetting_Transaction]
+(
+	@Action CHAR(1) = 'I',
+	@Id TINYINT = 1,
+	@Email VARCHAR(256) = '',
+	@Host VARCHAR(150) = '',
+	@Port NUMERIC(3,0) = '',
+	@IsSSL BIT = 1
+)
+AS BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+	DECLARE @return bit = 1
+
+	BEGIN TRY
+		BEGIN TRAN;
+		
+			IF @Action = 'I' --INSERT
+			BEGIN
+				INSERT [dbo].[MailSetting] VALUES(@Email, @Host, @Port, @IsSSL)
+			END
+
+			IF @Action = 'U' --UPDATE
+			BEGIN
+				UPDATE [dbo].[MailSetting]
+				SET [Email] = @Email, [Host] = @Host, [Port] = @Port, [IsSSL] = @IsSSL
+				WHERE [Id] = @Id  
+			END
+
+			IF @Action = 'D' --DELETE
+			BEGIN
+				
+				DELETE FROM [dbo].[MailSetting]
+				WHERE [Id] = @Id
+			END
+
+			COMMIT TRAN;
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0 
+		BEGIN
+			ROLLBACK TRAN;
+			SET  @return = 0
+		END
+	END CATCH
+	SELECT @return;
+END

@@ -1,0 +1,238 @@
+﻿using PatientPortal.CMS.Common;
+using PatientPortal.CMS.Models;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using PatientPortal.Utility.Application;
+using PatientPortal.Domain.LogManager;
+
+namespace PatientPortal.CMS.Controllers
+{
+    public class DepartmentController : Controller
+    {
+        private static string controllerName = string.Empty;
+
+        #region Get List
+        // GET: Feature
+        public async Task<ActionResult> Index()
+        {
+            var results = new DepartmentModel();
+            try
+            {
+                //Call API Provider
+                controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                var list = await APIProvider.Get<List<DepartmentViewModel>>(controllerName);
+
+                var model = new DepartmentViewModel();
+
+                results.lstDepartmentViewModel = list;
+                results.DepartmentViewModel = model;
+
+                TempData["Data"] = list;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw ex;
+            }
+            return View(results);
+        }
+        #endregion
+
+        #region Create
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Create(DepartmentViewModel model, HttpPostedFileBase fileUpload)
+        {
+            if (ModelState.IsValid)
+            {
+                //Call API Provider
+                string strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_INSERT);
+                var result = await APIProvider.DynamicTransaction<DepartmentViewModel, bool>(model, strUrl);
+
+                if (result)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var department = new DepartmentModel();
+                department.lstDepartmentViewModel = (List<DepartmentViewModel>)TempData["Data"];
+
+                if (department.lstDepartmentViewModel == null) department.lstDepartmentViewModel = ApplicationGenerator.GetObject<List<DepartmentViewModel>>();
+                department.DepartmentViewModel = model;
+                
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                return View("Index", department);
+            }
+        }
+        #endregion
+
+        #region Edit
+
+        [HttpGet]
+        public async Task<ActionResult> Edit(byte id)
+        {
+            var model = new DepartmentViewModel();
+            try
+            {
+                //Call API Provider
+                string strUrl = APIProvider.APIGenerator(this, this.RouteData.Values["action"].ToString(), id);
+                model = await APIProvider.Get<DepartmentViewModel>(controllerName + strUrl);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw ex;
+            }
+            return View(model);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Edit(DepartmentViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //Call API Provider
+                string strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_UPDATE);
+                var result = await APIProvider.DynamicTransaction<DepartmentViewModel, bool>(model, strUrl);
+
+                if (result)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.FAIL));
+                return View();
+            }
+        }
+        #endregion
+
+        #region Delete
+        public async Task<ActionResult> Delete(byte? id, string name)
+        {
+            if (!id.HasValue)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            //Call API Provider
+            string strUrl = APIProvider.APIGenerator(this, this.RouteData.Values["action"].ToString(), id, name);
+            var model = await APIProvider.Get<DepartmentViewModel>(controllerName + strUrl);
+
+            return PartialView("_Delete", model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Delete(byte id)
+        {
+            try
+            {
+                var model = new DepartmentViewModel();
+                model.Id = id;
+
+                //Call API Provider
+                string strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_DELETE);
+                var result = await APIProvider.DynamicTransaction<DepartmentViewModel, bool>(model, strUrl);
+
+                if (result)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_DELETE, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_DELETE, ApplicationGenerator.TypeResult.FAIL));
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                return RedirectToAction("Index");
+            }
+        }
+
+        #endregion
+
+        #region Check exist
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<JsonResult> CheckExist(string name, byte id)
+        {
+
+            //Call API Provider
+            string strUrl = APIProvider.APIGenerator(controllerName, new List<string> { nameof(id), nameof(name) }, false , id, name);
+            var isExist = await APIProvider.Get<bool>(strUrl);
+
+            return Json(!isExist, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
+
+        public void PopulateTree(string dir, JsTreeModel node)
+        {
+            if (node.children == null)
+            {
+                node.children = new List<JsTreeModel>();
+            }
+
+            DirectoryInfo directory = new DirectoryInfo(dir);
+
+            foreach (DirectoryInfo d in directory.GetDirectories())
+            {
+                JsTreeModel t = new JsTreeModel();
+
+                string path = ValueConstant.FOLDER_SEPARATOR;
+                string[] arr = d.FullName.Split('\\');
+                int index = Array.IndexOf(arr, ValueConstant.ROOT_FOLDER);
+                for (int i = index; i < arr.Length; i++)
+                {
+                    path += arr[i].ToString() + ValueConstant.FOLDER_SEPARATOR;
+                }
+
+                t.id = path;
+                t.text = d.Name.ToString();
+                t.state = new StateNode();
+                t.state.opened = true;
+
+                PopulateTree(d.FullName, t);
+                node.children.Add(t);
+            }
+        }
+
+        public JsonResult GetTreeData()
+        {
+            JsTreeModel rootNode = new JsTreeModel();
+            rootNode.text = "images";
+            rootNode.state = new StateNode();
+            rootNode.state.opened = true;
+
+            string rootPath = Request.MapPath(ValueConstant.IMAGE_PATH);
+            rootNode.id = rootPath;
+            PopulateTree(rootPath, rootNode);
+            return Json(rootNode, JsonRequestBehavior.AllowGet);
+        }
+    }
+}

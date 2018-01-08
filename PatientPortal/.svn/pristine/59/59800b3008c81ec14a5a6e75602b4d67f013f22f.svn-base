@@ -1,0 +1,74 @@
+﻿using AutoMapper;
+using PatientPortal.API.Core.Models;
+using PatientPortal.IRepository.CORE;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Http;
+
+namespace PatientPortal.API.Core.Controllers
+{
+    [AuthorizeRoles]
+    public class UserNotificationController : ApiController
+    {
+        private readonly IUserNotificationRepo _userNotificationRepo;
+
+        /// <summary>
+        /// Init
+        /// </summary>
+        /// <param name="survey"></param>
+        public UserNotificationController(IUserNotificationRepo userNotificationRepo)
+        {
+            this._userNotificationRepo = userNotificationRepo;
+        }
+
+        [HttpGet]
+        public async Task<List<UserNotificationViewModel>> GetByUser(string userId)
+        {
+            try
+            {
+                var list = new List<string> { "Id", "UserId" };
+                var para = APIProvider.APIDefaultParameter(list, "", userId);
+
+                var source = await _userNotificationRepo.Query(para);
+                var dest = Mapper.Map<List<UserNotificationViewModel>>(source);
+
+                return dest;
+            }
+            catch (Exception ex)
+            {
+                throw ex.GetBaseException();
+            }
+        }
+
+        [HttpGet]
+        public async Task<UserNotificationViewModel> Get(string id)
+        {
+            try
+            {
+                var list = new List<string> { "Id", "UserId" };
+                var para = APIProvider.APIDefaultParameter(list, id, "");
+
+                var source = await _userNotificationRepo.SingleQuery(para);
+                var dest = Mapper.Map<UserNotificationViewModel>(source);
+
+                return dest;
+            }
+            catch (Exception ex)
+            {
+                throw ex.GetBaseException();
+            }
+        }
+
+        [HttpPost]
+        public async Task<bool> Transaction(UserNotificationViewModel userNotification, char action)
+        {
+            var obj = Mapper.Map<Domain.Models.CORE.UserNotification>(userNotification);
+            return await _userNotificationRepo.Transaction(obj, action);
+        }
+    }
+}

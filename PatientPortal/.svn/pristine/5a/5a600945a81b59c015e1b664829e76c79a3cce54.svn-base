@@ -1,0 +1,61 @@
+﻿using PatientPortal.Internal.Models.Account;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.Internal.Controllers
+{
+    [Authorize]
+    public class UserProfileController : Controller
+    {
+        #region Get UserProfile
+        // GET: UserProfile
+        public async Task<ActionResult> Index(string userId)
+        {
+            string apiUrl = "User/GetUserProfile?userId=" + userId;
+            var model = await APIProvider.Get<List<UserProfileViewModel>>(apiUrl, APIConstant.API_Resource_CORE);
+            if(model == null)
+                model = new List<UserProfileViewModel>();
+            return View(model);
+        }
+
+        #endregion
+
+        #region Edit UserProfile
+        public ActionResult Edit(string id)
+        {
+            var model = new UserProfileViewModel();
+            return View(model);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult Edit(UserProfileViewModel model)
+        {
+            return View();
+        }
+        #endregion
+
+        #region Create UserProfile
+
+        public ActionResult Create()
+        {
+            var model = new UserProfileViewModel();
+            return View(model);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult Create(UserProfileViewModel model)
+        {
+            return View();
+        }
+
+        #endregion
+    }
+}

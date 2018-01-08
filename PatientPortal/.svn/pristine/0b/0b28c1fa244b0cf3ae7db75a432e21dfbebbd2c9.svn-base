@@ -1,0 +1,152 @@
+﻿using Microsoft.AspNet.Identity;
+using PatientPortal.API.Identity.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Http;
+
+namespace PatientPortal.API.Identity.Controllers
+{
+    [Authorize]
+    [RoutePrefix("api/Permission")]
+    public class PermissionController : ApiController
+    {
+        private ApplicationDbContext db = new ApplicationDbContext();
+        private PermissionManager _permissionManager;
+
+        #region Initial
+        public PermissionManager PermissionManager
+        {
+            get
+            {
+                return _permissionManager ?? new PermissionManager();
+            }
+            private set
+            {
+                _permissionManager = value;
+            }
+        }
+        #endregion
+
+        public PermissionController()
+        {
+        }
+
+        #region Get
+        [Route("GetAll")]
+        public async Task<List<Permission>> GetAll()
+        {
+            var results = await this._permissionManager.GetAllAsync();
+            return results;
+        }
+
+        [Route("FindById")]
+        public async Task<Permission> FindById(string id)
+        {
+            var result = await this._permissionManager.FindByIdAsync(id);
+            return result;
+        }
+        #endregion
+
+        #region Create - Update
+
+        [Route("SetPermission")]
+        public async Task<IHttpActionResult> SetPermission(Permission obj)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await this._permissionManager.CreatePermissionAsync(obj);
+
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+
+            return Ok();
+        }
+
+        [Route("UpdatePermission")]
+        public async Task<IHttpActionResult> UpdatePermission(Permission obj)
+        {
+            if(!ModelState.IsValid || string.IsNullOrEmpty(obj.Id))
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await this._permissionManager.UpdatePermissionAsync(obj);
+
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+
+            return Ok();
+        }
+
+        #endregion
+
+        #region Remove Permission
+
+        [Route("RemovePermission")]
+        public async Task<IHttpActionResult> RemovePermission(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                BadRequest();
+            }
+
+            var result = await this._permissionManager.DeletePermissionAsync(id);
+
+            if (!result.Succeeded)
+            {
+                GetErrorResult(result);
+            }
+
+            return Ok();
+        }
+
+        #endregion
+
+        #region Helper
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+        }
+
+        private IHttpActionResult GetErrorResult(IdentityResult result)
+        {
+            if (result == null)
+            {
+                return InternalServerError();
+            }
+
+            if (!result.Succeeded)
+            {
+                if (result.Errors != null)
+                {
+                    foreach (string error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error);
+                    }
+                }
+
+                if (ModelState.IsValid)
+                {
+                    // No ModelState errors are available to send, so just return an empty BadRequest.
+                    return BadRequest();
+                }
+
+                return BadRequest(ModelState);
+            }
+
+            return null;
+        }
+        #endregion
+    }
+}

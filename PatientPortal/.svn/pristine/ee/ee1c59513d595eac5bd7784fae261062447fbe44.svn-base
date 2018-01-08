@@ -1,0 +1,21 @@
+﻿
+appManagement.factory('AppointmentService', ['$resource', 'Params',
+    function ($resource, Params) {
+        return $resource(Params.rootUrl + 'User', {}, {
+            queryDoctors: {
+                method: 'GET',
+                url: Params.rootUrl + 'User/Get?search=:search&type=:type',
+                params: {
+                    search: '@search', type: '@type'
+                },
+                isArray: true
+            },
+            getDoctor: {
+                method: 'GET',
+                url: Params.rootUrl + 'User/Get?id=:id',
+                params: {
+                    id: '@id'
+                }
+            }
+        });
+    }]);

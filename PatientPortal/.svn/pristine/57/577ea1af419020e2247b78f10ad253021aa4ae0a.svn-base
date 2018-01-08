@@ -1,0 +1,13 @@
+﻿using PatientPortal.Domain.Models.CORE;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace PatientPortal.IRepository.CORE
+{
+    public interface IDoctorProfileRepo
+    {
+        Task<List<DoctorProfile>> Query(Dictionary<string, object> param);
+        Task<bool> Transaction(DoctorProfileEdit data, char action);
+        Task<DoctorProfile> SingleQuery(Dictionary<string, object> param);
+    }
+}

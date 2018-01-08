@@ -1,0 +1,196 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.PatientServices.Models.SettingViewModel
+@{
+    ViewBag.Title = "Cài đặt hệ thống";
+}
+@section styles{
+    <link href="~/Content/checkbox.css" rel="stylesheet" />
+    <link href="~/Libs/Chosen/css/chosen.css" rel="stylesheet" />
+    <link href="~/Libs/jquery-ui/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Libs/TagIt/css/jquery.tagit.css" rel="stylesheet" />
+    <link href="~/Content/checkbox-radio-build.css" rel="stylesheet" />
+}
+<div class="card">
+    @Html.Raw(TempData["Alert"])
+    <div class="card-title">@Html.ITitle("Cài đặt hệ thống", "cogs")</div>
+    <div class="card-content">
+        @using (Html.BeginForm("Edit", "Setting", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal", @id = "form-data" }))
+            {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            <div class="form-group" style="display: none">
+                @Html.LabelFor(m => m.Id, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.TextBoxFor(m => m.Id, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Title, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.TextBoxFor(m => m.Title, new { @class = "form-control", @placeholder = "Nhập tiêu đề SEO" })
+                    @Html.ValidationMessageFor(model => model.Title, null, new { @class = "field-validation-error" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Description, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @rows = "5", @placeholder = "Nhập mô tả SEO" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Keyword, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    <ul id="myKeywords">
+                        @if (ViewBag.Keywords != null)
+                        {
+                            var tags = ViewBag.Keywords.Split(';');
+                            for (var i = 0; i < tags.Length; i++)
+                            {
+                                <li> @tags[i] </li>
+                            }
+                        }
+                    </ul>
+                    @Html.HiddenFor(m => m.Keyword)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Membership, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    <div class="checkbox checkbox-info">
+                        @Html.CheckBoxFor(m => m.Membership, new { @class = "styled", @checked = "checked" })<label for="Membership"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.DefaultRole, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.DropDownListFor(model => model.DefaultRole, new SelectList(ViewBag.Roles, "Id", "Name"), new { @class = "chosen-select", @data_placeholder = "Chọn nhóm quyền mặc định" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.LoginURL, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.TextBoxFor(m => m.LoginURL, new { @class = "form-control", @placeholder = "Nhập liên kết đăng nhập" })
+                    @Html.ValidationMessageFor(model => model.LoginURL)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.LockedIPNoteDefault, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.TextAreaFor(m => m.LockedIPNoteDefault, new { @class = "form-control", @rows = "5" })
+                    @Html.ValidationMessageFor(model => model.LockedIPNoteDefault)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.IsSaveCanceledAppointment, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    <div class="checkbox checkbox-info">
+                        @Html.CheckBoxFor(m => m.IsSaveCanceledAppointment, new { @class = "styled", @checked = "checked" })<label for="IsSaveCanceledAppointment"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.AppointmentIntervalTime, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.TextBoxFor(m => m.AppointmentIntervalTime, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.AppointmentIntervalTime)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.AppointmentStartTime, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    <select class="form-control" id="startTimeSetting" onchange="changeStartTime(this.value)">@Model.AppointmentStartTimeString</select>
+                    @Html.HiddenFor(m => m.AppointmentStartTimeString, new { @id = "startTimeSettingChoose" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.AppointmentEndTime, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    <select class="form-control" id="endTimeSetting" onchange="changeEndTime(this.value)" selected>@Model.AppointmentEndTimeString</select>
+                    @Html.HiddenFor(m => m.AppointmentEndTimeString, new { @id = "endTimeSettingChoose" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3"></label>
+                <div class="col-md-9">
+                    <button type="submit" class="btn btn-success btn-sm" style="width:100%;"><i class="fa fa-check" aria-hidden="true"></i> Cập nhật thông tin</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Libs/Chosen/js/chosen.jquery.min.js"></script>
+    <script type="text/javascript">
+        var config = {
+            '.chosen-select': {}
+        }
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
+        $(document).ready(function() {
+            $("#myKeywords").tagit();
+            $("#form-data").submit(function(e) {
+                var arrayTag = $("#myKeywords").tagit("assignedTags");
+                var tags = "";
+                for (var index = 0; index < arrayTag.length; ++index) {
+                    tags = tags + (tags == "" ? "" : ";") + arrayTag[index];
+                }
+                $("#Keyword").val(tags);
+                return true;
+            });
+
+            InitTime();
+            var startTime = '@Model.AppointmentStartTimeString';
+            $('#startTimeSetting').val(startTime);
+            var endTime = '@Model.AppointmentEndTimeString';
+            $('#endTimeSetting').val(endTime);
+        });
+
+        function InitTime() {
+            var times = getGioKham();
+            appendTime(times);
+        }
+
+        //Init time
+        function getGioKham() {
+            var now = moment().hours(8).minutes(0).seconds(0).milliseconds(0);
+            var max = moment().hours(19).minutes(0).seconds(0).milliseconds(0);
+            var gio = [];
+            var duration = moment.duration({ 'minutes': 15 });
+            now = now.add(duration);
+            while (now < max) {
+                gio.push(now.format('HH:mm'));
+                now = now.add(duration);
+            }
+            return gio;
+        }
+
+        //binding time view
+        function appendTime(giohen) {
+            $.each(giohen, function (key, value) {
+                $('#startTimeSetting')
+                .append($("<option></option>")
+                           .attr("value", value)
+                           .text(value));
+
+                $('#endTimeSetting')
+                .append($("<option></option>")
+                           .attr("value", value)
+                           .text(value));
+            });
+        }
+
+        function changeStartTime(value) {
+            $("#startTimeSettingChoose").val(value);
+        }
+        function changeEndTime(value) {
+            $("#endTimeSettingChoose").val(value);
+        }
+    </script>
+    <script src="~/Libs/ckeditor/ckeditor.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Libs/TagIt/js/tag-it.js"></script>
+}

@@ -1,0 +1,15 @@
+﻿using PatientPortal.DataAccess.Repo.SPA;
+using PatientPortal.IRepository.SPA;
+
+namespace PatientPortal.Repositoty.SPA
+{
+    public class GalleryRepoImpl : IGalleryRepo
+    {
+        private IGallery _iGallery;
+
+        public GalleryRepoImpl(IGallery iGallery)
+        {
+            this._iGallery = iGallery;
+        }
+    }
+}

@@ -1,0 +1,22 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.Internal.Models
+{
+    public class SystemNotificationViewModel
+    {
+        public SystemNotificationViewModel()
+        {
+            Detail = Link = string.Empty;
+        } 
+        public int Id { get; set; }
+        [Display(Name = "Nội dung thông báo")]
+        [Required(ErrorMessage = "Bạn cần nhập nội dung thông báo")]
+        public string Detail { get; set; }
+        [Display(Name = "Liên kết")]
+        public string Link { get; set; }
+    }
+}

@@ -1,0 +1,77 @@
+02/14/2017 4:33:37 PM	This log contains information about the import schema operation into project 'HospitalCore' on computer 'ADWARD-NGUYEN' by user 'Admin'.
+02/14/2017 4:33:37 PM	Import of database schema has started.
+02/14/2017 4:33:37 PM	Gathering database options
+02/14/2017 4:33:37 PM	Gathering users
+02/14/2017 4:33:37 PM	Gathering roles
+02/14/2017 4:33:37 PM	Gathering application roles
+02/14/2017 4:33:37 PM	Gathering role memberships
+02/14/2017 4:33:37 PM	Gathering filegroups
+02/14/2017 4:33:37 PM	Gathering full-text catalogs
+02/14/2017 4:33:37 PM	Gathering assemblies
+02/14/2017 4:33:37 PM	Gathering certificates
+02/14/2017 4:33:37 PM	Gathering asymmetric keys
+02/14/2017 4:33:37 PM	Gathering symmetric keys
+02/14/2017 4:33:37 PM	Gathering encrypted symmetric keys
+02/14/2017 4:33:37 PM	Gathering schemas
+02/14/2017 4:33:37 PM	Gathering XML schema collections
+02/14/2017 4:33:37 PM	Gathering user-defined data types
+02/14/2017 4:33:37 PM	Gathering user-defined types
+02/14/2017 4:33:37 PM	Gathering table types
+02/14/2017 4:33:37 PM	Gathering unique keys for table types
+02/14/2017 4:33:37 PM	Gathering primary keys for table types
+02/14/2017 4:33:37 PM	Gathering indexes for table types
+02/14/2017 4:33:37 PM	Gathering check constraints for table types
+02/14/2017 4:33:37 PM	Gathering default constraints for table types
+02/14/2017 4:33:37 PM	Gathering partition functions
+02/14/2017 4:33:37 PM	Gathering partition schemes
+02/14/2017 4:33:37 PM	Gathering functions
+02/14/2017 4:33:37 PM	Gathering encrypted functions
+02/14/2017 4:33:37 PM	Gathering aggregates
+02/14/2017 4:33:37 PM	Gathering procedures
+02/14/2017 4:33:37 PM	Gathering encrypted procedures
+02/14/2017 4:33:37 PM	Gathering tables
+02/14/2017 4:33:37 PM	Gathering primary keys
+02/14/2017 4:33:37 PM	Gathering unique constraints
+02/14/2017 4:33:37 PM	Gathering foreign keys
+02/14/2017 4:33:37 PM	Gathering default constraints
+02/14/2017 4:33:37 PM	Gathering check constraints
+02/14/2017 4:33:37 PM	Gathering views
+02/14/2017 4:33:37 PM	Gathering encrypted views
+02/14/2017 4:33:37 PM	Gathering indexes
+02/14/2017 4:33:37 PM	Gathering statistics
+02/14/2017 4:33:37 PM	Gathering full-text index stoplists
+02/14/2017 4:33:37 PM	Gathering search property lists
+02/14/2017 4:33:37 PM	Gathering search properties
+02/14/2017 4:33:37 PM	Gathering full-text indexes
+02/14/2017 4:33:37 PM	Gathering column store indexes
+02/14/2017 4:33:37 PM	Gathering spatial indexes
+02/14/2017 4:33:37 PM	Gathering XML indexes
+02/14/2017 4:33:37 PM	Gathering Selective XML indexes
+02/14/2017 4:33:37 PM	Gathering encrypted triggers
+02/14/2017 4:33:37 PM	Gathering triggers
+02/14/2017 4:33:37 PM	Gathering encrypted and clr ddl triggers
+02/14/2017 4:33:37 PM	Gathering ddl triggers
+02/14/2017 4:33:37 PM	Gathering synonyms
+02/14/2017 4:33:37 PM	Gathering defaults
+02/14/2017 4:33:37 PM	Gathering data constraint uddt bindings
+02/14/2017 4:33:37 PM	Gathering rules
+02/14/2017 4:33:37 PM	Gathering data constraint uddt bindings
+02/14/2017 4:33:37 PM	Gathering message types
+02/14/2017 4:33:37 PM	Gathering queues
+02/14/2017 4:33:37 PM	Gathering contracts
+02/14/2017 4:33:37 PM	Gathering services
+02/14/2017 4:33:37 PM	Gathering event notifications
+02/14/2017 4:33:37 PM	Gathering remote service bindings
+02/14/2017 4:33:37 PM	Gathering broker priorities
+02/14/2017 4:33:37 PM	Gathering signatures
+02/14/2017 4:33:37 PM	Gathering data compression options
+02/14/2017 4:33:37 PM	Gathering sequence types
+02/14/2017 4:33:37 PM	Gathering extended properties
+02/14/2017 4:33:37 PM	Gathering credentials
+02/14/2017 4:33:37 PM	Gathering logins
+02/14/2017 4:33:37 PM	Gathering server audits
+02/14/2017 4:33:37 PM	Scanning project for duplicate elements
+02/14/2017 4:33:37 PM	Finished duplicate element processing
+02/14/2017 4:33:38 PM	Finished importing database.
+02/14/2017 4:33:38 PM	A summary of the import was saved to the following location: D:\Projects\FPTIS\PATIENTPORTAL\PatientPortal\HospitalCore\Import Schema Logs\HospitalCore_20170214093337.log
+02/14/2017 4:33:38 PM	Click Finish to continue...

@@ -1,0 +1,86 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!-- Modal Show Detail schedule -->
+<div class="modal" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="text-danger fa fa-times"></i></button>
+                <h4 class="modal-title" id="myModalLabel"><i class="text-muted fa fa-info-circle"></i> <strong>02051</strong> - Thông tin chi tiết lịch </h4>
+            </div>
+            <div class="modal-body">
+
+                <table class="pull-left col-md-8 ">
+                    <tbody>
+                        <tr>
+                            <td class="h6"><strong>Código</strong></td>
+                            <td> </td>
+                            <td class="h5">02051</td>
+                        </tr>
+
+                        <tr>
+                            <td class="h6"><strong>Descrição</strong></td>
+                            <td> </td>
+                            <td class="h5">descrição do produto</td>
+                        </tr>
+
+                        <tr>
+                            <td class="h6"><strong>Marca/Fornecedor</strong></td>
+                            <td> </td>
+                            <td class="h5">Marca do produto</td>
+                        </tr>
+
+                        <tr>
+                            <td class="h6"><strong>Número Original</strong></td>
+                            <td> </td>
+                            <td class="h5">0230316</td>
+                        </tr>
+
+                        <tr>
+                            <td class="h6"><strong>Código N.C.M</strong></td>
+                            <td> </td>
+                            <td class="h5">032165</td>
+                        </tr>
+
+                        <tr>
+                            <td class="h6"><strong>Código de Barras</strong></td>
+                            <td> </td>
+                            <td class="h5">0321649843</td>
+                        </tr>
+                        <tr>
+                            <td class="h6"><strong>Unid. por Embalagem</strong></td>
+                            <td> </td>
+                            <td class="h5">50</td>
+                        </tr>
+                        <tr>
+                            <td class="h6"><strong>Quantidade Mínima</strong></td>
+                            <td> </td>
+                            <td class="h5">50</td>
+                        </tr>
+                        <tr>
+                            <td class="h6"><strong>Preço Atacado</strong></td>
+                            <td> </td>
+                            <td class="h5">R$ 35,00</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+                <div class="col-md-4">
+                    <img src="http://lorempixel.com/150/150/technics/" alt="teste" class="img-thumbnail">
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times-circle" aria-hidden="true"> Đóng</i></button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Show Detail schedule-->    

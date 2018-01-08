@@ -1,0 +1,67 @@
+﻿using PatientPortal.DataAccess.Repo.CORE;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CORE;
+using PatientPortal.Domain.Utilities;
+using PatientPortal.DataAccess.Repo.Wrapper;
+using PatientPortal.Domain.Common;
+
+namespace PatientPortal.DataAccess.CORE
+{
+    public class OfferAdviseImpl : IOfferAdvise
+    {
+        private readonly IAdapterPattern _adapterPattern;
+
+        public OfferAdviseImpl(IAdapterPattern adapterPattern)
+        {
+            this._adapterPattern = adapterPattern;
+        }
+
+        public async Task<IEnumerable<OfferAdvise>> GetAll(Dictionary<string, dynamic> para)
+        {
+            return await _adapterPattern.ExecuteQuery<OfferAdvise>(para, "usp_OfferAdvise", DataConfiguration.instanceCore);
+        }
+
+        public async Task<OfferAdvise> Get(Dictionary<string, dynamic> para)
+        {
+            return await _adapterPattern.SingleExecuteQuery<OfferAdvise>(para, "usp_OfferAdvise", DataConfiguration.instanceCore);
+        }
+
+        public async Task<bool> CheckExist(Dictionary<string, dynamic> para)
+        {
+            return await _adapterPattern.SingleExecuteQuery<bool>(para, "usp_OfferAdvise_CheckExistName");
+        }
+
+        /// <summary>
+        /// Get OfferAdvise
+        /// </summary>
+        /// <param name="param">Dictionary</param>
+        /// <returns>List OfferAdvise</returns>
+        public async Task<List<OfferAdvise>> Query(Dictionary<string, object> param)
+        {
+            try
+            {
+                var data = await _adapterPattern.ExecuteQuery<OfferAdvise>(param, "usp_OfferAdvise", DataConfiguration.instanceCore);
+                return data.ToList();
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog("Execute Appointment get data: " + ex.Message);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Transaction of OfferAdvise
+        /// </summary>
+        /// <param name="data">Object OfferAdvise</param>
+        /// <param name="action">I: Insert, U: Update, D: Delete</param>
+        /// <returns>true/false</returns>
+        public async Task<bool> Transaction(OfferAdvise data, char action)
+        {
+            return await _adapterPattern.SingleTransaction<OfferAdvise, bool>(data, "usp_OfferAdvise_Transaction", action, DataConfiguration.instanceCore);
+        }
+    }
+}

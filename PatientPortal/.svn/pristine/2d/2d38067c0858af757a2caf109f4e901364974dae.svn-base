@@ -1,0 +1,154 @@
+﻿<link href="../../../assets/css/paging.css" rel="stylesheet" />
+
+<div class="page relative">
+    <div class="page_layout page_margin_top clearfix">
+        <div class="page_header clearfix">
+            <div class="page_header_left">
+                <h1 class="page_title">TIN TỨC</h1>
+                <ul class="bread_crumb">
+                    <li>
+                        <a href="?page=home" title="Home">
+                            TRANG CHỦ
+                        </a>
+                    </li>
+                    <li class="separator icon_small_arrow right_gray">
+                        &nbsp;
+                    </li>
+                    <li>
+                        TIN TỨC
+                    </li>
+                </ul>
+            </div>
+            <div class="page_header_right">
+                <form class="search">
+                    <input class="search_input" type="text" ng-enter="doSearch()" ng-model="searchValue" value="Nhập giá trị tìm kiếm..." placeholder="Nhập giá trị tìm kiếm..." />
+                </form>
+            </div>
+        </div>
+        <div class="page_left">
+            <ul class="blog clearfix" ng-repeat="item in newposts">
+                <li class="post">
+                    <ul class="comment_box">
+                        <li class="date clearfix animated_element animation-slideRight">
+                            <div class="value">{{item.PublishDate| dateFilter | date:'dd-MM-yyyy' }}</div>
+                            <div class="arrow_date"></div>
+                        </li>
+
+                        <li class="comments_number animated_element animation-slideUp duration-300 delay-500">
+                            <a href="#" title="2 comments">
+                                0 bình luận
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="post_content">
+                        <a class="post_image" href="/post/{{item.Id}}" title="{{item.TitleTran}}">
+                            <img ng-src="{{item.Image}}" alt="" ng-show="item.Image != null" />
+                        </a>
+                        <h2>
+                            <a href="/post/{{item.Id}}" title="{{item.TitleTran}}">
+                                {{item.TitleTran}}
+                            </a>
+                        </h2>
+                        <p data-ng-bind-html="item.DescriptionTrans">
+                        </p>
+                        <a title="Xem thêm" href="/post/{{item.Id}}" class="more">
+                            Xem thêm &rarr;
+                        </a>
+                        <div class="post_footer clearfix">
+                            <ul class="post_footer_details">
+                                <li>Được đăng bởi </li>
+                                <li>
+                                    <a href="#" title="John Doe">
+                                        {{item.Author}}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            <ul ng-if="pager.pages.length" class="pagination page_margin_top newpostpagination">
+                <li ng-class="{disabled:pager.currentPage == 1}">
+                    <a ng-click="setPage(1)">Trang đầu</a>
+                </li>
+                <li ng-class="{disabled:pager.currentPage == 1}">
+                    <a ng-click="setPage(pager.currentPage - 1)">Trang trước</a>
+                </li>
+                <li ng-repeat="page in pager.pages" ng-class="{active:pager.currentPage === page}">
+                    <a ng-click="setPage(page)">{{page}}</a>
+                </li>
+                <li ng-class="{disabled:pager.currentPage === pager.totalPages}">
+                    <a ng-click="setPage(pager.currentPage + 1)">Trang tiếp</a>
+                </li>
+                <li ng-class="{disabled:pager.currentPage == pager.totalPages}">
+                    <a ng-click="setPage(vm.pager.totalPages)">Trang cuối</a>
+                </li>
+            </ul>
+        </div>
+        <div class="page_right">
+            <h3 class="box_header margin">
+                Danh mục
+            </h3>
+            <div class="sidebar_box first">
+                <ul class="categories clearfix page_margin_top">
+                    <li ng-repeat="item in categories">
+                        <a href="/posts/{{item.Id}}" title="{{item.Name}}">
+                            {{item.Name}}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="sidebar_box">
+                <div class="clearfix">
+                    <div class="header_left">
+                        <h3 class="box_header">
+                            Bài viết nổi bật
+                        </h3>
+                    </div>
+                </div>
+                <div class="scrolling_list_wrapper">
+                    <ul class="scrolling_list most_commented">
+                        <li class="icon_small_arrow right_black" ng-repeat="item in hotposts">
+                            <a href="/post/{{item.Id}}" class="clearfix" title="{{item.TitleTran}}">
+                                <span class="left">
+                                    {{item.TitleTran}}
+                                </span>
+                                <!--<span class="number">
+                                    18
+                                </span>-->
+                            </a>
+                            <abbr title="{{item.PublishDate | dateFilter | date:'dd-MM-yyyy'}}" class="timeago">{{item.PublishDate | dateFilter | date:'dd-MM-yyyy'}}</abbr>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sidebar_box">
+                <div class="clearfix">
+                    <div class="header_left">
+                        <h3 class="box_header">
+                            Tiêu điểm
+                        </h3>
+                    </div>
+                </div>
+                <div class="scrolling_list_wrapper">
+                    <ul class="scrolling_list most_viewed">
+                        <li class="icon_small_arrow right_black" ng-repeat="item in focusposts">
+                            <a href="/post/{{item.Id}}" class="clearfix">
+                                <span class="left">
+                                    {{item.TitleTran}}
+                                </span>
+                                <!--<span class="number">
+                                    423
+                                </span>-->
+                            </a>
+                            <abbr title="29 May 2012" class="timeago">{{item.PublishDate | dateFilter | date:'dd-MM-yyyy'}}</abbr>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sidebar_box" ng-include="'app/components/contact-partial/contact-partial.template.html'">
+            </div>
+        </div>
+    </div>
+</div>			

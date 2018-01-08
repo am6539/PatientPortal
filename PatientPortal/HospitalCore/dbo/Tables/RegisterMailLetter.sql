@@ -1,0 +1,6 @@
+﻿CREATE TABLE [dbo].[RegisterMailLetter]
+(
+	[Id] VARCHAR(128) NOT NULL PRIMARY KEY, 
+	[Email] VARCHAR(256) NOT NULL, 
+	[Date] SMALLDATETIME NOT NULL 
+)

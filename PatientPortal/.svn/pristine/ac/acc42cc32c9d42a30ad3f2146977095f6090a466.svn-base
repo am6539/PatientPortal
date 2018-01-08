@@ -1,0 +1,21 @@
+﻿CREATE PROC [dbo].[usp_Article]
+	@Id int
+AS BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+
+	BEGIN TRY
+		IF @Id = 0 
+			SELECT *,  (SELECT COUNT(b.Id) from ArticleComment b where ArticleId = a.Id) as CountComments
+			FROM [dbo].[Article] a
+		ELSE
+			SELECT * , (SELECT COUNT(b.Id) from ArticleComment b where ArticleId = a.Id) as CountComments
+			FROM [dbo].[Article] a WHERE Id = @Id
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0 
+		BEGIN
+			RETURN NULL
+		END
+	END CATCH
+END

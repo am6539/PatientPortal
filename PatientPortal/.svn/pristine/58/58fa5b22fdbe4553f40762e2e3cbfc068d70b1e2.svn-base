@@ -1,0 +1,44 @@
+﻿@model List<PatientPortal.CMS.Models.WorkflowNavigationOrderViewModel> 
+
+<div class="row">
+    <article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+        <div id="wid-id-0">
+            <header role="heading">
+                <h4>Workflow of post </h4>
+            </header>
+            <!-- widget div-->
+            <div>
+                <!-- widget content -->
+                <div class="widget-body">
+                    <div class="row">
+                        <form id="wizard-1" novalidate="novalidate">
+                            <div id="bootstrap-wizard-1" class="col-sm-12">
+                                <div class="form-bootstrapWizard">
+                                    <ul class="bootstrapWizard form-wizard">
+
+                                        @foreach (var item in Model)
+                                        {
+                                            string tabActive = "";
+                                            if (item.NumberOrder == 1)
+                                            {
+                                                tabActive = "active";
+                                            }
+                                            <li data-target="#step-@item.NumberOrder" class="@tabActive">
+                                                <a href="#tab-@item.NumberOrder" data-toggle="tab"> <span class="step">@item.NumberOrder</span> <span class="title">@item.Name</span> </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- end widget content -->
+            </div>
+            <!-- end widget div -->
+        </div>
+        <!-- end widget -->
+    </article>
+</div>
+

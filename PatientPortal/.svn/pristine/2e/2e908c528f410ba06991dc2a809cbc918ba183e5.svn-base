@@ -1,0 +1,56 @@
+﻿using PatientPortal.DataAccess.Repo.CORE;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CORE;
+using System.Transactions;
+using PatientPortal.DataAccess.Dapper;
+using Dapper;
+using PatientPortal.Domain.Utilities;
+using PatientPortal.DataAccess.Repo.Wrapper;
+using PatientPortal.Domain.Common;
+
+namespace PatientPortal.DataAccess.CORE
+{
+    public class ArticleImpl : IArticle
+    {
+        private readonly IAdapterPattern _iAdapterPattern;
+        private readonly Dictionary<string, object> para;
+
+        public ArticleImpl(IAdapterPattern iAdapterPattern)
+        {
+            this._iAdapterPattern = iAdapterPattern;
+        }
+
+        public async Task<bool> Transaction(Article data, char action)
+        {
+            try
+            {
+                var val = await _iAdapterPattern.Transaction<Article, bool>(data, "usp_Article_Transaction", action, 2, string.Empty, DataConfigutation.DapperQueryOption.FirstOrDefault);
+                return val;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog("Execute Appointment Transaction: " + ex.Message);
+                return false;
+            }
+        }
+
+        public async Task<List<Article>> GetAll(Dictionary<string, object> param)
+        {
+            try
+            {
+                var data = await _iAdapterPattern.ExecuteQuery<Article>(param, "usp_Article");
+
+                return data.ToList();
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog("Execute Appointment get data: " + ex.Message);
+                return null;
+            }
+        }
+    }
+}

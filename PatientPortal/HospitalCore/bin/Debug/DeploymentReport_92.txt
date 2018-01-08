@@ -1,0 +1,22 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Alter
+       [dbo].[Module] (Table)
+       [dbo].[usp_Module_Transaction] (Procedure)
+     Create
+       [dbo].[usp_Module_Initial] (Procedure)
+
+** Supporting actions
+     Refresh
+       [dbo].[usp_Login] (Procedure)
+       [dbo].[usp_Module] (Procedure)
+       [dbo].[usp_Module_CheckExistTitle] (Procedure)

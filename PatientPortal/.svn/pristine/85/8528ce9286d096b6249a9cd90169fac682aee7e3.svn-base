@@ -1,0 +1,51 @@
+﻿
+@model List<PatientPortal.CMS.Models.AdvertiseViewModel>
+@using PatientPortal.Provider.Helpers;
+<div class="card">
+    <div class="card-title">
+        @Html.ITitle("quảng cáo", TitleBar.List)
+    </div>
+    <div class="card-content">
+        <table id="table_id" class="table table-striped table-bordered dataTable no-footer" cellspacing="0" role="grid" aria-describedby="example_info" style="width: 100%;">
+            <thead>
+                <tr role="row" class="thead-list">
+                    <th aria-sort="ascending">STT</th>
+                    <th style="display: none">Id</th>
+                    <th>Tên</th>
+                    <th>Trạng thái</th>
+                    <th style="width: 17%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ var i = 1; }
+                @foreach (var item in Model)
+                {
+                    <tr role="row">
+                        <td class="sorting_1 text-center">@i</td>
+                        <td style="display: none">@item.Id</td>
+                        <td class="">@item.Name</td>
+                        <td align="center" valign="middle">
+                            @if (item.IsUsed)
+                            {
+                                <small class="badge bg-orange">Đã dùng</small>
+                            }
+                            else
+                            {
+                                <small class="badge bg-green">Chưa dùng</small>
+                            }
+                        </td>
+                        <td>
+                            @*<a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-sm btn-view btn-warning" title="Cập nhật" style="padding:1px 5px 1px 5px;"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                            @Html.ActionLink("Xóa", "Delete", "Advertise", new { Id = item.Id}, new { @class = "modal-link btn btn-sm btn-delete btn-danger", @style = "padding:1px 5px 1px 5px;" })*@
+                            @Html.IGridButton(@Url.Action("Edit", new { id = item.Id }), ActionButton.Edit)
+                            @Html.IGridButton(@Url.Action("Delete", new { id = item.Id, Title = item.Name }), ActionButton.Delete)
+                        </td>
+                    </tr>
+                    i++;
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

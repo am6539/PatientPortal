@@ -1,0 +1,58 @@
+﻿using System.Collections.Generic;
+using System.Web.Http;
+using PatientPortal.IRepository.CMS;
+using AutoMapper;
+using PatientPortal.API.CMS.ViewModels;
+using PatientPortal.Domain.Utilities;
+
+namespace PatientPortal.API.CMS.Controllers
+{
+    public class CategoryController : ApiController
+    {
+        private readonly ICategoryRepo _category;
+        public CategoryController(ICategoryRepo category)
+        {
+            this._category = category;
+        }
+
+
+        // GET api/values
+        ///[Filters.DeflateCompression]
+        public List<CategoryViewModel> Get()
+        {
+            //Mapping
+          var source = _category.GetAll(GlobalVariables.IsTransParameter);
+            List<CategoryViewModel> dest = Mapper.Map<List<CategoryViewModel>>(source);
+
+            return dest;
+        }
+
+        /// <summary>
+        /// Get Category by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Category view model</returns>
+        // GET api/values/5
+        public CategoryViewModel GetById(int id)
+        {
+            var source = _category.GetById(id);
+            CategoryViewModel dest = Mapper.Map<CategoryViewModel>(source);
+            return dest;
+        }
+
+        /// <summary>
+        /// Action: Insert/Update/Delete Category
+        /// </summary>
+        /// <param name="categoryModel">object "CategoryViewModel"</param>
+        /// <param name="action">Action: 'I' - Insert; 'U'- Update; 'D'- Delete</param>
+        /// <returns>Result: Success- true; Fail- false</returns>
+        [HttpPost]
+        public bool CategoryTransaction(CategoryViewModel categoryModel, char action)
+        {
+            var category = Mapper.Map<Domain.Models.CMS.Category>(categoryModel);
+            var data = new List<Domain.Models.CMS.Category>();
+            data.Add(category);
+            return _category.CategoryTransaction(data, action);
+        }
+    }
+}

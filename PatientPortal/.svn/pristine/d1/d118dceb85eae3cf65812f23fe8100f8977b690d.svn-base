@@ -1,0 +1,68 @@
+﻿CREATE PROCEDURE [dbo].[usp_spa_Post]
+	@languageCode CHAR(3) = 'vi',
+	@categoryName NVARCHAR(50) = '',
+	@numTop TINYINT = 1
+AS BEGIN
+	BEGIN TRY
+	SET NOCOUNT ON
+		SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+		DECLARE @return BIT = 1;
+
+		IF @languageCode != '' AND @categoryName = ''
+			SELECT TOP (@numTop)
+				p.Id, 
+				p.CategoryId,
+				p.PublishDate,
+				P.[Image],
+				P.Author,
+				t.Title as TitleTran,
+				t.[Description] as DescriptionTrans,
+				c.Name AS CategoryName, 
+				ws.Id AS WorkflowStateId,
+				ws.Name AS WorkflowStateName
+			FROM 
+				[dbo].Post p, 
+				[dbo].PostTrans t, 
+				[dbo].Category c, 
+				WorkflowState ws
+			WHERE 
+				p.Id = t.PostId
+				AND p.CategoryId = c.Id
+				AND p.WorkflowStateId = ws.Id
+				AND WorkflowStateId = 3
+		ELSE IF @languageCode != '' AND @categoryName != ''
+			SELECT TOP 1
+					p.Id, 
+					p.CategoryId,
+					p.PublishDate,
+					P.[Image],
+					P.Author,
+					t.Title as TitleTran,
+					t.Detail,
+					t.[Description] as DescriptionTrans,
+					c.Name AS CategoryName, 
+					ws.Id AS WorkflowStateId,
+					ws.Name AS WorkflowStateName
+				FROM 
+					[dbo].Post p, 
+					[dbo].PostTrans t, 
+					[dbo].Category c, 
+					WorkflowState ws
+				WHERE 
+					p.Id = t.PostId
+					AND p.CategoryId = c.Id
+					AND p.WorkflowStateId = ws.Id
+					AND WorkflowStateId = 3
+					AND c.Name = @categoryName
+		ELSE
+			SET @return = 0;
+
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0
+			BEGIN
+				RETURN NULL
+			END
+	END CATCH
+	SELECT @return
+END

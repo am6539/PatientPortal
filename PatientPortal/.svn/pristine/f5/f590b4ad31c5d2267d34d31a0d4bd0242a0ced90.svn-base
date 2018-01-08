@@ -1,0 +1,22 @@
+﻿angular.module('spaApp')
+    .controller('PostsController', ['$scope', 'PostService', 'CategoryService','Params',
+        function PostsController($scope, PostService, CategoryService, Params) {
+            var parentId = 5;
+
+            PostService.queryPost({ languageCode: 'vi', priority: Params.newpriority }, function (data) {
+                $scope.newposts = data;
+            });
+
+            PostService.queryPost({ languageCode: 'vi', priority: Params.hotpriority }, function (data) {
+                $scope.hotposts = data;
+            });
+
+            PostService.queryPost({ languageCode: 'vi', priority: Params.focuspriority }, function (data) {
+                $scope.focusposts = data;
+            });
+
+            CategoryService.queryNewsCategory({ parentId: parentId }, function (data) {
+                $scope.categories = data;
+            });
+        }
+]);

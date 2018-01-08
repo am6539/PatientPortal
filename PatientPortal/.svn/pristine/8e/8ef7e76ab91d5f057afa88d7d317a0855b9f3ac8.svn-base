@@ -1,0 +1,40 @@
+﻿"use strict";
+
+var appManagement = angular.module('MyApp', ['ngResource', 'ngRoute', 'ngSanitize', 'ngCookies']).run(function ($rootScope) {
+    $rootScope.title = "FIS Health Medical Center";
+})
+    .config([
+        "$routeProvider", "$locationProvider", '$httpProvider',
+        function ($routeProvider, $locationProvider, $httpProvider) {
+            $locationProvider.html5Mode(true).hashPrefix('!'); //the hashPrefix is for SEO
+
+            $routeProvider
+            .when('/', {
+                templateUrl: '/www/index.html',
+                controller: 'indexController'
+            })
+            .when('/index/:menu', {
+                templateUrl: '/www/index.html',
+                controller: 'indexController'
+            })
+            .when('/appointment', {
+                templateUrl: '/www/app/template/appointment/appointment.template.html',
+                controller: 'appointmentController'
+            })
+            .when('/detail/:id', {
+                templateUrl: '/www/app/template/post/details.template.html',
+                controller: 'detailController'
+            })
+            .otherwise('/');
+        }
+    ]);
+
+appManagement.filter('jsonDate', ['$filter', function ($filter) {
+    return function (input, format) {
+        return (input) ? $filter('date')(parseInt(input.substr(6)), format) : '';
+    };
+}]).filter("trustUrl", ['$sce', function ($sce) {
+    return function (recordingUrl) {
+        return $sce.trustAsResourceUrl(recordingUrl);
+    };
+}]);

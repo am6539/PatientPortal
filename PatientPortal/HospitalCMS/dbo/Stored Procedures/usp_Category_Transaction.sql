@@ -1,0 +1,51 @@
+﻿CREATE PROC [dbo].[usp_Category_Transaction](
+	@Action CHAR(1) = 'I',
+	@Id TINYINT = 1,
+	@Name NVARCHAR(50) = '',
+	@Image VARCHAR(256) = '',
+	@Handler VARCHAR(256) = '',
+	@Sort TINYINT = 1,
+	@ParentId TINYINT = 1
+)
+AS BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+
+	DECLARE @return bit = 1
+	BEGIN TRY
+		BEGIN TRAN;
+		
+		IF @Action = 'I' --INSERT
+		BEGIN
+			INSERT [dbo].[Category](Name, [Image], Handler, Sort, ParentId)
+			VALUES(@Name, @Image, @Handler, @Sort, @ParentId)
+		END
+
+		IF @Action = 'U' --UPDATE
+		BEGIN
+			UPDATE [dbo].[Category]
+			SET [Name] = @Name, [Image] = @Image, [Handler] = @Handler, [Sort] = @Sort, [ParentId] = @ParentId
+			WHERE [Id] = @Id  
+		END
+
+		IF @Action = 'D' --DELETE
+		BEGIN
+			IF NOT EXISTS( SELECT TOP 1 1 FROM [dbo].[Post] WITH(INDEX(idxPostCategory)) WHERE [CategoryId] = @Id)
+			BEGIN
+				DELETE FROM [dbo].[Category]
+				WHERE [Id] = @Id
+			END
+		END
+
+		COMMIT TRAN;
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0 
+		BEGIN
+			ROLLBACK TRAN;
+			SET  @return = 0
+		END
+	END CATCH
+	SELECT @return
+	
+END

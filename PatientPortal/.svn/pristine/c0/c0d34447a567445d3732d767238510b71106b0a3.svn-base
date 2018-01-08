@@ -1,0 +1,21 @@
+﻿using StackExchange.Redis.Extensions.Newtonsoft;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.Domain.Caching.Redis.StackExchange
+{
+    /// <summary>
+    /// STEP: 2
+    /// </summary>
+    public class RedisCacheService: RedisCacheClient
+    {
+        public RedisCacheService() : base(new NewtonsoftSerializer())
+        {
+        }
+        
+    }
+}

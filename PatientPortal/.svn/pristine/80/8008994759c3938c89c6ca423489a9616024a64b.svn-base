@@ -1,0 +1,89 @@
+﻿
+    <div class="modal-header">
+
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title">Thông tin đặt hẹn</h4>
+    </div>
+
+    <div class="modal-body">
+        <div class="row-fluid">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-sm-3">Người đặt:</label>
+                    <div class="col-sm-9">
+                        <label class="control-label">Vũ Thị Thanh Hoa</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="phone">Số điện thoại:</label>
+                    <div class="col-sm-9">
+                        <label class="control-label">	0125 5642 345</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="phone">Địa chỉ:</label>
+                    <div class="col-sm-9">
+                        <label class="control-label">	285, Hồng Bàng</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="phone">Email:</label>
+                    <div class="col-sm-9">
+                        <label class="control-label">	thanhhoa@gmail.com</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="phone">Bác sĩ:</label>
+                    <div class="col-sm-9">
+                        <label class="control-label">Lê Thanh Nhã</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="phone">Ngày đặt hẹn:</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="OrderDate">
+                    </div>
+                    <label class="control-label col-sm-2" for="phone">Giờ:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="phone">Bác sĩ:</label>
+                    <div class="col-sm-9">
+                        <select data-placeholder="Tình trạng ..." class="chosen-select" tabindex="2">
+                            <option value="one">Mới đặt hẹn</option>
+                            <option value="two">Đã xác nhận</option>
+                            <option value="three">Đã khám bệnh</option>
+                            <option value="four">Đã hủy</option>
+                        </select>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer" style="text-align: center">
+        <button class="btn btn-success" type="submit"><i class="fa fa-trash"> Xác nhận</i></button>
+        <button class="btn btn-warning" type="submit"><i class="fa fa-trash"> Hủy</i></button>
+        <button class="btn" type="button" id="btn-dismiss" data-dismiss="modal" aria-hidden="true"><i class="fa fa-long-arrow-right"></i> Thoát</button>
+    </div>
+<script type="text/javascript">
+    $(function () {
+        $('#btn-dismiss').click(function () {
+            $('#modal-container').modal('hide');
+        });
+    });
+    $("#OrderDate").datetimepicker({
+        format: 'DD/MM/YYYY',
+        locale: 'vi',
+        //minDate: Date.now(),
+    });
+    var config = {
+        '.chosen-select': {}
+    }
+    for (var selector in config) {
+        $(selector).chosen(config[selector]);
+    }
+</script>

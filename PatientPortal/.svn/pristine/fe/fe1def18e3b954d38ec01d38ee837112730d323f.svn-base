@@ -1,0 +1,223 @@
+﻿using PatientPortal.CMS.Common;
+using PatientPortal.CMS.Models;
+using PatientPortal.CMS.Utility;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.CMS.Controllers
+{
+    public class DepartmentController : Controller
+    {
+        private string apiUrl = $"api/department";
+
+        #region Get List
+        // GET: Feature
+        public ActionResult Index()
+        {
+            var results = new DepartmentModel();
+            try
+            {
+                var list = APIHelper.Get<List<DepartmentViewModel>>(apiUrl);
+                if (list == null) list = ApplicationHelper.GetObject<List<DepartmentViewModel>>();
+
+                var model = new DepartmentViewModel();
+
+                results.lstDepartmentViewModel = list;
+                results.DepartmentViewModel = model;
+
+                TempData["Data"] = list;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(ex.Message);
+                throw ex;
+            }
+            return View(results);
+        }
+        #endregion
+
+        #region Create
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Create(DepartmentViewModel model, HttpPostedFileBase fileUpload)
+        {
+            if (ModelState.IsValid)
+            {
+                bool result = await Save(model, ValueConstant.ACTION_INSERT);
+                if(result)
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var department = new DepartmentModel();
+                department.lstDepartmentViewModel = (List<DepartmentViewModel>)TempData["Data"];
+
+                if (department.lstDepartmentViewModel == null) department.lstDepartmentViewModel = ApplicationHelper.GetObject<List<DepartmentViewModel>>();
+                department.DepartmentViewModel = model;
+                
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.FAIL));
+                return View("Index", department);
+            }
+        }
+        #endregion
+
+        #region Edit
+
+        [HttpGet]
+        public ActionResult Edit(byte id)
+        {
+            var model = new DepartmentViewModel();
+            try
+            {
+                model = APIHelper.Get<DepartmentViewModel>(apiUrl + "/" + id);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(ex.Message);
+                throw ex;
+            }
+            return View(model);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Edit(DepartmentViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                bool result = await Save(model, ValueConstant.ACTION_UPDATE);
+                if (result)
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.FAIL));
+                return View();
+            }
+        }
+        #endregion
+
+        #region Delete
+        public ActionResult Delete(byte? id, string name)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            DepartmentViewModel model = APIHelper.Get<DepartmentViewModel>(apiUrl + "/" + id);
+            return PartialView("_Delete", model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Delete(byte id)
+        {
+            try
+            {
+                var model = new DepartmentViewModel();
+                model.Id = id;
+                var result = await Save(model, ValueConstant.ACTION_DELETE);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(ex.Message);
+                return RedirectToAction("Index");
+            }
+        }
+
+        #endregion
+
+        #region Check exist
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult CheckExist(string name, byte id)
+        {
+
+            var isExist = APIHelper.Get<bool>(apiUrl + "/" + id + "?name=" + name);
+
+            return Json(!isExist, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
+        #region API Transaction
+        private async Task<bool> Save(DepartmentViewModel model, string action)
+        {
+            var result = false;
+            try
+            {
+                result = await APIHelper.TransactionAsyncResult<DepartmentViewModel>(model, apiUrl + "?action=" + action + "");
+            }
+            catch (Exception e)
+            {
+                LogHelper.WriteLog(e.Message);
+                ModelState.AddModelError("", e.Message);
+            }
+            return result;
+        }
+        #endregion
+
+        public void PopulateTree(string dir, JsTreeModel node)
+        {
+            if (node.children == null)
+            {
+                node.children = new List<JsTreeModel>();
+            }
+
+            DirectoryInfo directory = new DirectoryInfo(dir);
+
+            foreach (DirectoryInfo d in directory.GetDirectories())
+            {
+                JsTreeModel t = new JsTreeModel();
+
+                string path = ValueConstant.FOLDER_SEPARATOR;
+                string[] arr = d.FullName.Split('\\');
+                int index = Array.IndexOf(arr, ValueConstant.ROOT_FOLDER);
+                for (int i = index; i < arr.Length; i++)
+                {
+                    path += arr[i].ToString() + ValueConstant.FOLDER_SEPARATOR;
+                }
+
+                t.id = path;
+                t.text = d.Name.ToString();
+                t.state = new StateNode();
+                t.state.opened = true;
+
+                PopulateTree(d.FullName, t);
+                node.children.Add(t);
+            }
+        }
+
+        public JsonResult GetTreeData()
+        {
+            JsTreeModel rootNode = new JsTreeModel();
+            rootNode.text = "images";
+            rootNode.state = new StateNode();
+            rootNode.state.opened = true;
+
+            string rootPath = Request.MapPath(ValueConstant.IMAGE_PATH);
+            rootNode.id = rootPath;
+            PopulateTree(rootPath, rootNode);
+            return Json(rootNode, JsonRequestBehavior.AllowGet);
+        }
+    }
+}

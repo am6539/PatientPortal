@@ -1,0 +1,26 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.Internal.Models.PermissionViewModel
+@{
+    ViewBag.Title = "Chi tiết quyền";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-title">@Html.ITitle("Chi tiết quyền", TitleBar.Edit)</div>
+    <div class="card-content">
+        @using (Html.IBeginForm("Edit", "Permission"))
+            {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            @Html.IGroupSubmitButton("Cập nhật thông tin", Url.Action("Index"))
+            @Html.HiddenFor(m => m.Id)
+            @Html.IGroupTextBoxFor(m => m.Name, true, 12, "Permission.Create")
+            @Html.IGroupTextAreaFor(m => m.Description, true, 3, 12, "Mô tả")
+        }
+
+    </div>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}

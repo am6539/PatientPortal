@@ -1,0 +1,40 @@
+﻿appManagement.controller("indexController", [
+    "$scope", "$rootScope", "$location", 'indexServices', '$route', 'Params',
+    function ($scope, $rootScope, $location, indexServices, $route, Params) {
+        $rootScope.title = "Trang chủ";
+        $scope.Post = new Object();
+        $scope.firstPost = [];
+        $scope.Posts = [];
+
+        //get list post
+        $scope.query = function () {
+            indexServices.query({ languageCode: Params.languageCode }, function (data) {
+                $scope.firstPost = data[0];
+                data = data.splice(0, 1);
+                $scope.Posts = data;
+            });
+        };
+
+        $scope.scrollMenu = function () {
+            var menu = $route.current.params.menu;
+            if (menu == 'services') {
+                $('html, body').animate({ scrollTop: $('#services').offset().top + 450 }, 1000);
+            }
+            if (menu == 'portfolio') {
+                $('html, body').animate({ scrollTop: $('#portfolio').offset().top + 450 }, 1000);
+            }
+            if (menu == 'about') {
+                $('html, body').animate({ scrollTop: $('#about').offset().top + 450 }, 1000);
+            }
+            if (menu == 'blog') {
+                $('html, body').animate({ scrollTop: $('#blog').offset().top + 450 }, 1000);
+            }
+            if (menu == 'get-in-touch') {
+                $('html, body').animate({ scrollTop: $('#get-in-touch').offset().top + 450 }, 1000);
+            }
+        };
+
+        $scope.query();
+        $scope.scrollMenu();
+    }
+]);

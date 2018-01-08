@@ -1,0 +1,45 @@
+﻿
+<div class="container">
+
+    <div class="section-header">
+        <p class="text-center wow fadeInDown"></p>
+    </div>
+
+    <div class="row" ng-controller="detailController">
+        <div class="col-sm-4 wow fadeInLeft">
+            <!-- 16:9 aspect ratio -->
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe src="https://www.youtube.com/embed/f0zDS24KPVI?autoplay=0" frameborder="0" allowfullscreen style="width:95%; height:300px;"></iframe>
+            </div>
+        </div>
+
+        <div class="col-sm-8 wow fadeInRight">
+            <h3 class="column-title">{{Post.TitleTrans}}</h3>
+            <p>Thành lập năm 1997 với sứ mệnh mang tới dịch vụ chăm sóc sức khỏe chất lượng cao với chi phí hợp lý, FIS Medical Center đã trở thành địa chỉ tin cậy và quen thuộc của người dân trên địa bàn TP. HCM và các tỉnh, thành lân cận.</p>
+
+            <p>
+                Tận tâm từng giây, bởi vì chúng tôi hiểu khát vọng sống là điều mãnh liệt nhất, nhưng cuộc sống lại là thứ mong manh nhất.
+                Với tinh thần cải tiến không ngừng nâng cao giá trị điều trị và phục vụ, lấy khách hàng làm trung tâm, FIS Medical Center luôn hướng đến Lợi Ích Sức Khỏe tốt nhất cho Người Bệnh, cùng với khẩu hiệu Tomorrow’s Health Care Today – “Chăm Sóc Hôm Nay – Sức Khỏe Ngày Mai”. Vì chúng tôi hiểu rằng: Cuộc sống cần có hy vọng, niềm tin và yêu thương. Và vì cuộc sống khoẻ mạnh ngày mai, bắt đầu từ sự quan tâm chăm sóc hôm nay.
+            </p>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <ul class="nostyle">
+                        <li><i class="fa fa-check-square"></i> Lịch sử hình thành</li>
+                        <li><i class="fa fa-check-square"></i> Văn hóa</li>
+                    </ul>
+                </div>
+
+                <div class="col-sm-6">
+                    <ul class="nostyle">
+                        <li><i class="fa fa-check-square"></i> Thành tích</li>
+                        <li><i class="fa fa-check-square"></i> Cơ sở vật chất</li>
+                    </ul>
+                </div>
+            </div>
+
+            <a class="btn btn-primary" href="#">Tìm hiểu thêm</a>
+
+        </div>
+    </div>
+</div>

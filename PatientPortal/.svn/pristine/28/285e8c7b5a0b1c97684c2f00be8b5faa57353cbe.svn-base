@@ -1,0 +1,98 @@
+﻿
+<link href="assets/css/site/menuPage.css" rel="stylesheet" />
+<div class="brd-wrap" ng-include="'app/shared/template-include/submenu.template.html'">
+</div>
+<div class="top-content">
+</div>
+
+<div class="content container">
+    <div class="row">
+        <div class="content-bg">
+            <div id="ctl00_divCenter" class="col-left">
+                <div class="content-bg2">
+                    <div id="ctl00_mainContent_NewsView1_pnlInnerWrap">
+                        <div class="news">
+                            <h1 class="postdt-title">{{post.TitleTrans}} </h1>
+                            <div class="postdt-date">
+                                {{post.PublishDate| dateFilter | date:'dd-MM-yyyy'}}
+                            </div>
+                            <div class="intro-text">
+                                {{post.DescriptionTrans}} 
+                            </div>
+                            <div class="newstext" data-ng-bind-html="post.Detail">
+                            </div>
+
+                            <div style="font-weight: bold; text-align: right">
+                                {{post.Author}}
+                            </div>
+                        </div>
+                        <div class="bot-news">
+                            <div class="utilities-bar">
+                                <ul class="cf nav">
+                                    <li>
+                                        <a class='fb-like' data-href='http://www.hoanmy.com/saigon/nguoi-hai-lan-chien-thang-ung-thu-gan'
+                                           data-send='false' data-layout='button_count' data-width='100' data-show-faces='false'></a>
+                                    </li>
+                                    <li class="print">
+                                        <a href='/saigon/nguoi-hai-lan-chien-thang-ung-thu-gan?skin=printerfriendly'
+                                           target='_blank' title='In' rel='nofollow'><span>In</span></a>
+                                    </li>
+                                    <li class="email">
+                                        <a href='http://www.hoanmy.com/saigon/News/EmailSubjectDialog.aspx?u=http://www.hoanmy.com/saigon/nguoi-hai-lan-chien-thang-ung-thu-gan'
+                                           class='cb-email-link' target='_blank' title='Gửi bạn bè' rel='nofollow'><span>Gửi bạn bè</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="clear">
+                            </div>
+                            <div class="other-news">
+                                <h4>Các tin khác</h4>
+                                <ul class="noli">
+                                    <li ng-repeat="item in posts">
+                                        <a target="_self" href="/post/{{item.Id}}"
+                                           title="{{item.TitleTran}}">
+                                            {{item.TitleTran}}.<span>
+                                                {{item.PublishDate | dateFilter | date:'dd-MM-yyyy'}}
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="ctl00_divRight" class="col-right">
+                <div class='Module Module-281'>
+                    <div class="left-menu">
+                        <ul class="noli">
+                            <li ng-repeat="item in categories">
+                                <a href="/post-list/{{item.Id}}" target="_self"
+                                   title="{{item.Name}}">{{item.Name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class='Module Module-258' ng-include="'app/shared/template-include/contact-hotline.template.html'">
+                    <!--<div class="fb-page" data-href="https://www.facebook.com/hoanmysaigon" data-tabs="Facebook" data-width="231"
+                         data-small-header="false" data-adapt-container-width="false" data-hide-cover="false" data-show-facepile="true">
+                        <div class="fb-xfbml-parse-ignore">
+                            <blockquote cite="https://www.facebook.com/hoanmysaigon"><a href="https://www.facebook.com/hoanmysaigon">BV Hoàn Mỹ Sài Gòn</a></blockquote>
+                        </div>
+                    </div>
+                    <div class="emhotline">
+                        Cấp cứu<span>(08) 3995 9860</span>
+                    </div>
+                    <a href="#" target="_blank">
+                        <img src="../../../assets/images/adv/KS-ngoai-tru.png" alt="Khao-sat-ngoai-tru" />
+                    </a>
+                    <a href="#" target="_blank">
+                        <img src="../../../assets/images/adv/KS-noi-tru.png" alt="Khao-sat-noi-tru" />
+                    </a>-->
+                </div>
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,259 @@
+﻿using PatientPortal.Domain;
+using PatientPortal.Domain.LogManager;
+using PatientPortal.Domain.Models.AUTHEN;
+using PatientPortal.Internal.Common;
+using PatientPortal.Internal.Models;
+using PatientPortal.Internal.Models.Account;
+using PatientPortal.Internal.Models.Schedule;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using PatientPortal.Utility.Application;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using WebMarkupMin.AspNet4.Mvc;
+using static PatientPortal.Domain.EnumUserConstants;
+using static PatientPortal.Utility.Application.ApplicationGenerator;
+
+namespace PatientPortal.Internal.Controllers
+{
+	[Authorize]
+    [AppHandleError]
+    //[CompressContent]
+    //[MinifyHtml]
+    public class UserProfileController : Controller
+	{
+		private readonly IUserSession _userSession;
+
+		public UserProfileController(IUserSession userSession)
+		{
+			_userSession = userSession;
+		}
+
+		#region Get UserProfile
+		// GET: UserProfile
+		public async Task<ActionResult> Index(string userId)
+		{
+            try
+            {
+                // Get list user set into ViewBag
+                string search = string.Empty;
+                UserType type = EnumUserConstants.UserType.ISDOCTOR;
+                string apiUserUrl = APIProvider.APIGenerator("User", new List<string> { nameof(search), nameof(type) }, true, search, type);
+                var list = await APIProvider.Authorize_Get<List<UserViewModel>>(_userSession.BearerToken, apiUserUrl, APIConstant.API_Resource_CORE, ARS.Get);
+                if (list == null)
+                    ViewBag.User = ApplicationGenerator.GetObject<UserViewModel>();
+                else
+                    ViewBag.User = list;
+
+                // Get list user profile by userId
+                string apiUrl = "User/GetUserProfile?userId=" + userId;
+                var model = await APIProvider.Authorize_Get<List<UserProfileViewModel>>(_userSession.BearerToken, apiUrl, APIConstant.API_Resource_CORE, ARS.Get);
+                if (model == null)
+                    model = new List<UserProfileViewModel>();
+                return View(model);
+            }
+            catch (HttpException ex)
+            {
+                Logger.LogError(ex);
+                int statusCode = ex.GetHttpCode();
+                if (statusCode == 401)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(FuntionType.Department, APIConstant.ACTION_ACCESS);
+                    return new HttpUnauthorizedResult();
+                }
+
+                throw ex;
+            }
+		}
+
+		#endregion
+
+		#region Edit UserProfile
+		public async Task<ActionResult> Edit(string userId, string tabCode)
+		{
+            if (!await APIProvider.Authorization(_userSession.BearerToken, ARS.Edit))
+            {
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.FuntionType.UserProfile, APIConstant.ACTION_UPDATE);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                // Get list user set into ViewBag
+                string search = string.Empty;
+                UserType type = EnumUserConstants.UserType.ISDOCTOR;
+                string apiUserUrl = APIProvider.APIGenerator("User", new List<string> { nameof(search), nameof(type) }, true, search, type);
+                var list = await APIProvider.Authorize_Get<List<UserViewModel>>(_userSession.BearerToken, apiUserUrl, APIConstant.API_Resource_CORE, ARS.IgnoredARS);
+                if (list == null)
+                    ViewBag.User = ApplicationGenerator.GetObject<UserViewModel>();
+                else
+                    ViewBag.User = list;
+
+                // Get user profile by tabcode and userId
+                string apiUrl = "User/GetUserProfileByTabCode?userId=" + userId + "&tabCode=" + tabCode;
+                var model = await APIProvider.Authorize_Get<UserProfileViewModel>(_userSession.BearerToken, apiUrl, APIConstant.API_Resource_CORE, ARS.IgnoredARS);
+                if (model == null)
+                    model = new UserProfileViewModel();
+                return View(model);
+            }
+		}
+
+		[ValidateAntiForgeryToken]
+		[HttpPost]
+		public async Task<ActionResult> Edit(UserProfileViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					string strUrl = APIProvider.APIGenerator("User", "UserProfileTransaction", APIConstant.ACTION_UPDATE);
+					var token = _userSession.BearerToken;
+
+					var result = await APIProvider.Authorize_DynamicTransaction<UserProfileViewModel, int>(model, token, strUrl, APIConstant.API_Resource_Authorize, ARS.Edit);
+					if (result > 0)
+					{
+						TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.SUCCESS));
+						return RedirectToAction("Index");
+					}
+					else
+					{
+						TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+						string search = string.Empty;
+						UserType type = EnumUserConstants.UserType.ISDOCTOR;
+						string apiUrl = APIProvider.APIGenerator("User", new List<string> { nameof(search), nameof(type) }, true, search, type);
+						var list = await APIProvider.Authorize_Get<List<UserViewModel>>(_userSession.BearerToken, apiUrl, APIConstant.API_Resource_CORE, ARS.Edit);
+						if (list == null)
+							ViewBag.User = ApplicationGenerator.GetObject<UserViewModel>();
+						else
+							ViewBag.User = list;
+
+						return View();
+					}
+				}
+				catch (Exception ex)
+				{
+					Logger.LogError(ex);
+					TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ERROR, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.ERROR));
+					throw ex;
+				}
+			}
+			else
+			{
+				StringBuilder errorBuilder = new StringBuilder();
+				foreach (var modelError in ModelState)
+				{
+					if (modelError.Value.Errors.Count > 0)
+					{
+						errorBuilder.AppendLine(modelError.Value.Errors[0].ErrorMessage.ToString());
+					}
+				}
+
+				TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, errorBuilder.ToString());
+				string search = string.Empty;
+				UserType type = EnumUserConstants.UserType.ISDOCTOR;
+				string apiUrl = APIProvider.APIGenerator("User", new List<string> { nameof(search), nameof(type) }, true, search, type);
+				var list = await APIProvider.Authorize_Get<List<UserViewModel>>(_userSession.BearerToken, apiUrl, APIConstant.API_Resource_CORE, ARS.Edit);
+				if (list == null)
+					ViewBag.User = ApplicationGenerator.GetObject<UserViewModel>();
+				else
+					ViewBag.User = list;
+
+				return View(model);
+			}
+		}
+		#endregion
+
+		#region Create UserProfile
+
+		public async Task<ActionResult> Create()
+		{
+            if (!await APIProvider.Authorization(_userSession.BearerToken, ARS.Insert))
+            {
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.FuntionType.UserProfile, APIConstant.ACTION_INSERT);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                string search = string.Empty;
+                UserType type = EnumUserConstants.UserType.ISDOCTOR;
+                string apiUrl = APIProvider.APIGenerator("User", new List<string> { nameof(search), nameof(type) }, true, search, type);
+                var list = await APIProvider.Authorize_Get<List<UserViewModel>>(_userSession.BearerToken, apiUrl, APIConstant.API_Resource_CORE, ARS.IgnoredARS);
+                if (list == null)
+                    ViewBag.User = ApplicationGenerator.GetObject<UserViewModel>();
+                else
+                    ViewBag.User = list;
+
+                return View();
+            }
+		}
+
+		[ValidateAntiForgeryToken]
+		[HttpPost]
+		public async Task<ActionResult> Create(UserProfileViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				try 
+				{	        
+					string strUrl = APIProvider.APIGenerator("User", "UserProfileTransaction", APIConstant.ACTION_INSERT);
+					var token = _userSession.BearerToken;
+
+					var result = await APIProvider.Authorize_DynamicTransaction<UserProfileViewModel, int>(model, token, strUrl, APIConstant.API_Resource_Authorize);
+					if(result > 0)
+					{
+						TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.SUCCESS));
+						return RedirectToAction("Index");
+					}
+					else
+					{
+						TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+						string search = string.Empty;
+						UserType type = EnumUserConstants.UserType.ISDOCTOR;
+						string apiUrl = APIProvider.APIGenerator("User", new List<string> { nameof(search), nameof(type) }, true, search, type);
+						var list = await APIProvider.Authorize_Get<List<UserViewModel>>(token, apiUrl, APIConstant.API_Resource_CORE, ARS.IgnoredARS);
+						if (list == null)
+							ViewBag.User = ApplicationGenerator.GetObject<UserViewModel>();
+						else
+							ViewBag.User = list;
+
+						return View();
+					}
+				}
+				catch (Exception ex)
+				{
+					Logger.LogError(ex);
+					TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ERROR, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.ERROR));
+					throw ex;
+				}
+			}
+			else
+			{
+				StringBuilder errorBuilder = new StringBuilder();
+				foreach (var modelError in ModelState)
+				{
+					if (modelError.Value.Errors.Count > 0)
+					{
+						errorBuilder.AppendLine(modelError.Value.Errors[0].ErrorMessage.ToString());
+					}
+				}
+
+				TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, errorBuilder.ToString());
+				string search = string.Empty;
+				UserType type = EnumUserConstants.UserType.ISDOCTOR;
+				string apiUrl = APIProvider.APIGenerator("User", new List<string> { nameof(search), nameof(type) }, true, search, type);
+				var list = await APIProvider.Authorize_Get<List<UserViewModel>>(_userSession.BearerToken, apiUrl, APIConstant.API_Resource_CORE, ARS.IgnoredARS);
+				if (list == null)
+					ViewBag.User = ApplicationGenerator.GetObject<UserViewModel>();
+				else
+					ViewBag.User = list;
+
+				return View(model);
+			}
+		}
+
+		#endregion
+	}
+}

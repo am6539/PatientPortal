@@ -1,0 +1,19 @@
+﻿angular.module('MyApp').controller('ChildDepartmentController', ['$scope', 'PostService', '$filter',
+    '$route', '$timeout', "IndexFactory", "$q",
+    function ($scope, PostService, $filter, $route, $timeout, IndexFactory, $q) {
+        $scope.isShow = false;
+        //get parentId parameter from Url
+        var parentId = $route.current.params.id;
+        var handler = 'CK';
+        $('a[ng-href="/index/portfolio"]').parent('li').addClass('active');
+
+        $scope.getAdvertise = function () {
+            PostService.getAdvertise(function (data) {
+                $scope.Advertises = data;
+            });
+        }
+
+        $scope.getChildDept = function () {
+            $scope.depts = IndexFactory.query({ handler: handler, parentId: parentId });
+        }
+    }]);

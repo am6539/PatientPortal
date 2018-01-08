@@ -1,0 +1,10 @@
+﻿'use strict';
+
+angular.module('spaPHCN')
+    .controller("ServiceDetailController", [
+    "$scope", "$location", "$route", "Params", "FeatureDetailService",
+    function ($scope, $location, $route, Params, FeatureDetailService) {
+
+        $scope.subTitle = "Dịch vụ";
+
+    }]);

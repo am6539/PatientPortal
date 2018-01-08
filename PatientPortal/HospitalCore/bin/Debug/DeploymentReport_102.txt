@@ -1,0 +1,34 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       The column [dbo].[OfferAdvise].[IsRead] is being dropped, data loss could occur.
+       The column [dbo].[OfferAdvise].[IsSent] is being dropped, data loss could occur.
+       The column [dbo].[OfferAdvise].[Status] on table [dbo].[OfferAdvise] must be added, but the column has no default value
+         and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must
+         either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults
+         as a deployment option.
+
+** User actions
+     Alter
+       [dbo].[OfferAdvise] (Table)
+       [dbo].[usp_OfferAdvise_Transaction] (Procedure)
+     Create
+       [dbo].[DoctorProfile] (Table)
+       [dbo].[SystemNotification] (Table)
+       [dbo].[SystemNotificationUsers] (Table)
+       [dbo].[UserNotification] (Table)
+       [dbo].[usp_Appointment_Dashboard] (Procedure)
+
+** Supporting actions
+     Refresh
+       [dbo].[usp_OfferAdvise] (Procedure)
+
+The column [dbo].[OfferAdvise].[IsRead] is being dropped, data loss could occur.
+The column [dbo].[OfferAdvise].[IsSent] is being dropped, data loss could occur.
+The column [dbo].[OfferAdvise].[Status] on table [dbo].[OfferAdvise] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+

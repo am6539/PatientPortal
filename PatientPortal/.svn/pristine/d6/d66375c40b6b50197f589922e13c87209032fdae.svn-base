@@ -1,0 +1,145 @@
+﻿using PatientPortal.CMS.Models;
+using PatientPortal.CMS.Utility;
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Configuration;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Linq.Dynamic;
+
+namespace PatientPortal.CMS.Controllers
+{
+    public class PostController : Controller
+    {
+        // GET: Post
+        public ViewResult Index(string languageCode)
+        {
+            NameValueCollection nvc = HttpUtility.ParseQueryString(Request.Url.Query);
+
+            try
+            {
+                languageCode = ConfigurationManager.AppSettings["AdminLanguageCode"];
+                var draw = nvc["draw"];
+                var start = nvc["start"];
+                var length = nvc["length"];
+                var search = nvc["search[value]"];
+                var orderColumn = nvc["order[0][column]"];
+                var nameColumn = nvc["columns[" + orderColumn + "][name]"];
+                var orderDir = nvc["order[0][dir]"];
+
+                int pageSize = length != null ? Convert.ToInt32(length) : 0;
+                int skip = start != null ? Convert.ToInt32(start) : 0;
+                int totalRecords = 0;
+                int filteredRecords = 0;
+                
+
+                var data = APIHelper.Get<List<PostListViewModel>>($"api/Post?languageCode={languageCode}");
+                totalRecords = data.Count;
+                filteredRecords = data.Count;
+                if (!(string.IsNullOrEmpty(orderColumn) && string.IsNullOrEmpty(orderDir)))
+                {
+                    data = data.OrderBy("" + nameColumn + " " + orderDir + "").ToList();
+                }
+                if (!string.IsNullOrEmpty(search))
+                {
+                    data = data.Where(x => x.Title.ToLower().Contains(search.ToLower())
+                                        || x.CategoryName.ToLower().Contains(search.ToLower())
+                                    ).ToList();
+                    filteredRecords = data.Count;
+                    totalRecords = data.Count;
+                }
+                if (pageSize != -1)
+                {
+                    data = data.Skip(skip).Take(pageSize).ToList();
+                }
+                var results = Json(new
+                {
+                    draw = draw,
+                    recordsFiltered = totalRecords,
+                    recordsTotal = totalRecords,
+                    data = data
+                }, JsonRequestBehavior.AllowGet);
+
+                return View(results);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        // GET: Post/Details/5
+        public ActionResult Details(int id)
+        {
+            return View();
+        }
+
+        // GET: Post/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Post/Create
+        [HttpPost]
+        public ActionResult Create(FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add insert logic here
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: Post/Edit/5
+        public ActionResult Edit(int id)
+        {
+            return View();
+        }
+
+        // POST: Post/Edit/5
+        [HttpPost]
+        public ActionResult Edit(int id, FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add update logic here
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: Post/Delete/5
+        public ActionResult Delete(int id)
+        {
+            return View();
+        }
+
+        // POST: Post/Delete/5
+        [HttpPost]
+        public ActionResult Delete(int id, FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add delete logic here
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+    }
+}

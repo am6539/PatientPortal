@@ -1,0 +1,69 @@
+﻿@model PatientPortal.CMS.Models.AdvertiseViewModel
+
+@using (Html.BeginForm("Create", "Advertise", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal" }))
+            {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="form-group" style="display: none">
+        @Html.LabelFor(m => m.Id, new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.Id, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @placeholder = "Nhập tiêu đề" })
+            @Html.ValidationMessageFor(m => m.Handler, null, new { @class = "field-validation-error" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Description, new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @placeholder = "Nhập mô tả", @row = "5" })
+            @Html.ValidationMessageFor(m => m.Description)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Handler, new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.Handler, new { @class = "form-control", @placeholder = "Nhập Handler" })
+            @Html.ValidationMessageFor(m => m.Handler, null, new { @class = "field-validation-error" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Resouce, new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            <input type="file" name="fileUpload" accept="file_extension|audio/*|video/*|image/*|media_type" class="form-control">
+            @Html.ValidationMessageFor(m => m.Resouce)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.IsUsed, new { @class = "control-label col-md-3" })
+        <div class="col-md-1">
+            <div class="checkbox checkbox-info">
+                @Html.CheckBoxFor(m => m.IsUsed, new { @class = "styled" })<label for="IsUsed"></label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.StartDate, new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.StartDate, new { @class = "form-control", @id = "StartDate" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.EndDate, new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.EndDate, new { @class = "form-control", @id = "EndDate" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3"></label>
+        <div class="col-md-9">
+            <button type="submit" class="btn btn-success btn-sm" style="width:100%;"><i class="fa fa-check" aria-hidden="true"></i> Thêm quảng cáo</button>
+        </div>
+    </div>
+}
+
+

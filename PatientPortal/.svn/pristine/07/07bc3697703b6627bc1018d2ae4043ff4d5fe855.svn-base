@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].[UserProfile]
+(
+	[UserId] NVARCHAR(128) NOT NULL , 
+    [TabCode] VARCHAR(10) NOT NULL, 
+    [Descriptions] NVARCHAR(MAX) NULL, 
+    PRIMARY KEY ([UserId], [TabCode])
+)

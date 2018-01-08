@@ -1,0 +1,32 @@
+﻿using PatientPortal.CMS.Models;
+using PatientPortal.CMS.Utility;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.CMS.Controllers
+{
+    public class LanguageController : Controller
+    {
+        // GET: Language
+        public ActionResult Index()
+        {
+            var results = new LanguagesModel();
+            try
+            {
+                var list = APIHelper.Get<List<LanguageViewModel>>($"api/language");
+                var language = new LanguageViewModel();
+                results.LanguageViewModels = list;
+                results.LanguageViewModel = language;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return View(results);
+        }
+    }
+}

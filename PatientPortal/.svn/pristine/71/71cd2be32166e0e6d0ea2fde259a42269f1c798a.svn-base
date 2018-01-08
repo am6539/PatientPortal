@@ -1,0 +1,22 @@
+﻿@model IEnumerable<PatientPortal.CMS.Models.FileViewModel>
+
+<h3 class="page-header">Chọn hình ảnh cần thêm</h3>
+
+@foreach (var image in Model)
+            {
+    <div class="col-md-4 col-md-4 col-xs-5 thumb">
+        <a href="#" class="returnImage" data-url="@Request.Url.GetLeftPart(UriPartial.Authority)@image.Url">
+            <img class="img-responsive" src="@image.Url" id="#image" data-source="@image.Url" />
+        </a>
+    </div>
+}
+
+<script>
+        $(document).ready(function () {
+            $(".returnImage").click("click", function (e) {
+                var urlImage = $(this).attr("data-url");
+                window.opener.updateValue("cke_77_textInput", urlImage);
+                window.close();
+            });
+        });
+</script>

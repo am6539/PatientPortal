@@ -1,0 +1,39 @@
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using ProtoBuf;
+
+namespace PatientPortal.Internal.Models
+{
+    [ProtoContract]
+    public class OfferAdviseViewModel
+    {
+        [ProtoMember(1)]
+        public int Id { get; set; }
+
+        [ProtoMember(2)]
+        [DataType(DataType.Date)]
+        [Display(Name = "Ngày")]
+        public DateTime Date { get; set; }
+
+        [ProtoMember(3)]
+        [Display(Name = "Nội dung")]
+        [Required(ErrorMessage = "Bạn cần nhập ý kiến")]
+
+        public string Detail { get; set; }
+        [ProtoMember(4)]
+        public string PatientId { get; set; }
+
+        [ProtoMember(5)]
+        [Display(Name = "Tin hợp lệ")]
+        [Required(ErrorMessage = "Bạn cần xác nhận tin hợp lệ khi tiếp nhận thông tin")]
+        public bool IsRead { get; set; }
+        [ProtoMember(6)]
+        public bool IsSent { get; set; }
+
+        [ProtoMember(7)]
+        [Required(ErrorMessage = "Bạn cần nhập tags")]
+        [Display(Name = "Tags")]
+        public string Tag { get; set; }
+        
+    }
+}

@@ -1,0 +1,11 @@
+﻿angular.module('spaApp').factory('PostService', ['$resource', 'Params',
+    function ($resource, Params) {
+        return $resource(Params.rootUrl + 'User', {}, {
+            queryPost: {
+                method: 'GET',
+                url: Params.rootUrl + "SPAPost/GetListPost?languageCode=:languageCode",
+                isArray: true,
+                params: { languageCode: '@languageCode' }
+            }
+        });
+    }]);

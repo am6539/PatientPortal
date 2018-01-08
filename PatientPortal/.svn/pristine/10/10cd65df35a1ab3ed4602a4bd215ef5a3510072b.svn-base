@@ -1,0 +1,88 @@
+﻿
+<div class="section-header">
+    <h2 class="section-title text-center wow fadeInDown">Tin tức</h2>
+    <p class="text-center wow fadeInDown"></p>
+</div>
+
+<div class="row">
+    <div class="col-sm-6">
+        <div class="blog-post blog-large wow fadeInLeft" data-wow-duration="300ms" data-wow-delay="0ms">
+            <article>
+                <header class="entry-header">
+                    <div class="entry-thumbnail">
+                        <img class="img-responsive" src="/images/blog/01.jpg" alt="">
+                        <span class="post-format post-format-video"><i class="fa fa-film"></i></span>
+                    </div>
+                    <div class="entry-date">Ngày 31/12/2016 </div>
+                    <h2 class="entry-title"><a href="#">Ứng dụng kỹ thuật mới trong điều trị tim mạch và giảm đau</a></h2>
+                </header>
+
+                <div class="entry-content">
+                    <P>Ngày 5/12/2016 vừa qua, Hội nghị khoa học chuyên đề “Cập nhật những vấn đề về Tim Mạch và Giảm Đau” đã được tổ chức tại Bệnh viện Hoàn Mỹ Sài Gòn, với sự tham dự của nhiều chuyên gia, bác sĩ về Tim mạch, Quản lý đau, Gây mê và Cơ Xương Khớp nổi tiếng trong nước cũng như quốc tế.</P>
+                    <a class="btn btn-primary" href="#">Xem thêm</a>
+                </div>
+
+                <footer class="entry-meta">
+                    <span class="entry-author"><i class="fa fa-pencil"></i> <a href="#">Trường Ngân</a></span>
+                    <span class="entry-category"><i class="fa fa-folder-o"></i> <a href="#">Cơ sở</a></span>
+                    <span class="entry-comments"><i class="fa fa-comments-o"></i> <a href="#">15</a></span>
+                </footer>
+            </article>
+        </div>
+    </div><!--/.col-sm-6-->
+    <div class="col-sm-6">
+        <div class="blog-post blog-media wow fadeInRight" data-wow-duration="300ms" data-wow-delay="100ms">
+            <article class="media clearfix">
+                <div class="entry-thumbnail pull-left">
+                    <img class="img-responsive" src="/images/blog/02.jpg" alt="">
+                    <span class="post-format post-format-gallery"><i class="fa fa-image"></i></span>
+                </div>
+                <div class="media-body">
+                    <header class="entry-header">
+                        <div class="entry-date">12/05/2016</div>
+                        <h2 class="entry-title"><a href="#">Nâng cao chất lượng đội ngũ điều dưỡng</a></h2>
+                    </header>
+
+                    <div class="entry-content">
+                        <P>Ngày nay, cùng với đà phát triển của nền kinh tế, chất lượng cuộc sống ngày càng được cải thiện rõ rệt dẫn đến nhu cầu chăm sóc sức khỏe của người dân cũng được chú trọng hơn trước rất nhiều. Vì vậy, FIS Center cũng không ngừng cải tiến chất lượng dịch vụ nhằm mang đến sự thoải mái và sự tiện nghi...</P>
+                        <a class="btn btn-primary" href="#">Xem thêm</a>
+                    </div>
+
+                    <footer class="entry-meta">
+                        <span class="entry-author"><i class="fa fa-pencil"></i> <a href="#">Trường ngân</a></span>
+                        <span class="entry-category"><i class="fa fa-folder-o"></i> <a href="#">Dịch vụ</a></span>
+                        <span class="entry-comments"><i class="fa fa-comments-o"></i> <a href="#">30</a></span>
+                    </footer>
+                </div>
+            </article>
+        </div>
+        <div class="blog-post blog-media wow fadeInRight" data-wow-duration="300ms" data-wow-delay="200ms">
+            <article class="media clearfix">
+                <div class="entry-thumbnail pull-left">
+                    <img class="img-responsive" src="/images/blog/03.jpg" alt="">
+                    <span class="post-format post-format-audio"><i class="fa fa-music"></i></span>
+                </div>
+                <div class="media-body">
+                    <header class="entry-header">
+                        <div class="entry-date">31/12/2016</div>
+                        <h2 class="entry-title"><a href="#">Tầm soát ung thư gan miễn phí</a></h2>
+                    </header>
+
+                    <div class="entry-content">
+                        <P>
+                            Ung thư gan gồm: ung thư nguyên phát (khối u xuất hiện tại gan) và ung thư thứ phát (khối u xuất phát từ những cơ quan khác rồi di chuyển đến gan).
+                            Ung thư biểu mô tế bào gan (hay còn gọi là carcinom tế bào gan - HCC) là ung thư gan nguyên phát thường gặp nhất. HCC trên nền xơ gan chiếm tỉ lệ 80% trường hợp. Do vậy, xơ gan được xem là yếu tố gây ung thư gan.
+                        </P>
+                        <a class="btn btn-primary" href="#">Xem thêm</a>
+                    </div>
+
+                    <footer class="entry-meta">
+                        <span class="entry-author"><i class="fa fa-pencil"></i> <a href="#">Bảo Nam</a></span>
+                        <span class="entry-category"><i class="fa fa-folder-o"></i> <a href="#">Cơ sở</a></span>
+                        <span class="entry-comments"><i class="fa fa-comments-o"></i> <a href="#">15</a></span>
+                    </footer>
+                </div>
+            </article>
+        </div>
+    </div>
+</div>

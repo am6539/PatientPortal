@@ -1,0 +1,56 @@
+﻿using PatientPortal.Domain.LogManager;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Routing;
+
+namespace PatientPortal.Internal.Models
+{
+    public class AppHandleErrorAttribute: HandleErrorAttribute
+    {
+        public override void OnException(ExceptionContext filterContext)
+        {
+            Exception ex = filterContext.Exception;
+
+            var statusCode = ((HttpException)filterContext.Exception).GetHttpCode();
+            // Log Exception ex in database
+            Logger.LogError(ex);
+
+            // Notify  admin team
+            filterContext.ExceptionHandled = true;
+            
+            //Unauthorized
+            if(statusCode == 401)
+            {
+                string controller = filterContext.RouteData.Values["controller"].ToString();
+
+                filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new
+                {
+                    action = "Index",
+                    controller = controller
+                }));
+            }
+            else
+            {
+                string viewName = "Error";
+
+                switch (statusCode)
+                {
+                    case 404:
+                        viewName = "NotFound";
+                        break;
+                    case 500:
+                    default:
+                        viewName = "Error";
+                        break;
+                }
+                filterContext.Result = new ViewResult()
+                {
+                    ViewName = "~/HttpErrors/" + viewName
+                };
+            }
+        }
+    }
+}

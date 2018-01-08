@@ -1,0 +1,60 @@
+﻿create proc usp_DefaultData_Insert
+as
+begin
+	SET NOCOUNT ON
+		SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+
+		BEGIN TRY
+			declare @countCat int;
+			---Insert Category
+			set @countCat = (SELECT count(*) FROM [dbo].[Category]);
+			if(@countCat = 0)
+			begin
+				insert into Category(Name, Handler, Sort, ParentId) values(N'Tin sức khỏe', N'', 1, 0)
+			end
+			
+			---Insert workflow
+			declare @countWorkflow int;
+			set @countWorkflow = (select COUNT(*) from [dbo].Workflow);
+			if(@countWorkflow = 0)
+			begin
+				insert into Workflow(Name) values(N'workflow 1')
+			end
+
+			---Insert workfow state
+			declare @countWorkflowSate int;
+			set @countWorkflowSate = (select COUNT(*) from WorkflowState)
+			if(@countWorkflowSate = 0)
+			begin
+				declare @workflowId tinyint;
+				set @workflowId = (SELECT MAX(Id) FROM Workflow)
+				insert into WorkflowState(Name, WorkflowId, IsActive) values(N'work flow state 1', @workflowId, 1)
+			end
+
+			---Insert languge
+			declare @countLanguge int;
+			set @countLanguge = (select COUNT(*) from [dbo].[Language]);
+			if(@countLanguge = 0)
+			begin
+				insert into [dbo].[Language] values('vi',N'Việt Nam')
+			end
+
+		END TRY
+		BEGIN CATCH
+			IF @@TRANCOUNT <> 0 
+			BEGIN
+				RETURN NULL
+			END
+	END CATCH
+end
+
+Go
+
+
+create proc [dbo].[usp_DefaultData_Exec]
+as
+begin
+	exec usp_DefaultData_Insert
+end
+
+GO

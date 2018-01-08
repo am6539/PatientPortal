@@ -1,0 +1,28 @@
+﻿'use strict';
+
+angular.
+module('appTest')
+    .config(['$routeProvider', '$locationProvider', '$logProvider', '$compileProvider',
+    function ($routeProvider, $locationProvider, $logProvider, $compileProvider) {
+        $logProvider.debugEnabled(true);
+        $locationProvider.html5Mode(true).hashPrefix('!'); //the hashPrefix is for SEO
+        $compileProvider.debugInfoEnabled(false);
+        $routeProvider
+            .when('/', {
+                templateUrl: "app/components/a/a.template.html",
+                controller: "AController",
+        })
+        .when('/a', {
+            templateUrl: "app/components/a/a.template.html",
+            controller: "AController",
+        })
+        .when('/b', {
+            templateUrl: "app/components/b/b.template.html",
+            controller: "BController",
+        })
+        .when('/c', {
+        templateUrl: "app/components/c/c.template.html",
+        controller: "CController",
+        })
+        .otherwise('/');
+}]);

@@ -1,0 +1,14 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.API.CMS.ViewModels
+{
+    public class PostFilterViewModel
+    {
+        public string LanguageCode { get; set; }
+        public int PostId { get; set; }
+        public byte WorkflowStateId { get; set; }
+    }
+}

@@ -1,0 +1,262 @@
+﻿@model PatientPortal.PatientServices.Models.Dashboard.PatientDashboard
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+@section styles{
+    <link href="~/Libs/pnotify/pnotify.custom.min.css" rel="stylesheet" />
+}
+<div class="col-md-12 col-xs-12">
+    <div class="col-md-8">
+        @* TOP *@
+        <div class="card">
+            <div class="card-content">
+                <div class="col-md-4 btn-toogle">
+                    <a class="btn btn-warning" style="width:100%;" href="@Url.Action("Make", "Appointment")">
+                        <div class="icon"><i class="fa fa-calendar fa-3x"></i></div>
+                        <h4>ĐẶT LỊCH HẸN</h4>
+                        <small>Khám chữa bệnh</small>
+                    </a>
+                </div>
+                <div class="col-md-4 btn-toogle">
+                    <a class="btn btn-success" style="width:100%;" href="@Url.Action("Index", "PHR")">
+                        <div class="icon"><i class="fa fa-id-card-o fa-3x"></i></div>
+                        <h4>HỒ SƠ Y TẾ</h4>
+                        <small>Bệnh án điện tử</small>
+                    </a>
+                </div>
+                <div class="col-md-4 btn-toogle">
+                    <a class="btn btn-info" style="width:100%;" href="@Url.Action("Index", "OfferAdvise")">
+                        <div class="icon"><i class="fa fa-commenting-o fa-3x"></i></div>
+                        <h4>GÓP Ý XÂY DỰNG</h4>
+                        <small>Gửi thư góp ý</small>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        @* Appointments *@
+        @Html.Partial("_Appointment", Model.lstAppointment)
+        @* Article *@
+        @Html.Partial("_Article", Model.lstArticle)
+        
+
+        @*<div class="card">
+            <div class="card-title"><p style="font-size:1.2em;"><span class="fa fa-newspaper-o" style="color:#0094ff"></span> Xử lý hồ sơ khám bệnh</p></div>
+            <div class="card-content">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Thời gian</th>
+                            <th>Tên hồ sơ</th>
+                            <th>Chuyên khoa</th>
+                            <th>Phụ trách</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>01/09/2016</td>
+                            <td>Hồ sơ khám bệnh ngoại trú</td>
+                            <td>Khoa tim mạch</td>
+                            <td>Cao Minh Tâm</td>
+                            <td class="text-center"><a class="btn btn-warning btn-sm">Đang xử lý</a></td>
+                        </tr>
+                        <tr>
+                            <td>01/12/2016</td>
+                            <td>Hồ sơ khám bệnh ngoại trú</td>
+                            <td>Khoa da liễu</td>
+                            <td>Hoàng Thị Bảo Trân</td>
+                            <td class="text-center"><a class="btn btn-warning btn-sm">Đang xử lý</a></td>
+                        </tr>
+                        <tr>
+                            <td>28/12/2016</td>
+                            <td>Hồ sơ khám bệnh nội trú</td>
+                            <td>Khoa tim mạch</td>
+                            <td>Cao Minh Tâm</td>
+                            <td class="text-center"><a class="btn btn-success btn-sm">Đã thực hiện</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>*@
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-title"><p style="font-size:1.2em;"><span class="fa fa-line-chart" style="color:#edd448"></span> Kết quả khám chữa bệnh</p></div>
+            <div class="card-content">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr><th colspan="2"><span class="badge bg-orange"><small>TOP 5</small></span></th></tr>
+                        <tr>
+                            <th>Ngày</th>
+                            <th>Tên mẫu</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>01/09/2016</td>
+                            <td>Tổng phân tích tế bào máu ngoại vi (bằng máy đếm laser)</td>
+                        </tr>
+                        <tr>
+                            <td>01/12/2016</td>
+                            <td>CRP định lượng; Điện giải đồ </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title">
+                <p style="font-size:1.2em;"><span class="fa fa-street-view" style="color:#88de26"></span> Thống kê khám theo Khoa</p>
+            </div>
+            <div class="card-content">
+                <div id="canvas-holder">
+                    <canvas id="chart-area" />
+                </div>
+            </div>
+        </div>
+        @*<div class="card">
+            <div class="card-title"><p style="font-size:1.2em;"><span class="fa fa-street-view" style="color:#88de26"></span> Thống kê khám tổng quát</p></div>
+            <div class="card-content">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Ngày &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <small style="font-size:0.7em; color:#ef5b5b;">(khám bệnh)</small></th>
+                            <th>Huyết áp <small style="font-size:0.7em; color:#ef5b5b">(mmHg)</small></th>
+                            <th>Nặng <small style="font-size:0.7em; color:#ef5b5b">(Kg)</small></th>
+                            <th>Cao <small style="font-size:0.7em; color:#ef5b5b">(cm)</small></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>01/09/2016</td>
+                            <td class="text-right">113/64</td>
+                            <td class="text-right">65</td>
+                            <td class="text-right">172</td>
+                        </tr>
+                        <tr>
+                            <td>01/12/2016</td>
+                            <td class="text-right">103/72</td>
+                            <td class="text-right">63</td>
+                            <td class="text-right">171</td>
+                        </tr>
+                        <tr>
+                            <td>28/12/2016</td>
+                            <td class="text-right">111/66</td>
+                            <td class="text-right">64</td>
+                            <td class="text-right"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>*@
+        @*<div class="card">
+            <div class="card-title"><p style="font-size:1.2em;"><span class="fa fa-spinner fa-spin" style="color:#ef5b5b"></span> Kết nối gần đây nhất</p></div>
+            <div class="card-content">
+                <ul class="top-profiles scroll-view" style="height:auto;">
+                    <li class="event">
+                        <a class="pull-left profile-thumb">
+                            <i class="fa fa-user aero"></i>
+                        </a>
+                        <div class="media-body">
+                            <a class="title" href="#">Nguyễn Văn Phong</a>
+                            <p><strong>Bác Sĩ. </strong> Khoa nội tổng hợp</p>
+                            <p>
+                                <small><span class="fa fa-clock-o"></span> 8 giờ</small>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="media event">
+                        <a class="pull-left profile-thumb">
+                            <i class="fa fa-user aero"></i>
+                        </a>
+                        <div class="media-body">
+                            <a class="title" href="#">Nguyễn Hà Bảo Trâm</a>
+                            <p><strong>Y Tá. </strong> Khoa tai mũi họng</p>
+                            <p>
+                                <small><span class="fa fa-clock-o"></span> 1 ngày 4 giờ</small>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="media event">
+                        <a class="pull-left profile-thumb">
+                            <i class="fa fa-user aero"></i>
+                        </a>
+                        <div class="media-body">
+                            <a class="title" href="#">Phạm Hoàng Minh</a>
+                            <p><strong>Bác sĩ. </strong> Khoa Da Liễu</p>
+                            <p>
+                                <small><span class="fa fa-clock-o"></span> 3 ngày</small>
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>*@
+    </div>
+    <div class="clearfix"></div>
+</div>
+<div class="clearfix"></div>
+@section Scripts{
+    <script src="~/Libs/ChartJS/Chart.bundle.js"></script>
+    <script src="~/Libs/ChartJS/utils.js"></script>
+    <script src="~/Libs/pnotify/pnotify.custom.min.js"></script>
+    <script type="text/javascript">
+$(function(){
+    new PNotify({
+        title: 'Lịch khám bệnh',
+        text: 'Đợt khám bệnh tiếp theo ngày 31/01/2016 - 09:00 - Phòng 304.',
+        type: 'success'
+    });
+});
+    </script>
+    <script>
+     var randomScalingFactor = function () {
+         return Math.round(Math.random() * 100);
+     };
+
+     var config = {
+         type: 'pie',
+         data: {
+             datasets: [{
+                 data: [
+                     randomScalingFactor(),
+                     randomScalingFactor(),
+                     randomScalingFactor(),
+                     randomScalingFactor(),
+                     randomScalingFactor(),
+                 ],
+                 backgroundColor: [
+                     window.chartColors.red,
+                     window.chartColors.orange,
+                     window.chartColors.yellow,
+                     window.chartColors.green,
+                     window.chartColors.blue,
+                 ],
+                 label: 'Dataset 1'
+             }],
+             labels: [
+                 "Tai mũi họng",
+                 "Nội tiết",
+                 "Tiêu hóa",
+                 "Tim mạch",
+                 "Da liễu"
+             ]
+         },
+         options: {
+             responsive: true
+         }
+     };
+
+     window.onload = function () {
+         var ctx = document.getElementById("chart-area").getContext("2d");
+         window.myPie = new Chart(ctx, config);
+     };
+
+    </script>
+}
+
+
+
+

@@ -1,0 +1,290 @@
+﻿@model PatientPortal.CMS.Models.PostViewModel
+@{
+    ViewBag.Title = "BIÊN TẬP BẢN TIN";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <link href="~/Content/checkbox.css" rel="stylesheet" />
+    <link href="~/Libs/Chosen/css/chosen.css" rel="stylesheet" />
+    <link href="~/Libs/jquery-ui/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Libs/TagIt/css/jquery.tagit.css" rel="stylesheet" />
+    <link href="~/Libs/TabPanel/tabBottomTriagle.css" rel="stylesheet" />
+    <link href="~/Content/checkbox-radio-build.css" rel="stylesheet" />
+    <style>
+        .bootstrap-switch-large {
+            width: 200px;
+        }
+    </style>
+}
+<div class="card">
+    @using (Html.BeginForm("Create", "CMSPost", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal", @id="form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="card-title">
+            <label><i class="fa fa-file-text-o"></i> @ViewBag.Title</label>
+        </div>
+
+        <div class="card-content">
+            <div class="col-md-8">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation"><a href="#infoPostTab" aria-controls="infoPostTab" role="tab" data-toggle="tab"><i class="fa fa-file-text-o" aria-hidden="true"></i> Thông tin bài viết</a></li>
+                    <li role="presentation"><a href="#imageTab" aria-controls="imageTab" role="tab" data-toggle="tab"><i class="fa fa-picture-o" aria-hidden="true"></i> Hình ảnh</a></li>
+                    <li role="presentation"><a href="#metaSeoTab" aria-controls="metaSeoTab" role="tab" data-toggle="tab"><i class="fa fa-bookmark-o" aria-hidden="true"></i> SEO</a></li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="infoPostTab">
+                        <div class="form-horizontal">
+                            @Html.HiddenFor(model => model.Id)
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.EditorFor(model => model.TitleTrans, null, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tiêu đề" } })
+                                    @Html.ValidationMessageFor(model => model.TitleTrans, null, new { @class = "field-validation-error" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.TextAreaFor(model => model.DescriptionTrans, new { @class = "form-control", @placeholder = "Mô tả", @rows = "5" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.TextAreaFor(model => model.Detail, new { @class = "form-control", @name = "editor3", @id = "editor3", @placeholder = "Nội dung" })
+                                    @Html.ValidationMessageFor(model => model.Detail, null, new { @class = "field-validation-error" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="imageTab">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <div class="col-md-4 col-md-offset-4">
+                                    <div class="text-center">
+                                        <img src="~/Assets/images/Resouces/no-image.jpg" class="avatar img-circle" alt="Hình đại diện" style="width:100%; height:100%; max-width: 200px;">
+                                        <div style="margin-top:10px;">
+                                            <input type="file" name="fileUpload" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="metaSeoTab">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <label>Meta Robots Index</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="radio radio-success radio-inline">
+                                        @Html.RadioButtonFor(model => model.MetaRobotIndex, 1, new {@aria_label = "Index", @Name = "radioIndex" })
+                                        <label for="MetaRobotIndex">Index</label>
+                                    </div>
+                                    <div class="radio radio-success radio-inline">
+                                        @Html.RadioButton("MetaRobotNoIndex", 0, new { @aria_label = "NoIndex", @Name = "radioIndex" })
+                                        <label for="MetaRobotNoIndex">Noindex</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <label>Meta Robots Follow</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="radio radio-success radio-inline">
+                                        @Html.RadioButton("MetaRobotFollow", Model.MetaRobotIndex,true, new { @aria_label = "Follow", @Name = "radioFollow" })
+                                        <label for="MetaRobotFollow">Follow</label>
+                                    </div>
+                                    <div class="radio radio-success radio-inline">
+                                        @Html.RadioButton("MetaRobotNoFollow",0,false, new { @aria_label = "Nofollow", @Name = "radioFollow" })
+                                        <label for="MetaRobotNoFollow">Nofollow</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label>Meta Robots Advanced</label>
+                                </div>
+                                <div class="col-md-4">
+                                    @Html.DropDownListFor(model => model.MetaRobotAdvanced, new SelectList(new[]{
+                                    new SelectListItem { Text = "None", Value = "1" },
+                                    new SelectListItem { Text = "NO ODP", Value = "2" },
+                                    new SelectListItem { Text = "NO YDIR", Value = "3" },
+                                    new SelectListItem { Text = "No Archive", Value = "4" },
+                                    new SelectListItem { Text = "No Snippet", Value = "5" }
+                                    }, "Value", "Text"
+                                    )
+                                , new { @class = "chosen-select", @data_placeholder = "Meta Robots Advanced" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.EditorFor(model => model.TitleSEO, new { htmlAttributes = new { @class = "form-control", @placeholder = "SEO Title" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.TextAreaFor(model => model.DescriptionSEO, new { @class = "form-control", @placeholder = "SEO Description", @rows = "3" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.EditorFor(model => model.Canonical, new { htmlAttributes = new { @class = "form-control", @placeholder = "Canonical URL" } })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Chức năng</div>
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            <button type="submit" class="btn btn-success"><i class="fa fa-check"> Trình duyệt</i></button>
+                            <a href="@Url.Action("Index", "CMSPost")" class="btn btn-default">
+                                <i class="fa fa-long-arrow-right"> Trở lại</i>
+                            </a>
+                            <hr />
+                            <button class="btn btn-default btn-round" id="btnDraft">Lưu tạm</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Thông tin chung</div>
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.DropDownListFor(model => model.CategoryId, new SelectList(ViewBag.CategoryId, "Id", "Name"), new { @class = "chosen-select", @data_placeholder = "Chọn chuyên mục" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.EditorFor(model => model.Author, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tác giả" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.DropDownListFor(model => model.Priority, new SelectList(ViewBag.Priorities, "Id", "Name"), new { @class = "chosen-select", @data_placeholder = "Mức độ ưu tiên" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                    @Html.EditorFor(model => model.ExpiredDate, new { htmlAttributes = new { @class = "form-control", @id = "dateAppointment", @placeholder = "Hạn hiệu lực" } })
+                                </div>
+                                <div class="col-md-6">
+                                    @Html.DropDownListFor(model => model.Type, new SelectList(new[]{
+                                    new SelectListItem { Text = "Bản tin", Value = "1" },
+                                    new SelectListItem { Text = "Video", Value = "2" },
+                                    new SelectListItem { Text = "Hình ảnh", Value = "3" }}, "Value", "Text"
+                                    )
+                                , new { @class = "chosen-select", @data_placeholder = "Loại tin" })
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label class="badge">Tags</label>
+                                    <ul id="PostTags">
+                                        @if (ViewBag.Tags != null)
+                                        {
+                                            var tags = ViewBag.Tags.Split(';');
+                                            for (var i = 0; i < tags.Length; i++)
+                                            {
+                                                <li> @tags[i] </li>
+                                            }
+                                        }
+                                    </ul>
+                                    @Html.HiddenFor(m => m.Tag)
+                                </div>
+                            </div>
+                            <div class="hide">
+                                @Html.HiddenFor(m => m.Status)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section scripts{
+    <script src="~/Libs/Chosen/js/chosen.jquery.min.js"></script>
+    <script type="text/javascript">
+    var config = {
+      '.chosen-select'           : {},
+      '.chosen-select-deselect'  : {allow_single_deselect:true},
+      '.chosen-select-no-single' : {disable_search_threshold:10},
+      '.chosen-select-no-results': {no_results_text:'Không tìm thấy thông tin!'},
+      '.chosen-select-width'     : {width:"95%"}
+    }
+    for (var selector in config) {
+      $(selector).chosen(config[selector]);
+    }
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+        $("#PostTags").tagit();
+
+        $("#form-data").submit(function (e) {
+            //e.preventDefault();
+            var arrayTag = $("#PostTags").tagit("assignedTags");
+
+            var tags = "";
+            for (index = 0; index < arrayTag.length; ++index) {
+                tags = tags + (tags == "" ? "":";") + arrayTag[index];
+            }
+
+            //alert(tags);
+            $("#Tag").val(tags);
+            return true;
+        });
+
+        $("#btnDraft").click(function () {
+            //Status: 1 - Editor, 2 - Draft, 3 - Trash
+            //Set default status to Draft 
+            $("#Status").val("2");
+            $("#form-data").submit();
+        });
+    });
+    </script>
+    <script src="~/Libs/ckeditor/ckeditor.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Libs/TagIt/js/tag-it.js"></script>
+    <script>
+        CKEDITOR.replace('editor3', {
+            filebrowserImageBrowseUrl: '/Library/UploadPartial?folder=' + '',
+            filebrowserImageUploadUrl: '/Library/UploadNow?folder=' + ''
+        });
+
+        function updateValue(id, value) {
+            // this gets called from the popup window and updates the field with a new value
+            document.getElementById(id).value = value;
+            document.getElementById("cke_70_previewLink").innerHTML = '<img id="cke_71_previewImage" alt="" src="' + value + '" style="width: 300px; height: 200px;">';
+        }
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#dateAppointment").datetimepicker({
+                format: 'DD/MM/YYYY',
+                locale: 'vi',
+                minDate: Date.now(),
+                //maxDate: moment().add(7, 'days')
+            });
+        });
+    </script>
+    
+}
+
+
+
+
+
+
+
+
+

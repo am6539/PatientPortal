@@ -1,0 +1,60 @@
+﻿using PatientPortal.DataAccess.Repo.CORE;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CORE;
+using PatientPortal.DataAccess.Repo.Wrapper;
+using PatientPortal.Domain.Common;
+
+namespace PatientPortal.DataAccess.CORE
+{
+    public class SurveyImpl : ISurvey
+    {
+        private readonly IAdapterPattern _adapterPattern;
+
+        public SurveyImpl(IAdapterPattern adapterPattern)
+        {
+            this._adapterPattern = adapterPattern;
+        }
+
+        public async Task<IEnumerable<Survey>> Query(Dictionary<string, dynamic> para)
+        {
+            return await _adapterPattern.ExecuteQuery<Survey>(para, "usp_Survey", DataConfiguration.instanceCore);
+        }
+
+        public async Task<Survey> SingleQuery(Dictionary<string, dynamic> para)
+        {
+            return await _adapterPattern.SingleExecuteQuery<Survey>(para, "usp_Survey", DataConfiguration.instanceCore);
+        }
+
+        public async Task<IEnumerable<SurveyQuestions>> QuestionsQuery(Dictionary<string, dynamic> para)
+        {
+            return await _adapterPattern.ExecuteQuery<SurveyQuestions>(para, "usp_SurveyQuestions", DataConfiguration.instanceCore);
+        }
+
+        public async Task<IEnumerable<SurveyAnswers>> AnswersQuery(Dictionary<string, dynamic> para)
+        {
+            return await _adapterPattern.ExecuteQuery<SurveyAnswers>(para, "usp_SurveyAnswers", DataConfiguration.instanceCore);
+        }
+
+        /// <summary>
+        /// Transaction of Survey
+        /// </summary>
+        /// <param name="data">Object Survey</param>
+        /// <param name="action">I: Insert, U: Update, D: Delete</param>
+        /// <returns>true/false</returns>
+        public async Task<int> Transaction(Survey data, char action)
+        {
+            return await _adapterPattern.SingleTransaction<Survey, int>(data, "usp_Survey_Transaction", action, DataConfiguration.instanceCore);
+        }
+
+        public async Task<int> QuestionTransaction(SurveyQuestions data, char action)
+        {
+            return await _adapterPattern.SingleTransaction<SurveyQuestions, int>(data, "usp_SurveyQuestions_Transaction", action, DataConfiguration.instanceCore);
+        }
+
+        public async Task<int> AnswerTransaction(SurveyAnswers data, char action)
+        {
+            return await _adapterPattern.SingleTransaction<SurveyAnswers, int>(data, "usp_SurveyAnswers_Transaction", action, DataConfiguration.instanceCore);
+        }
+    }
+}

@@ -1,0 +1,47 @@
+﻿using PatientPortal.Domain.LogManager;
+using PatientPortal.Internal.Models;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.Internal.Controllers
+{
+    [Authorize]
+    public class RoleController : Controller
+    {
+        private static string controllerName = string.Empty;
+        // GET: Role
+        public async Task<ActionResult> Index()
+        {
+            var results = new RoleModel();
+            try
+            {
+                //Call API Provider
+                controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+
+                var list = await APIProvider.Get<List<RoleViewModel>>(controllerName,"GetAll", APIConstant.API_Resource_Authencation);
+
+                var role = new RoleViewModel();
+
+                results.lstRoleViewModel = list;
+                results.RoleViewModel = role;
+
+                TempData["Data"] = list;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw ex;
+            }
+            return View(results);
+        }
+
+
+    }
+}

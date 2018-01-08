@@ -1,0 +1,133 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Http;
+using AutoMapper;
+using PatientPortal.Domain.Models.CORE;
+using PatientPortal.IRepository.CORE;
+using PatientPortal.Provider.Models;
+using PatientPortal.API.Core.Models;
+using Microsoft.AspNet.Identity;
+
+namespace PatientPortal.API.Core.Controllers
+{
+    [AuthorizeRoles]
+    public class ArticleController : ApiController
+    {
+        private readonly IArticleRepo _articleRepo;
+        private readonly IArticleCommentRepo _articleCommentRepo;
+
+        public ArticleController(IArticleRepo articleRepo, IArticleCommentRepo articleCommentRepo)
+        {
+            this._articleRepo = articleRepo;
+            this._articleCommentRepo = articleCommentRepo;
+        }
+
+        #region GET
+
+        /// <summary>
+        /// Get all
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<List<ArticleViewModel>> Get()
+        {
+            var principalIdentity = RequestContext.Principal.Identity;
+            var userId = principalIdentity.GetUserId();
+            if (userId.Length > 0)
+            {
+                List<string> list = new List<string> { "id", "patientId" };
+                var para = APIProvider.APIDefaultParameter(list, 0, userId);
+
+                var source = await _articleRepo.Query(para);
+                var dest = Mapper.Map<List<ArticleViewModel>>(source);
+
+                return dest;
+            }
+            else return new List<ArticleViewModel>();
+
+            
+        }
+
+
+        /// <summary>
+        /// Filter by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<ArticleViewModel> Get(byte id)
+        {
+            var list = this.RequestContext.RouteData.Values.Keys;
+            var para = APIProvider.APIGeneratorParameter(list, id);
+
+            var source = await _articleRepo.SingleQuery(para);
+            var dest = Mapper.Map<ArticleViewModel>(source);
+
+            return dest;
+        }
+
+        [HttpGet]
+        [Route("api/Article/GetAllComment/")]
+        public async Task<List<ArticleCommentViewModel>> GetAllComment(int idArticle)
+        {
+            IList<string> list = new List<string> { "TypeGet", "Id", "ArticleId" };
+            var para = APIProvider.APIGeneratorParameter(list, 0, 0, idArticle);
+
+            var source = await _articleCommentRepo.Query(para);
+            
+            var dest = Mapper.Map<List<ArticleCommentViewModel>>(source);
+            return dest;
+           
+           
+        }
+
+        [HttpGet]
+        [Route("api/Article/GetComment/")]
+        public async Task<ArticleCommentViewModel> GetComment(int id, int idArticle)
+        {
+            IList<string> list = new List<string> { "TypeGet", "Id", "ArticleId"};
+            var para = APIProvider.APIGeneratorParameter(list, 1, id, idArticle);
+
+            var source = await _articleCommentRepo.SingleQuery(para);
+
+            var dest = Mapper.Map<ArticleCommentViewModel>(source);
+            return dest;
+
+
+        }
+        #endregion
+
+        #region POST
+
+        /// <summary>
+        /// Transaction data: Insert/Update/Delete
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<int> Transaction(ArticleViewModel model, char action)
+        {
+            try
+            {
+                var data = Mapper.Map<ArticleEdit>(model);
+                return await _articleRepo.Transaction(data, action);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        [Route("api/Article/Comment")]
+        public async Task<int> Transaction(ArticleCommentViewModel model, char action)
+        {
+            //model.PatientId = 1;
+            var data = Mapper.Map<ArticleCommentEdit>(model);
+            return await _articleCommentRepo.Transaction(data, action);
+        }
+        #endregion
+    }
+}

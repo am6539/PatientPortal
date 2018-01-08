@@ -1,0 +1,39 @@
+﻿@model PatientPortal.Internal.Models.RoleViewModel
+    ViewBag.Title = "CẬP NHẬT NHÓM QUYỀN";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    @Html.Raw(TempData["Alert"])
+    <div class="card-title">@ViewBag.Title</div>
+    <div class="card-content">
+        @using (Html.BeginForm("Edit", "Role", FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            <div class="form-group">
+                    @Html.Hidden("Id",Model.Id)
+            </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Name, new { @class = "control-label col-md-3" })
+                    <div class="col-md-6">
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @placeholder = "Nhập tên nhóm bài viết" })
+                        @Html.ValidationMessageFor(m => m.Name)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3"></label>
+                    <div class="col-md-6">
+                        <button type="submit" value="Save" name="submitButton" class="btn btn-success btn-sm"><i class="fa fa-check" aria-hidden="true"></i> Cập nhật</button>
+                        <a class="btn btn-default btn-sm" href="@Url.Action("Index", "Role")"><i class="fa fa-long-arrow-right"></i> Hủy bỏ</a>
+                    </div>
+                </div>
+
+        }
+
+    </div>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}

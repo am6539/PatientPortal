@@ -1,0 +1,17 @@
+﻿CREATE PROCEDURE [dbo].[usp_OfferAdvise]
+	@Id TINYINT,
+	@PatientId NVARCHAR(128) = ''
+AS
+	IF(@Id > 0)
+	BEGIN
+		SELECT * FROM [dbo].[OfferAdvise]
+		WHERE [Id] = @Id
+	END
+	ELSE
+	BEGIN
+		IF (@PatientId <> '')
+			SELECT * FROM [dbo].[OfferAdvise] WITH(INDEX(IX_OfferAdvise_PatientId)) WHERE [PatientId] = @PatientId ORDER BY [Id]
+		ELSE
+			SELECT * FROM [dbo].[OfferAdvise] ORDER BY [Id]
+	END
+RETURN 0

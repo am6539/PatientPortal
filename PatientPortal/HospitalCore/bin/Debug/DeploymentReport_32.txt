@@ -1,0 +1,20 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Alter
+       [dbo].[usp_OfferAdvise_Transaction] (Procedure)
+       [dbo].[usp_Organization_Transaction] (Procedure)
+       [dbo].[usp_Setting_Transaction] (Procedure)
+     Create
+       [dbo].[usp_Schedule] (Procedure)
+       [dbo].[usp_Schedule_Transaction] (Procedure)
+
+** Supporting actions

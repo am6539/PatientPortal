@@ -1,0 +1,153 @@
+﻿<div class="page relative">
+    <div class="page_layout page_margin_top clearfix">
+        <div class="page_header clearfix">
+            <div class="page_header_left">
+                <h1 class="page_title">TIN TỨC</h1>
+                <ul class="bread_crumb">
+                    <li>
+                        <a href="/" title="Home">
+                            TRANG CHỦ
+                        </a>
+                    </li>
+                    <li class="separator icon_small_arrow right_gray">
+                        &nbsp;
+                    </li>
+                    <li>
+                        <a href="#" title="Blog">
+                            TIN TỨC
+                        </a>
+                    </li>
+                    <li class="separator icon_small_arrow right_gray">
+                        &nbsp;
+                    </li>
+                    <li>
+                        <span>{{post.TitleTrans}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="page_left">
+            <ul class="blog clearfix">
+                <li class="post single">
+                    <ul class="comment_box">
+                        <li class="date clearfix animated_element animation-slideRight">
+                            <div class="value">{{post.PublishDate| dateFilter | date:'dd-MM-yyyy' }}</div>
+                            <div class="arrow_date"></div>
+                        </li>
+                        <li class="comments_number animated_element animation-slideUp duration-300 delay-500">
+                            <a href="#" title="0 bình luận">
+                                0 bình luận
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="post_content">
+                        <div class="gallery_box" ng-show="post.Image != null && post.Image != ''">
+                            <div style="width: 3640px; height: 240px;">
+                                <img src="{{post.Image}}" alt="" />
+                            </div>
+                        </div>
+                        <h2>
+                            <a href="#" title="Lorem ipsum dolor sit amat velum">
+                                {{post.TitleTrans}}
+                            </a>
+                        </h2>
+                        <p data-ng-bind-html="post.Detail">
+                            
+                        </p>
+                        <!--<a title="Leave a reply" href="#comment_form" class="more reply_button">
+                            Leave a reply &rarr;
+                        </a>-->
+                        <div class="post_footer clearfix">
+                            <ul class="post_footer_details">
+                                <li>Được đăng bởi </li>
+                                <li>
+                                    <a href="#" title="{{post.Author}}">
+                                        {{post.Author}}
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="post_footer_details" ng-show="post.Type != 0">
+                                <li>Loại bài viết </li>
+                                <li>
+                                    <a href="#" title="Bài viết" ng-show="post.Type == 1">
+                                        Tin tức
+                                    </a>
+                                    <a href="#" title="Hình ảnh" ng-show="post.Type == 2">
+                                        Hình ảnh
+                                    </a>
+                                    <a href="#" title="Video" ng-show="post.Type == 3">
+                                        Video
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="page_right">
+            <h3 class="box_header margin">
+                Danh mục
+            </h3>
+            <div class="sidebar_box first">
+                <ul class="categories clearfix page_margin_top">
+                    <li ng-repeat="item in categories">
+                        <a href="/posts/{{item.Id}}" title="General">
+                            {{item.Name}}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="sidebar_box">
+                <div class="clearfix">
+                    <div class="header_left">
+                        <h3 class="box_header">
+                            Bài viết cùng chuyên mục
+                        </h3>
+                    </div>
+                </div>
+                <div class="scrolling_list_wrapper">
+                    <ul class="scrolling_list most_commented">
+                        <li class="icon_small_arrow right_black" ng-repeat="item in Relatedposts">
+                            <a href="/posts/{{item.CategoryId}}" class="clearfix">
+                                <span class="left">
+                                    {{item.TitleTran}}
+                                </span>
+                                <!--<span class="number">
+                                    18
+                                </span>-->
+                            </a>
+                            <abbr title="{{item.PublishDate| dateFilter | date:'dd-MM-yyyy' }}" class="timeago">{{item.PublishDate| dateFilter | date:'dd-MM-yyyy' }}</abbr>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sidebar_box" ng-show="hotposts.length > 0">
+                <div class="clearfix">
+                    <div class="header_left">
+                        <h3 class="box_header">
+                            Bài viết nổi bật
+                        </h3>
+                    </div>
+                </div>
+                <div class="scrolling_list_wrapper">
+                    <ul class="scrolling_list most_viewed">
+                        <li class="icon_small_arrow right_black" ng-repeat="item in hotposts">
+                            <a href="/post/{{item.Id}}" class="clearfix">
+                                <span class="left">
+                                    {{item.TitleTran}}
+                                </span>
+                                <!--<span class="number">
+                                    423
+                                </span>-->
+                            </a>
+                            <abbr title="{{item.PublishDate | dateFilter | date:'dd-MM-yyyy'}}" class="timeago">{{item.PublishDate | dateFilter | date:'dd-MM-yyyy'}}</abbr>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sidebar_box" ng-include="'app/components/contact-partial/contact-partial.template.html'">
+            </div>
+        </div>
+    </div>
+</div>	

@@ -1,0 +1,6 @@
+﻿angular.module('spaApp')
+    .controller('ContactController', ['$scope', 'Params', 'ContactService'
+        function ContactController($scope, Params, ContactService) {
+
+        }
+    ]);

@@ -1,0 +1,50 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       The column [dbo].[CMS].[IsSendEmailWF] on table [dbo].[CMS] must be added, but the column has no default value and does
+         not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either:
+         add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a
+         deployment option.
+       The column [dbo].[Post].[Type] on table [dbo].[Post] must be added, but the column has no default value and does not
+         allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add
+         a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a
+         deployment option.
+
+** User actions
+     Alter
+       [dbo].[CMS] (Table)
+       [dbo].[Post] (Table)
+       [dbo].[usp_Post_Transaction] (Procedure)
+       [dbo].[usp_spa_Post] (Procedure)
+       [dbo].[usp_spa_Slider] (Procedure)
+       [dbo].[usp_Workflow_CheckExistName] (Procedure)
+     Create
+       [dbo].[Advertise] (Table)
+       [dbo].[usp_Advertise] (Procedure)
+       [dbo].[usp_Advertise_CheckExistName] (Procedure)
+       [dbo].[usp_Advertise_Transaction] (Procedure)
+       [dbo].[usp_spa_Advertise] (Procedure)
+
+** Supporting actions
+     Refresh
+       [dbo].[usp_Configuration] (Procedure)
+       [dbo].[usp_Configuration_Transaction] (Procedure)
+       [dbo].[usp_spa_CMSConfig] (Procedure)
+       [dbo].[usp_ApprovePost_Transaction] (Procedure)
+       [dbo].[usp_Category_CheckHasChildOrPost] (Procedure)
+       [dbo].[usp_Category_Transaction] (Procedure)
+       [dbo].[usp_Language_Transaction] (Procedure)
+       [dbo].[usp_Post] (Procedure)
+       [dbo].[usp_PublishPost_Transaction] (Procedure)
+       [dbo].[usp_spa_Post_ById] (Procedure)
+       [dbo].[usp_WorkflowNavigation_Transaction] (Procedure)
+       [dbo].[usp_WorkflowState_Transaction] (Procedure)
+
+The column [dbo].[CMS].[IsSendEmailWF] on table [dbo].[CMS] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+The column [dbo].[Post].[Type] on table [dbo].[Post] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+

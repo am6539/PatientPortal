@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CMS;
+
+namespace PatientPortal.IRepository.CMS
+{
+    public interface IFeatureRepo
+    {
+        List<Feature> GetAll();
+        Feature GetById(byte id);
+        bool Transaction(List<Feature> data, char action);
+        bool CheckExist(string title, byte id);
+    }
+}

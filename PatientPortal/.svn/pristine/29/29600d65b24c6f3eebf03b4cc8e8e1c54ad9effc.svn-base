@@ -1,0 +1,79 @@
+﻿using System.Collections.Generic;
+using System.Web.Http;
+using PatientPortal.IRepository.CMS;
+using AutoMapper;
+using PatientPortal.API.CMS.ViewModels;
+using PatientPortal.Domain.Utilities;
+using PatientPortal.Provider.Models;
+using System.Threading.Tasks;
+
+namespace PatientPortal.API.CMS.Controllers
+{
+    public class DepartmentController : ApiController
+    {
+        private readonly IDepartmentRepo _department;
+        public DepartmentController(IDepartmentRepo department)
+        {
+            this._department = department;
+        }
+
+
+        // GET api/values
+        ///[Filters.DeflateCompression]
+        public async Task<List<DepartmentViewModel>> Get()
+        {
+            //Mapping
+            IList<string> list = new List<string> { "id" };
+            var para = APIProvider.APIDefaultParameter(list, 0);
+
+            var source = _department.Query(para);
+            List<DepartmentViewModel> dest = Mapper.Map<List<DepartmentViewModel>>(source);
+
+            return dest;
+        }
+
+        /// <summary>
+        /// Get by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Category view model</returns>
+        // GET api/values/5
+        public async Task<DepartmentViewModel> GetById(byte id)
+        {
+            var list = this.RequestContext.RouteData.Values.Keys;
+            var para = APIProvider.APIGeneratorParameter(list, id);
+
+            var source = _department.SingleQuery(para);
+            DepartmentViewModel dest = Mapper.Map<DepartmentViewModel>(source);
+            return dest;
+        }
+
+        /// <summary>
+        /// Action: Insert/Update/Delete 
+        /// </summary>
+        /// <param name="categoryModel">object "model"</param>
+        /// <param name="action">Action: 'I' - Insert; 'U'- Update; 'D'- Delete</param>
+        /// <returns>Result: Success- true; Fail- false</returns>
+        [HttpPost]
+        public async Task<bool> Transaction(DepartmentViewModel model, char action)
+        {
+            var obj = Mapper.Map<Domain.Models.CMS.Department>(model);
+            return await _department.Transaction(obj, action);
+        }
+
+        /// <summary>
+        /// Check name is existed
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="id"></param>
+        /// <returns>If existed: true - else: false</returns>
+        [HttpGet]
+        public async Task<bool> CheckExist(string name, byte id)
+        {
+            var list = this.RequestContext.RouteData.Values.Keys;
+            var para = APIProvider.APIGeneratorParameter(list,name, id);
+
+            return await _department.CheckExist(para);
+        }
+    }
+}

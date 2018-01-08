@@ -1,0 +1,16 @@
+﻿angular.module('spaApp').factory('DoctorsServices', ['$resource', 'Params',
+    function ($resource, Params) {
+        return $resource(Params.rootUrl + 'User', {}, {
+            getDoctorList: {
+                method: 'GET',
+                url: Params.rootUrl + "User/GetDoctorList?search=:search",
+                isArray: true,
+                params: { search: '@search' }
+            },
+            getUserProfile: {
+                method: 'GET',
+                url: Params.rootUrl + "User/GetDoctorList?search=:search",
+                params: { search: '@search' }
+            },
+        });
+    }]);

@@ -1,0 +1,11 @@
+﻿using PatientPortal.Domain.Models.SPA;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace PatientPortal.IRepository.SPA
+{
+    public interface IFeatureRepo
+    {
+        Task<List<Feature>> GetAll();
+    }
+}

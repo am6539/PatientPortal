@@ -1,0 +1,22 @@
+﻿CREATE PROCEDURE [dbo].[usp_Language]
+	@Id tinyint
+AS BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+
+	BEGIN TRY
+		IF @Id > 0
+			SELECT * FROM [dbo].[Language]
+			WHERE Id = @Id
+			order by Id
+		ELSE
+			SELECT * FROM [dbo].[Language]
+			order by Id
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0 
+		BEGIN
+			RETURN NULL
+		END
+	END CATCH
+END

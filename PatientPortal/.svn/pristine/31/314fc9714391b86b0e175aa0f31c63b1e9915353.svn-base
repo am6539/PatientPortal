@@ -1,0 +1,11 @@
+﻿<a href="#0">
+    <img src="~/img/user-128-2.png" />ADMIN
+</a>
+<ul>
+    <li>
+        <a href="@Url.Action("ViewProfile", "Account")"><i class="fa fa-info-circle" aria-hidden="true"> Thông tin cá nhân</i></a>
+    </li>
+    <li>
+        <a href="@Url.Action("LogOff", "Account")"><i class="fa fa-sign-out" aria-hidden="true"> Đăng xuất</i></a>
+    </li>
+</ul>

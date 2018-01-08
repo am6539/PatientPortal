@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.PatientServices.Models
+{
+    public class AppointmentModel
+    {
+        public AppointmentEditModel AppointmentEditModel { get; set; }
+        public UserViewModel UserViewModel { get; set; }
+    }
+}

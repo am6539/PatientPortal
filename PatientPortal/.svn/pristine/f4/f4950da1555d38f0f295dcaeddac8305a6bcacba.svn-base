@@ -1,0 +1,144 @@
+﻿@model List<PatientPortal.CMS.Models.CategoryViewModel>
+@{
+    ViewBag.Title = "Danh mục";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    <link href="~/Content/checkbox.css" rel="stylesheet" />
+    <style>
+        .checkbox-mark div {
+            float: none;
+        }
+    </style>
+<style>
+    /*Here We will add some css for style our treeview*/
+    .collapse {
+        width: 15px;
+        background-repeat: no-repeat;
+        background-position: -36px -17px;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .expand {
+        width: 15px;
+        background-repeat: no-repeat;
+        background-position: -50px -17px;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .treeview ul {
+        font: 14px Arial, Sans-Serif;
+        margin: 0px;
+        padding-left: 20px;
+        list-style: none;
+    }
+
+    .treeview > li > a {
+        font-weight: bold;
+    }
+
+    .treeview li {
+    }
+
+    .treeview li a {
+        padding: 4px;
+        font-size: 12px;
+        display: inline-block;
+        text-decoration: none;
+        width: auto;
+    }
+</style>
+}
+<div class="card">
+
+    <div class="card-title">@ViewBag.Title</div>
+    <div class="card-actionbar">
+        <a href="#" class="btn btn-success btn-sm addCategory" data-toggle="modal" data-target="#categoriesModal"><span class="fa fa-plus"></span> Thêm nhóm bài viết</a>
+    </div>
+    <div class="modal fade" id="categoriesModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-url='@Url.Action("AddCategoryPartialView")'>
+        <div id='addcategoryContainer'>
+        </div>
+    </div>
+    <div id="panelCategoryBody" class="card-content table-actionbar-top">
+        <div class="col-md-5">
+            <form class="form-horizontal">
+                <div class="form-group" style="display: none">
+                    @*<label class="control-label col-md-3">Tên nhóm bài viết: </label>*@
+                    <div class="col-md-9">
+                        @*<input class="form-control" placeholder="Nhập tên nhóm bài viết">*@
+                    </div>
+                </div>
+                <div class="form-group" style="display: none">
+                    @*<label class="control-label col-md-3">Tên nhóm bài viết: </label>*@
+                    <div class="col-md-9">
+                        @*<input class="form-control" placeholder="Nhập tên nhóm bài viết">*@
+                    </div>
+                </div>
+                <div class="form-group">
+                    @*<label class="control-label col-md-3">Tên nhóm bài viết: </label>*@
+                    <div class="col-md-9">
+                        @*<input class="form-control" placeholder="Nhập tên nhóm bài viết">*@
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3">Url: </label>
+                    <div class="col-md-9">
+                        @*<input class="form-control" placeholder="Url" disabled>*@
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="fileinput" class="control-label col-md-3">File input</label>
+                    <div class="col-md-9">
+                        @*<input type="file" id="fileinput">*@
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="fileinput" class="control-label col-md-3">Sort</label>
+                    <div class="col-md-9">
+                        @*<input class="form-control" type="number" min="0">*@
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-7">
+            <div class="treeview">
+                @if (Model != null && Model.Count() > 0)
+                {
+                    <ul>
+                        @Treeview.GetTreeView(Model, Model.FirstOrDefault().ParentId)
+                    </ul>
+                }
+            </div></div>
+    </div>
+</div>
+<!-- Modal xóa nhóm bài viết -->
+<div class="modal fade" id="deleteCateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <h4 class="modal-title" id="myModalLabel">Bạn có muốn xóa nhóm bài viết này?</h4>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-warning">Đồng ý</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+<script>
+        $(".treeview li>ul").css('display', 'none'); // Hide all 2-level ul
+        $(".collapsible").click(function (e) {
+            e.preventDefault();
+            $(this).toggleClass("collapse expand");
+            $(this).closest('li').children('ul').slideToggle();
+        });
+</script>
+}
+
+

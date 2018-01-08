@@ -1,0 +1,67 @@
+﻿@model PatientPortal.PatientServices.Models.OfferAdviseModel
+@{
+    ViewBag.Title = "Ý KIẾN XÂY DỰNG";
+}
+@section styles{
+    <link href="~/Libs/DataTable/jquery.dataTables.css" rel="stylesheet" />
+    <link href="~/Libs/DatePicker/src/daterangepicker.css" rel="stylesheet" />
+    <link href="~/Libs/jquery-ui/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Libs/TagIt/css/jquery.tagit.css" rel="stylesheet" />
+}
+<div class="card">
+    @Html.Raw(TempData["Alert"])
+    <div class="card-title">@ViewBag.Title</div>
+    <div class="card-content">
+        <div class="col-md-5">
+            <div id="panelAddCategory">
+                @Html.Partial("_Create", Model.OfferAdviseViewModel)
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div id="panelCategoryList">
+                @Html.Partial("_List", Model.lstOfferAdviseViewModel)
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Libs/DataTable/jquery.dataTables.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //Pick Date
+            var d = new Date();
+            var month = d.getMonth() + 1;
+            var day = d.getDate();
+            var output = (day < 10 ? '0' : '') + day + '/'
+                + (month < 10 ? '0' : '') + month+ '/' +
+                + d.getFullYear();
+            $("#Date").datetimepicker({
+                format: 'DD/MM/YYYY',
+                locale: 'vi'
+            });
+            $("#Date").val(output);
+
+            //Type tags
+            $("#myTags").tagit();
+            $("#myTags").focusout(function () {
+                var arrayTag = $("#myTags").tagit("assignedTags");
+                var tags = "";
+                for (var index = 0; index < arrayTag.length; ++index) {
+                    tags = tags + (tags == "" ? "" : ";") + arrayTag[index];
+                }
+                $("#Tag").val(tags);
+                return true;
+            });
+
+            //Setting table
+            $('#table_id').DataTable({
+                "language": {
+                    url: '/Libs/Datatable/Vietnamese.json'
+                }
+            });
+        });
+    </script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Libs/TagIt/js/tag-it.js"></script>
+}

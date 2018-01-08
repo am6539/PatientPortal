@@ -1,0 +1,49 @@
+﻿'use strict';
+
+angular.module('spaPHCN')
+    .controller("PostDetailController", [
+    "$scope", "$location", "$route", "Params", "PostDetailServices", "PostsServices", 'CategoryService', '$rootScope',
+    function ($scope, $location, $route, Params, PostDetailServices, PostsServices, CategoryService, $rootScope) {
+        
+
+        $scope.subTitle = "Tin tức";
+        var Id = $route.current.params.id;
+        PostDetailServices.get({ Id: Id }, function (data) {
+            if (data != null) {
+                $scope.post = data;
+                $rootScope.metaservice.set(data.TitleSEO, data.DescriptionSEO);
+                var robots = getMetaRobot(data);
+                $rootScope.metaservice.setMetaPage(data.SEOTitle, data.SEODescription, data.SEOKeyword);
+                $rootScope.metaservice.setMetaFace(window.location.href, "website", data.Name, $scope.contact.Name, data.Image);
+            }
+        });
+
+        function getMetaRobot(data) {
+            var robotArr = [];
+            if (data.MetaRobotIndex == 1) {
+                robotArr.push('index');
+            }
+            if (data.MetaRobotFollow) {
+                robotArr.push('follow');
+            }
+            if (data.MetaRobotAdvanced) {
+                robotArr.push('advance');
+            }
+            var robots = '';
+            if (robotArr.length > 1) {
+                for (var i = 0; i < robotArr.length - 1; ++i) {
+                    robots = robots + robotArr[i] + ', ';
+                }
+                robots = robots + robotArr[robotArr.length - 1];
+            }
+
+            return robots;
+        }
+        PostsServices.queryPost({ languageCode: 'vi', priority: Params.newpriority, categoryId: 0, numTop: Params.numTopPost }, function (data) {
+            $scope.posts = data;
+        });
+
+        CategoryService.queryNewsCategory({ parentId: Params.postParentCategoryId }, function (data) {
+            $scope.categories = data;
+        });
+    }]);

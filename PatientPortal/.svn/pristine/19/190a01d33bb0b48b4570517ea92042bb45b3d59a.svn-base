@@ -1,0 +1,12 @@
+﻿CREATE PROCEDURE [dbo].[usp_WorkflowNavigation]
+AS BEGIN
+	BEGIN TRY
+		SELECT * FROM [dbo].[WorkflowNavigation]
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0 
+			BEGIN
+				RETURN NULL
+			END
+	END CATCH
+END

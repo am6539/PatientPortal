@@ -1,0 +1,255 @@
+﻿
+<!-- slider -->
+<ul class="slider">
+    <li ng-repeat="item in sliders" style="background-image: url('{{item.Image}}');">
+        <!--<img src="" />-->
+        &nbsp;
+    </li>
+</ul>
+<div class="page relative noborder">
+    <!--<div class="top_hint">
+        Give us a call: +123 356 123 124
+    </div>-->
+    <!-- slider content -->
+    <div class="slider_content_box clearfix">
+        <div class="slider_content" ng-repeat="item in sliders" name="sld{{$index}}">
+            <h1 class="title">
+                {{item.Title}}
+            </h1>
+            <h2 class="subtitle">
+                {{item.Description}}
+            </h2>
+        </div>
+    </div>
+    <!-- home box -->
+    <ul class="home_box_container clearfix">
+        <li class="home_box light_blue animated_element animation-fadeIn duration-500">
+            <h2>
+                <a href="#" title="Emergency Case">
+                    Khám và tư vấn miễn phí
+                </a>
+            </h2>
+            <div class="news clearfix">
+                <p class="text">
+                    Chúng tôi cung cấp dịch vụ khám sàng lọc bệnh tim bẩm sinh cho tất cả các đối tượng.
+                </p>
+                <a class="more light icon_small_arrow margin_right_white" href="#" title="Chi tiết">Chi tiết</a>
+            </div>
+        </li>
+        <li class="home_box blue animated_element animation-slideRight duration-800 delay-250">
+            <h2>
+                <a href="#" title="Lịch khám của bác sĩ">
+                    Lịch khám của bác sĩ
+                </a>
+            </h2>
+            <div class="news clearfix">
+                <p class="text">
+                    Chúng tôi cung cấp dịch vụ chọn bác sĩ khám bệnh, chọn Chi tiết để được hướng dẫn chi tiết các bước đặt lịch khám online.
+                </p>
+                <a class="more light icon_small_arrow margin_right_white" href="#" title="Chi tiết">Chi tiết</a>
+            </div>
+        </li>
+        <li class="home_box dark_blue animated_element animation-slideRight200 duration-800 delay-500">
+            <h2>
+                Giờ làm việc
+            </h2>
+            <ul class="items_list thin dark_blue opening_hours">
+                <li class="clearfix">
+                    <span>
+                        Thứ 2 - Thứ 6
+                    </span>
+                    <div class="value">
+                        8.00 - 17.00
+                    </div>
+                </li>
+                <li class="clearfix">
+                    <span>
+                        Thứ 7
+                    </span>
+                    <div class="value">
+                        9.30 - 17.30
+                    </div>
+                </li>
+                <li class="clearfix">
+                    <span>
+                        Chủ nhật
+                    </span>
+                    <div class="value">
+                        9.30 - 15.00
+                    </div>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <div class="clearfix">
+        <div class="columns columns_3 page_margin_top_section clearfix">
+            <ul class="column" ng-repeat="feature in features">
+                <li class="item_content clearfix">
+                    <a class="features_image" href="#" title="">
+                        <img src="{{ feature.Image }}" alt="" class="animated_element animation-scale" />
+                    </a>
+                    <div class="text">
+                        <h3>
+                            <a href="#" title="{{feature.Title}}">
+                                {{ feature.Title }}
+                            </a>
+                        </h3>
+                        {{ feature.Description }}
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="announcement page_margin_top_section clearfix">
+            <ul class="columns no_width">
+                <li class="column_left">
+                    <h1>Chúng tôi cung cấp dịch vụ đặt lịch khám bệnh online</h1>
+                    <p>Quý bệnh nhân có thể chọn giờ khám và bác sĩ khám khi sử dụng dịch vụ đặt lịch khám online.</p>
+                </li>
+                <li class="column_right">
+                    <div class="vertical_align">
+                        <div class="vertical_align_cell">
+                            <a title="Đặt lịch khám" href="/appointment" class="more blue medium animated_element animation-slideLeft">Đặt lịch khám</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="page_layout page_margin_top_section clearfix">
+        <div class="page_left">
+            <h3 class="box_header">
+                Tin mới nhất
+            </h3>
+            <ul class="blog clearfix">
+                <li ng-repeat="post in lstPost" class="post">
+                    <ul class="comment_box">
+                        <li class="date clearfix animated_element animation-slideRight">
+                            <div class="value">{{ post.PublishDate | dateNiceFilter }}</div>
+                            <div class="arrow_date"></div>
+                        </li>
+                        <li class="comments_number animated_element animation-slideUp duration-300 delay-500">
+                            <a href="#" title="2 comments">
+                                0 bình luận
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="post_content">
+                        <a class="post_image" href="/post/{{ post.Id }}" title="{{post.TitleTran}}">
+                            <img src="{{ post.Image }}" alt="" ng-show="post.Image != null && post.Image != ''" />
+                        </a>
+                        <h2>
+                            <a href="/post/{{ post.Id }}" title="{{post.TitleTran}}">
+                                {{ post.TitleTran }}
+                            </a>
+                        </h2>
+                        <p>
+                            {{ post.DescriptionTrans }}
+                        </p> 
+                        <a title="Chi tiết" href="/post/{{ post.Id }}" class="more">
+                            Chi tiết &rarr;
+                        </a>
+                        <div class="post_footer clearfix">
+                            <ul class="post_footer_details">
+                                <li>Bài viết tại </li>
+                                <li>
+                                    <a href="#" title="General">
+                                        Hồ Chí Minh,
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" title="Dental clinic">
+                                        Việt Nam
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="post_footer_details">
+                                <li>Tác giả </li>
+                                <li>
+                                    <a href="#" title="John Doe">
+                                        {{ post.Author }}
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="post_footer_details">
+                                <li>Chủ đề </li>
+                                <li>
+                                    <a href="#" title="Image">
+                                        {{ post.CategoryName }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                
+            </ul>
+            <div class="show_all clearfix">
+                <a class="more" href="/posts" title="Xem tất cả">
+                    Xem tất cả &rarr;
+                </a>
+            </div>
+        </div>
+        <div class="page_right">
+            <div class="sidebar_box first">
+                <h3 class="box_header">
+                    Chuyên khoa
+                </h3>
+                <ul class="accordion">
+                    <li ng-repeat="item in departments">
+                        <div id="accordion-{{item.Handler}}" class="accordion-department">
+                            <h3>{{item.Name}}</h3>
+                        </div>
+                        <div class="clearfix">
+                            <div class="item_content clearfix">
+                                <a class="thumb_image" href="#" title="Primary Health Care">
+                                    <img src="assets/img/samples/75x75/image_08.jpg" alt="" />
+                                </a>
+                                <p>
+                                    {{item.Description}}
+                                </p>
+                            </div>
+                            <div class="item_footer clearfix">
+                                <a class="more blue icon_small_arrow margin_right_white" href="/department/{{item.Id}}" title="Details">Chi tiết</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <!--<uib-accordion close-others="oneAtATime">
+                    <div uib-accordion-group class="panel-default" heading="Static Header, initially expanded" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
+                        This content is straight in the template.
+                    </div>
+                    <div uib-accordion-group class="panel-default" heading="{{group.title}}" ng-repeat="group in groups">
+                        {{group.content}}
+                    </div>
+                    <div uib-accordion-group class="panel-default" heading="Dynamic Body Content">
+                        <p>The body of the uib-accordion group grows to fit the contents</p>
+                        <button type="button" class="btn btn-default btn-sm" ng-click="addItem()">Add Item</button>
+                        <div ng-repeat="item in items">{{item}}</div>
+                    </div>
+                    <div uib-accordion-group class="panel-default" heading="Custom template" template-url="group-template.html">
+                        Hello
+                    </div>
+                    <div uib-accordion-group class="panel-default" is-open="status.isCustomHeaderOpen" template-url="group-template.html">
+                        <uib-accordion-heading>
+                            Custom template with custom header template <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.isCustomHeaderOpen, 'glyphicon-chevron-right': !status.isCustomHeaderOpen}"></i>
+                        </uib-accordion-heading>
+                        World
+                    </div>
+                    <div uib-accordion-group class="panel-danger" heading="Delete account">
+                        <p>Please, to delete your account, click the button below</p>
+                        <button class="btn btn-danger">Delete</button>
+                    </div>
+                    <div uib-accordion-group class="panel-default" is-open="status.open">
+                        <uib-accordion-heading>
+                            I can have markup, too! <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+                        </uib-accordion-heading>
+                        This is just some content to illustrate fancy headings.
+                    </div>
+                </uib-accordion>-->
+            </div>
+            <div class="sidebar_box" ng-include="'app/components/contact-partial/contact-partial.template.html'">
+                
+            </div>
+        </div>
+    </div>
+</div>

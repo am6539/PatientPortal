@@ -1,0 +1,29 @@
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using ProtoBuf;
+
+namespace PatientPortal.PatientServices.Models.OfferAdvise
+{
+    [ProtoContract]
+    public class OfferAdviseViewModel
+    {
+        [ProtoMember(1)]
+        public int Id { get; set; }
+        [ProtoMember(2)]
+        [DataType(DataType.Date)]
+        [Display(Name = "Ngày")]
+        public DateTime Date { get; set; }
+        [ProtoMember(3)]
+        [Display(Name = "Nội dung")]
+        //[Required(ErrorMessage = "Bạn cần nhập ý kiến")]
+        public string Detail { get; set; }
+        [ProtoMember(4)]
+        public int PatientId { get; set; }
+        [ProtoMember(5)]
+        public bool IsRead { get; set; }
+        [ProtoMember(6)]
+        public bool IsSent { get; set; }
+        [ProtoMember(7)]
+        public string Tag { get; set; }
+    }
+}

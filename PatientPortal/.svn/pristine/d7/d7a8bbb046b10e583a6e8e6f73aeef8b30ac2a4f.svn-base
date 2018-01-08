@@ -1,0 +1,81 @@
+﻿using AutoMapper;
+using PatientPortal.API.CMS.Models;
+using PatientPortal.API.CMS.ViewModels;
+using PatientPortal.IRepository.CMS;
+using PatientPortal.Provider.Models;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Http;
+
+namespace PatientPortal.API.CMS.Controllers
+{
+    [AuthorizeRoles]
+    public class LanguageController : ApiController
+    {
+        /// <summary>
+        /// declare variables
+        /// </summary>
+        private readonly ILanguageRepo _language;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="language"></param>
+        public LanguageController(ILanguageRepo language)
+        {
+            this._language = language;
+        }
+
+        #region API Function
+        public async Task<List<LanguageViewModel>> GetAll()
+        {
+            List<string> list = new List<string> { "id" };
+            var para = APIProvider.APIDefaultParameter(list, 0);
+
+            var source = await _language.Query(para);
+            List<LanguageViewModel> dest = Mapper.Map<List<LanguageViewModel>>(source);
+
+            return dest;
+        }
+
+        public async Task<LanguageViewModel> GetById(byte id)
+        {
+            var list = this.RequestContext.RouteData.Values.Keys;
+            var para = APIProvider.APIGeneratorParameter(list, id);
+
+            var source = await _language.SingleQuery(para);
+            LanguageViewModel dest = Mapper.Map<LanguageViewModel>(source);
+
+            return dest;
+        }
+
+        [HttpGet]
+        public async Task<bool> CheckExist(byte id,string code)
+        {
+            //var parameter = Request.GetQueryNameValuePairs();
+            List<string> list = new List<string> { nameof(code), nameof(id) };
+            var para = APIProvider.APIGeneratorParameter(list, code, id);
+
+            return await _language.CheckExist(para);
+        }
+
+        [HttpGet]
+        [Route("api/language/CheckIsUsed/{id}")]
+        public async Task<bool> CheckIsUsed(byte id)
+        {
+            var list = this.RequestContext.RouteData.Values.Keys;
+            var para = APIProvider.APIGeneratorParameter(list, id);
+
+            return await _language.CheckIsUsed(para);
+        }
+
+        [HttpPost]
+        public async Task<bool> Transaction(LanguageViewModel languageModel, char action)
+        {
+            var obj = Mapper.Map<Domain.Models.CMS.Language>(languageModel);
+            return await _language.Transaction(obj, action);
+        }
+        #endregion
+    }
+}

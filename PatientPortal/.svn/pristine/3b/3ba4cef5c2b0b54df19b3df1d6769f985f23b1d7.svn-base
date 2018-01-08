@@ -1,0 +1,37 @@
+﻿using PatientPortal.PatientServices.Models;
+using PatientPortal.PatientServices.Utility;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using PatientPortal.Domain.LogManager;
+
+namespace PatientPortal.PatientServices.Controllers
+{
+    public class ScheduleController : Controller
+    {
+        private static string controllerName = string.Empty;
+
+        // GET: Schedule
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public async Task<JsonResult> GetSchedule(int userId)
+        {
+            //Call API Provider
+            controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+            string apiUrl = APIProvider.APIGenerator(controllerName, new List<string> { nameof(userId) }, true, userId);
+            var schedule = await APIProvider.Get<List<ScheduleViewModel>>(apiUrl, APIConstant.API_Resource_CORE);
+            if (schedule == null)
+                schedule = new List<ScheduleViewModel>();
+
+            return Json(schedule, JsonRequestBehavior.AllowGet);
+        }
+    }
+}

@@ -1,0 +1,27 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Alter
+       [dbo].[usp_Category_CheckExistName] (Procedure)
+       [dbo].[usp_Category_CheckHasChildOrPost] (Procedure)
+       [dbo].[usp_DefaultData_Insert] (Procedure)
+       [dbo].[usp_Language_Transaction] (Procedure)
+       [dbo].[usp_PublishPost_Transaction] (Procedure)
+     Create
+       [dbo].[usp_Language_CheckExistCode] (Procedure)
+       [dbo].[usp_Language_CheckIsUsed] (Procedure)
+       [dbo].[usp_LinkBuilding] (Procedure)
+       [dbo].[usp_LinkBuilding_CheckExistTitle] (Procedure)
+       [dbo].[usp_LinkBuilding_Transaction] (Procedure)
+
+** Supporting actions
+     Refresh
+       [dbo].[usp_DefaultData_Exec] (Procedure)

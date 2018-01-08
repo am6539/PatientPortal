@@ -1,0 +1,124 @@
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.SqlServer.Utilities;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+
+namespace PatientPortal.API.Identity.Models
+{
+    public class RoleStore<TRole, TKey, TUserRole> :
+    IQueryableRoleStore<TRole, TKey>, IRoleStore<TRole, TKey>, IDisposable
+    where TRole : IdentityRole<TKey, TUserRole>, new()
+    where TUserRole : IdentityUserRole<TKey>, new()
+    {
+        private bool _disposed;
+        private EntityBase<TRole> _roleStore;
+
+        public DbContext Context { get; private set; }
+        public bool DisposeContext { get; set; }
+
+        public IQueryable<TRole> Roles
+        {
+            get
+            {
+                return this._roleStore.EntitySet;
+            }
+        }
+
+        public RoleStore(DbContext context)
+        {
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+            this.Context = context;
+            this._roleStore = new EntityBase<TRole>(context);
+        }
+
+        public virtual async Task CreateAsync(TRole role)
+        {
+            this.ThrowIfDisposed();
+            if (role == null)
+            {
+                throw new ArgumentNullException("role");
+            }
+            this._roleStore.Create(role);
+            System.Data.Entity.SqlServer.Utilities.TaskExtensions.CultureAwaiter<int> cultureAwaiter =
+                this.Context.SaveChangesAsync().WithCurrentCulture<int>();
+            await cultureAwaiter;
+        }
+
+        public async Task DeleteAsync(TRole role)
+        {
+            this.ThrowIfDisposed();
+            if (role == null)
+            {
+                throw new ArgumentNullException(nameof(role));
+            }
+            this._roleStore.Delete(role);
+            await this.Context.SaveChangesAsync();
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (this.DisposeContext && disposing && this.Context != null)
+            {
+                this.Context.Dispose();
+            }
+            this._disposed = true;
+            this.Context = null;
+            this._roleStore = null;
+        }
+
+        public Task<TRole> FindByIdAsync(TKey roleId)
+        {
+            this.ThrowIfDisposed();
+            return this._roleStore.GetByIdAsync(roleId);
+        }
+
+        public TRole FindByName(string roleName)
+        {
+            this.ThrowIfDisposed();
+            return this.FindByName(roleName);
+        }
+
+        public Task<TRole> FindByNameAsync(string roleName)
+        {
+            this.ThrowIfDisposed();
+            return QueryableExtensions
+                .FirstOrDefaultAsync<TRole>(this._roleStore.EntitySet,
+                    (TRole u) => u.Name.ToUpper() == roleName.ToUpper());
+        }
+
+        private void ThrowIfDisposed()
+        {
+            if (this._disposed)
+            {
+                throw new ObjectDisposedException(this.GetType().Name);
+            }
+        }
+
+        public virtual async Task UpdateAsync(TRole role)
+        {
+            this.ThrowIfDisposed();
+            if (role == null)
+            {
+                throw new ArgumentNullException("role");
+            }
+            this._roleStore.Update(role);
+            System.Data.Entity.SqlServer.Utilities.TaskExtensions.CultureAwaiter<int> cultureAwaiter =
+                this.Context.SaveChangesAsync().WithCurrentCulture<int>();
+            await cultureAwaiter;
+        }
+    }
+}

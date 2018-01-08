@@ -1,0 +1,58 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CMS;
+using PatientPortal.Domain.Utilities;
+using System.Transactions;
+using PatientPortal.DataAccess.Dapper;
+using Dapper;
+using PatientPortal.DataAccess.Repo.CMS;
+
+namespace PatientPortal.DataAccess.CMS
+{
+    public class ConfigurationImpl : IConfiguration
+    {
+        public CMSConfiguration GetById(byte id)
+        {
+            using(var scope = new TransactionScope())
+            {
+                try
+                {
+                    DapperConfiguration.OpenConnection(1);
+                    var data = DapperConfiguration.db.Query<CMSConfiguration>("usp_Configuration",
+                        new { Id = id},
+                        commandType: System.Data.CommandType.StoredProcedure).FirstOrDefault();
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Configuration get by Id:" + ex.Message);
+                    return null;
+                }
+            }
+        }
+
+        public bool Transaction(List<CMSConfiguration> data, char action)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    var val = new Lib.DataGenerator().CommitData<CMSConfiguration>(data, "usp_Configuration_Transaction", action);
+                    scope.Complete();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Configuration Transaction: " + ex.Message);
+                    return false;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,13 @@
+﻿angular.module('MyApp').controller('RSSController', ['$scope', '$filter',
+    '$route', '$timeout', "RSSService",
+    function ($scope, $filter, $route, $timeout, RSSService) {
+        $scope.loadRSS = function () {
+            RSSService.query(function (data) {
+                var x2js = new X2JS();
+                var aftCnv = x2js.xml_str2json(data);
+                $scope.rssVB = aftCnv.urlset.url;
+            });
+        }
+
+        $scope.loadRSS();
+    }]);

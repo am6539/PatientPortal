@@ -1,0 +1,235 @@
+﻿@model PatientPortal.Internal.Models.Account.UpdateUserInfoBindingModel
+@{
+    ViewBag.Title = "Thông tin cá nhân";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+
+<style>
+    /* Profile container */
+    .profile {
+        margin: 20px 0;
+    }
+
+    /* Profile sidebar */
+    .profile-sidebar {
+        padding: 20px 0 10px 0;
+        background: #f4f3ff;
+    }
+
+    .col-md-3 {
+        padding: 0 0 0 15px;
+    }
+
+    .profile-userpic img {
+        float: none;
+        margin: 0 auto;
+        width: 50%;
+        height: 50%;
+        -webkit-border-radius: 50% !important;
+        -moz-border-radius: 50% !important;
+        border-radius: 1% !important;
+    }
+
+    .profile-usertitle {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .info-user {
+        text-align: center;
+        margin-top: -10px;
+    }
+
+    .profile-usertitle-name {
+        color: #5a7391;
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 7px;
+    }
+
+    .profile-usertitle-job {
+        text-transform: uppercase;
+        color: #5b9bd1;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+
+    .profile-usermenu {
+        margin-top: 30px;
+        padding: 0px !important;
+    }
+
+    button, .buttons, .btn, .btn+.btn {
+        margin-bottom: 5px;
+        margin-right: 0px;
+    }
+
+    .profile-usermenu ul li a.btn{
+        border-radius: 0px;
+    }
+
+    .order-content {
+        padding: 0px, 0px;
+        background: #fff;
+        min-height: 460px;
+    }
+
+    .form-horizontal .edit-profile .form-group {
+        margin-right: 200px;
+        margin-left: 0px;
+    }
+
+    .form-horizontal .change-pass .form-group {
+        margin-right: 200px;
+        margin-left: 200px;
+    }
+
+    .form_main {
+        width: 100%;
+    }
+
+    .form_main h4 {
+        font-family: roboto;
+        font-size: 20px;
+        font-weight: 300;
+        margin-bottom: 15px;
+        margin-top: 20px;
+        text-transform: uppercase;
+    }
+
+    .heading {
+        border-bottom: 1px solid #337ab7;
+        padding-bottom: 0px;
+        position: relative;
+        margin-right: 30px;
+    }
+
+    .heading span {
+        background: #6D6C6A none repeat scroll 0 0;
+        bottom: -2px;
+        height: 3px;
+        left: 0;
+        position: absolute;
+        width: 75px;
+    }
+
+    .form {
+        border-radius: 7px;
+        padding: 6px;
+    }
+
+    .tab-title{
+        text-transform: uppercase;
+        color: #037306;
+    }
+
+    .tab-pane {
+        padding: 0px 0;
+    }   
+</style>
+}
+
+<div class="card">
+    <div class="card-title">
+        <label><i class="fa fa-file-text-o"></i> @ViewBag.Title</label>
+    </div>
+
+    @Html.Raw(TempData["Alert"])
+
+    <div class="card-content">
+        <div class="row profile">
+            <div class="col-md-3">
+                <div class="profile-sidebar">
+                    <!-- SIDEBAR USERPIC -->
+                    <div class="profile-userpic">
+                        <img src="@Model.Image" class="img-rounded img-responsive" alt="">
+                    </div>
+                    <!-- END SIDEBAR USERPIC -->
+                    <!-- SIDEBAR USER TITLE -->
+                    <div class="profile-usertitle">
+                        <div class="profile-usertitle-name">
+
+                            <a href="javascript:void(0)" id="btnViewProfile">
+                                <span class="hidden-xs">@Model.Name</span>
+                            </a>
+                            
+                        </div>
+                        @*<div class="profile-usertitle-job">
+                        </div>*@
+                    </div>
+                    <!-- END SIDEBAR USER TITLE -->
+                    <hr />
+                    <!-- SIDEBAR MENU -->
+                    <p class="info-user">
+                        <i class="glyphicon glyphicon-envelope"></i> @Model.Email
+                        @*<br /> <i class="glyphicon glyphicon-globe"></i> @Model.Email*@
+                        <br /> <i class="glyphicon glyphicon-gift"></i> @Convert.ToString(string.Format("{0:dd, MM, yyyy}", Model.DoB))
+                    </p>
+
+                    <div class="profile-usermenu">
+                        <ul class="nav">
+                            <li class="active">
+                                <a href="javascript:void(0)" id="btnEditProfile" class="btn btn-primary btn-flat">
+                                    <i class="glyphicon glyphicon-home"></i>
+                                    <span class="hidden-xs"> cập nhật thông tin<span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" id="btnChangePass" class="btn btn-success btn-flat">
+                                    <i class="glyphicon glyphicon-user"></i>
+                                    <span class="hidden-xs"> đổi mật khẩu<span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <!-- END MENU -->
+                </div>
+            </div>
+
+            <div class="col-md-9 order-content" id="panelBody">
+
+                @Html.Partial("_InfoProfile")
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    
+    <script>
+        var urlChangePass = '@Url.Action("ViewChangePassword", "Account")';
+        var urlViewProfile = '@Url.Action("InfoProfile", "Account")';
+        var urlEditProfile = '@Url.Action("ViewEditProfile", "Account")';
+
+        $('#btnChangePass').click(function () {
+            $("#panelBody").load(urlChangePass, function (responseTxt, statusTxt, xhr) {
+                if (statusTxt == "success"){}
+                if (statusTxt == "error")
+                    alert("Lỗi: " + xhr.status + ": " + xhr.statusText);
+            });
+        });
+
+        $('#btnViewProfile').click(function(){
+            $("#panelBody").load(urlViewProfile, function (responseTxt, statusTxt, xhr) {
+                if (statusTxt == "success") { }
+                if (statusTxt == "error")
+                    alert("Lỗi: " + xhr.status + ": " + xhr.statusText);
+            });
+        });
+
+        $('#btnEditProfile').click(function () {
+            $("#panelBody").load(urlEditProfile, function (responseTxt, statusTxt, xhr) {
+                if (statusTxt == "success") { }
+                if (statusTxt == "error")
+                    alert("Lỗi: " + xhr.status + ": " + xhr.statusText);
+            });
+        });
+    </script>
+}
+

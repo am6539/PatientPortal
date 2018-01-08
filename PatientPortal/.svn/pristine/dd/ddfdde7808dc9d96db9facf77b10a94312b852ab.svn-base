@@ -1,0 +1,235 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+
+namespace PatientPortal.API.Identity.Models
+{
+    public class PermissionRoleStore:IDisposable
+    {
+        private bool _disposed;
+        private PermissionRoleStoreBase _permissionRoleStore;
+        public PermissionRoleStore(DbContext context)
+        {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+            this.Context = context;
+            this._permissionRoleStore = new PermissionRoleStoreBase(context);
+        }
+
+
+        public IQueryable<PermissionRole> PermissionRoles
+        {
+            get
+            {
+                return this._permissionRoleStore.EntitySet;
+            }
+        }
+
+        public DbContext Context
+        {
+            get;
+            private set;
+        }
+
+        public virtual List<PermissionRole> GetAll()
+        {
+            this.ThrowIfDisposed();
+            return this._permissionRoleStore.GetAll();
+        }
+
+        public virtual Task<List<PermissionRole>> GetAllAsync()
+        {
+            this.ThrowIfDisposed();
+            return this._permissionRoleStore.GetAllAsync();
+        }
+
+        public virtual void Create(PermissionRole obj)
+        {
+            this.ThrowIfDisposed();
+            if (obj == null)
+            {
+                throw new ArgumentNullException(nameof(obj));
+            }
+            this._permissionRoleStore.Create(obj);
+            this.Context.SaveChanges();
+        }
+
+        public virtual async Task CreateAsync(PermissionRole obj)
+        {
+            try
+            {
+                this.ThrowIfDisposed();
+                if (obj == null)
+                {
+                    throw new ArgumentNullException(nameof(obj));
+                }
+                this._permissionRoleStore.Create(obj);
+                await this.Context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public virtual async Task<bool> CreateAsync(List<PermissionRole> objsPermissionRoles)
+        {
+            try
+            {
+                this.ThrowIfDisposed();
+                if (objsPermissionRoles == null)
+                {
+                    throw new ArgumentNullException(nameof(objsPermissionRoles));
+                }
+                this._permissionRoleStore.Create(objsPermissionRoles);
+                await this.Context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public virtual async Task DeleteAsync(PermissionRole obj)
+        {
+            this.ThrowIfDisposed();
+            if (obj == null)
+            {
+                throw new ArgumentNullException(nameof(obj));
+            }
+            this._permissionRoleStore.Delete(obj);
+            await this.Context.SaveChangesAsync();
+        }
+
+        public virtual void Delete(PermissionRole obj)
+        {
+            this.ThrowIfDisposed();
+            if (obj == null)
+            {
+                throw new ArgumentNullException(nameof(obj));
+            }
+            this._permissionRoleStore.Delete(obj);
+            this.Context.SaveChanges();
+        }
+
+        public virtual bool DeleteByRole(string roleId)
+        {
+            this.ThrowIfDisposed();
+            if (string.IsNullOrEmpty(roleId))
+            {
+                throw new ArgumentNullException(nameof(roleId));
+            }
+
+            try { 
+                //get PermissionRoles
+                var data = this._permissionRoleStore.GetById(roleId);
+                this._permissionRoleStore.DeleteByRole(data);
+                this.Context.SaveChanges();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public virtual async Task<bool> DeleteByRoleAsync(string roleId)
+        {
+            this.ThrowIfDisposed();
+            if (string.IsNullOrEmpty(roleId))
+            {
+                throw new ArgumentNullException(nameof(roleId));
+            }
+            try
+            {
+                //get PermissionRoles
+                var data = this._permissionRoleStore.GetById(roleId);
+                this._permissionRoleStore.DeleteByRole(data);
+                await this.Context.SaveChangesAsync();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+            
+        }
+
+        public Task<List<PermissionRole>> FindByIdAsync(string id)
+        {
+            this.ThrowIfDisposed();
+            return this._permissionRoleStore.GetByIdAsync(id);
+        }
+
+        public List<PermissionRole> FindById(string id)
+        {
+            this.ThrowIfDisposed();
+            return this._permissionRoleStore.GetById(id);
+        }
+
+        public virtual async Task UpdateAsync(PermissionRole obj)
+        {
+            this.ThrowIfDisposed();
+            if (obj == null)
+            {
+                throw new ArgumentNullException(nameof(obj));
+            }
+            this._permissionRoleStore.Update(obj);
+            await this.Context.SaveChangesAsync();
+        }
+
+        public virtual void Update(PermissionRole obj)
+        {
+            this.ThrowIfDisposed();
+            if (obj == null)
+            {
+                throw new ArgumentNullException(nameof(obj));
+            }
+            this._permissionRoleStore.Update(obj);
+            this.Context.SaveChanges();
+        }
+
+
+        // DISPOSE STUFF: ===============================================
+
+        public bool DisposeContext
+        {
+            get;
+            set;
+        }
+
+
+        private void ThrowIfDisposed()
+        {
+            if (this._disposed)
+            {
+                throw new ObjectDisposedException(this.GetType().Name);
+            }
+        }
+
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (this.DisposeContext && disposing && this.Context != null)
+            {
+                this.Context.Dispose();
+            }
+            this._disposed = true;
+            this.Context = null;
+            this._permissionRoleStore = null;
+        }
+    }
+}

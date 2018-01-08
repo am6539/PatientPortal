@@ -1,0 +1,23 @@
+﻿CREATE PROC [dbo].[usp_ArticleComment] (
+	@TypeGet tinyint = 0, -- 0: get all comment by ArticleId ; 1: Get comment by Id
+	@Id INT = 0,
+	@ArticleId INT = 0
+)
+AS BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+
+	BEGIN TRY
+		IF @TypeGet = 0
+			SELECT * FROM [dbo].[ArticleComment] WHERE [ArticleId] = @ArticleId
+		ELSE If @TypeGet = 1
+			SELECT * FROM [dbo].[ArticleComment] WHERE [Id] = @Id AND [ArticleId] = @ArticleId
+
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0 
+		BEGIN
+			RETURN NULL
+		END
+	END CATCH
+END

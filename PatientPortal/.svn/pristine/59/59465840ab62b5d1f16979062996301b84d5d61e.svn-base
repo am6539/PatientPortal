@@ -1,0 +1,5 @@
+﻿angular.module('spaPHCN').factory('FeatureDetailService', ['$resource', 'Params',
+    function ($resource, Params) {
+        return $resource(Params.rootUrl + 'SPAPost', {}, {
+        });
+    }]);

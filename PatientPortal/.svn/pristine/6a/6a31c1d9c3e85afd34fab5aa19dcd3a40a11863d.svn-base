@@ -1,0 +1,51 @@
+﻿using PatientPortal.API.SPA.ViewModels;
+using PatientPortal.IRepository.SPA;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Http;
+
+namespace PatientPortal.API.SPA.Controllers
+{
+    public class QAController : ApiController
+    {
+        private readonly IQARepo _iQARepo;
+        private readonly string PATH_IMG = ConfigurationManager.AppSettings["web:cms"];
+
+        public QAController(IQARepo iQARepo)
+        {
+            this._iQARepo = iQARepo;
+        }
+
+        [HttpGet]
+        public async Task<HttpResponseMessage> Get(byte pageIndex, byte numberInPage, string Search = null)
+        {
+            try
+            {
+                List<string> list = new List<string> { "pageIndex", "numberInPage", "Search" };
+                Dictionary<string, dynamic> para = null;
+
+                para = APIProvider.APIDefaultParameter(list, pageIndex, numberInPage, Search);
+                var data = await _iQARepo.Query(para);
+                var results = new List<QAViewModel>();
+                foreach (var item in data)
+                {
+                    var slider = new QAViewModel();
+                    slider.Id = item.Id;
+                    slider.Title = item.Title;
+                    results.Add(slider);
+                }
+                return Request.CreateResponse(HttpStatusCode.OK, results);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+    }
+}

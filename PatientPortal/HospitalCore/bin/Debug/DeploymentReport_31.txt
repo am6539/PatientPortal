@@ -1,0 +1,29 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Alter
+       [dbo].[usp_Appointment_Transaction] (Procedure)
+       [dbo].[usp_Article_Transaction] (Procedure)
+       [dbo].[usp_ArticleComment_Transaction] (Procedure)
+       [dbo].[usp_Group_Transaction] (Procedure)
+       [dbo].[usp_MailSetting_Transaction] (Procedure)
+       [dbo].[usp_Message_Transaction] (Procedure)
+       [dbo].[usp_MessageFolder_Transaction] (Procedure)
+       [dbo].[usp_MessageRecipient_Transaction] (Procedure)
+       [dbo].[usp_Module_Transaction] (Procedure)
+       [dbo].[usp_OfferAdvise_Transaction] (Procedure)
+       [dbo].[usp_Organization_Transaction] (Procedure)
+       [dbo].[usp_Setting_Transaction] (Procedure)
+     Create
+       [dbo].[usp_Schedule] (Procedure)
+       [dbo].[usp_Schedule_Transaction] (Procedure)
+
+** Supporting actions

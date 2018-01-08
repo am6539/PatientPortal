@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>HospitalCore</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{9e705d6d-32ea-4eaa-a30f-fdd4e3b7edfd}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql120DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>HospitalCore</RootNamespace>
+    <AssemblyName>HospitalCore</AssemblyName>
+    <ModelCollation>1033,CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Scripts" />
+    <Folder Include="dbo\Stored Procedures" />
+    <Folder Include="dbo\DataType" />
+    <Folder Include="dbo\Function" />
+    <Folder Include="dbo\StoreProceduresSPA" />
+    <Folder Include="dbo\Tables" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="dbo\Scripts\Script.PostDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PreDeploy Include="dbo\Scripts\Script.PreDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Stored Procedures\usp_Article.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Appointment_Transaction.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Appointment.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Article_Transaction.sql" />
+    <Build Include="dbo\Stored Procedures\usp_ArticleComment.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Login.sql" />
+    <Build Include="dbo\Stored Procedures\usp_UserRole_Transaction.sql" />
+    <Build Include="dbo\Stored Procedures\usp_ArticleComment_Transaction.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Group.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Group_Transaction.sql" />
+    <Build Include="dbo\Stored Procedures\usp_MailSetting.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Message_Transaction.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Message.sql" />
+    <Build Include="dbo\Stored Procedures\usp_MessageFolder.sql" />
+    <Build Include="dbo\Stored Procedures\usp_MessageFolder_Transaction.sql" />
+    <Build Include="dbo\Stored Procedures\usp_UserGroup_Transaction.sql" />
+    <Build Include="dbo\Stored Procedures\usp_MailSetting_Transaction.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Module.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Module_Transaction.sql" />
+    <Build Include="dbo\Stored Procedures\usp_OfferAdvise.sql" />
+    <Build Include="dbo\Stored Procedures\usp_OfferAdvise_Transaction.sql" />
+    <Build Include="dbo\DataType\IntList.sql" />
+    <Build Include="dbo\Function\ufnGetDate.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Organization.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Organization_Transaction.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Permission_Transaction.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Role_Transaction.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Setting.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Setting_Transaction.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Users_Transaction.sql" />
+    <Build Include="dbo\Stored Procedures\usp_User_ChangePassword.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Users_Transaction.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Role_Transaction.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Permission_Transaction.sql" />
+    <Build Include="dbo\Stored Procedures\usp_User_ChangePassword.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Role.sql" />
+    <Build Include="dbo\Stored Procedures\usp_User.sql" />
+    <Build Include="dbo\Stored Procedures\usp_MessageRecipient_Transaction.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Schedule.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Schedule_Transaction.sql" />
+    <Build Include="dbo\Stored Procedures\usp_ScheduleExamine.sql" />
+    <Build Include="dbo\Stored Procedures\usp_AppointmentLog_Transaction.sql" />
+    <Build Include="dbo\Stored Procedures\usp_AppointmentLog.sql" />
+    <Build Include="dbo\Stored Procedures\usp_User_HasScheduleExamine.sql" />
+    <Build Include="dbo\Function\ufnGenerationNumber.sql" />
+    <Build Include="dbo\Stored Procedures\usp_AppointmentLog_Confirm.sql" />
+    <Build Include="dbo\Stored Procedures\usp_AppointmentLog_Search.sql" />
+    <Build Include="dbo\Stored Procedures\usp_EmailMarketing.sql" />
+    <Build Include="dbo\Stored Procedures\usp_EmailMarketing_Transaction.sql" />
+    <Build Include="dbo\Stored Procedures\usp_User_ByGroupType.sql" />
+    <Build Include="dbo\Stored Procedures\usp_User_Query.sql" />
+    <Build Include="dbo\Stored Procedures\usp_AppointmentLog_ApprovedBook.sql" />
+    <Build Include="dbo\Function\ufn_SpitString.sql" />
+    <Build Include="dbo\Stored Procedures\usp_DoctorProfile.sql" />
+    <Build Include="dbo\Stored Procedures\usp_DoctorProfile_Transaction.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Survey.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Survey_Transaction.sql" />
+    <Build Include="dbo\Stored Procedures\usp_SurveyAnswers_Transaction.sql" />
+    <Build Include="dbo\Stored Procedures\usp_SurveyQuestions_Transaction.sql" />
+    <Build Include="dbo\Stored Procedures\usp_SurveyQuestions.sql" />
+    <Build Include="dbo\Stored Procedures\usp_SurveyAnswers.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Department.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Department_CheckExistName.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Department_Transaction.sql" />
+    <Build Include="dbo\Stored Procedures\usp_DepartmentServices.sql" />
+    <Build Include="dbo\Stored Procedures\usp_DepartmentServices_Transaction.sql" />
+    <Build Include="dbo\Stored Procedures\usp_DepartmentServices_CheckExistName.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Department_Available.sql" />
+    <Build Include="dbo\StoreProceduresSPA\usp_spa_Department.sql" />
+    <Build Include="dbo\StoreProceduresSPA\usp_spa_Schedule.sql" />
+    <Build Include="dbo\StoreProceduresSPA\usp_spa_ScheduleExamine.sql" />
+    <Build Include="dbo\StoreProceduresSPA\usp_spa_User.sql" />
+    <Build Include="dbo\StoreProceduresSPA\usp_spa_User_HasScheduleExamine.sql" />
+    <Build Include="dbo\StoreProceduresSPA\usp_spa_DepartmentServices.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Module_CheckExistTitle.sql" />
+    <Build Include="dbo\Stored Procedures\usp_CheckPermission.sql" />
+    <Build Include="dbo\Stored Procedures\usp_QA.sql" />
+    <Build Include="dbo\Stored Procedures\usp_QA_Transaction.sql" />
+    <Build Include="dbo\StoreProceduresSPA\usp_spa_QA.sql" />
+    <Build Include="dbo\Tables\Appointment.sql" />
+    <Build Include="dbo\Tables\AppointmentCollection.sql" />
+    <Build Include="dbo\Tables\AppointmentLog.sql" />
+    <Build Include="dbo\Tables\Article.sql" />
+    <Build Include="dbo\Tables\ArticleComment.sql" />
+    <Build Include="dbo\Tables\BlockedIpHandler.sql" />
+    <Build Include="dbo\Tables\Department.sql" />
+    <Build Include="dbo\Tables\DepartmentServices.sql" />
+    <Build Include="dbo\Tables\DoctorProfile.sql" />
+    <Build Include="dbo\Tables\EmailMarketing.sql" />
+    <Build Include="dbo\Tables\Group.sql" />
+    <Build Include="dbo\Tables\MailSetting.sql" />
+    <Build Include="dbo\Tables\Message.sql" />
+    <Build Include="dbo\Tables\MessageContent.sql" />
+    <Build Include="dbo\Tables\MessageFolder.sql" />
+    <Build Include="dbo\Tables\MessageRecipient.sql" />
+    <Build Include="dbo\Tables\Module.sql" />
+    <Build Include="dbo\Tables\OfferAdvise.sql" />
+    <Build Include="dbo\Tables\Organization.sql" />
+    <Build Include="dbo\Tables\QA.sql" />
+    <Build Include="dbo\Tables\RegisterMailLetter.sql" />
+    <Build Include="dbo\Tables\Schedule.sql" />
+    <Build Include="dbo\Tables\Setting.sql" />
+    <Build Include="dbo\Tables\SupportOnline.sql" />
+    <Build Include="dbo\Tables\Survey.sql" />
+    <Build Include="dbo\Tables\SurveyAnswers.sql" />
+    <Build Include="dbo\Tables\SurveyQuestions.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Module_Initial.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Module_CheckIsUsed.sql" />
+    <Build Include="dbo\Tables\UserNotification.sql" />
+    <Build Include="dbo\Tables\SystemNotification.sql" />
+    <Build Include="dbo\Tables\SystemNotificationUsers.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Appointment_Dashboard.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="HospitalCore.publish.xml" />
+  </ItemGroup>
+</Project>

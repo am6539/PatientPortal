@@ -1,0 +1,65 @@
+﻿using AutoMapper;
+using PatientPortal.API.CMS.ViewModels;
+using PatientPortal.IRepository.CMS;
+using System.Collections.Generic;
+using System.Web.Http;
+
+namespace PatientPortal.API.CMS.Controllers
+{
+    public class LanguageController : ApiController
+    {
+        /// <summary>
+        /// declare variables
+        /// </summary>
+        private readonly ILanguageRepo _language;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="language"></param>
+        public LanguageController(ILanguageRepo language)
+        {
+            this._language = language;
+        }
+
+        #region API Function
+        public List<LanguageViewModel> GetAll()
+        {
+            var source = _language.GetAll();
+            List<LanguageViewModel> dest = Mapper.Map<List<LanguageViewModel>>(source);
+
+            return dest;
+        }
+
+        public LanguageViewModel GetById(byte id)
+        {
+            var source = _language.GetById(id);
+            LanguageViewModel dest = Mapper.Map<LanguageViewModel>(source);
+
+            return dest;
+        }
+
+        [HttpGet]
+        public bool CheckExist(string code, byte id)
+        {
+            return _language.CheckExist(id, code);
+        }
+
+        [HttpGet]
+        [Route("api/language/CheckIsUsed/{id}")]
+        public bool CheckIsUsed(byte id)
+        {
+            return _language.CheckIsUsed(id);
+        }
+
+        [HttpPost]
+        public bool Transaction(LanguageViewModel languageModel, char action)
+        {
+            var language = Mapper.Map<Domain.Models.CMS.Language>(languageModel);
+            var data = new List<Domain.Models.CMS.Language>();
+            data.Add(language);
+            return _language.Transaction(data, action);
+        }
+        #endregion
+    }
+}

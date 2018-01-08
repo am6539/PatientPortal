@@ -1,0 +1,51 @@
+﻿using PatientPortal.Domain;
+using PatientPortal.Internal.Models.Schedule;
+using PatientPortal.Internal.Utility;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.Internal.Controllers
+{
+    [Authorize]
+    public class ScheduleController : Controller
+    {
+        private static string controllerName = string.Empty;
+        private static string controllerUser = "User";
+
+        // GET: Schedule
+        public async Task<ActionResult> Index(ScheduleFilter param)
+        {
+            byte type = (byte)EnumUserConstants.UserType.ISDOCTOR;
+            string search = "";
+            string apiUrl = APIProvider.APIGenerator(controllerUser, new List<string> { nameof(search), nameof(type) }, true, search, type);
+            var doctorList = await APIProvider.Get<List<UserViewModel>>(apiUrl, APIConstant.API_Resource_CORE);
+            if (doctorList == null)
+                doctorList = ApplicationHelper.GetObject<List<UserViewModel>>();
+            ViewBag.Users = doctorList;
+
+            //Call API Provider
+            if (param.Start == DateTime.MinValue && param.End == DateTime.MinValue)
+            {
+                param.Start = DateTime.Now;
+                param.End = DateTime.Now;
+            }
+            controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+            string apiUrlSchedule = APIProvider.APIGenerator(controllerName, new List<string> { nameof(param.UserId),
+                nameof(param.Start), nameof(param.End) }, true, param.UserId, param.Start.ToString("yyyy-MM-dd"), param.End.ToString("yyyy-MM-dd"));
+            var schedule = await APIProvider.Get<List<ScheduleViewModel>>(apiUrlSchedule, APIConstant.API_Resource_CORE);
+            if (schedule == null)
+                schedule = new List<ScheduleViewModel>();
+
+            ViewBag.Schedule = schedule;
+
+            var model = new ScheduleFilter();
+            return View(model);
+        }
+    }
+}

@@ -1,0 +1,72 @@
+﻿using PatientPortal.Internal.Binders;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Web;
+using System.Web.Helpers;
+using System.Web.Mvc;
+using System.Web.Optimization;
+using System.Web.Routing;
+using System.Web.Security;
+
+namespace PatientPortal.Internal
+{
+    public class MvcApplication : System.Web.HttpApplication
+    {
+        protected void Application_Start()
+        {
+            AreaRegistration.RegisterAllAreas();
+
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
+            AuthConfig.RegisterAuth();
+
+            // anti-forgery token support with claims-based authentication
+            AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimsIdentity.DefaultNameClaimType;
+
+            //Log4Net
+            log4net.Config.XmlConfigurator.Configure();
+
+            //ModelBinder - DD/MM/YYYY
+            ModelBinders.Binders.Add(typeof(DateTime), new DateTimeModelBinder());
+            ModelBinders.Binders.Add(typeof(DateTime?), new DateTimeModelBinder());
+
+            //Autofac
+            AutofacConfig.RegisterDependencies();
+        }
+    }
+
+    //[AttributeUsage(AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
+    //public class CheckSessionOutAttribute : ActionFilterAttribute
+    //{
+    //    public override void OnActionExecuting(ActionExecutingContext filterContext)
+    //    {
+    //        HttpContext context = HttpContext.Current;
+    //        if (context.Session != null)
+    //        {
+    //            if (context.Session.IsNewSession)
+    //            {
+    //                string sessionCookie = context.Request.Headers["Cookie"];
+    //                var session = context.Session["Token"];
+
+    //                if ((sessionCookie != null) && (sessionCookie.IndexOf("ASP.NET_SessionId") >= 0))
+    //                //if(sessionCookie == null)
+    //                {
+    //                    FormsAuthentication.SignOut();
+    //                    string redirectTo = "~/Account/Login";
+    //                    if (!string.IsNullOrEmpty(context.Request.RawUrl))
+    //                    {
+    //                        redirectTo = string.Format("~/Account/Login?ReturnUrl={0}", HttpUtility.UrlEncode(context.Request.RawUrl));
+    //                        filterContext.Result = new RedirectResult(redirectTo);
+    //                        return;
+    //                    }
+    //                }
+    //            }
+    //        }
+
+    //        base.OnActionExecuting(filterContext);
+    //    }
+    //}
+}

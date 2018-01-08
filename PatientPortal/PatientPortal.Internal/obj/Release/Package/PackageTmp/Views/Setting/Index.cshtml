@@ -1,0 +1,150 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.Internal.Models.SettingViewModel
+@{
+    ViewBag.Title = "Cài đặt hệ thống";
+}
+@section styles{
+    <link href="~/Content/checkbox.css" rel="stylesheet" />
+    <link href="~/Libs/Chosen/css/chosen.css" rel="stylesheet" />
+    <link href="~/Libs/jquery-ui/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Libs/TagIt/css/jquery.tagit.css" rel="stylesheet" />
+    <link href="~/Content/checkbox-radio-build.css" rel="stylesheet" />
+}
+<div class="card">
+    @Html.Raw(TempData["Alert"])
+    <div class="card-title">@Html.ITitle("Cài đặt hệ thống", "cogs")</div>
+    <div class="card-content">
+        @using (Html.BeginForm("Edit", "Setting", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal", @id = "form-data" }))
+            {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.Membership)
+            @Html.IGroupTextBoxFor(m => m.Title, true, 12, "Tiêu đề SEO")
+            @Html.IGroupTextAreaFor(m => m.Description, true, 3, 12)
+            <div class="form-group">
+                <div class="col-md-12 text-left">
+                    @Html.Label("Từ khóa")
+                </div>
+                <div class="col-md-12">
+                    <ul id="myKeywords">
+                        @if (ViewBag.Keywords != null)
+                        {
+                            var tags = ViewBag.Keywords.Split(';');
+                            for (var i = 0; i < tags.Length; i++)
+                            {
+                                <li> @tags[i] </li>
+                            }
+                        }
+                    </ul>
+                    @Html.HiddenFor(m => m.Keyword)
+                </div>
+            </div>
+            @Html.IGroupTextAreaFor(m => m.LockedIPNoteDefault, true, 5, 12)
+            @Html.IGroupTextBoxFor(m => m.LoginURL, true, 12, "Login URL")
+            @*<div class="form-group">
+                @Html.LabelFor(m => m.Membership, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    <div class="checkbox checkbox-info">
+                        @Html.CheckBoxFor(m => m.Membership, new { @class = "styled", @checked = "checked" })<label for="Membership"></label>
+                    </div>
+                </div>
+            </div>*@
+            @*<div class="form-group">
+                @Html.LabelFor(m => m.DefaultRole, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.DropDownListFor(model => model.DefaultRole, new SelectList(ViewBag.Roles, "Id", "Name"), new { @class = "chosen-select", @data_placeholder = "Chọn nhóm quyền mặc định" })
+                </div>
+            </div>*@
+            @Html.IGroupTextBoxFor(m => m.AppointmentIntervalTime, true, 12)
+            @Html.IGroupCheckBoxFor(m => m.IsSaveCanceledAppointment, false, "IsSaveCanceledAppointment", 12, "Chọn để áp dụng")
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.Label("Thời gian đăng ký khám chữa bệnh trực tuyến")
+                </div>
+                <div class="col-md-3">
+                    <select class="form-control" id="startTimeSetting" onchange="changeStartTime(this.value)">@Model.AppointmentStartTimeString</select>
+                    @Html.HiddenFor(m => m.AppointmentStartTimeString, new { @id = "startTimeSettingChoose" })
+                </div>
+                <div class="col-md-3">
+                    <select class="form-control" id="endTimeSetting" onchange="changeEndTime(this.value)" selected>@Model.AppointmentEndTimeString</select>
+                    @Html.HiddenFor(m => m.AppointmentEndTimeString, new { @id = "endTimeSettingChoose" })
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Libs/Chosen/js/chosen.jquery.min.js"></script>
+    <script type="text/javascript">
+        var config = {
+            '.chosen-select': {}
+        }
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
+        $(document).ready(function() {
+            $("#myKeywords").tagit();
+            $("#form-data").submit(function(e) {
+                var arrayTag = $("#myKeywords").tagit("assignedTags");
+                var tags = "";
+                for (var index = 0; index < arrayTag.length; ++index) {
+                    tags = tags + (tags == "" ? "" : ";") + arrayTag[index];
+                }
+                $("#Keyword").val(tags);
+                return true;
+            });
+
+            InitTime();
+            var startTime = '@Model.AppointmentStartTimeString';
+            $('#startTimeSetting').val(startTime);
+            var endTime = '@Model.AppointmentEndTimeString';
+            $('#endTimeSetting').val(endTime);
+        });
+
+        function InitTime() {
+            var times = getGioKham();
+            appendTime(times);
+        }
+
+        //Init time
+        function getGioKham() {
+            var now = moment().hours(8).minutes(0).seconds(0).milliseconds(0);
+            var max = moment().hours(19).minutes(0).seconds(0).milliseconds(0);
+            var gio = [];
+            var duration = moment.duration({ 'minutes': 15 });
+            now = now.add(duration);
+            while (now < max) {
+                gio.push(now.format('HH:mm'));
+                now = now.add(duration);
+            }
+            return gio;
+        }
+
+        //binding time view
+        function appendTime(giohen) {
+            $.each(giohen, function (key, value) {
+                $('#startTimeSetting')
+                .append($("<option></option>")
+                           .attr("value", value)
+                           .text(value));
+
+                $('#endTimeSetting')
+                .append($("<option></option>")
+                           .attr("value", value)
+                           .text(value));
+            });
+        }
+
+        function changeStartTime(value) {
+            $("#startTimeSettingChoose").val(value);
+        }
+        function changeEndTime(value) {
+            $("#endTimeSettingChoose").val(value);
+        }
+    </script>
+    <script src="~/Libs/ckeditor/ckeditor.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Libs/TagIt/js/tag-it.js"></script>
+}

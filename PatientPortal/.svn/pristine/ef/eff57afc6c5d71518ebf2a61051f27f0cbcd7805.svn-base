@@ -1,0 +1,161 @@
+﻿<div class="page relative">
+    <div class="page_layout page_margin_top clearfix">
+        <div class="page_header clearfix">
+            <div class="page_header_left">
+                <!--<h1 class="page_title">Our departments</h1>-->
+                <ul class="bread_crumb">
+                    <li>
+                        <a href="/" title="Trang chủ">
+                            Trang chủ
+                        </a>
+                    </li>
+                    <li class="separator icon_small_arrow right_gray">
+                        &nbsp;
+                    </li>
+                    <li>
+                        Chuyên Khoa
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="page_left page_margin_top">
+            <ul class="accordion wide">
+                <li>
+                    <div id="accordion-primary-health-care">
+                        <h3>{{department.Name}}</h3>
+                    </div>
+                    <div class="clearfix tabs">
+                        <ul class="tabs_navigation clearfix">
+                            <li>
+                                <a href="#primary-health-care-general" title="General info">
+                                    Thông tin chung
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#primary-health-care-services" title="Services">
+                                    Dịch vụ chuyên khoa
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#primary-health-care-doctors" title="Doctors list">
+                                    Danh sách bác sĩ
+                                </a>
+                            </li>
+                        </ul>
+                        <div id="primary-health-care-general">
+                            <h3 class="sentence">
+                                {{department.Description}}
+                            </h3>
+                        </div>
+                        <div id="primary-health-care-services">
+                            <h3 class="sentence">
+                                Danh sách dịch vụ trong chuyên khoa
+                            </h3>
+                            <div class="columns page_margin_top clearfix">
+                                <div class="column_left">
+                                    <h3 class="box_header">
+                                        Xét nghiệm
+                                    </h3>
+                                    <ul class="items_list page_margin_top clearfix">
+                                        <li class="clearfix" ng-repeat="item in investigateServices">
+                                            <span>
+                                                {{item.Name}}
+                                            </span>
+                                            <div class="value">
+                                                {{item.Price}}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="column_right">
+                                    <h3 class="box_header">
+                                        Điều trị
+                                    </h3>
+                                    <ul class="items_list page_margin_top clearfix">
+                                        <li class="clearfix" ng-repeat="item in treatmentServices">
+                                            <span>
+                                                {{item.Name}}
+                                            </span>
+                                            <div class="value">
+                                                {{item.Price}}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="primary-health-care-doctors">
+                            <h3 class="sentence">
+                                Danh sách bác sĩ
+                            </h3>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="page_right page_margin_top">
+            <ul>
+                <li class="home_box light_blue animated_element animation-fadeIn duration-500" style="z-index: 3;">
+                    <h2>
+                        <a href="?page=contact" title="Emergency Case">
+                            Khám và tư vấn miễn phí
+                        </a>
+                    </h2>
+                    <div class="news clearfix">
+                        <p class="text">
+                            Chúng tôi cung cấp dịch vụ khám sàng lọc bệnh tim bẩm sinh cho tất cả các đối tượng.
+                        </p>
+                        <a class="more light icon_small_arrow margin_right_white" href="?page=contact" title="Chi tiết">Chi tiết</a>
+                    </div>
+                </li>
+                <li class="home_box blue animated_element animation-slideDown duration-800 delay-250" style="z-index: 2;">
+                    <h2>
+                        <a href="?page=timetable" title="Doctors Timetable">
+                            Lịch khám của bác sĩ
+                        </a>
+                    </h2>
+                    <div class="news clearfix">
+                        <p class="text">
+                            Chúng tôi cung cấp dịch vụ chọn bác sĩ khám bệnh, chọn Chi tiết để được hướng dẫn chi tiết các bước đặt lịch khám online.
+                        </p>
+                        <a class="more light icon_small_arrow margin_right_white" href="?page=timetable" title="Chi tiết">Chi tiết</a>
+                    </div>
+                </li>
+                <li class="home_box dark_blue animated_element animation-slideDown200 duration-800 delay-500" style="z-index: 1;">
+                    <h2>
+                        Giờ làm việc
+                    </h2>
+                    <ul class="items_list thin dark_blue opening_hours">
+                        <li class="clearfix">
+                            <span>
+                                Thứ 2 - Thứ 6
+                            </span>
+                            <div class="value">
+                                8.00 - 17.00
+                            </div>
+                        </li>
+                        <li class="clearfix">
+                            <span>
+                                Thứ 7
+                            </span>
+                            <div class="value">
+                                9.30 - 17.30
+                            </div>
+                        </li>
+                        <li class="clearfix">
+                            <span>
+                                Chủ nhật
+                            </span>
+                            <div class="value">
+                                9.30 - 15.00
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar_box"  ng-include="'app/components/contact-partial/contact-partial.template.html'">
+                    
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>		

@@ -1,0 +1,7 @@
+﻿'use strict';
+
+angular.
+  module('core.homepage').
+  factory('HomePage', ['$resource', 'Params',
+    function ($resource, Params) {
+    }]);

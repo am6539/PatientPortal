@@ -1,0 +1,14 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.API.Core.Models
+{
+    public class ArticleFilterModel
+    {
+        public int Id { get; set; }
+        public byte NumTop { get; set; }
+        public Guid PatientId { get; set; }
+    }
+}

@@ -1,0 +1,30 @@
+﻿CREATE PROCEDURE [dbo].[usp_Language_CheckExist]
+	@Name  NVARCHAR(50),
+	@Id TINYINT
+AS
+BEGIN
+	DECLARE @flag BIT = 0;
+	DECLARE @count TINYINT = 0;
+	IF(@Id > 0)
+	BEGIN
+		SET @count = (SELECT	count(*)
+					  FROM		[dbo].[Language]
+					  WHERE		[Id] != @Id AND ([Name] = @Name OR [Code] = @Name)
+					  )
+		IF(@count > 0)
+		BEGIN
+			SET @flag =1
+		END
+	END
+	else
+	BEGIN
+		SET @count = (SELECT	count(*)
+					  FROM		[dbo].[Language]
+					  WHERE		[Name] = @Name OR [Code] = @Name)
+		IF(@count > 0)
+		BEGIN
+			SET @flag =1
+		END
+	END
+RETURN @flag
+END

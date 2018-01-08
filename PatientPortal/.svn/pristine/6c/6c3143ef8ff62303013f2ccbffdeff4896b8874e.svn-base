@@ -1,0 +1,42 @@
+﻿using PatientPortal.CMS.Common;
+using PatientPortal.CMS.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.CMS.Controllers
+{
+    public class LibraryController : Controller
+    {
+        public void UploadNow(HttpPostedFileWrapper upload, string folder)
+        {
+            var fullPath = ValueConstant.IMAGE_PATH + ValueConstant.IMAGE_POST_PATH + folder;
+            if (upload != null && upload.ContentType.Contains("image"))
+            {
+                string imageName = upload.FileName;
+                string path = Path.Combine(Server.MapPath(fullPath), imageName);
+                upload.SaveAs(path);
+            }
+            else
+            {
+                string fileName = upload.FileName;
+                string path = Path.Combine(Server.MapPath(fullPath), fileName);
+                upload.SaveAs(path);
+            }
+        }
+
+        public ActionResult UploadPartial(string folder)
+        {
+            var fullPath = ValueConstant.IMAGE_PATH + ValueConstant.IMAGE_POST_PATH + folder + ValueConstant.FOLDER_SEPARATOR;
+            var appData = Server.MapPath(fullPath);
+            var image = Directory.GetFiles(appData).Select(x => new FileViewModel
+            {
+                Url = Url.Content(fullPath + Path.GetFileName(x))
+            });
+            return PartialView(image);
+        }
+    }
+}

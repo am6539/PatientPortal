@@ -1,0 +1,71 @@
+﻿
+<link href="assets/css/site/menuPage.css" rel="stylesheet" />
+
+<div class="brd-wrap" ng-include="'app/shared/template-include/submenu.template.html'">
+</div>
+
+<div class="top-content">
+</div>
+<div class="content container">
+    <div class="row">
+        <div class="content-bg">
+            <div id="ctl00_divCenter" class="col-left">
+                <div class="content-bg2">
+
+                    <div class='Module Module-561'>
+                        <div class="ser-con">
+                            <div class="ser-item" ng-repeat="item in departments">
+                                <h2>
+                                    <a class="title" href="/department/{{item.Id}}">{{item.Name}}</a>
+                                </h2>
+                                <a class="thumb" href="/department/{{item.Id}}">
+                                    <img ng-src="{{item.Img}}" alt="Khoa Tim mạch" />
+                                </a>
+                                <div class="item-post" style="overflow: hidden; max-height: 80px">
+                                    <div class="ser-desc">{{item.Description}}</div>
+                                    <a class="ser-more" href="/department/{{item.Id}}" title="Khoa Tim mạch">Xem thêm</a>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="ctl00_divRight" class="col-right cmszone" ng-include="'app/shared/template-include/contact-hotline.template.html'">
+
+                <!--<div class='Module Module-258' >
+                    
+                    <div class="fb-page" data-href="#" data-tabs="Facebook" data-width="231" data-small-header="false" data-adapt-container-width="false" data-hide-cover="false" data-show-facepile="true">
+                        <div class="fb-xfbml-parse-ignore">
+                        <blockquote cite="#">
+                         <a href="#">{{contact.Name}}</a></blockquote></div>
+                    </div>
+                    <div class="emhotline">
+                        Cấp cứu<span ng-show="contact.Hotline != null">{{contact.Hotline}}</span>
+                    </div>
+                    <a href="#" target="_blank">
+                    <img src="../../../assets/images/adv/KS-ngoai-tru.png" alt="Khao-sat-ngoai-tru" /></a>
+                    <a href="#" target="_blank">
+                    <img src="../../../assets/images/adv/KS-noi-tru.png" alt="Khao-sat-noi-tru" /></a>
+                </div>
+                <div class='Module Module-795'>
+                    <div class="cc-wrap">
+                        <h4>
+                            <a href="/saigon/cau-chuyen-benh-nhan">Câu chuyện bệnh nhân</a>
+                        </h4>
+                        <table></table>
+                    </div>
+                </div>
+                <div class='Module Module-573'>
+                    <p>
+                        <span style="font-size: 13px;">&nbsp;</span>
+                        <img alt="" src="images/media/5/banner/Banner_GIF.gif" />
+                    </p>
+                </div>-->
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+﻿@model string
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>401 - Error:401 - UnAuthorized</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/error.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="text-center"> 
+        <div class="img-unauthorized">
+        </div>
+        <h2>Unauthorized Access</h2>
+        <h4>You are not authorized to access @Model </h4>
+        <p>Please, contact Tech Support if you feel you have reached this message in error.</p>
+        <label>Back to <a href="@Url.Action("Index","Home")">Home</a></label>
+    </div>
+</body>
+</html>

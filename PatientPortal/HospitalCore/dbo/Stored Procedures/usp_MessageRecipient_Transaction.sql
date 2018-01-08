@@ -1,0 +1,33 @@
+﻿CREATE PROCEDURE [dbo].[usp_MessageRecipient_Transaction]
+	@MessageId INT,
+	@ReceiverId NVARCHAR(128) = ''
+AS BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+	DECLARE @return INT = 0
+
+	BEGIN TRY
+		BEGIN TRAN
+			IF @MessageId > 0 AND @ReceiverId > 0
+				IF NOT EXISTS (SELECT TOP 1 * FROM [dbo].MessageRecipient WHERE MessageId = @MessageId AND ReceiverId = @ReceiverId)
+					BEGIN
+						INSERT INTO [dbo].MessageRecipient
+						VALUES(@MessageId, @ReceiverId, 1)
+
+						SET @return = @MessageId
+					END
+				ELSE
+					SET @return = 0
+			ELSE
+				SET @return = 0
+		COMMIT TRAN
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0
+			BEGIN
+				ROLLBACK TRAN
+				SET @return = 0
+			END
+	END CATCH
+	SELECT @return
+END

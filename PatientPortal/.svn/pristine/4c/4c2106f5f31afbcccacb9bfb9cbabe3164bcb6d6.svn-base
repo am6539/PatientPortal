@@ -1,0 +1,12 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.PatientServices.Models.UserInfoBindingModel
+@{
+    ViewBag.Title = "Thông tin cá nhân";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-title">@Html.ITitle("Hồ sơ bệnh nhân","")</div>
+    <div class="card-content">
+    </div>
+</div>

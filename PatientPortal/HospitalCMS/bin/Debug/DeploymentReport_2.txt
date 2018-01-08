@@ -1,0 +1,20 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Create
+       [dbo].[usp_Post] (Procedure)
+       [dbo].[usp_PostSEO] (Procedure)
+       [dbo].[usp_PostTrans] (Procedure)
+       [dbo].[usp_Workflow] (Procedure)
+       [dbo].[usp_WorkflowNavigation] (Procedure)
+       [dbo].[usp_WorkflowState] (Procedure)
+
+** Supporting actions

@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - CMS - Patient Portal</title>
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("styles", required: false)
+</head>
+<body>
+    <header class="cd-main-header">
+        <a href="#0" class="cd-logo">
+            <span class="fa fa-cogs fa-2x"></span> ADMIN PANEL
+        </a>
+        <div class="navicon">
+            <span class="navicon-breadcrumb">@ViewBag.Title</span>
+        </div>
+        <div class="cd-search is-hidden">
+            <form action="#0">
+                <input type="search" placeholder="Tìm kiếm...">
+            </form>
+        </div> <!-- cd-search -->
+        <a href="#0" class="cd-nav-trigger"><span></span></a>
+        <nav class="cd-nav">
+            <ul class="cd-top-nav">
+                <li><a href="#0"><span class="fa fa-bell"></span></a></li>
+                <li><a href="#0"><span class="fa fa-envelope-o"></span></a></li>
+                <li class="has-children account">
+                    <a href="#0">
+                        @*<img src="#" alt="avatar">
+                            Admin*@
+                        <img src="~/img/user-128-2.png" />ADMIN
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="#">
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header> <!-- .cd-main-header -->
+    <main class="cd-main-content">
+        <nav class="cd-side-nav">
+            <div class="wrapper-user">
+                <div class="icon-user">
+                    <div class="box">
+                        <img src="~/img/adminicon.png" style="width:75%; height:auto; border:2px solid #5c637c" class="img-circle" />
+                        <div class="icon">
+                            <a href="/Demo/Personal" class="icon1"><i class="fa fa-link"></i></a>
+                            <a href="#" class="icon2"><i class="fa fa-plus"></i></a>
+                        </div>
+                        <div class="box-content">
+                            <h3 class="title">ADMIN</h3>
+                            <span class="post">admin@hospital.vn</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="welcome-note">
+                </div>
+            </div>
+            <ul>
+                <li class="cd-label">POST MANAGEMENT</li>
+                <li class="has-children overview">
+                    <a href="@Url.Action("Index","Category")">Chuyên mục</a>
+                </li>
+                <li class="has-children overview">
+                    <a href="@Url.Action("Index","CMSPost")">Bản tin</a>
+                </li>
+                <li class="has-children overview">
+                    <a href="@Url.Action("ApprovePost","CMS")">Duyệt tin</a>
+                </li>
+                <li class="has-children overview">
+                    <a href="@Url.Action("PublishPost","CMS")">Xuất bản</a>
+                </li>
+                <li class="has-children overview">
+                    <a href="@Url.Action("Sites","CMS")">Liên kết Website</a>
+                </li>
+            </ul>
+            <ul>
+                <li class="cd-label">LIBRARY</li>
+
+                <li class="has-children message-box">
+                    <a href="@Url.Action("Gallery","CMS")">Hình ảnh</a>
+                </li>
+                <li class="has-children message-box">
+                    <a href="@Url.Action("Video","CMS")">Video</a>
+                </li>
+            </ul>
+            <ul>
+                <li class="cd-label">Action</li>
+                <li class="action-btn"><a href="#0">Đăng bản tin</a></li>
+            </ul>
+        </nav>
+        <div class="content-wrapper">
+            <div class="content-render">
+                @RenderBody()
+            </div>
+        </div> <!-- .content-wrapper -->
+    </main> <!-- .cd-main-content -->
+
+    <!--Back to top-->
+    <div class="fis_backtop"><i class="fa fa-chevron-up"></i></div>
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @Scripts.Render("~/bundles/app")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

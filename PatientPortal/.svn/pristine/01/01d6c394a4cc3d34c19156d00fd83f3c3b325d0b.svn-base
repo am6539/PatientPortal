@@ -1,0 +1,24 @@
+﻿CREATE TABLE [dbo].[Users] (
+    [Id]             INT            IDENTITY (1, 1) NOT NULL,
+    [Name]           NVARCHAR (32)  NOT NULL,
+    [Code]           CHAR (20)      NOT NULL,
+    [Email]          NVARCHAR (256) NOT NULL,
+    [PasswordHash]   VARCHAR (60)   NOT NULL,
+    [PhoneNumber]    VARCHAR (20)   NULL,
+    [HomePhone]      VARCHAR (20)   NULL,
+    [DateOfBirth]    DATE           NULL,
+    [Gender]         TINYINT        CONSTRAINT [DF__USERS__Gender__108B795B] DEFAULT ((1)) NOT NULL,
+    [Image]          VARCHAR (256)  NULL,
+    [OrganizationId] SMALLINT       NOT NULL,
+    [Status]         BIT            CONSTRAINT [DF__USERS__Status__117F9D94] DEFAULT ((1)) NOT NULL,
+    [PatientId] CHAR(10) NULL, 
+    CONSTRAINT [PK_USERS] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_Users_Organization] FOREIGN KEY ([OrganizationId]) REFERENCES [dbo].[Organization] ([Id]),
+    CONSTRAINT [UQ__USERS__A9D1053429B4C0C0] UNIQUE NONCLUSTERED ([Email] ASC)
+);
+
+
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [idxUserAccess]
+    ON [dbo].[Users]([Code] ASC, [Email] ASC);
+

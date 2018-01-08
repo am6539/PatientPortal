@@ -1,0 +1,277 @@
+﻿using PatientPortal.CMS.Common;
+using PatientPortal.CMS.Models;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using PatientPortal.Utility.Application;
+using PatientPortal.Domain.LogManager;
+using PatientPortal.Domain.Models.AUTHEN;
+using static PatientPortal.Utility.Application.ApplicationGenerator;
+//using WebMarkupMin.AspNet4.Mvc;
+
+namespace PatientPortal.CMS.Controllers
+{
+    [Authorize]
+    [AppHandleError]
+    //[CompressContent]
+    //[MinifyHtml]
+    public class LanguageController : Controller
+    {
+        private static string controllerName = string.Empty;
+        private readonly IUserSession _userSession;
+
+        public LanguageController(IUserSession userSession)
+        {
+            _userSession = userSession;
+        }
+
+        #region Get List
+        // GET: Languages
+        public async Task<ActionResult> Index()
+        {
+            try
+            {
+                var results = new LanguagesModel();
+                //Call API Provider
+                controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                var list = await APIProvider.Authorize_Get<List<LanguageViewModel>>(_userSession.BearerToken, controllerName, APIConstant.API_Resource_CMS, ARS.Get);
+
+                var language = new LanguageViewModel();
+
+                results.lstLanguageViewModel = (list != null ? list : new List<LanguageViewModel>());
+                results.LanguageViewModel = language;
+
+                TempData["Data"] = list;
+                return View(results);
+            }
+            catch (HttpException ex)
+            {
+                Logger.LogError(ex);
+                int statusCode = ex.GetHttpCode();
+                if (statusCode == 401)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(FuntionType.Department, APIConstant.ACTION_ACCESS);
+                    return new HttpUnauthorizedResult();
+                }
+
+                throw ex;
+            }
+        }
+        #endregion
+
+        #region Create
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Create(LanguageViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    //Call API Provider
+                    string strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_INSERT);
+                    var result = await APIProvider.Authorize_DynamicTransaction<LanguageViewModel, bool>(model, _userSession.BearerToken, strUrl, APIConstant.API_Resource_CMS, ARS.Insert);
+
+                    if (result)
+                    {
+                        TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.SUCCESS));
+                    }
+                    else
+                    {
+                        TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                    }
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    var languages = new LanguagesModel();
+                    if (TempData["Data"] != null)
+                    {
+                        languages.lstLanguageViewModel = (List<LanguageViewModel>)TempData["Data"];
+                    }
+                    else
+                    {
+                        languages.lstLanguageViewModel = await APIProvider.Authorize_Get<List<LanguageViewModel>>(_userSession.BearerToken, controllerName, APIConstant.API_Resource_CMS, ARS.Get);
+                    }
+
+                    languages.LanguageViewModel = model;
+
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                    return View("Index", languages);
+                }
+            }
+            catch (HttpException ex)
+            {
+                Logger.LogError(ex);
+                int statusCode = ex.GetHttpCode();
+                if (statusCode == 401)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(FuntionType.Department, APIConstant.ACTION_ACCESS);
+                    return new HttpUnauthorizedResult();
+                }
+
+                throw ex;
+            }
+        }
+        #endregion
+
+        #region Edit
+
+        [HttpGet]
+        public async Task<ActionResult> Edit(byte id)
+        {
+            var model = new LanguageViewModel();
+            try
+            {
+                if (!await APIProvider.Authorization(_userSession.BearerToken, ARS.Edit))
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.FuntionType.Account, APIConstant.ACTION_UPDATE);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    //Call API Provider
+                    string strUrl = controllerName + APIProvider.APIGenerator(this, this.RouteData.Values["action"].ToString(), id);
+                    model = await APIProvider.Authorize_Get<LanguageViewModel>(_userSession.BearerToken, strUrl, APIConstant.API_Resource_CMS, ARS.Get);
+                    if (model != null)
+                        return View(model);
+                    else
+                        return View(model);
+                }
+            }
+            catch (HttpException ex)
+            {
+                Logger.LogError(ex);
+                int statusCode = ex.GetHttpCode();
+                if (statusCode == 401)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(FuntionType.Department, APIConstant.ACTION_ACCESS);
+                    return new HttpUnauthorizedResult();
+                }
+
+                throw ex;
+            }
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Edit(LanguageViewModel model, HttpPostedFileBase fileUpload)
+        {
+            if (ModelState.IsValid)
+            {
+                //Call API Provider 
+                string strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_UPDATE);
+                var result = await APIProvider.Authorize_DynamicTransaction<LanguageViewModel, bool>(model, _userSession.BearerToken, strUrl, APIConstant.API_Resource_CMS, ARS.IgnoredARS);
+
+                if (result)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.FAIL));
+                return View();
+            }
+        }
+        #endregion
+
+        #region Delete
+        public async Task<ActionResult> Delete(LanguageViewModel model)
+        {
+            try
+            {
+                if (!await APIProvider.Authorization(_userSession.BearerToken, ARS.Delete))
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.FuntionType.Article, APIConstant.ACTION_DELETE);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return PartialView("_Delete", model);
+                }
+            }
+            catch (HttpException ex)
+            {
+                Logger.LogError(ex);
+                int statusCode = ex.GetHttpCode();
+                if (statusCode == 401)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(FuntionType.Department, APIConstant.ACTION_ACCESS);
+                    return new HttpUnauthorizedResult();
+                }
+
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Delete(byte id)
+        {
+            var model = new LanguageViewModel();
+            model.Id = id;
+
+            //Call API Provider - Get data
+            string apiUrl = APIProvider.APIGenerator(controllerName, "CheckIsUsed", new List<string> { "id" }, false, model.Id);
+            var checkIsused = await APIProvider.Authorize_Get<bool>(_userSession.BearerToken, apiUrl, APIConstant.API_Resource_CMS, ARS.Get);
+
+            if (!checkIsused)
+            {
+                try
+                {
+                    //Call API Provider - Transaction
+                    apiUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_DELETE);
+                    var result = await APIProvider.Authorize_DynamicTransaction<LanguageViewModel, bool>(model, _userSession.BearerToken, apiUrl, APIConstant.API_Resource_CMS, ARS.IgnoredARS);
+
+                    if (result)
+                    {
+                        TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, "Xóa thành công");
+                    }
+                    else
+                    {
+                        TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, "Xóa không thành công");
+                    }
+
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogError(ex);
+                    return RedirectToAction("Index");
+                }
+            }
+            else
+            {
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ISUSED, "Ngôn ngữ đã được sử dụng.");
+                return RedirectToAction("Index");
+            }
+            
+        }
+
+        #endregion
+
+        #region Check exist
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<JsonResult> CheckExist(string Code, byte Id)
+        {
+            //string apiUrl = APIProvider.APIGenerator(controllerName, new List <string> { nameof(Id), nameof(Code)}, false, Id, Code);
+            string apiUrl = APIProvider.APIGenerator(controllerName, new List<string> {"id","code" },false, Id, Code.Trim());
+            var isExist = await APIProvider.Authorize_Get<bool>(_userSession.BearerToken, apiUrl, APIConstant.API_Resource_CMS, ARS.IgnoredARS);
+
+            return Json(!isExist, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
+    }
+}

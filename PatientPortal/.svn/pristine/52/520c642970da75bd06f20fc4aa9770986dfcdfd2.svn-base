@@ -1,0 +1,69 @@
+﻿@using PatientPortal.Provider.Helpers;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .noti-item div{
+        height: 50px; padding: 5px;
+    }
+    .noti-item-content{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
+<div class="card">
+    @Html.Raw(TempData["Alert"])
+    <div class="card-title">@Html.ITitle("Thông báo", "commenting-o")</div>
+    <div class="card-content">
+        <div class="col-md-8">
+           <ul id="containNot">
+           </ul>
+        </div>
+    </div>
+</div>
+@section scripts{
+
+<script>
+    $(document).ready(function () {
+
+        var numberInPage = 10;
+        var pageIndex = 1;
+        GetData();
+        $(window).scroll(function () {
+            if ($(window).scrollTop() ==
+               $(document).height() - $(window).height()) {
+                GetData();
+            }
+        });
+
+        function GetData() {
+            $.ajax({
+                type: 'GET',
+                url: '/UserNotification/GetData',
+                data: { "pageindex": pageIndex, "numberInPage": numberInPage },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.lstUserNotificationViewModel != null) {
+                        var result = data.lstUserNotificationViewModel;
+                        for (var i = 0; i < result.length; i++) {
+                            $("#containNot").append("<li class='noti-item'><div><a><p class='noti-item-content'>"
+                                 + result[i].Detail +
+                                "</p></a></div></li>");
+                        }
+                        pageIndex++;
+                    }
+                },
+                beforeSend: function () {
+                },
+                complete: function () {
+                },
+                error: function () {
+                    alert("Error while retrieving data!");
+                }
+            });
+        }
+    });
+</script>
+    }

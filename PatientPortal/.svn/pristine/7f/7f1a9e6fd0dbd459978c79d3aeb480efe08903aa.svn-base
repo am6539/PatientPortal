@@ -1,0 +1,62 @@
+﻿CREATE PROC [dbo].[usp_OfferAdvise_Transaction]
+(
+	@Action CHAR(1) = 'I',
+	@Date SMALLDATETIME,
+	@Id INT = 1,
+	@Detail NVARCHAR(MAX) = '',
+	@PatientId NVARCHAR(128),
+	@Tag NVARCHAR(150),
+	@Status tinyint = 1,
+	@Message NVARCHAR(MAX) = ''
+)
+AS BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+	DECLARE @return INT = 0
+
+	BEGIN TRY
+		BEGIN TRAN;
+			--DECLARE @Date SMALLDATETIME
+
+			IF @Action = 'I' --INSERT
+			BEGIN
+				SET @Date = GETDATE()
+
+				INSERT [dbo].[OfferAdvise] ([Date], Detail, PatientId, Tag,[Status], [Message])
+				VALUES(@Date, @Detail, @PatientId, @Tag, @Status, @Message)
+
+				SET @return = SCOPE_IDENTITY()
+			END
+
+			IF @Action = 'U' --UPDATE
+			BEGIN
+				UPDATE [dbo].[OfferAdvise]
+				SET [Detail] = @Detail, Tag = @Tag,
+				[Status] = @Status,
+				[Message] = @Message
+				WHERE [Id] = @Id  
+
+				SET @return = @Id
+			END
+
+			IF @Action = 'D' --DELETE
+			BEGIN
+				BEGIN
+					DELETE FROM [dbo].[OfferAdvise]
+					WHERE [Id] = @Id
+
+					SET @return = @Id
+				END
+			END
+
+			COMMIT TRAN;
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0 
+		BEGIN
+			ROLLBACK TRAN;
+			SET  @return = 0
+		END
+	END CATCH
+	SELECT @return;
+END

@@ -1,0 +1,5 @@
+﻿
+@{
+    ViewBag.Title = "ViewD";
+    Layout = "~/Views/Shared/View.cshtml";
+}

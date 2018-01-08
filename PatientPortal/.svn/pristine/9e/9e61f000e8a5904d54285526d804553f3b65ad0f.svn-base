@@ -1,0 +1,100 @@
+﻿using PatientPortal.Domain.LogManager;
+using PatientPortal.Domain.Models.AUTHEN;
+using PatientPortal.Internal.Common;
+using PatientPortal.Internal.Models;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using PatientPortal.Utility.Application;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.Internal.Controllers
+{
+    [Authorize]
+    public class OfferAdviseController : Controller
+    {
+        private static string controllerName = string.Empty;
+        private readonly IUserSession _userSession;
+
+        public OfferAdviseController(IUserSession userSession)
+        {
+            _userSession = userSession;
+        }
+
+        // GET: OfferAdvise
+        public async Task<ActionResult> Index()
+
+        {
+            try
+            {
+                controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                List<string> listPara = new List<string> { "patientId" };
+                var strUrl = APIProvider.APIGenerator(controllerName, listPara, true, string.Empty);
+                var list = await APIProvider.Get<List<OfferAdviseViewModel>>(strUrl, APIConstant.API_Resource_CORE);
+
+                return View(list);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw ex.GetBaseException();
+            }
+            
+        }
+
+        public async Task<ActionResult> Edit(int id)
+        {
+            OfferAdviseViewModel model;
+            try
+            {
+                //Call API Provider
+                var strUrl = controllerName + APIProvider.APIGenerator(this, this.RouteData.Values["action"].ToString(), id);
+                model = await APIProvider.Get<OfferAdviseViewModel>(strUrl, APIConstant.API_Resource_CORE);
+                if (model.Tag != string.Empty)
+                    ViewBag.Tags = model.Tag;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw ex.GetBaseException();
+            }
+            return View(model);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Edit(OfferAdviseViewModel model)
+        {
+            model.Date = DateTime.Now;
+            model.PatientId = _userSession.UserId;
+            if (ModelState.IsValid)
+            {
+                //Call API Provider 
+                var strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_UPDATE);
+                var result = await APIProvider.DynamicTransaction<OfferAdviseViewModel, int>(model, strUrl, APIConstant.API_Resource_CORE);
+
+                if (result > 0)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(APIConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                if (model.Tag != null)
+                {
+                    ViewBag.Tags = model.Tag;
+                }
+                return View(model);
+            }
+        }
+    }
+}

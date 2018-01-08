@@ -1,0 +1,42 @@
+﻿using PatientPortal.DataAccess.Repo.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CMS;
+using System.Transactions;
+using PatientPortal.Domain.Utilities;
+using PatientPortal.DataAccess.Dapper;
+using Dapper;
+using PatientPortal.DataAccess.Repo.Wrapper;
+
+namespace PatientPortal.DataAccess.CMS
+{
+    public class PostTranImpl : IPostTran
+    {
+        private readonly IAdapterPattern _adapterPattern;
+
+        /// <summary>
+        /// Init
+        /// </summary>
+        /// <param name="adapterPattern"></param>
+        public PostTranImpl(IAdapterPattern adapterPattern)
+        {
+            this._adapterPattern = adapterPattern;
+        }
+
+        /// <summary>
+        /// Get all 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<PostTran> SingleQuery(Dictionary<string, dynamic> para)
+        {
+            return await _adapterPattern.SingleExecuteQuery<PostTran>(para, "usp_PostTrans_GetAll");
+        }
+        public async Task<bool> Transaction(PostTran data, char action)
+        {
+            return await _adapterPattern.SingleTransaction<PostTran, bool>(data, "usp_Category_Transaction", action);
+        }
+    }
+}

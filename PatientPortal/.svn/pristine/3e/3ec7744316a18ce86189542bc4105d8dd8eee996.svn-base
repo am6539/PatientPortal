@@ -1,0 +1,296 @@
+﻿<div ng-init="loadData()">
+    <header id="header">
+        <nav id="main-menu" class="navbar navbar-default navbar-fixed-top" role="banner">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">
+                        <img src="../../../assets/images/logo.png" alt="Bệnh viện Phạm Ngọc Thạch" style="width:70%;"/>
+                    </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right">
+                    <ul class="nav navbar-nav" set-class-when-at-top="fix-to-top">
+                        <li class="scroll" ng-repeat="menu in menus" ng-class="{active: $index === 0}">
+                            <a ng-href="{{menu.Handler}}" scroll-On-Click>{{menu.Name}}</a>
+                        </li>
+                        <li><a class="" style="padding-top:33px;" href="/appointment"> <span class="btn btn-success">Đặt lịch khám trực tuyến</span></a></li>
+                    </ul>
+                </div>
+            </div><!--/.container-->
+        </nav><!--/nav-->
+    </header><!--/header-->
+
+    <section id="main-slider">
+        <div class="owl-carousel" role="listbox">
+            <div class="item" ng-repeat="item in sliders" style="background-image: url('{{item.Image}}');">
+                <div class="slider-inner">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="carousel-content">
+                                    <h2>{{item.Title}}</h2>
+                                    <p>{{item.Description}}</p>
+                                    <a class="btn btn-primary btn-lg" href="#">Xem tiếp</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!--/#main-slider-->
+
+    <section id="services">
+        <div class="container">
+
+            <div class="section-header">
+                <h2 class="section-title text-center wow fadeInDown">DỊCH VỤ CHẤT LƯỢNG CAO</h2>
+                <p class="text-center wow fadeInDown">Chúng tôi mang đến các dịch vụ chuẩn đoán, điều trị bệnh tiên tiến nhất và làm hài lòng về chất lượng tay nghề đội ngũ y bác sĩ tại FIS  Health Medical Center.</p>
+            </div>
+
+            <div class="row">
+                <div class="features" ng-repeat="feature in features">
+                    <div class="col-md-4 col-sm-6 wow fadeInUp" data-wow-duration="300ms" data-wow-delay="{{$index == 0 ? '0ms' : $index == 1 ? '100ms' : $index == 2 ? '200ms' : $index == 3 ? '300ms' : $index == 4 ? '400ms' : '500ms'}}">
+                        <div class="media service-box">
+                            <div class="pull-left">
+                                <i class="fa" style="background: url({{::feature.Image}}); background-size: cover;"></i>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading">{{ feature.Title }}</h4>
+                                <p>{{ feature.Description }}</p>
+                            </div>
+                        </div>
+                    </div><!--/.col-md-4-->
+                    <div class="{{$index == 2 ? 'clearfix' : ''}}"></div>
+                </div>
+            </div><!--/.row-->
+        </div><!--/.container-->
+    </section><!--/#services-->
+
+    <section id="portfolio">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title text-center wow fadeInDown">Chuyên khoa điều trị</h2>
+                <p class="text-center wow fadeInDown"></p>
+            </div>
+
+            <div class="text-center">
+                <ul class="portfolio-filter" ng-repeat="dep in departments">
+                    <li><a ng-click="getDepartmentDetail(dep.Id)" href="#" data-filter=".creative">{{ dep.Name }}</a></li>
+                </ul><!--/#portfolio-filter-->
+            </div>
+
+            <div ng-repeat="depImg in departments">
+                <div class="portfolio-items">
+                    <div class="portfolio-item creative">
+                        <div class="portfolio-item-inner">
+                            <img class="img-responsive" ng-src="{{ depImg.Image }}" style="height:150px;">
+                            <div class="portfolio-info">
+                                <h3>{{ depImg.Name }}</h3>
+                                {{ depImg.Description }}
+                                <a class="preview" href="{{ depImg.Handler }}" rel="prettyPhoto"><i class="fa fa-eye"></i></a>
+                            </div>
+                        </div>
+                    </div><!--/.portfolio-item-->
+                </div>
+            </div>
+
+        </div><!--/.container-->
+    </section><!--/#portfolio-->
+
+    <section id="about">
+        <div class="container">
+
+            <div class="section-header">
+                <h2 class="section-title text-center wow fadeInDown">VỀ CHÚNG TÔI</h2>
+                <p class="text-center wow fadeInDown"></p>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 wow fadeInLeft">
+                    <h3 class="column-title">Video</h3>
+                    <!-- 16:9 aspect ratio -->
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe width="854" height="480" src="https://www.youtube.com/embed/PD-u-SzlVQw" frameborder="0" allowfullscreen style="width:95%; height:300px;"></iframe>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 wow fadeInRight">
+                    <h3 class="column-title">{{ about.TitleTran }}</h3>
+
+                    <div>{{ about.DescriptionTrans }}</div>
+                    <div class="row"></div>
+                    <a class="btn btn-primary" href="/detail/{{about.Id}}">Tìm hiểu thêm</a>
+
+                </div>
+            </div>
+        </div>
+    </section><!--/#about-->
+
+    <section id="animated-number">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title text-center wow fadeInDown">Thống kê chung</h2>
+                <p class="text-center wow fadeInDown">Chỉ số thực tế một số dịch vụ và dữ liệu bệnh nhân tại cơ sở.</p>
+            </div>
+
+            <div class="row text-center">
+                <div class="col-sm-3 col-xs-6">
+                    <div class="wow fadeInUp" data-wow-duration="400ms" data-wow-delay="0ms">
+                        <div class="animated-number" data-digit="2305" data-duration="1000"></div>
+                        <strong>Bệnh nhân Tháng 12/2016</strong>
+                    </div>
+                </div>
+                <div class="col-sm-3 col-xs-6">
+                    <div class="wow fadeInUp" data-wow-duration="400ms" data-wow-delay="100ms">
+                        <div class="animated-number" data-digit="1231" data-duration="1000"></div>
+                        <strong>Bệnh nhân đăng ký khám bệnh Online</strong>
+                    </div>
+                </div>
+                <div class="col-sm-3 col-xs-6">
+                    <div class="wow fadeInUp" data-wow-duration="400ms" data-wow-delay="200ms">
+                        <div class="animated-number" data-digit="3025" data-duration="1000"></div>
+                        <strong>Bệnh nhân đã điều trị khỏi bệnh</strong>
+                    </div>
+                </div>
+                <div class="col-sm-3 col-xs-6">
+                    <div class="wow fadeInUp" data-wow-duration="400ms" data-wow-delay="300ms">
+                        <div class="animated-number" data-digit="1199" data-duration="1000"></div>
+                        <strong>Câu hỏi được Ban tư vấn hồi đáp</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!--/#animated-number-->
+
+
+    <section id="blog">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title text-center wow fadeInDown">Tin tức</h2>
+                <p class="text-center wow fadeInDown"></p>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="blog-post blog-large wow fadeInLeft" data-wow-duration="300ms" data-wow-delay="0ms">
+                        <article>
+                            <header class="entry-header">
+                                <div class="entry-thumbnail">
+                                    <img class="img-responsive" ng-src="{{ firstPost.Image }}" alt="">
+                                    <span class="post-format post-format-video"><i class="fa fa-film"></i></span>
+                                </div>
+                                <div class="entry-date">Ngày {{ firstPost.PublishDate | dateFilter | date:'dd-MM-yyyy' }} </div>
+                                <h2 class="entry-title"><a href="/detail/{{firstPost.Id}}">{{ firstPost.TitleTran }}</a></h2>
+                            </header>
+
+                            <div class="entry-content">
+                                <P>{{ firstPost.DescriptionTrans }}</P>
+                                <a class="btn btn-primary" href="/detail/{{firstPost.Id}}">Xem thêm</a>
+                            </div>
+
+                            <footer class="entry-meta">
+                                <span class="entry-author"><i class="fa fa-pencil"></i> <a href="#">{{ firstPost.Author }}</a></span>
+                            </footer>
+                        </article>
+                    </div>
+                </div>
+                <div class="col-sm-6" ng-repeat="item in Posts">
+                    <div class="blog-post blog-media wow fadeInRight" data-wow-duration="300ms" data-wow-delay="100ms">
+                        <article class="media clearfix">
+                            <div class="entry-thumbnail pull-left">
+                                <img class="img-thumbnail-post img-responsive" ng-src="{{ item.Image }}" alt="">
+                                <span class="post-format post-format-gallery"><i class="fa fa-image"></i></span>
+                            </div>
+                            <div class="media-body">
+                                <header class="entry-header">
+                                    <div class="entry-date">Ngày {{ item.PublishDate | dateFilter | date:'dd-MM-yyyy' }} </div>
+                                    <h2 class="entry-title"><a href="/detail/{{item.Id}}">{{ item.TitleTran }}</a></h2>
+                                </header>
+
+                                <div class="entry-content">
+                                    <P>{{ item.DescriptionTrans }}</P>
+                                    <a class="btn btn-primary" href="/detail/{{item.Id}}">Xem thêm</a>
+                                </div>
+
+                                <footer class="entry-meta">
+                                    <span class="entry-author"><i class="fa fa-pencil"></i> <a href="#">{{ item.Author }}</a></span>
+                                </footer>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section><!--blog-->
+
+
+    <section id="get-in-touch">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title text-center wow fadeInDown">Liên hệ đến chúng tôi</h2>
+                <p class="text-center wow fadeInDown">...</p>
+            </div>
+        </div>
+    </section><!--/#get-in-touch-->
+
+
+    <section id="contact">
+        <div id="google-map" style="height:650px" data-latitude="52.365629" data-longitude="4.871331">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.5197948079926!2d106.6784752145293!3d10.771443762231709!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f210ad406ff%3A0xdb40a8bbaf895c88!2sFPT+Information+System+HCM!5e0!3m2!1sen!2s!4v1495449317974" frameborder="0" style="border:0; width:100%; height:100%" allowfullscreen></iframe>
+        </div>
+        <div class="container-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-4 col-sm-offset-8">
+                        <div class="contact-form">
+                            <h3>Thông tin liên hệ</h3>
+
+                            <address>
+                                <strong>{{contact.Name}}</strong><br>
+                                {{contact.Address}}<br>
+                                <abbr title="Phone">Điện thoại:</abbr> {{contact.Phone}}<br />
+                                <abbr title="Fax">Fax:</abbr> {{contact.Fax}}<br />
+                                <abbr title="Hotline">Đường dây nóng:</abbr> {{contact.Hotline}}<br />
+                            </address>
+
+                            <form id="main-contact-form" name="contact-form" ng-submit="sendmail(mail)">
+                                <div class="form-group">
+                                    <input type="text" name="name" class="form-control" placeholder="Họ tên" ng-model="mail.Name" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" name="email" class="form-control" placeholder="Email" ng-model="mail.Email" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="subject" class="form-control" placeholder="Chủ đề" ng-model="mail.Subject" required>
+                                </div>
+                                <div class="form-group">
+                                    <textarea name="message" class="form-control" rows="8" placeholder="Nội dung" ng-model="mail.Body" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary" ng-disabled="main-contact-form.$pristine || main-contact-form.$invalid">Gửi tin nhắn</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!--/#bottom-->
+</div>
+
+
+<script src="../../../assets/js/jquery.js"></script>
+<script src="../../../assets/js/owl.carousel.min.js"></script>
+<script src="../../../assets/js/mousescroll.js"></script>
+<script src="../../../assets/js/smoothscroll.js"></script>
+<script src="../../../assets/js/jquery.prettyPhoto.js"></script>
+<script src="../../../assets/js/jquery.isotope.min.js"></script>
+<script src="../../../assets/js/jquery.inview.min.js"></script>
+<script src="../../../assets/js/wow.min.js"></script>
+<script src="../../../assets/js/main.js"></script>

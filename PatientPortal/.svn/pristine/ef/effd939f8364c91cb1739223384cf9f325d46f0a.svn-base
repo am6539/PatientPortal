@@ -1,0 +1,30 @@
+﻿appManagement.controller('detailController', ['$scope', 'PostService', '$filter', '$q','$route', function ($scope, PostService, $filter, $q, $route) {
+    $scope.Post = new Object();
+    $scope.Posts = [];
+
+    //get Id parameter from Url
+    var Id = $route.current.params.id;
+
+    $scope.query = function () {
+        var defer = $q.defer();
+
+        PostService.query({ Id: Id }, function (data) {
+            defer.resolve($scope.Post = data.post, $scope.Posts = data.postList);
+        });
+
+        defer.promise;
+    };
+
+    //get data of view
+    $scope.query();
+
+    //get post detail
+    $scope.viewDetail = function (Id) {
+        var defer = $q.defer();
+
+        PostService.get({ Id: Id }, function (data) {
+            defer.resolve($scope.Post = data);
+        });
+        defer.promise;
+    };
+}]);

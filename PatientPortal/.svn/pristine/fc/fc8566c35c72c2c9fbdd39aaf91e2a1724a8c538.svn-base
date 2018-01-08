@@ -1,0 +1,83 @@
+﻿@using PatientPortal.Provider.Helpers
+@model PatientPortal.Internal.Models.Survey.SurveyModel
+@{
+    ViewBag.Title = "TẠO MỚI KHẢO SÁT";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    <link href="~/Content/checkbox-radio-build.css" rel="stylesheet" />
+    <link href="~/Content/checkbox.css" rel="stylesheet" />
+    <link href="~/Libs/Chosen/css/chosen.css" rel="stylesheet" />
+    <style> 
+        .box-area {
+            border: solid 1px #ccc;
+            border-radius: 2px;
+            box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            padding-top: 10px;
+        }
+         #controlBottom {
+             background: #f7f7f7 none repeat scroll 0 0;
+             display: block;
+             height: 75px;
+             margin-top: 10px;
+         }
+         .answer {
+             margin-top: 10px;
+         }
+         .btn-answer {
+             margin-top: 10px;
+         }
+         .btn-answer:hover {
+             color: #535d81;
+         }
+         .btn-answer:focus {
+             color: #535d81;
+         }
+    </style>
+}
+<div class="card">
+    @using (Html.BeginForm("Create", "Survey", FormMethod.Post, new {@enctype = "multipart/form-data", @class = "form-horizontal", @id = "form-data"}))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="card-title">
+            <label><i class="fa fa-file-text-o"></i> @ViewBag.Title</label>
+        </div>
+        <div class="card-content">
+            <div class="col-md-12">
+                @Html.ISubmitButton("Tạo khảo sát")
+                @Html.IButton(null, ActionButton.View, false, "Xem trước", true, new { @class = "modal-link btn btn-info" }, "btnPreview")
+            </div>
+            <div class="col-md-6">
+                @Html.Partial("_CreateSurvey", Model)
+            </div>
+            <div class="col-md-6">@Html.Partial("_CreateQuestion", Model)</div>
+        </div>
+    }
+</div>
+
+@section scripts{
+    <script src="~/Libs/Chosen/js/chosen.jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#btnPreview").click(function () {
+                var __this = $("#form-data");
+                $.ajax({
+                    url: '@Url.Action("PreviewSurvey", "Survey")',
+                    data: __this.serialize(),
+                    success: function(result) {
+                        $('.modal-content').html(result);
+                    }
+                });
+            });
+        });
+        var config = {
+            '.chosen-select': {}
+        }
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
+    </script>
+    <script src="~/Libs/Survey/surveygeneration.js"></script>
+}

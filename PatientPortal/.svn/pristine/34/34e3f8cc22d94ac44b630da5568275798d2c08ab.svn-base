@@ -1,0 +1,235 @@
+﻿<style>
+    .homepage .brd-wrap {
+        display: block;
+    }
+
+    .homepage .hotlink {
+        position: unset;
+        bottom: -450px;
+        z-index: 2000;
+        right: 0;
+    }
+</style>
+<div class="brd-wrap" ng-include="'app/shared/template-include/submenu.template.html'">
+
+</div>
+<div class="top-content">
+</div>
+
+<div class="content container">
+    <div class="row">
+        <div class="content-bg">
+            <div id="ctl00_divCenter" class="col-left">
+                <div class="content-bg2">
+                    <div id="ctl00_mainContent_NewsView1_pnlInnerWrap">
+                        <div class="news">
+                            <h1 class="postdt-title">NGƯỜI HAI LẦN CHIẾN THẮNG UNG THƯ GAN </h1>
+                            <div class="postdt-date">
+                                (26/06/2017)
+                            </div>
+                            <div class="intro-text">
+                                Phát hiện bị viêm gan B cách đây 12 năm và tiếp đến là các khối u ung thư gan trong
+                                ba năm sau đó, ít ai ngờ rằng bệnh nhân này đến giờ vẫn có thể ngày ngày ra thăm
+                                rẫy cà phê và sống vui khỏe bên gia đình.
+                            </div>
+                            <div class="newstext">
+                                <p>
+                                    Đó chính là câu chuyện của chú Trần Hùng M., 55 tuổi, hiện đang sống tại Di Linh
+                                    – Lâm Đồng. Câu chuyện của bệnh nhân đặc biệt này luôn được BS. Nguyễn Phước
+                                    Thuyết – Bệnh viện Hoàn Mỹ Sài Gòn (HMSG) chia sẻ như một tấm gương về niềm
+                                    tin vào y học, ý thức bảo vệ sức khỏe và lòng quyết tâm chống lại bệnh tật.
+                                </p>
+                                <div>
+                                    <br />
+                                    <p>
+                                        <strong>Ý thức phòng ngừa bệnh tật</strong><br /> BS. Thuyết, người tham
+                                        gia điều trị và theo dõi cho chú M. gần chục năm nay, kể lại. Người nông
+                                        dân vùng cao nguyên này đã khiến bác sĩ đặc biệt ấn tượng, khi từ nhiều
+                                        năm trước, ông đã thường xuyên đưa cả gia đình vượt hàng trăm cây số
+                                        đến TP.HCM để kiểm tra và theo dõi sức khỏe định kỳ.<br /> Nhờ vậy, dù
+                                        từng nhiễm viêm gan siêu vi B (năm 2005) và hai lần có khối u ung thư
+                                        ở gan (năm 2007 và 2008), chú M. đều nhanh chóng được chữa khỏi nhờ phát
+                                        hiện và điều trị ở giai đoạn sớm.<br /> “Đã khỏi bệnh và khỏe hẳn nhưng
+                                        gần chục năm nay, chú ấy vẫn rất ý thức và chủ động phòng ngừa bệnh tật.
+                                        Đều đặn cứ 3 tháng một lần, chú lại dành thời gian, vượt hàng trăm cây
+                                        số, đến bệnh viện để kiểm tra sức khỏe, đặc biệt là về bệnh gan” – BS.
+                                        Thuyết nói về thân chủ gắn bó của mình.
+                                    </p>
+                                    <p style="text-align: center;">
+                                        <img alt="" src="assets/images/data/posts/bac-thuyet-ok-nho.png"
+                                             style="width: 700px; height: 439px;" />
+                                    </p>
+                                    <p style="text-align: center;"><em>Chú Trần Hùng M. gửi những lời cảm ơn chân thành đến người đã 2 lần giúp chú chiến thắng u gan -  BS. Nguyễn Phước Thuyết</em></p>
+                                    <p>
+                                        <strong>Chữa bệnh là phải có niềm tin, có cơ sở!</strong><br /> Câu chuyện
+                                        như thêm phần đặc sắc khi nhân vật chính là chú Trần Hùng M. tiếp lời:
+                                        “Lúc hay tin bị u gan lần đầu, được bác sĩ chỉ định phẫu thuật cắt bỏ
+                                        một phần lá gan, tôi thật sự hoang mang và lo lắng. Gọi điện về cho vợ
+                                        và anh em ở quê nhà, ai cũng khuyên can không cho đụng dao kéo. Thường
+                                        tâm lý mọi người nghe đến ung thư là vái tứ phương, theo thầy nọ, mẹo
+                                        kia để rồi đôi khi không còn cơ hội để nghe bác sĩ nữa. Thay vì vậy,
+                                        tôi tự nhủ đã có bệnh là phải chữa và chữa sớm, chữa kiểu nào cũng được
+                                        nhưng phải có cơ sở, có căn cứ”.<br /> Niềm tin chiến thắng bệnh ung
+                                        thư gan của chú M. đã bắt đầu hình thành sau khi được bác sĩ tư vấn.
+                                        BS. Nguyễn Tuấn, trưởng khoa ngoại tổng hợp lúc bấy giờ, nay là phó giám
+                                        đốc chuyên môn bệnh viện Hoàn Mỹ Sài Gòn, đã tư vấn cho chú M. về phương
+                                        pháp phẫu thuật, tỷ lệ thành công và các biến chứng có thể xảy ra… dựa
+                                        trên cơ sở khoa học. Kết hợp trải nghiệm đã được điều trị ổn định tình
+                                        trạng viêm gan B của bản thân trước đó, chú Mạnh đã quyết định chọn điều
+                                        trị phẫu thuật cắt u gan tại Hoàn Mỹ Sài Gòn. <br /> Ca mổ cắt bỏ 1/3
+                                        lá gan chứa khối u đã được tiến hành thành công và trở lại cuộc sống
+                                        thường ngày! Bất ngờ, chín tháng sau, một khối ung thư khác lại được
+                                        phát hiện ở phần gan còn lại của chú M. “Lúc này, mọi người ở quê lại
+                                        càng nói ra nói vào nhưng tôi vẫn kiên định, đặt trọn niềm tin vào các
+                                        bác sĩ ở HMSG” – chú M. chia sẻ cảm xúc khi phát hiện bị ung thư gan
+                                        lần hai.<br /> Do gan chỉ còn 2/3 kích thước bình thường nên không thể
+                                        phẫu thuật cắt bỏ được nữa. May mắn, lúc này Hoàn Mỹ Sài Gòn là một trong
+                                        những bệnh viện tiên phong tại TP HCM, triển khai máy DSA giúp thực hiện
+                                        các thủ thuật can thiệp nội mạch. Qua đó, có thể ứng dụng phương pháp
+                                        TACE để điều trị (cô lập và tiêu diệt) các tế bào ung thư. Lần này, chú
+                                        M. được giới thiệu đến gặp BS Nguyễn Phước Thuyết, Chuyên viên can thiệp
+                                        nội mạch. Bs Thuyết đã tư vấn cặn kẽ về phương pháp điều trị này. Một
+                                        lần nữa, Chú M. đã gởi trọn niềm tin vào bác sỹ và BV HMSG. “Chỉ 3 ngày
+                                        sau thủ thuật, chú M. đã được xuất viện và sống khỏe đến tận bây giờ!”
+                                        – BS. Thuyết cho biết về lần điều trị u gan thứ hai cho bệnh nhân Trần
+                                        Hùng M.&nbsp;
+                                    </p>
+                                    <p>
+                                        <strong>Đã “tin” là phải “nghe”!</strong><br /> Chiến thắng ung thư gan nhờ
+                                        tin tưởng vào các phương pháp điều trị hiện đại đã đành; để ngăn tế bào
+                                        ung thư tái phát và sống khỏe suốt gần 10 năm qua, đó là nhờ sự kiên
+                                        định, lòng quyết tâm cho một chế độ sinh hoạt “tuyệt đối theo bác sĩ”
+                                        của chú M. <br /> Theo đó, suốt gần 10 năm qua, chú M. chưa từng bỏ một
+                                        cữ thuốc, chưa từng uống thiếu một viên hay thậm chí uống trễ buổi; cứ
+                                        ba tháng một lần, lịch hẹn tái khám không khi nào vắng. Từng là một người
+                                        uống rượu, hút thuốc, ăn uống không kiêng cữ, Chú M. quyết tâm thay đổi
+                                        lối sống, từ bỏ mọi thói quen sinh hoạt không tốt và ăn uống có chọn
+                                        lọc theo khuyến cáo của bác sĩ. <br /> “Bác sĩ đã tốn công, gia đình
+                                        đã tốn của và bản thân mình đã tốn sức để vượt qua sinh tử mà bây giờ
+                                        không nghe theo hướng dẫn của bác sĩ, không gìn giữ cho bản thân thì
+                                        thật uổng phí hết tất cả. Tự mình không biết cứu mình thì chờ ai cứu
+                                        nữa!” – Chú M. chia sẻ động lực để thay đổi, quyết chống lại bệnh tật.
+                                        <br /> Niềm tin, tinh thần lạc quan và lòng quyết tâm đã giúp chú M.
+                                        vượt qua cơn bệnh nan y.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bot-news">
+                            <div class="utilities-bar">
+                                <ul class="cf nav">
+                                    <li>
+                                        <a class='fb-like' data-href='http://www.hoanmy.com/saigon/nguoi-hai-lan-chien-thang-ung-thu-gan'
+                                           data-send='false' data-layout='button_count' data-width='100' data-show-faces='false'></a>
+                                    </li>
+                                    <li class="print">
+                                        <a href='/saigon/nguoi-hai-lan-chien-thang-ung-thu-gan?skin=printerfriendly'
+                                           target='_blank' title='In' rel='nofollow'><span>In</span></a>
+                                    </li>
+                                    <li class="email">
+                                        <a href='http://www.hoanmy.com/saigon/News/EmailSubjectDialog.aspx?u=http://www.hoanmy.com/saigon/nguoi-hai-lan-chien-thang-ung-thu-gan'
+                                           class='cb-email-link' target='_blank' title='Gửi bạn bè' rel='nofollow'><span>Gửi bạn bè</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="clear">
+                            </div>
+                            <div class="other-news">
+                                <h4>Các tin khác</h4>
+                                <ul class="noli">
+                                    <li>
+                                        <a target="_self" href="http://www.hoanmy.com/saigon/benh-vien-hoan-my-sai-gon-ra-mat-don-vi-u-gan-va-health-talk-hanh-trinh-quan-ly-benh-ung-thu-gan"
+                                           title="BỆNH VIỆN HOÀN MỸ SÀI GÒN RA MẮT ĐƠN VỊ U GAN VÀ HEALTH TALK HÀNH TRÌNH QUẢN LÝ BỆNH UNG THƯ GAN.">
+                                            BỆNH VIỆN HOÀN MỸ SÀI GÒN RA MẮT ĐƠN VỊ U GAN VÀ HEALTH TALK HÀNH TRÌNH QUẢN LÝ BỆNH UNG THƯ GAN.<span>
+                                                (25/06/2017)
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a target="_self" href="http://www.hoanmy.com/saigon/benh-vien-hoan-my-sai-gon-dong-hanh-cung-nguoi-benh-quan-ly-ung-thu-gan"
+                                           title="BỆNH VIỆN HOÀN MỸ SÀI GÒN: ĐỒNG HÀNH CÙNG NGƯỜI BỆNH QUẢN LÝ UNG THƯ GAN">
+                                            BỆNH VIỆN HOÀN MỸ SÀI GÒN: ĐỒNG HÀNH CÙNG NGƯỜI BỆNH QUẢN LÝ UNG THƯ GAN<span>
+                                                (17/06/2017)
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a target="_self" href="http://www.hoanmy.com/saigon/ngay-quoc-te-dieu-dung-12-05" title="Ngày Quốc Tế Điều Dưỡng 12-05">
+                                            Ngày Quốc Tế Điều Dưỡng 12-05<span>
+                                                (15/05/2017)
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a target="_self" href="http://www.hoanmy.com/saigon/ngay-hoi-hoan-my-20-nam" title="Ngày hội Hoàn Mỹ 20 năm">
+                                            Ngày hội Hoàn Mỹ 20 năm<span>
+                                                (27/03/2017)
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a target="_self" href="http://www.hoanmy.com/saigon/canh-giac-voi-ha-natri-mau-cap-o-nguoi-cao-tuoi" title="Cảnh giác với hạ Natri máu cấp ở người cao tuổi">
+                                            Cảnh giác với hạ Natri máu cấp ở người cao tuổi<span>
+                                                (14/03/2017)
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="ctl00_mainContent_NewsView1_divPager" class="pages">
+                            <div class='modulepager'>
+                                <span class="PageInfo">Trang 1 / 430</span> <span class="SelectedPage" title="Đến trang 1">1</span>                                            <a class='ModulePager' href="http://www.hoanmy.com/saigon/nguoi-hai-lan-chien-thang-ung-thu-gan?pagenumber=2"
+                                                                                                                                                                                  title="Đến trang 2">2</a> <a class='ModulePager' href="http://www.hoanmy.com/saigon/nguoi-hai-lan-chien-thang-ung-thu-gan?pagenumber=3"
+                                                                                                                                                                                                               title="Đến trang 3">3</a> <a class='ModulePager' href="http://www.hoanmy.com/saigon/nguoi-hai-lan-chien-thang-ung-thu-gan?pagenumber=4"
+                                                                                                                                                                                                                                            title="Đến trang 4">4</a> <a class='ModulePager' href="http://www.hoanmy.com/saigon/nguoi-hai-lan-chien-thang-ung-thu-gan?pagenumber=5"
+                                                                                                                                                                                                                                                                         title="Đến trang 5">5</a> <a class='ModulePager' href="http://www.hoanmy.com/saigon/nguoi-hai-lan-chien-thang-ung-thu-gan?pagenumber=6"
+                                                                                                                                                                                                                                                                                                      title="Đến trang 6">6</a> <a class='ModulePager' href="http://www.hoanmy.com/saigon/nguoi-hai-lan-chien-thang-ung-thu-gan?pagenumber=7"
+                                                                                                                                                                                                                                                                                                                                   title="Đến trang 7">7</a> <a class='ModulePager' href="http://www.hoanmy.com/saigon/nguoi-hai-lan-chien-thang-ung-thu-gan?pagenumber=8"
+                                                                                                                                                                                                                                                                                                                                                                title="Đến trang 8">8</a> <a class='ModulePager' href="http://www.hoanmy.com/saigon/nguoi-hai-lan-chien-thang-ung-thu-gan?pagenumber=9"
+                                                                                                                                                                                                                                                                                                                                                                                             title="Đến trang 9">9</a> <a class='ModulePager' href="http://www.hoanmy.com/saigon/nguoi-hai-lan-chien-thang-ung-thu-gan?pagenumber=10"
+                                                                                                                                                                                                                                                                                                                                                                                                                          title="Đến trang 10">10</a> <a class='ModulePager' href="http://www.hoanmy.com/saigon/nguoi-hai-lan-chien-thang-ung-thu-gan?pagenumber=70"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                         title="Đến trang 70">70</a> <a class='ModulePager' href="http://www.hoanmy.com/saigon/nguoi-hai-lan-chien-thang-ung-thu-gan?pagenumber=140"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        title="Đến trang 140">140</a> <a class='ModulePager' href="http://www.hoanmy.com/saigon/nguoi-hai-lan-chien-thang-ung-thu-gan?pagenumber=220"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         title="Đến trang 220">220</a> <a class='ModulePager' href="http://www.hoanmy.com/saigon/nguoi-hai-lan-chien-thang-ung-thu-gan?pagenumber=290"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          title="Đến trang 290">290</a> <a class='ModulePager' href="http://www.hoanmy.com/saigon/nguoi-hai-lan-chien-thang-ung-thu-gan?pagenumber=360"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           title="Đến trang 360">360</a> <a class='ModulePager NextPage' href="http://www.hoanmy.com/saigon/nguoi-hai-lan-chien-thang-ung-thu-gan?pagenumber=2"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            title="Chuyển đến trang 2">&rsaquo;</a> <a class='ModulePager LastPage' href="http://www.hoanmy.com/saigon/nguoi-hai-lan-chien-thang-ung-thu-gan?pagenumber=430"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       title="Trang cuối">&raquo;</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="ctl00_divRight" class="col-right">
+                <div class='Module Module-281'>
+                    <div class="left-menu">
+                        <ul class="noli">
+                            <li class="active"><a class="active" href="/Saigon/trang-tin-tuc" target="_self" title="Tin tức">Tin tức</a></li>
+                            <li><a href="/Saigon/song-khoe" target="_self" title="Sống khỏe">Sống khỏe</a></li>
+                            <li><a href="/Saigon/videos" target="_self" title="Videos">Videos</a></li>
+                            <li><a href="galerry.html" target="_self" title="Tin ảnh">Tin ảnh</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class='Module Module-258'>
+                    <div class="fb-page" data-href="https://www.facebook.com/hoanmysaigon" data-tabs="Facebook" data-width="231"
+                         data-small-header="false" data-adapt-container-width="false" data-hide-cover="false" data-show-facepile="true">
+                        <div class="fb-xfbml-parse-ignore">
+                            <blockquote cite="https://www.facebook.com/hoanmysaigon"><a href="https://www.facebook.com/hoanmysaigon">BV Hoàn Mỹ Sài Gòn</a></blockquote>
+                        </div>
+                    </div>
+                    <div class="emhotline">
+                        Cấp cứu<span>(08) 3995 9860</span>
+                    </div>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSemdqrYVGswrTxbQGKUwPzImgqXa6DMt5D_wBdiPKvhbyq2FA/viewform?c=0&amp;w=1"
+                       target="_blank"><img src="http://hoanmy.com/Data/Sites/1/userfiles/56/KS-ngoai-tru.png" alt="Khao-sat-ngoai-tru" /></a>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdGUagF2UaZ2U0QkNWDXj46q8fND-aIz46VN_9tZCQCezfSEw/viewform?c=0&amp;w=1"
+                       target="_blank"><img src="http://hoanmy.com/Data/Sites/1/userfiles/56/KS-noi-tru.png" alt="Khao-sat-noi-tru" /></a>
+                </div>
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+    </div>
+</div>

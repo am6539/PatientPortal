@@ -1,0 +1,128 @@
+﻿<div class="page relative">
+    <style>
+        .sw4_notify {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 999999;
+            border-radius: 0 !important;
+        }
+
+            .sw4_notify > alert {
+                width: 100%;
+                display: block;
+                border-radius: 0 !important;
+                margin-bottom: 10px;
+            }
+    </style>
+    <div class="page_layout page_margin_top clearfix">
+        <div class="page_header clearfix">
+            <div class="page_header_left">
+                <h1 class="page_title">Liên hệ</h1>
+                <ul class="bread_crumb">
+                    <li>
+                        <a href="/" title="Home">
+                            Trang chủ
+                        </a>
+                    </li>
+                    <li class="separator icon_small_arrow right_gray">
+                        &nbsp;
+                    </li>
+                    <li>
+                        Liên hệ
+                    </li>
+                </ul>
+            </div>
+            <div class="page_header_right">
+                <!--<form class="search">
+                    <input class="search_input" type="text" value="To search type and hit enter..." placeholder="To search type and hit enter..." />
+                </form>-->
+            </div>
+        </div>
+        <div class="clearfix">
+            <div class="contact_map page_margin_top" id="map" data-latitude="52.365629" data-longitude="13.7653995">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.5197948079926!2d106.6784752145293!3d10.771443762231709!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f210ad406ff%3A0xdb40a8bbaf895c88!2sFPT+Information+System+HCM!5e0!3m2!1sen!2s!4v1495449317974" frameborder="0" style="border:0; width:100%; height:100%" allowfullscreen></iframe>
+            </div>
+            <div class="page_margin_top clearfix">
+                <div class="page_left">
+                    <h3 class="box_header">
+                        Gửi thông tin góp ý
+                    </h3>
+                    <form class="contact_form" id="contact_form" method="post" ng-submit="sendMail(mail)">
+                        <fieldset class="left">
+                            <label>Họ tên</label>
+                            <div class="block">
+                                <input class="text_input" name="mail_fullname" type="text" value="" placeholder="Họ tên" ng-model="mail.Name" required />
+                            </div>
+                            <label>E-mail</label>
+                            <div class="block">
+                                <input class="text_input" type="text" name="mail_email" value="" placeholder="email" ng-model="mail.Email" required />
+                            </div>
+                        </fieldset>
+                        <fieldset style="clear:both;">
+                            <label>Chủ đề</label>
+                            <div class="block">
+                                <input class="text_input" name="mail_oject" type="text" value="" placeholder="Chủ để" ng-model="mail.Subject" required />
+                            </div>
+                            <label>Nội dung</label>
+                            <div class="block">
+                                <textarea name="mail_message" required></textarea>
+                            </div>
+                            <!--<input type="hidden" name="action" value="contact_form" />-->
+                            <input type="submit" name="submit" value="Gửi" class="more blue" />
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="page_right" ng-show="contact != null">
+                    <h3 class="box_header">
+                        Thông tin bệnh viện
+                    </h3>
+                    <h3 class="sentence">
+                        {{contact.Name}}
+                    </h3>
+                    <ul class="columns no_padding page_margin_top clearfix">
+                        <li class="column_left">
+                            {{contact.Address}}
+                        </li>
+                        <li class="column_right">
+                            Điện thoại: {{contact.Phone}}<br />
+                            Fax: {{contact.Fax}}<br />
+                        </li>
+                    </ul>
+                    <ul class="contact_data page_margin_top">
+                        <li class="clearfix">
+                            <span class="social_icon phone"></span>
+                            <p class="value">
+                                Đường dây nóng: <strong>{{contact.Hotline}}</strong>
+                            </p>
+                        </li>
+                        <li class="clearfix" ng-show="contact.Email != null">
+                            <span class="social_icon mail"></span>
+                            <p class="value">
+                                E-mail: <a href="#">{{contact.Email}}</a>
+                            </p>
+                        </li>
+                        <li class="clearfix" ng-show="contact.Facebook != null">
+                            <span class="social_icon facebook"></span>
+                            <p class="value">
+                                <a href="{{contact.Facebook}}" title="Facebook" target="_blank">{{contact.Facebook}}</a>
+                            </p>
+                        </li>
+                        <li class="clearfix" ng-show="contact.Twitter != null">
+                            <span class="social_icon twitter"></span>
+                            <p class="value">
+                                <a href="{{contact.Twitter}}" title="Twitter" target="_blank">{{contact.Twitter}}</a>
+                            </p>
+                        </li>
+                        <li class="clearfix" ng-show="contact.Google != null">
+                            <span class="social_icon googleplus"></span>
+                            <p class="value">
+                                <a href="{{item.Google}}" title="Google +" target="_blank">{{item.Google}}</a>
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>	

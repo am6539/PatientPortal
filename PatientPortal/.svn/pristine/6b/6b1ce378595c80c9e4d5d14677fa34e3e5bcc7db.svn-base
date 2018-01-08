@@ -1,0 +1,20 @@
+﻿CREATE PROCEDURE [dbo].[usp_Language_CheckExistCode]
+	@Code  CHAR(3),
+	@Id TINYINT
+AS
+BEGIN
+	DECLARE @return BIT = 0;
+
+	IF(@Id = 0)
+	BEGIN
+		IF (EXISTS(SELECT	TOP 1 1 FROM		[dbo].[Language] WHERE		[Code] = @Code))
+			SET @return = 1
+	END
+	IF (@Id <> 0)
+	BEGIN
+		IF(EXISTS(SELECT	TOP 1 1 FROM		[dbo].[Language] WHERE		[Id] != @Id AND [Code] = @Code))
+			SET @return = 1
+	END
+
+	SELECT @return
+END

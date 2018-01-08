@@ -1,0 +1,70 @@
+﻿using System.Collections.Generic;
+using System.Web.Http;
+using PatientPortal.IRepository.CMS;
+using AutoMapper;
+using PatientPortal.API.CMS.ViewModels;
+using PatientPortal.Domain.Utilities;
+
+namespace PatientPortal.API.CMS.Controllers
+{
+    public class DepartmentController : ApiController
+    {
+        private readonly IDepartmentRepo _department;
+        public DepartmentController(IDepartmentRepo department)
+        {
+            this._department = department;
+        }
+
+
+        // GET api/values
+        ///[Filters.DeflateCompression]
+        public List<DepartmentViewModel> Get()
+        {
+            //Mapping
+          var source = _department.GetAll();
+            List<DepartmentViewModel> dest = Mapper.Map<List<DepartmentViewModel>>(source);
+
+            return dest;
+        }
+
+        /// <summary>
+        /// Get by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Category view model</returns>
+        // GET api/values/5
+        public DepartmentViewModel GetById(byte id)
+        {
+            var source = _department.GetById(id);
+            DepartmentViewModel dest = Mapper.Map<DepartmentViewModel>(source);
+            return dest;
+        }
+
+        /// <summary>
+        /// Action: Insert/Update/Delete 
+        /// </summary>
+        /// <param name="categoryModel">object "model"</param>
+        /// <param name="action">Action: 'I' - Insert; 'U'- Update; 'D'- Delete</param>
+        /// <returns>Result: Success- true; Fail- false</returns>
+        [HttpPost]
+        public bool Transaction(DepartmentViewModel model, char action)
+        {
+            var obj = Mapper.Map<Domain.Models.CMS.Department>(model);
+            var data = new List<Domain.Models.CMS.Department>();
+            data.Add(obj);
+            return _department.Transaction(data, action);
+        }
+
+        /// <summary>
+        /// Check name is existed
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="id"></param>
+        /// <returns>If existed: true - else: false</returns>
+        [HttpGet]
+        public bool CheckExist(string name, byte id)
+        {
+            return _department.CheckExist(name, id);
+        }
+    }
+}

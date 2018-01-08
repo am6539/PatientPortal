@@ -1,0 +1,10 @@
+﻿'use strict';
+
+angular.module('spaPHCN')
+    .controller("HomeController", [
+    "$scope", "$location", "$route", "Params", "HomeServices", 'PostsServices',
+    function ($scope, $location, $route, Params, HomeServices, PostsServices) {
+        PostsServices.queryPost({ languageCode: 'vi', priority: Params.newpriority, categoryId: 0 }, function (data) {
+            $scope.posts = data;
+        });
+    }]);

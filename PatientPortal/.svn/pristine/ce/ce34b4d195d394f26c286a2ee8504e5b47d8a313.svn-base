@@ -1,0 +1,90 @@
+﻿using System;
+using AutoMapper;
+using PatientPortal.API.Core.Models;
+using PatientPortal.Domain.Models.CORE;
+using PatientPortal.IRepository.CORE;
+using PatientPortal.Provider.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Routing;
+
+namespace PatientPortal.API.Core.Controllers
+{
+    public class AppointmentLogController : ApiController
+    {
+        private readonly IAppointmentLogRepo _appointmentLog;
+
+        #region Constructor
+        public AppointmentLogController(IAppointmentLogRepo appointmentLog)
+        {
+            this._appointmentLog = appointmentLog;
+        }
+        #endregion
+
+        [HttpPost]
+        public async Task<bool> Transaction(AppointmentLogEditModel appointmentModel, char action)
+        {
+            var data = Mapper.Map<AppointmentLogEdit>(appointmentModel);
+            return await _appointmentLog.Transaction(data, action);
+        }
+
+        public async Task<List<ScheduleViewModel>> GetScheduleExamine(string userId, string start)
+        {
+            IList<string> list = new List<string> { "userId", "start" };
+            var para = APIProvider.APIDefaultParameter(list, userId, start);
+
+            var source = await _appointmentLog.GetScheduleExamine(para);
+            var dest = Mapper.Map<List<ScheduleViewModel>>(source);
+
+            return dest;
+        }
+
+        [HttpGet]
+        public async Task<List<AppointmentLogViewModel>> Get()
+        {
+            var para = new Dictionary<string, dynamic> {{ "id", null }};
+            var source = await _appointmentLog.Query(para);
+            var dest = Mapper.Map<List<AppointmentLogViewModel>>(source);
+
+            return dest;
+        }
+
+        /// <summary>
+        /// Get appointment by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<AppointmentLogViewModel> Get(Guid id)
+        {
+            var para = new Dictionary<string, dynamic> {{ "id", id }};
+            var source = await _appointmentLog.SingleQuery(para);
+            var dest = Mapper.Map<AppointmentLogViewModel>(source);
+
+            return dest;
+        }
+
+        [HttpPost]
+        [Route("api/AppointmentLog/Confirm")]
+        public async Task<bool> Confirm(AppointmentLogViewModel appointmentModel, char action)
+        {
+            var data = Mapper.Map<AppointmentLog>(appointmentModel);
+            return await _appointmentLog.Confirm(data, action);
+        }
+
+        [HttpGet]
+        [Route("api/AppointmentLog/GetSearch")]
+        public async Task<AppointmentLogViewModel> GetSearch(int? status, long fromDate, long toDate)
+        {
+            var fDate = new DateTime(fromDate);
+            var tDate = new DateTime(toDate);
+            var para = new Dictionary<string, dynamic> {{"Status", status}, {"FromDate", fDate}, {"ToDate", tDate}};
+
+            var source = await _appointmentLog.QuerySearch(para);
+            var dest = Mapper.Map<AppointmentLogViewModel>(source);
+
+            return dest;
+        }
+    }
+}

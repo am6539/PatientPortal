@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <runtime>
+    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+      <dependentAssembly>
+        <assemblyIdentity name="Newtonsoft.Json" publicKeyToken="30ad4fe6b2a6aeed" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-9.0.0.0" newVersion="9.0.0.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="System.Net.Http.Formatting" publicKeyToken="31bf3856ad364e35" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-5.2.3.0" newVersion="5.2.3.0" />
+      </dependentAssembly>
+    </assemblyBinding>
+  </runtime>
+<appSettings>
+    <add key="webapi:cms" value="http://localhost:9502/" />
+    <add key="webapi:core" value="http://localhost:9575/" />
+    <add key="webapi:authen" value="http://localhost:27193/" />
+    <add key="webapp:cms" value="http://localhost:3476/" />
+    <add key="webapp:internal" value="http://localhost:48859/" />
+    <add key="webapp:patient" value="http://localhost:14302/" />
+    <add key="webapp:spa" value="http://localhost:55344/" />
+    <add key="languageDefault" value="vi" />
+    <add key="ClientId" value="PatientPortal.CMS" />
+</appSettings>
+</configuration>

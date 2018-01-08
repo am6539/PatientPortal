@@ -1,0 +1,119 @@
+﻿using AutoMapper;
+using PatientPortal.API.CMS.ViewModels;
+using PatientPortal.Domain.Utilities;
+using PatientPortal.IRepository.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Script.Serialization;
+
+namespace PatientPortal.API.CMS.Controllers
+{
+
+    public class PostController : ApiController
+    {
+        /// <summary>
+        /// Declare variable
+        /// </summary>
+        /// 
+        IPostRepo _postRepo;
+
+        /// <summary>
+        /// Contructor PostController
+        /// </summary>
+        /// <param name="postRepo"></param>
+        public PostController(IPostRepo postRepo)
+        {
+            this._postRepo = postRepo;
+        }
+
+        #region API function
+
+        [Route("api/Post/GetAll")]
+        [HttpGet]
+        // GET: api/Post/GetAll
+        public IEnumerable<PostListViewModel> GetAll([FromUri] PostFilterViewModel param)
+        {
+            param.PostId = GlobalVariables.IsTransParameter;
+            var paramDest = Mapper.Map<Domain.Models.CMS.PostFilter> (param);
+            var data = _postRepo.GetAll(paramDest);
+            var results = Mapper.Map<List<PostListViewModel>>(data);
+
+            return results;
+        }
+
+        // GET: api/Post/5
+        [HttpGet]
+        public PostViewModel GetById(int postId)
+        {
+            var data = _postRepo.GetById(postId, GlobalVariables.NULL_PARAMETER);
+            var result = Mapper.Map<PostViewModel>(data);
+
+            return result;
+        }
+
+        // POST: api/Post
+        [HttpPost]
+        [Route("api/Post/PostTrans")]
+        public bool Transaction(PostTransViewModel data, char action)
+        {
+            try
+            {
+                var post = Mapper.Map<Domain.Models.CMS.PostEdit>(data);
+                var param = new List<Domain.Models.CMS.PostEdit>();
+                param.Add(post);
+                var result = _postRepo.Transaction(param, action);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        // POST: api/Approve
+        [HttpPost]
+        [Route("api/Post/Approve")]
+        public bool Approve(PostStateHistoryViewModel data, char action)
+        {
+            try
+            {
+                var postStateHis = Mapper.Map<Domain.Models.CMS.PostStateHistory>(data);
+                var param = new List<Domain.Models.CMS.PostStateHistory>();
+                param.Add(postStateHis);
+                var result = _postRepo.Approve(param, action);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        // api/Publish
+        [HttpPost]
+        [Route("api/Post/Publish")]
+        public bool PublishPost(PostStateHistoryViewModel data, char action)
+        {
+            try
+            {
+                var postStateHis = Mapper.Map<Domain.Models.CMS.PostStateHistory>(data);
+                var param = new List<Domain.Models.CMS.PostStateHistory>();
+                param.Add(postStateHis);
+                var result = _postRepo.Publish(param, action);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        #endregion
+    }
+}

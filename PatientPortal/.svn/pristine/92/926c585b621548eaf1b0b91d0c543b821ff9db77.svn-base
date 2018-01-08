@@ -1,0 +1,67 @@
+﻿CREATE PROCEDURE [dbo].[usp_Users_Transaction]
+	@Action CHAR(1) = 'I',
+	@Id INT,
+	@Name NVARCHAR(32),
+	@Code CHAR(20),
+	@Email NVARCHAR(256),
+	@PasswordHash VARCHAR(60),
+	@PhoneNumber VARCHAR(20),
+	@HomePhone VARCHAR(20),
+	@DateOfBirth DATE,
+	@Gender TINYINT,
+	@Image VARCHAR(256),
+	@OrganizationId SMALLINT,
+	@Status BIT,
+	@PatientId NVARCHAR(128) = '',
+	@IsAdmin BIT,
+	@IsDoctor BIT,
+	@Tag NVARCHAR(150) = ''
+AS BEGIN
+	SET NOCOUNT ON
+	DECLARE @return BIT = 1
+
+	BEGIN TRY
+		BEGIN TRAN
+			IF @Action = 'I'
+				IF NOT EXISTS (SELECT TOP 1 1 FROM [dbo].Users WHERE [Email] = @Email)
+					INSERT INTO [dbo].[Users](Id, Name, Code, Email, PasswordHash, PhoneNumber, HomePhone, DateOfBirth, Gender, [Image], OrganizationId, [Status], PatientId, IsAdmin, IsDoctor, Tags)
+					VALUES(@Id, @Name, @Code, @Email, @PasswordHash, @PhoneNumber, @HomePhone, 
+					@DateOfBirth, @Gender, @Image, @OrganizationId, @Status, @PatientId,
+					@IsAdmin, @IsDoctor, @Tag)
+				ELSE
+					SET @return = 0
+			IF @Action = 'U'
+				IF EXISTS (SELECT TOP 1 1 FROM [dbo].[Users] WHERE [Id] = @Id)
+					UPDATE [dbo].[Users]
+					SET [Name] = @Name,
+					[Code] = @Code,
+					[PhoneNumber] = @PhoneNumber,
+					[HomePhone] = @HomePhone,
+					[DateOfBirth] = @DateOfBirth,
+					[Gender] = @Gender,
+					[Image] = @Image,
+					[OrganizationId] = @OrganizationId,
+					[PatientId] = @PatientId,
+					[IsAdmin] = @IsAdmin,
+					[IsDoctor] = @IsDoctor,
+					[Tags] = @Tag
+					WHERE [Id] = @Id
+				ELSE
+					SET @return = 0
+			IF @Action = 'D'
+				IF EXISTS (SELECT TOP 1 1 FROM [dbo].[Users] WHERE [Id] = @Id)
+					DELETE FROM [dbo].[Users]
+					WHERE [Id] = @Id
+				ELSE
+					SET @return = 0
+		COMMIT TRAN
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0
+			BEGIN
+				ROLLBACK TRAN
+				SET @return = 0
+			END
+	END CATCH
+	SELECT @return
+END

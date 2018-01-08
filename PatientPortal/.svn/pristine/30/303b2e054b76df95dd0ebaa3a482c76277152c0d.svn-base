@@ -1,0 +1,34 @@
+﻿CREATE PROCEDURE [dbo].[usp_PublishPost_Transaction]
+	@PosId TINYINT,
+	@UserId INT,
+	@Note NVARCHAR(500),
+	@Action CHAR = 'U'
+AS BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+
+	DECLARE @return bit = 1
+	DECLARE @WorkflowStateId TINYINT = 3
+	DECLARE @CreateDate VARCHAR(20) = [dbo].[ufnGetDate]()
+	BEGIN TRY
+		BEGIN TRAN
+			IF @PosId > 0 AND @Action = 'U'
+				BEGIN
+					UPDATE [dbo].Post
+					SET WorkflowStateId = @WorkflowStateId
+					WHERE Id = @PosId
+
+					INSERT INTO [dbo].PostStateHistory
+					VALUES(@PosId, @WorkflowStateId, @UserId, @Note, @CreateDate)
+				END
+		COMMIT TRAN
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0
+			BEGIN
+				ROLLBACK TRAN
+				SET @return = 0
+			END
+	END CATCH
+	SELECT @return
+END

@@ -1,0 +1,29 @@
+﻿*, *::after, *::before {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.471; 
+  background-color:#F7F7F7;
+  height:100%;
+  margin:0;
+  color: #73879C;
+}
+
+.img-notfound{
+    height:98px; width: 220px;
+    background:url(/Assets/images/Resouces/404.png) no-repeat top center;
+    margin: 100px auto;
+}
+.img-servererror{
+    height:128px; width: 128px;
+    background:url(/Assets/images/Resouces/500.png) no-repeat top center;
+    margin: 100px auto;
+}

@@ -1,0 +1,19 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Rename
+       [dbo].[OfferAdvise].[Tag] (Column)
+     Alter
+       [dbo].[usp_OfferAdvise] (Procedure)
+       [dbo].[usp_OfferAdvise_Transaction] (Procedure)
+       [dbo].[usp_Schedule] (Procedure)
+
+** Supporting actions

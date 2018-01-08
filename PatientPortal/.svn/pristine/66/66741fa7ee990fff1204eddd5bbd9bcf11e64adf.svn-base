@@ -1,0 +1,22 @@
+﻿CREATE PROCEDURE [dbo].[usp_Schedule]
+	@Id INT = 0
+AS
+BEGIN
+	SET NOCOUNT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+
+	BEGIN TRY
+		IF(@Id > 0)
+			SELECT *
+			FROM [dbo].Schedule
+			WHERE Id = @Id
+		ELSE
+			SELECT *
+			FROM [dbo].Schedule
+	END TRY
+
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0
+			RETURN NULL
+	END CATCH
+END

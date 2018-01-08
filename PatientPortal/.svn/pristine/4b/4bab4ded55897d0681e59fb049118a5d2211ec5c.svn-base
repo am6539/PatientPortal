@@ -1,0 +1,8 @@
+﻿'use strict';
+
+angular.module('spaApp')
+    .controller("HomePageController", ["$scope", function HomePageController($scope) {
+        $scope.sliders = [{ Title: 'A', Description: 'A', Image: 'assets/img/slider/img1.jpg' },
+       { Title: 'B', Description: 'B', Image: 'assets/img/slider/img2.jpg' },
+       { Title: 'C', Description: 'C', Image: 'assets/img/slider/img3.jpg' }];
+    }]);

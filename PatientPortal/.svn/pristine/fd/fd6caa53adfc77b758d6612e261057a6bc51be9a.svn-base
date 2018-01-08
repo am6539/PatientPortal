@@ -1,0 +1,338 @@
+﻿using PatientPortal.Domain.Caching.Redis.StackExchange.Extensions;
+using PatientPortal.Domain.Utilities;
+using StackExchange.Redis;
+using StackExchange.Redis.Extensions.Core;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.Domain.Caching.Redis.StackExchange
+{
+    /// <summary>
+    /// STEP: 1
+    /// </summary>
+    public abstract class RedisCacheClient:IDisposable
+    {
+        protected readonly IDatabase Db;
+        protected readonly ICacheClient Sut;
+        protected ISerializer Serializer;
+        protected int TimeExpried;
+
+        protected RedisCacheClient(ISerializer serializer)
+        {
+            Serializer = serializer;
+            var mux = ConnectionMultiplexer.Connect(new ConfigurationOptions
+            {
+                DefaultVersion = new Version(3, 0, 500),
+                EndPoints = { { "localhost", 6379 } },
+                AllowAdmin = true
+            });
+
+            Sut = new StackExchangeRedisCacheClient(mux, Serializer);
+            Db = Sut.Database;
+            TimeExpried = Convert.ToInt32(ConfigurationManager.AppSettings["TimeExpried"] == null ? "60" : ConfigurationManager.AppSettings["TimeExpried"]);
+        }
+
+        public void Dispose()
+        {
+            Db.FlushDatabase();
+            Db.Multiplexer.GetSubscriber().UnsubscribeAll();
+            Db.Multiplexer.Dispose();
+            Sut.Dispose();
+        }
+
+        #region Add
+        public bool Add<T>(T data)
+        {
+            if (data == null) return false;
+            try
+            {
+                PropertyInfo[] properties = typeof(T).GetProperties();
+
+                var key = Helper.GetClassName<T>() + ":" + properties[0].GetValue(data).ToString();
+                Tuple.Create(key, data);
+                //Find key
+                if(Sut.Exists(key))
+                {
+                    if (Sut.Remove(key))
+                    {
+                        LogManager.Logger.LogError(new Exception("Error when remove object " + Helper.GetClassName<T>() + "- Key: " + key));
+                        return false;
+                    }
+                }
+                //Add
+                return Sut.Add(key, data);
+
+            }
+            catch (Exception ex)
+            {
+                LogManager.Logger.LogError(ex);
+                return false;
+            }
+
+
+
+        }
+
+        public async Task<bool> AddAsync<T>(T data)
+        {
+            if (data == null) return false;
+            try
+            {
+                PropertyInfo[] properties = typeof(T).GetProperties();
+
+                var key = Helper.GetClassName<T>() + ":" + properties[0].GetValue(data).ToString();
+                Tuple.Create(key, data);
+                //Find key
+                if (await Sut.ExistsAsync(key))
+                {
+                    if (await Sut.RemoveAsync(key))
+                    {
+                        LogManager.Logger.LogError(new Exception("Error when remove object " + Helper.GetClassName<T>() + "- Key: " + key));
+                        return false;
+                    }
+                }
+                //Add
+                return await Sut.AddAsync(key, data);
+
+            }
+            catch (Exception ex)
+            {
+                LogManager.Logger.LogError(ex);
+                return false;
+            }
+
+
+
+        }
+        public bool AddList<T>(IEnumerable<T> data)
+        {
+            if (data == null || data.Count() < 1) return false;
+            try
+            {
+                List<Tuple<string, T>> objList = new List<Tuple<string, T>>();
+                PropertyInfo[] properties = typeof(T).GetProperties();
+                string pattern = Helper.GetClassName<T>() + ":";
+
+                foreach (var obj in data)
+                {
+                    var key = pattern + properties[0].GetValue(obj).ToString();
+                    objList.Add(Tuple.Create(key, obj));
+
+                }
+                //Keys
+                var keys = Sut.SearchKeys(pattern);
+                if (keys.Count() > 0) Sut.RemoveAll(keys); 
+
+                //Add
+                return Sut.AddAll(objList);
+
+            }
+            catch (Exception ex)
+            {
+                LogManager.Logger.LogError(ex);
+                return false;
+            }
+
+
+
+        }
+        public async Task<bool> AddListAsync<T>(IEnumerable<T> data)
+        {
+            if (data == null || data.Count() < 1) return false;
+            try
+            {
+                List<Tuple<string, T>> objList = new List<Tuple<string, T>>();
+                PropertyInfo[] properties = typeof(T).GetProperties();
+                string pattern = Helper.GetClassName<T>() + ":";
+
+                foreach (var obj in data)
+                {
+                    var key = pattern + properties[0].GetValue(obj).ToString();
+                    objList.Add(Tuple.Create(key, obj));
+                }
+
+                //Keys
+                var keys = await Sut.SearchKeysAsync(pattern);
+                if (keys.Count() > 0) await Sut.RemoveAllAsync(keys);
+
+                //Add
+                return await Sut.AddAllAsync(objList);
+
+            }
+            catch (Exception ex)
+            {
+                LogManager.Logger.LogError(ex);
+                return false;
+            }
+
+
+        }
+        #endregion
+
+        #region Get
+        public IEnumerable<T> GetList<T>()
+        {
+            try
+            {
+                List<Tuple<string, T>> objList = new List<Tuple<string, T>>();
+                var pattern = Helper.GetClassName<T>() + ":*";
+                IEnumerable<string> keys = Sut.SearchKeys(pattern);
+
+                var data = Sut.GetAll<T>(keys);
+                return data.Values.AsEnumerable();
+
+            }
+            catch (Exception ex)
+            {
+                LogManager.Logger.LogError(ex);
+                return null;
+            }
+        }
+        public async Task<IEnumerable<T>> GetListAsync<T>()
+        {
+            try
+            {
+                List<Tuple<string, T>> objList = new List<Tuple<string, T>>();
+                var pattern = Helper.GetClassName<T>() + ":*";
+                IEnumerable<string> keys = await Sut.SearchKeysAsync(pattern);
+
+                var data = await Sut.GetAllAsync<T>(keys);
+                return data.Values.AsEnumerable();
+
+            }
+            catch (Exception ex)
+            {
+                LogManager.Logger.LogError(ex);
+                return null;
+            }
+        }
+
+        public T Get<T>(object value)
+        {
+            var pattern = Helper.GetClassName<T>() + ":";
+            var key = string.Empty;
+            if (key.GetType() != typeof(string)) key = Convert.ToString(value);
+            
+            key = pattern + key;
+            return Sut.Get<T>(key);
+        }
+
+        public async Task<T> GetAsync<T>(object value)
+        {
+            var pattern = Helper.GetClassName<T>() + ":";
+            var key = string.Empty;
+            if (key.GetType() != typeof(string)) key = Convert.ToString(value);
+
+            key = pattern + key;
+            return await Sut.GetAsync<T>(key);
+        }
+        #endregion
+
+        #region Remove
+        public bool Remove<T>(T data)
+        {
+            if (data == null) return false;
+            try
+            {
+                PropertyInfo[] properties = typeof(T).GetProperties();
+
+                var key = Helper.GetClassName<T>() + ":" + properties[0].GetValue(data).ToString();
+                //Find key
+                if (Sut.Exists(key))
+                {
+                    if (Sut.Remove(key))
+                    {
+                        LogManager.Logger.LogError(new Exception("Error when remove object " + Helper.GetClassName<T>() + "- Key: " + key));
+                        return false;
+                    }
+                    return true;
+                }
+                else return false;
+
+            }
+            catch (Exception ex)
+            {
+                LogManager.Logger.LogError(ex);
+                return false;
+            }
+        }
+        public async Task<bool> RemoveAsync<T>(T data)
+        {
+            if (data == null) return false;
+            try
+            {
+                PropertyInfo[] properties = typeof(T).GetProperties();
+
+                var key = Helper.GetClassName<T>() + ":" + properties[0].GetValue(data).ToString();
+                //Find key
+                if (await Sut.ExistsAsync(key))
+                {
+                    if (await Sut.RemoveAsync(key))
+                    {
+                        LogManager.Logger.LogError(new Exception("Error when remove object " + Helper.GetClassName<T>() + "- Key: " + key));
+                        return false;
+                    }
+                    return true;
+                }
+                else return false;
+
+            }
+            catch (Exception ex)
+            {
+                LogManager.Logger.LogError(ex);
+                return false;
+            }
+        }
+        public bool RemoveList<T>()
+        {
+            try
+            {
+                PropertyInfo[] properties = typeof(T).GetProperties();
+
+                var pattern = Helper.GetClassName<T>() + ":*";
+                //Keys
+                var keys = Sut.SearchKeys(pattern);
+                if(keys.Count() > 0)
+                {
+                    Sut.RemoveAll(keys);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LogManager.Logger.LogError(ex);
+                return false;
+            }
+        }
+
+        public async Task<bool> RemoveListAsync<T>()
+        {
+            try
+            {
+                PropertyInfo[] properties = typeof(T).GetProperties();
+
+                var pattern = Helper.GetClassName<T>() + ":*";
+                //Keys
+                var keys = await Sut.SearchKeysAsync(pattern);
+                if (keys.Count() > 0)
+                {
+                   await Sut.RemoveAllAsync(keys);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LogManager.Logger.LogError(ex);
+                return false;
+            }
+        }
+        #endregion
+
+
+    }
+}

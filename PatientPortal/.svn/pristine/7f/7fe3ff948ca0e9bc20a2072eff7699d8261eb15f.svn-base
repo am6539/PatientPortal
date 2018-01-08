@@ -1,0 +1,49 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using static PatientPortal.CMS.Utility.RenderMessage;
+
+namespace PatientPortal.CMS.Utility
+{
+    public static class ApplicationHelper
+    {
+        public static T GetObject<T>() where T : new()
+        {
+            return new T();
+        }
+
+        public static string GeneralActionMessage(string actionType, TypeResult typeResult)
+        {
+            var strReturn = string.Empty;
+            //Action Type
+            switch(actionType)
+            {
+                case "I":
+                    strReturn = "Thêm";
+                    break;
+                case "U":
+                    strReturn = "Cập nhật";
+                    break;
+                case "D":
+                    strReturn = "Xóa";
+                    break;
+            }
+
+            switch(typeResult)
+            {
+                case TypeResult.SUCCESS:
+                    strReturn += " dữ liệu thành công";
+                    break;
+                case TypeResult.FAIL:
+                    strReturn += " chưa được thực hiện thành công. Xin kiểm tra lại";
+                    break;
+                case TypeResult.ERROR:
+                    strReturn = "Có lỗi phát sinh khi " + strReturn.ToLower() + " dữ liệu. Xin thử lại hoặc liên hệ Quản trị hệ thống. Xin cảm ơn";
+                    break;
+            }
+
+            return strReturn;
+        }
+    }
+}

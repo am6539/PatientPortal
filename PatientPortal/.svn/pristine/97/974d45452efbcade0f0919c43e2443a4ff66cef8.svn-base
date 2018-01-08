@@ -1,0 +1,66 @@
+﻿using ProtoBuf;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.PatientServices.Models
+{
+    [ProtoContract]
+    public class UserInfoBindingModel
+    {
+        [ProtoMember(1)]
+        public string Id { get; set; }
+
+        [ProtoMember(2)]
+        [Required(ErrorMessage = "Địa chỉ email không được để trống.")]
+        [Display(Name = "Địa chỉ email")]
+        [EmailAddress(ErrorMessage = "Địa chỉ email không hợp lệ")]
+        public string Email { get; set; }
+
+        //Custom fields
+        [Required(ErrorMessage = "Mật khẩu không được để trống.")]
+        [ProtoMember(3)]
+        [StringLength(50, ErrorMessage = "Độ dài tối thiểu của {0} phải là {2} ký tự.", MinimumLength = 5)]
+        [Display(Name = "Tên tài khoản")]
+        public string Name { get; set; }
+
+        [ProtoMember(4)]
+        [StringLength(20, ErrorMessage = "Độ dài tối thiểu của {0} phải là {2} ký tự.", MinimumLength = 20)]
+        [Display(Name = "Mã bệnh nhân")]
+        public string PatientId { get; set; }
+
+        [ProtoMember(5)]
+        [Display(Name = "Ngày sinh")]
+        [DataType(DataType.Date)]
+        public DateTime? DoB { get; set; }
+
+        [ProtoMember(6)]
+        [Display(Name = "Giới tính")]
+        public byte Gender { get; set; }
+
+        [ProtoMember(7)]
+        [Display(Name = "Hình đại diện")]
+        public string Image { get; set; }
+
+        [ProtoMember(8)]
+        [Display(Name = "Đơn vị")]
+        public int OrganizationId { get; set; }
+
+        [ProtoMember(9)]
+        [Display(Name = "Bác sĩ")]
+        public bool IsDoctor { get; set; }
+
+        [ProtoMember(10)]
+        [Display(Name = "Chỉ mục")]
+        public string Tag { get; set; }
+
+        [ProtoMember(11)]
+        [Display(Name = "Nhóm tài khoản")]
+        public string[] RoleName { get; set; }
+
+        [ProtoMember(12)]
+        public string PhoneNumber { get; set; }
+    }
+}

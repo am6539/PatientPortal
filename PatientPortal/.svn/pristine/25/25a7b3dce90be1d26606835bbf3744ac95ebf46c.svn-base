@@ -1,0 +1,93 @@
+﻿using AutoMapper;
+using PatientPortal.API.CMS.ViewModels;
+using PatientPortal.IRepository.CMS;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Http;
+using PatientPortal.Provider.Models;
+
+namespace PatientPortal.API.CMS.Controllers
+{
+    public class AdvertiseController : ApiController
+    {
+        private readonly IAdvertiseRepo _advertise;
+
+        /// <summary>
+        /// Init
+        /// </summary>
+        /// <param name="advertise"></param>
+        public AdvertiseController(IAdvertiseRepo advertise)
+        {
+            this._advertise = advertise;
+        }
+
+        #region GET
+        /// <summary>
+        /// Get all
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<List<AdvertiseViewModel>> Get()
+        {
+            
+            IList<string> list = new List<string> { "id" };
+            var para = APIProvider.APIDefaultParameter(list, 0);
+
+            var source = await _advertise.GetAll(para);
+            List<AdvertiseViewModel> dest = Mapper.Map<List<AdvertiseViewModel>>(source);
+
+            return dest;
+        }
+
+
+        /// <summary>
+        /// Filter by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<AdvertiseViewModel> Get(byte id)
+        {
+            var list = this.RequestContext.RouteData.Values.Keys;
+            var para = APIProvider.APIGeneratorParameter(list, id);
+
+            var source = await _advertise.Get(para);
+            AdvertiseViewModel dest = Mapper.Map<AdvertiseViewModel>(source);
+
+            return dest;
+        }
+
+
+        /// <summary>
+        /// Check exist data
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<bool> CheckExist(string name, byte id)
+        {
+
+            var list = this.RequestContext.RouteData.Values.Keys;
+            var para = APIProvider.APIGeneratorParameter(list, id);
+
+            return await _advertise.CheckExist(para);
+        }
+        #endregion
+
+        #region POST
+        /// <summary>
+        /// Transaction data: Insert/Update/Delete
+        /// </summary>
+        /// <param name="advertiseModel"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<bool> Transaction(AdvertiseViewModel advertiseModel, char action)
+        {
+            var data = Mapper.Map<Domain.Models.CMS.Advertise>(advertiseModel);
+            return await _advertise.Transaction(data, action);
+        }
+        #endregion
+    }
+}

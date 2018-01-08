@@ -1,0 +1,68 @@
+﻿@using PatientPortal.Provider.Helpers;
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        @Html.ITitle("Dashboard", "dashboard")
+        <p>Chào mừng bạn đến hệ thống quản trị </p>
+    </div>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-content">
+                <div class="col-md-6">
+                    <p><label>Get Start</label></p>
+                    @Html.ICustomButton("Cấu hình hệ thống", Url.Action("Index", "Setting"), null, new { @class = "btn-primary" })
+                </div>
+                <div class="col-md-6">
+                    <label>Next Steps</label>
+                    <div>
+                        <ul>
+                            <li style="padding-bottom:7px;"><a href="@Url.Action("Index", "Appointment")"><i class="fa fa-calendar"></i> Quản lý đăng ký khám chữa bệnh</a></li>
+                            <li style="padding-bottom:7px;"><a href="@Url.Action("Index", "Schedule")"><i class="fa fa-calendar-check-o"></i> Quản lý lịch làm việc Bác sĩ</a></li>
+                            <li style="padding-bottom:7px;"><a href="@Url.Action("Index", "Article")"><i class="fa fa-question-circle-o"></i> Quản lý hỏi đáp y tế</a></li>
+                            <li><a href="@PatientPortal.Provider.Common.APIConstant.HostAddress_SPA"><i class="fa fa-globe"></i> Xem website của bạn</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @* TOP *@
+        <div class="card">
+            <div class="card-title">
+                <span style="background-color:#ff6a00; color:white; font-size:0.8em; border-radius: 3px; padding:2px 5px 2px 5px;">NEW</span> NHỮNG THÔNG TIN MỚI KHỞI TẠO
+            </div>
+            <div class="card-content">
+                <div class="col-md-3 btn-toogle">
+                    <a class="btn btn-warning" style="width:100%;" href="@Url.Action("Index", "Account")">
+                        <div class="icon"><i class="fa fa-users fa-3x"></i></div>
+                        <h3>12</h3>
+                        <small>TÀI KHOẢN</small>
+                    </a>
+                </div>
+                <div class="col-md-3 btn-toogle">
+                    <a class="btn btn-success" style="width:100%;" href="@Url.Action("Index", "Article")">
+                        <div class="icon"><i class="fa fa-question-circle-o fa-3x"></i></div>
+                        <h3>142</h3>
+                        <small>HỎI ĐÁP Y TẾ</small>
+                    </a>
+                </div>
+                <div class="col-md-3 btn-toogle">
+                    <a class="btn btn-info" style="width:100%;" href="@Url.Action("Index", "OfferAdvise")">
+                        <div class="icon"><i class="fa fa-commenting-o fa-3x"></i></div>
+                        <h3>72</h3>
+                        <small>GÓP Ý XÂY DỰNG</small>
+                    </a>
+                </div>
+                <div class="col-md-3 btn-toogle">
+                    <a class="btn btn-info" style="width:100%;" href="@Url.Action("Index", "Appointment")">
+                        <div class="icon"><i class="fa fa-calendar fa-3x"></i></div>
+                        <h3>1072</h3>
+                        <small>LỊCH ĐẶT HẸN</small>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,5 @@
+﻿Authentication Server: OWIN - THINKTECTURE
+1. EnabledCors
+2. Config Autofac with Builder - Middleware
+3. Config Authentication Server 
+4. Enable UseOAuthBearerAuthentication

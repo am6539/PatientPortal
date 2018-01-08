@@ -1,0 +1,79 @@
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+
+namespace PatientPortal.API.Identity.Models.UserRole
+{
+    public class UserRoleManager
+    {
+        private UserRoleStore _userRoleStore;
+        private ApplicationDbContext _db;
+
+        public UserRoleManager()
+        {
+            _db = HttpContext.Current
+                .GetOwinContext().Get<ApplicationDbContext>();
+            _userRoleStore = new UserRoleStore(_db);
+        }
+
+        public IQueryable<UserRole> UserRoles
+        {
+            get
+            {
+                return _userRoleStore.UserRoles;
+            }
+        }
+
+        /// <summary>
+        /// Create new Permission Async
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public async Task<IdentityResult> CreateUserRoleAsync(UserRole obj)
+        {
+            await _userRoleStore.CreateAsync(obj);
+            return IdentityResult.Success;
+        }
+
+
+        /// <summary>
+        /// Create new Permission
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public IdentityResult CreateUserRole(UserRole obj)
+        {
+            _userRoleStore.Create(obj);
+            return IdentityResult.Success;
+        }
+
+        public List<UserRole> GetAll()
+        {
+            return _userRoleStore.GetAll();
+        }
+
+        public async Task<List<UserRole>> GetAllAsync()
+        {
+            return await _userRoleStore.GetAllAsync();
+        }
+
+        public async Task<UserRole> FindByIdAsync(string id)
+        {
+            return await _userRoleStore.FindByIdAsync(id);
+        }
+
+        /// <summary>
+        /// Find by Permission Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public UserRole FindById(string id)
+        {
+            return _userRoleStore.FindById(id);
+        }
+    }
+}

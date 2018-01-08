@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.PatientServices.Models.Article
+{
+    public class ArticleModel
+    {
+        public ArticleViewModel ArticleViewModel { get; set; }
+        public List<ArticleCommentViewModel> ListArticleCommentViewModels { get; set; }
+    }
+}

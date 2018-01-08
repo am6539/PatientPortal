@@ -1,0 +1,110 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CMS;
+using PatientPortal.Domain.Utilities;
+using System.Transactions;
+using PatientPortal.DataAccess.Dapper;
+using Dapper;
+using PatientPortal.DataAccess.Repo.CMS;
+
+namespace PatientPortal.DataAccess.CMS
+{
+    public class CategoryImpl: ICategory
+    {
+        public List<Category> GetAll(int Id)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                { 
+                    DapperConfiguration.OpenConnection(1);
+
+                    var data = DapperConfiguration.db.Query<Category>("usp_Category", 
+                        new { Id = Id, ParentId = GlobalVariables.IsTransParameter },
+                        commandType: System.Data.CommandType.StoredProcedure).ToList();
+
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+                    
+                }
+                catch(Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Category get data: " + ex.Message);
+                    return null;
+                }
+            }
+        }
+
+        public Category GetById(int Id)
+        {
+            using(var scope = new TransactionScope())
+            {
+                try
+                {
+                    DapperConfiguration.OpenConnection(1);
+                    var data = DapperConfiguration.db.Query<Category>("usp_Category",
+                        new { Id = Id },
+                        commandType: System.Data.CommandType.StoredProcedure).FirstOrDefault();
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Category get by Id:" + ex.Message);
+                    return null;
+                }
+            }
+        }
+
+        public bool CategoryTransaction(List<Category> data, char action)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    var val = new Lib.DataGenerator().CommitData<Category>(data, "usp_Category_Transaction", action);
+                    scope.Complete();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute CategoryTransaction: " + ex.Message);
+                    return false;
+                }
+            }
+        }
+
+        public List<Category> GetAllByParentId(int parentId)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    DapperConfiguration.OpenConnection(1);
+
+                    var data = DapperConfiguration.db.Query<Category>("usp_Category",
+                        new { Id = PatientPortal.Domain.Utilities.GlobalVariables.IsTransParameter, ParentId = parentId },
+                        commandType: System.Data.CommandType.StoredProcedure).ToList();
+
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Category get data: " + ex.Message);
+                    return null;
+                }
+            }
+        }
+    }
+}

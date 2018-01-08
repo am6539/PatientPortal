@@ -1,0 +1,52 @@
+﻿using AutoMapper;
+using PatientPortal.API.SPA.ViewModels;
+using PatientPortal.IRepository.SPA;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+
+namespace PatientPortal.API.SPA.Controllers
+{
+    public class FeatureController : ApiController
+    {
+        private readonly IFeatureRepo _iFeatureRepo;
+        private readonly string PATH_IMG = ConfigurationManager.AppSettings["webapi:library"];
+        public FeatureController(IFeatureRepo iFeatureRepo)
+        {
+            this._iFeatureRepo = iFeatureRepo;
+        }
+
+        [HttpGet]
+        public HttpResponseMessage Get()
+        {
+            try
+            {
+                var data = _iFeatureRepo.GetAll();
+                //var result = Mapper.Map<List<FeatureViewModel>>(data);
+                var results = new List<FeatureViewModel>();
+                foreach (var item in data)
+                {
+                    var feature = new FeatureViewModel
+                    {
+                        Id = item.Id,
+                        Title = item.Title,
+                        Image = PATH_IMG + item.Image.Replace("~", "").Replace(@"\", @"/"),
+                        Description = item.Description,
+                        Handler = item.Handler,
+                        IsUsed = item.IsUsed
+                    };
+                    results.Add(feature);
+                }
+                return Request.CreateResponse(HttpStatusCode.OK, results);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+    }
+}

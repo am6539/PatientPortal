@@ -1,0 +1,14 @@
+﻿CREATE TABLE [dbo].[SurveyAnswers]
+(
+	[Id] TINYINT NOT NULL , 
+	[QuestionId] VARCHAR(128) NOT NULL,
+	[Answer] NVARCHAR(150) NULL, 
+	[LowScore] NVARCHAR(128) NULL DEFAULT 0,
+	[HightScore] NVARCHAR(128) NULL DEFAULT 0,
+	PRIMARY KEY ([QuestionId], [Id]), 
+	CONSTRAINT [FK_SurveyAnswers_SurveyQuestions] FOREIGN KEY ([QuestionId]) REFERENCES [SurveyQuestions]([Id])
+)
+
+GO
+
+CREATE INDEX [IX_SurveyAnswers_QuestionId] ON [dbo].[SurveyAnswers] ([QuestionId])

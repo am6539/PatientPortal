@@ -1,0 +1,63 @@
+﻿@model  List<PatientPortal.Domain.Models.CMS.Report.DashboardCounter>
+@{ 
+    var box1 = Model.Where(x => x.BoxNumber == 1).Select(x => x.Total).FirstOrDefault();
+    var box2 = Model.Where(x => x.BoxNumber == 2).Select(x => x.Total).FirstOrDefault();
+    var box3 = Model.Where(x => x.BoxNumber == 3).Select(x => x.Total).FirstOrDefault();
+    var box4 = Model.Where(x => x.BoxNumber == 4).Select(x => x.Total).FirstOrDefault();
+}
+<div class="col-md-3">
+    <div class="card">
+        <div class="card-title">
+            <label>Bài viết</label>
+            <div class="pull-right">
+                <span style="background-color:#0094ff; color:white; border-radius:3px; padding:3px; font-size:0.6em;">Total</span>
+            </div>
+        </div>
+        <div class="card-content text-center">
+            <h3>@(box1 > 0 ? String.Format("{0:#,###}",box1):"0")</h3>
+            <h6>TỔNG CỘNG</h6>
+        </div>
+    </div>
+</div>
+<div class="col-md-3">
+    <div class="card">
+        <div class="card-title">
+            <label>Bài viết mới</label>
+            <div class="pull-right">
+                <span style="background-color:#229831; color:white; border-radius:3px; padding:3px; font-size:0.6em;">New</span>
+            </div>
+        </div>
+        <div class="card-content text-center">
+            <h3>@(box2 > 0 ? String.Format("{0:#,###}", box2) : "0")</h3>
+            <h6>TỔNG CỘNG</h6>
+        </div>
+    </div>
+</div>
+<div class="col-md-3">
+    <div class="card">
+        <div class="card-title">
+            <label>Bài viết chưa duyệt</label>
+            <div class="pull-right">
+                <span style="background-color:#ff6a00; color:white; border-radius:3px; padding:3px; font-size:0.6em;">Approve</span>
+            </div>
+        </div>
+        <div class="card-content text-center">
+            <h3>@(box3 > 0 ? String.Format("{0:#,###}", box3) : "0")</h3>
+            <h6>TỔNG CỘNG</h6>
+        </div>
+    </div>
+</div>
+<div class="col-md-3">
+    <div class="card">
+        <div class="card-title">
+            <label>Bài viết chưa xuất bản</label>
+            <div class="pull-right">
+                <span style="background-color:#E25759; color:white; border-radius:3px; padding:3px; font-size:0.6em;">Publish</span>
+            </div>
+        </div>
+        <div class="card-content text-center">
+            <h3>@(box4 > 0 ? String.Format("{0:#,###}", box4) : "0")</h3>
+            <h6>TỔNG CỘNG</h6>
+        </div>
+    </div>
+</div>

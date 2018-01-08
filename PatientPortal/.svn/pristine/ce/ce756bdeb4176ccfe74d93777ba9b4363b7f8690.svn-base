@@ -1,0 +1,72 @@
+﻿using Dapper;
+using PatientPortal.DataAccess.Dapper;
+using PatientPortal.Domain.Models.SPA;
+using PatientPortal.Domain.Utilities;
+using PatientPortal.DataAccess.Repo.SPA;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Transactions;
+using System.Data;
+using PatientPortal.Domain.LogManager;
+using PatientPortal.DataAccess.Repo.Wrapper;
+
+namespace PatientPortal.DataAccess.SPA
+{
+    public class PostImpl: IPost
+    {
+        private readonly IAdapterPattern _adapterPattern;
+        public Post Get(int Id)
+        {
+            try
+            {
+                using(IDbConnection dapper = DapperConfiguration.Open(1))
+                {
+                    var data = DapperConfiguration.db.Query<Post>("usp_spa_Post_ById",
+                    new { Id = Id },
+                    commandType: System.Data.CommandType.StoredProcedure).FirstOrDefault();
+
+                    dapper.Close();
+                    return data;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                return null;
+            }
+        }
+
+        public async Task<List<PostList>> GetAll(string languageCode, int categoryId, string numTop, byte priority)
+        {
+            try
+            {
+                //DapperConfiguration.OpenConnection(1);
+                using (IDbConnection dapper = DapperConfiguration.Open(1))
+                {
+                    var data = await dapper.QueryAsync<PostList>("usp_spa_Post",
+                        new { languageCode = languageCode, categoryId = categoryId, numTop = numTop, priority = priority },
+                        commandType: System.Data.CommandType.StoredProcedure);
+
+                    dapper.Close();
+                    return data.ToList();
+                }
+
+                // DapperConfiguration.CloseConnection();
+
+
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                return null;
+            }
+        }
+
+        public async Task<IEnumerable<PostList>> QueryPaging(Dictionary<string, dynamic> para)
+        {
+            return await _adapterPattern.ExecuteQueryOut<PostList, int>(para, "usp_spa", "totalItem", 1);
+        }
+    }
+}

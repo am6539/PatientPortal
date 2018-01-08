@@ -1,0 +1,28 @@
+﻿CREATE TABLE [dbo].[Appointment] (
+    [Id]           INT            IDENTITY (1, 1) NOT NULL,
+    [Date]         DATE  NOT NULL,
+    [Time]         INT       NOT NULL,
+    [PhysicianId]  INT            NOT NULL,
+    [PatientId]    INT            NOT NULL,
+    [Symptom]      NVARCHAR (MAX) NOT NULL,
+    [CreatedDate]  VARCHAR (20)   NOT NULL,
+    [ModifiedDate] VARCHAR (20)   NOT NULL,
+    [Status]       TINYINT        NOT NULL,
+    CONSTRAINT [PK_Appointment] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+CREATE NONCLUSTERED INDEX [idxAppointmentDate]
+    ON [dbo].[Appointment]([Date] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [idxAppointmentPatient]
+    ON [dbo].[Appointment]([PatientId] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [idxAppointmentPhysician]
+    ON [dbo].[Appointment]([PhysicianId] ASC);
+

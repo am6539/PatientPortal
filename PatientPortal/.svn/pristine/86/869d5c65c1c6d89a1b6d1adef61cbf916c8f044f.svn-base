@@ -1,0 +1,81 @@
+﻿
+
+@{
+    Layout = null;
+}
+
+<div class="table-responsive">
+    <table class="table">
+        <tbody>
+            <tr>
+                <th style="text-align: center;">
+                    <button class="btn btn-default btn-xs select-btn-filemanager" id="select_all">Chọn hết</button>
+                </th>
+                <th style="">Mô tả</th>
+                <th style="text-align: center;">Kích thước</th>
+                <th style="text-align: center;">Ngày chỉnh sửa</th>
+                <th style="text-align: center;">Cấu hình</th>
+            </tr>
+            <tr id="row0">
+                <td style="text-align: center;">
+                    <input type="checkbox" id="check_0">
+                </td>
+                <td>
+                    <a href="javascript:;" style="color: #3366cc;">
+                        <img src="~/img/file.png" style="margin-right: 5px;">test.txt
+                    </a>
+                </td>
+                <td class="text-center">8 B</td>
+                <td class="text-center">2015/09/05 05:35:16</td>
+                <td class="text-center">
+                    <button class="btn btn-xs btn-info" type="button">
+                        <span class="glyphicon glyphicon-cog"></span>
+                    </button>
+                    <a href="javascript:;" class="btn btn-xs btn-info" type="button">
+                        <span class="glyphicon glyphicon-edit"></span>
+                    </a>
+                </td>
+            </tr>
+            <tr id="row1">
+                <td style="text-align: center;">
+                    <input type="checkbox" id="check_1">
+                </td>
+                <td>
+                    <a href="#" class="image_show" rel="group1" style="color: #3366cc;">
+                        <img src="~/img/pdf.png" style="margin-right: 5px;">13937280_User.pdf
+                    </a>
+                </td>
+                <td class="text-center">115 KB</td>
+                <td class="text-center">2015/03/08 15:32:20</td>
+                <td class="text-center">
+                    <button class="btn btn-xs btn-info" type="button">
+                        <span class="glyphicon glyphicon-cog"></span>
+                    </button>
+                    <a href="javascript:;" onclick="javascript:;" class="btn btn-xs btn-info" type="button" disabled="disabled">
+                        <span class="glyphicon glyphicon-edit"></span>
+                    </a>
+                </td>
+            </tr>
+            <tr id="row2">
+                <td style="text-align: center;">
+                    <input type="checkbox" id="check_2">
+                </td>
+                <td>
+                    <a href="javascript:;" style="color: #3366cc;">
+                        <img src="~/img/file.png" style="margin-right: 5px;">music2.mp3
+                    </a>
+                </td>
+                <td class="text-center">279 KB</td>
+                <td class="text-center">2015/03/08 15:32:20</td>
+                <td class="text-center">
+                    <button class="btn btn-xs btn-info" type="button">
+                        <span class="glyphicon glyphicon-cog"></span>
+                    </button>
+                    <a href="javascript:;" onclick="javascript:;" class="btn btn-xs btn-info" type="button" disabled="disabled">
+                        <span class="glyphicon glyphicon-edit"></span>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

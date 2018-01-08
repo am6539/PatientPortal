@@ -1,0 +1,382 @@
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+
+namespace PatientPortal.API.Identity.Models
+{
+    public class PermissionManager
+    {
+        private PermissionStore _permissionStore;
+        private ApplicationDbContext _db;
+        private ApplicationUserManager _userManager;
+        private ApplicationRoleManager _roleManager;
+
+        public PermissionManager()
+        {
+            _db = HttpContext.Current
+                .GetOwinContext().Get<ApplicationDbContext>();
+            _userManager = HttpContext.Current
+                .GetOwinContext().GetUserManager<ApplicationUserManager>();
+            _roleManager = HttpContext.Current
+                .GetOwinContext().Get<ApplicationRoleManager>();
+            _permissionStore = new PermissionStore(_db);
+        }
+
+        public IQueryable<Permission> Permissions
+        {
+            get
+            {
+                return _permissionStore.Permissions;
+            }
+        }
+
+        #region Permission
+        /// <summary>
+        /// Create new Permission Async
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public async Task<IdentityResult> CreatePermissionAsync(Permission obj)
+        {
+            await _permissionStore.CreateAsync(obj);
+            return IdentityResult.Success;
+        }
+
+
+        /// <summary>
+        /// Create new Permission
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public IdentityResult CreatePermission(Permission obj)
+        {
+            _permissionStore.Create(obj);
+            return IdentityResult.Success;
+        }
+
+        public List<Permission> GetAll()
+        {
+            return _permissionStore.GetAll();
+        }
+
+        public async Task<List<Permission>> GetAllAsync()
+        {
+            return await _permissionStore.GetAllAsync();
+        }
+
+        public async Task<Permission> FindByIdAsync(string id)
+        {
+            return await _permissionStore.FindByIdAsync(id);
+        }
+
+        public Permission FindByName(string name)
+        {
+            return _permissionStore.FindByName(name);
+        }
+
+        public async Task<Permission> FindByNameAsync(string name)
+        {
+            return await _permissionStore.FindByNameAsync(name);
+        }
+
+
+        /// <summary>
+        /// Find by Permission Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Permission FindById(string id)
+        {
+            return _permissionStore.FindById(id);
+        }
+
+        /// <summary>
+        /// Set Permission Role by RoleName 
+        /// </summary>
+        /// <param name="permissionId"></param>
+        /// <param name="roleNames"></param>
+        /// <returns></returns>
+        public IdentityResult SetPermissionRoles(string permissionId, params string[] roleNames)
+        {
+            // Clear all the roles associated with this group:
+            var _permission = this.FindById(permissionId);
+            _permission.PermissionRoles.Clear();
+            _db.SaveChanges();
+
+            // Add the new roles passed in:
+            var newRoles = _roleManager.Roles.Where(r => roleNames.Any(n => n == r.Name));
+            foreach (var role in newRoles)
+            {
+                _permission.PermissionRoles.Add(new PermissionRole
+                {
+                    PermissionId = permissionId,
+                    RoleId = role.Id
+                });
+            }
+            _db.SaveChanges();
+            return IdentityResult.Success;
+        }
+
+        /// <summary>
+        /// Delete Permission Async
+        /// </summary>
+        /// <param name="permissionId"></param>
+        /// <returns></returns>
+        public async Task<IdentityResult> DeletePermissionAsync(string permissionId)
+        {
+            var _permission = await this.FindByIdAsync(permissionId);
+            if (_permission == null)
+            {
+                throw new ArgumentNullException("Permission");
+            }
+
+            // Remove the permission itself:
+            if (!IsExistInRoles(permissionId))
+            { 
+                _db.Permissions.Remove(_permission);
+                await _db.SaveChangesAsync();
+                return IdentityResult.Success;
+            }
+            else
+                return IdentityResult.Failed("Is used!");
+        }
+
+        /// <summary>
+        /// Delete Permission
+        /// </summary>
+        /// <param name="permissionId"></param>
+        /// <returns></returns>
+        public IdentityResult DeletePermission(string permissionId)
+        {
+            var _permission = this.FindById(permissionId);
+            if (_permission == null)
+            {
+                throw new ArgumentNullException("Permission");
+            }
+
+            // Remove the permission itself:
+            if (!IsExistInRoles(permissionId))
+            {
+                _db.Permissions.Remove(_permission);
+                _db.SaveChanges();
+                return IdentityResult.Success;
+            }
+            else
+                return IdentityResult.Failed("Is used!");
+            
+        }
+
+        /// <summary>
+        /// Update Permission Async
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public async Task<IdentityResult> UpdatePermissionAsync(Permission obj)
+        {
+            await _permissionStore.UpdateAsync(obj);
+            return IdentityResult.Success;
+        }
+
+        /// <summary>
+        /// Update Permission
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public IdentityResult UpdatePermission(Permission obj)
+        {
+            _permissionStore.Update(obj);
+            return IdentityResult.Success;
+        }
+        #endregion
+
+        #region PermissionRole
+
+        /// <summary>
+        /// Check Exist Permission
+        /// </summary>
+        /// <param name="permissionId"></param>
+        /// <returns></returns>
+        public bool IsExistInRoles(string permissionId)
+        {
+            var _ret = (from p in this.Permissions where p.PermissionRoles.Any(u => u.PermissionId == permissionId) select p.Id).Any();
+            return _ret;
+        }
+
+        /// <summary>
+        /// Get Permission Roles
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        public List<PermissionRole> GetPermissionRoles(string roleId)
+        {
+            try
+            {
+                var data = new List<PermissionRole>();
+                var list = this.Permissions.Where(s => s.PermissionRoles.Any(u => u.RoleId.Equals(roleId))).ToList();
+                foreach (var item in list)
+                {
+                    var model = new PermissionRole
+                    {
+                        PermissionId = item.Id,
+                        RoleId = roleId
+                    };
+                    data.Add(model);
+                }
+                //List<PermissionRole> data = (from g in this.Permissions where g.PermissionRoles.Any(u => u.RoleId == roleId) select new PermissionRole {
+                //    PermissionId = g.Id, RoleId = roleId
+                //}).ToList();
+                return data;
+            }
+            catch (Exception ex)
+            {
+                throw ex.GetBaseException();
+            }
+        }
+
+        public bool GetPermissionRoles(string roleId, string permissionId)
+        {
+            var data = (from g in this.Permissions
+                                         where g.PermissionRoles.Any(u => u.RoleId == roleId && u.PermissionId == permissionId)
+                                         select g.Id).Any();
+                                         
+            return data;
+        }
+        /// <summary>
+        /// Update Permission-Roles Async
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <param name="permissionList"></param>
+        /// <returns></returns>
+        public async Task<IdentityResult> UpdatePermissionRolesAsync(string roleId, List<string> permissionList)
+        {
+            if(permissionList == null || permissionList.Count < 1)
+                throw new ArgumentNullException(nameof(roleId));
+
+            //Delete all Permission
+            var permissionRoles = GetPermissionRoles(roleId);
+            var prCount = permissionRoles.Count();
+            if (prCount > 0)
+            {
+                try
+                {
+                    foreach(var item in permissionRoles)
+                    {
+                        var permission = await this.FindByIdAsync(item.PermissionId);
+                        permission.PermissionRoles.Remove(item);
+                    }
+                    await _db.SaveChangesAsync();
+                }
+                catch(Exception ex)
+                {
+                    return IdentityResult.Failed("Lỗi khi xóa danh sách quyền cũ",ex.Message);
+                }
+            }
+
+            //Update Permission
+            try {
+                foreach (var item in permissionList)
+                {
+                    var permission = await this.FindByIdAsync(item);
+                    permission.PermissionRoles.Add(new PermissionRole
+                    {
+                        PermissionId = item,
+                        RoleId = roleId
+                    });
+                }
+                await _db.SaveChangesAsync();
+                return IdentityResult.Success;
+            }
+            catch(Exception ex)
+            {
+                return IdentityResult.Failed("Lỗi khi cập nhật danh sách quyền",ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Update Permission-Roles
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <param name="permissionList"></param>
+        /// <returns></returns>
+        public IdentityResult UpdatePermissionRoles(string roleId, List<string> permissionList)
+        {
+            if (permissionList == null || permissionList.Count < 1)
+                throw new ArgumentNullException(nameof(roleId));
+
+            //Delete all Permission
+            var permissionRoles = GetPermissionRoles(roleId);
+            var prCount = permissionRoles.Count();
+            if (prCount > 0)
+            {
+                try
+                {
+                    foreach (var item in permissionRoles)
+                    {
+                        var permission = this.FindById(item.PermissionId);
+                        permission.PermissionRoles.Remove(item);
+                    }
+                    _db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    return IdentityResult.Failed("Lỗi khi xóa danh sách quyền cũ", ex.Message);
+                }
+            }
+
+            //Update Permission
+            try
+            {
+                foreach (var item in permissionList)
+                {
+                    var permission = this.FindById(item);
+                    permission.PermissionRoles.Add(new PermissionRole
+                    {
+                        PermissionId = item,
+                        RoleId = roleId
+                    });
+                }
+                _db.SaveChanges();
+                return IdentityResult.Success;
+            }
+            catch (Exception ex)
+            {
+                return IdentityResult.Failed("Lỗi khi cập nhật danh sách quyền", ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Set Permission Role by RoleName Async
+        /// </summary>
+        /// <param name="permissionId"></param>
+        /// <param name="roleNames"></param>
+        /// <returns></returns>
+        public async Task<IdentityResult> SetPermissionRolesAsync(string permissionId, params string[] roleNames)
+        {
+            // Clear all the roles associated with this group:
+            var permission = await this.FindByIdAsync(permissionId);
+            permission.PermissionRoles.Clear();
+            await _db.SaveChangesAsync();
+
+            // Add the new roles passed in:
+            var newRoles = _roleManager.Roles
+                            .Where(r => roleNames.Any(n => n == r.Name));
+            foreach (var role in newRoles)
+            {
+                permission.PermissionRoles.Add(new PermissionRole
+                {
+                    PermissionId = permissionId,
+                    RoleId = role.Id
+                });
+            }
+            await _db.SaveChangesAsync();
+            return IdentityResult.Success;
+        }
+
+        #endregion
+
+    }
+}

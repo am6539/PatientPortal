@@ -1,0 +1,42 @@
+﻿using ProtoBuf;
+using System;
+
+namespace PatientPortal.PatientServices.Models
+{
+    [ProtoContract]
+    public class UserViewModel
+    {
+        [ProtoMember(1)]
+        public int Id { get; set; }
+        [ProtoMember(2)]
+        public string Name { get; set; }
+        [ProtoMember(3)]
+        public string Code { get; set; }
+        [ProtoMember(4)]
+        public string Email { get; set; }
+        [ProtoMember(5)]
+        public string PasswordHash { get; set; }
+        [ProtoMember(6)]
+        public string PhoneNumber { get; set; }
+        [ProtoMember(7)]
+        public string HomePhone { get; set; }
+        [ProtoMember(8)]
+        public Nullable<System.DateTime> DateOfBirth { get; set; }
+        [ProtoMember(9)]
+        public byte Gender { get; set; }
+        [ProtoMember(10)]
+        public string Image { get; set; }
+        [ProtoMember(11)]
+        public short OrganizationId { get; set; }
+        [ProtoMember(12)]
+        public bool Status { get; set; }
+        [ProtoMember(13)]
+        public string PatientId { get; set; }
+        [ProtoMember(14)]
+        public bool IsAdmin { get; set; }
+        [ProtoMember(15)]
+        public bool IsDoctor { get; set; }
+        [ProtoMember(16)]
+        public string Tags { get; set; }
+    }
+}

@@ -1,0 +1,34 @@
+namespace PatientPortal.API.Identity.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class UserRegister : DbMigration
+    {
+        public override void Up()
+        {
+            AddColumn("dbo.Users", "Name", c => c.String());
+            AddColumn("dbo.Users", "PatientId", c => c.String());
+            AddColumn("dbo.Users", "DoB", c => c.DateTime());
+            AddColumn("dbo.Users", "Gender", c => c.Byte(nullable: false));
+            AddColumn("dbo.Users", "Image", c => c.String());
+            AddColumn("dbo.Users", "OrganizationId", c => c.Int(nullable: false));
+            AddColumn("dbo.Users", "IsDoctor", c => c.Boolean(nullable: false));
+            AddColumn("dbo.Users", "IsAdmin", c => c.Boolean(nullable: false));
+            AddColumn("dbo.Users", "Tag", c => c.String());
+        }
+        
+        public override void Down()
+        {
+            DropColumn("dbo.Users", "Tag");
+            DropColumn("dbo.Users", "IsAdmin");
+            DropColumn("dbo.Users", "IsDoctor");
+            DropColumn("dbo.Users", "OrganizationId");
+            DropColumn("dbo.Users", "Image");
+            DropColumn("dbo.Users", "Gender");
+            DropColumn("dbo.Users", "DoB");
+            DropColumn("dbo.Users", "PatientId");
+            DropColumn("dbo.Users", "Name");
+        }
+    }
+}

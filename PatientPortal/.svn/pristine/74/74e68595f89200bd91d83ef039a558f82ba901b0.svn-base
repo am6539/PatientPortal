@@ -1,0 +1,13 @@
+﻿@using PatientPortal.Utility.Files
+@using PatientPortal.Provider.Common;
+@model PatientPortal.Domain.Models.AUTHEN.IUserSession 
+
+<img src="@FileManagement.ImageURLBase64(Model.Image, AppConfig.HostAddress_Internal)" style="width:150px; height:150px; border:2px solid #5c637c" class="img-circle" />
+<div class="icon">
+    <a href="#" class="icon1"><i class="fa fa-link"></i></a>
+    <a href="#" class="icon2"><i class="fa fa-plus"></i></a>
+</div>
+<div class="box-content">
+    <h3 class="title">@Model.UserName</h3>
+    <span class="post">@Model.PatientId</span>
+</div>

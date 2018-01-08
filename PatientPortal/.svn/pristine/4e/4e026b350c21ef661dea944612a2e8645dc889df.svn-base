@@ -1,0 +1,23 @@
+﻿using ProtoBuf;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.API.SPA.ViewModels
+{
+    [ProtoContract]
+    public class PostListViewModel
+    {
+        [ProtoMember(1)]
+        public int Id { get; set; }
+        [ProtoMember(2)]
+        public string Image { get; set; }
+        [ProtoMember(3)]
+        public string TitleTrans { get; set; }
+        [ProtoMember(4)]
+        public string DescriptionTrans { get; set; }
+        [ProtoMember(23)]
+        public string Tag { get; set; }
+    }
+}

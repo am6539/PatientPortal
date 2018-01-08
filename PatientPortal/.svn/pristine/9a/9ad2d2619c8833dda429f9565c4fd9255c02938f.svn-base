@@ -1,0 +1,104 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.CMS.Models.AdvertiseViewModel
+@{
+    ViewBag.Title = "Quảng cáo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (Model.Type != 0)
+    {
+        ViewBag.Image = Model.Resouce.Split('.')[0] + ".jpg";
+    }
+}
+@section styles{
+    <link href="~/Content/checkbox-radio-build.css" rel="stylesheet" />
+    <link href="~/Content/style-video.css" rel="stylesheet" />
+    <style>
+        
+    video::-internal-media-controls-download-button {
+    display:none;
+    }
+
+    video::-webkit-media-controls-enclosure {
+        overflow:hidden;
+    }
+
+    video::-webkit-media-controls-panel {
+        width: calc(100% + 30px); /* Adjust as needed */
+    }
+    </style>
+}
+<div class="card">
+    @Html.Raw(TempData["Alert"])
+    <div class="card-title">@Html.ITitle("quảng cáo", TitleBar.Edit)</div>
+    <div class="card-content">
+        @using (Html.IBeginForm("Edit", "Advertise"))
+            {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            @Html.IGroupSubmitButton("Cập nhật thông tin", true, true, null, null, 12)
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.Resouce)
+            @Html.HiddenFor(m => m.Type)
+            @Html.IGroupTextBoxFor(m => m.Name, true, "Nhập tiêu đề", null, 12)
+            @Html.IGroupTextAreaFor(m => m.Description, true, 2, "Nội dung quảng cáo", null, 12)
+            @Html.IGroupTextBoxFor(m => m.Handler, true, "Địa chỉ URL liên kết", null, 12)
+           
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.ILabelFor(m => m.Resouce, 12)
+                </div>
+                <div class="col-md-12">
+                    @if (Model.Type == 0)
+                    {
+                        <img src="@Url.Content(Model.Resouce)" class="img-responsive" alt="Hình đại diện">
+                    }
+                    else
+                    {
+                        <div class="grid" style="height: auto; padding-top:5px;">
+                            <a href="#" data-toggle="modal" data-target="#viewVideo">
+                                <img src="@Url.Content(ViewBag.Image)" data-source="@Url.Content(ViewBag.Image)">
+                            </a>
+                            <div class="grid-info">
+                                <div class="video-share">
+                                </div>
+                                <div class="video-watch">
+                                    @Html.ActionLink("Xem", "ViewVideo", "Advertise", Model, new { @class = "modal-link btn btn-sm", @style = "padding:1px 5px 1px 5px;" })
+                                </div>
+                                <div class="clear"> </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.IFileUpload("fileUpload", "file_extension|audio/*|video/*|image/*|media_type")
+                    @Html.IValidationMessageFor(m => m.Resouce)
+                </div>
+            </div>
+            @Html.IGroupCheckBoxFor(m => m.IsUsed, false, "IsUsed", 12, "Chọn để áp dụng")
+            @Html.IGroupTextBoxFor(m => m.StartDate, true, "Ngày bắt đầu", null, 12)
+            @Html.IGroupTextBoxFor(m => m.EndDate, true, "Ngày kết thúc", null, 12)
+        }
+    </div>
+</div>
+
+@section scripts{
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#StartDate").datetimepicker({
+                format: 'DD/MM/YYYY',
+                locale: 'vi'
+            });
+            $("#EndDate").datetimepicker({
+                format: 'DD/MM/YYYY',
+                locale: 'vi'
+            });
+
+            function viewVideo(item) {
+                $('#viewVideo').modal('toggle');
+            }
+        });
+    </script>
+}

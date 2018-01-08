@@ -1,0 +1,117 @@
+﻿using PatientPortal.CMS.Common;
+using PatientPortal.CMS.Models;
+using PatientPortal.CMS.Utility;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.CMS.Controllers
+{
+    public class PublishPostController : Controller
+    {
+        // GET: PublishPost
+        public ActionResult Index(PostFilterViewModel param)
+        {
+            try
+            {
+                param.LanguageCode = ConfigurationManager.AppSettings["AdminLanguageCode"];
+                if (param.WorkflowStateId == 0)
+                    param.WorkflowStateId = ValueConstant.WORK_STATE_ID_DRAFF;
+                var listCatg = APIHelper.Get<List<CategoryViewModel>>($"api/Category");
+                if (listCatg.Count > 0)
+                    ViewBag.CategoryId = listCatg;
+
+                var lstWorkState = APIHelper.Get<List<WorkflowStateViewModel>>($"api/WorkflowState");
+                if (lstWorkState.Count > 0)
+                    ViewBag.WorkStateId = lstWorkState;
+
+                var results = APIHelper.Get<List<PostListViewModel>>($"api/Post/GetAll/?" + APIHelper.GetQueryString(param));
+                param.PostListViewModel = results;
+
+                return View(param);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog("Error get all Post" + ex.Message);
+                throw;
+            }
+        }
+
+        #region View detail
+        // GET: PublishPost/Details/5
+        public ActionResult Details(int id)
+        {
+            try
+            {
+                var listCatg = APIHelper.Get<List<CategoryViewModel>>($"api/Category");
+                var model = APIHelper.Get<PostViewModel>($"api/Post?PostId={id}");
+                if (string.IsNullOrEmpty(model.Image))
+                {
+                    model.Image = ValueConstant.IMAGE_PATH + ValueConstant.IMAGE_POST_PATH + ValueConstant.IMAGE_DEFAULT;
+                }
+                if (listCatg != null)
+                    ViewBag.CategoryId = new SelectList(listCatg, "ID", "Name", model.CategoryId);
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        #endregion
+
+        #region Publish post
+        public async Task<ActionResult> Publish(PostStateHistoryViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    model.UserId = ValueConstant.TEMP_USERID;
+
+                    var result = await APIHelper.TransactionAsyncResult<PostStateHistoryViewModel>(model, $"api/Post/PublishPost?action={ ValueConstant.ACTION_UPDATE }");
+                    if (result == true)
+                    {
+                        TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.SUCCESS));
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.FAIL));
+                        return RedirectToAction("Index");
+                    }
+                }
+                catch
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.ERROR));
+                    return RedirectToAction("Index");
+                }
+            }
+            else
+            {
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.FAIL));
+                return RedirectToAction("Index");
+            }
+        }
+
+        public ActionResult ConfirmPublish(int id)
+        {
+            try
+            {
+                var model = new PostStateHistoryViewModel();
+                model.PostId = id;
+                return PartialView("_ConfirmPublishPartial", model);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        #endregion
+    }
+}

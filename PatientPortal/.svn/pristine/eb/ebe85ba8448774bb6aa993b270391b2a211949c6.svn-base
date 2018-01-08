@@ -1,0 +1,47 @@
+﻿using Microsoft.Owin.Security;
+using PatientPortal.Domain.Models.AUTHEN;
+using PatientPortal.Internal.Common;
+using PatientPortal.Internal.Models;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.Internal.Controllers
+{
+    [Authorize]
+    [AppHandleError]
+    //[CheckSessionOut]
+    public class HomeController : Controller
+    {
+        #region Authentication Manager
+        private readonly IUserSession _userSession;
+        private IAuthenticationManager AuthenticationManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().Authentication;
+            }
+        }
+
+        public HomeController(IUserSession userSession)
+        {
+            _userSession = userSession;
+        }
+        #endregion
+
+        public async Task<ActionResult> Index()
+        {
+            //Get module list & store cookie
+            string strUrl = APIProvider.APIGenerator("Module", "Initial", new List<string> { "group" }, true, APIConstant.MODULE_INTERNAL);
+            var lstModule = await APIProvider.Authorize_Get<List<ModuleViewModel>>(_userSession.BearerToken, strUrl, APIConstant.API_Resource_CORE, ARS.IgnoredARS);
+            new Cookies().Create(APIConstant.COOKIE_MODULE, lstModule, HttpContext.ApplicationInstance.Context);
+
+            return View();
+        }
+    }
+}

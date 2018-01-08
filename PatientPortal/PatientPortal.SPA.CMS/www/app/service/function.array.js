@@ -1,0 +1,26 @@
+﻿
+function getIndexValue(arr, value) {
+    var result = arr.length + 1;
+    for (var i = 0; i < arr.length; i++) {
+        if (arr[i].Id == value) {
+            result = i;
+        }
+    }
+    return result;
+}
+
+//convert flat array to nested array
+function nested(nodes) {
+    var map = {}, node, roots = [];
+    for (var i = 0; i < nodes.length; i += 1) {
+        node = nodes[i];
+        node.children = [];
+        map[node.Id] = i; // use map to look-up the parents
+        if (node.ParentId != 0) {
+            nodes[map[node.ParentId]].children.push(node);
+        } else {
+            roots.push(node);
+        }
+    }
+    return roots;
+}

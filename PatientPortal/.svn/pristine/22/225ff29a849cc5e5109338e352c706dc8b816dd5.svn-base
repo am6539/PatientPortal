@@ -1,0 +1,71 @@
+﻿using AutoMapper;
+using PatientPortal.API.Core.Models;
+using PatientPortal.API.Core.Models.QA;
+using PatientPortal.Domain.Models.CORE;
+using PatientPortal.Domain.Models.SYSTEM;
+
+namespace PatientPortal.API.Core
+{
+    public class AutoMapperConfig
+    {
+        public static void Configure()
+        {
+            Mapper.Initialize(x =>
+            {
+                x.AddProfile<DomainToViewModelMappingProfile>();
+                x.AddProfile<ViewModelToDomainMappingProfile>();
+            });
+        }
+
+        public class DomainToViewModelMappingProfile : Profile
+        {
+            public DomainToViewModelMappingProfile()
+            {
+                //CreateMap<Appointment, AppointmentViewModel>();
+                CreateMap<Schedule, ScheduleDetailViewModel>();
+                CreateMap<Schedule, ScheduleViewModel>();
+                CreateMap<User, UserViewModel>();
+                CreateMap<OfferAdvise, OfferAdviseViewModel>();
+                CreateMap<Setting, SettingViewModel>();
+                CreateMap<Article, ArticleViewModel>();
+                CreateMap<ArticleComment, ArticleCommentViewModel>();
+                CreateMap<AppointmentLog, AppointmentLogViewModel>();
+                CreateMap<EmailMarketing, EmailMarketingViewModel>();
+                CreateMap<Survey, SurveyViewModel>();
+                CreateMap<SurveyQuestions, SurveyQuestionsViewModel>();
+                CreateMap<SurveyAnswers, SurveyAnswersViewModel>();
+                CreateMap<Department, DepartmentViewModel>();
+                CreateMap<DepartmentServices, DepartmentServicesViewModel>();
+                CreateMap<Module, ModuleViewModel>();
+                CreateMap<QA, QAViewModel>();
+                CreateMap<DoctorProfile, DoctorProfileViewModel>();
+                CreateMap<Module, ModuleApplication>();
+                CreateMap<UserNotification, UserNotificationViewModel>();
+            }
+        }
+        public class ViewModelToDomainMappingProfile : Profile
+        {
+            public ViewModelToDomainMappingProfile()
+            {
+                CreateMap<ScheduleDetailViewModel, Schedule>();
+                CreateMap<AppointmentEditModel, AppointmentEdit>();
+                CreateMap<UserViewModel, User>();
+                CreateMap<OfferAdviseViewModel, OfferAdviseEdit>();
+                CreateMap<SettingViewModel, Setting>();
+                CreateMap<ArticleViewModel, ArticleEdit>();
+                CreateMap<ArticleCommentViewModel, ArticleCommentEdit>();
+                CreateMap<AppointmentLogEditModel, AppointmentLogEdit>();
+                CreateMap<AppointmentLogViewModel, AppointmentLog>().ForMember(dest => dest.PhysicianName, src => src.Ignore());
+                CreateMap<EmailMarketingViewModel, EmailMarketing>();
+                CreateMap<SurveyViewModel, Survey>();
+                CreateMap<SurveyQuestionsViewModel, SurveyQuestions>();
+                CreateMap<SurveyAnswersViewModel, SurveyAnswers>();
+                CreateMap<DepartmentViewModel, Department>();
+                CreateMap<DepartmentServicesViewModel, DepartmentServices>();
+                CreateMap<ModuleViewModel, Module>();
+                CreateMap<QAViewModel, QA>();
+                CreateMap<UserNotificationViewModel, UserNotification>();
+            }
+        }
+    }
+}

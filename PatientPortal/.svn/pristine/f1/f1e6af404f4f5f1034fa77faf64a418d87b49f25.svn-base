@@ -1,0 +1,83 @@
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+
+namespace PatientPortal.API.Identity.Models
+{
+    public class PermissionManager
+    {
+        private PermissionStore _permissionStore;
+        private ApplicationDbContext _db;
+        private ApplicationUserManager _userManager;
+        private ApplicationRoleManager _roleManager;
+
+        public PermissionManager()
+        {
+            _db = HttpContext.Current
+                .GetOwinContext().Get<ApplicationDbContext>();
+            _userManager = HttpContext.Current
+                .GetOwinContext().GetUserManager<ApplicationUserManager>();
+            _roleManager = HttpContext.Current
+                .GetOwinContext().Get<ApplicationRoleManager>();
+            _permissionStore = new PermissionStore(_db);
+        }
+
+        public IQueryable<Permission> Permissions
+        {
+            get
+            {
+                return _permissionStore.Permissions;
+            }
+        }
+
+        public async Task<IdentityResult> CreatePermissionAsync(Permission obj)
+        {
+            await _permissionStore.CreateAsync(obj);
+            return IdentityResult.Success;
+        }
+
+
+        public IdentityResult CreateGroup(Permission obj)
+        {
+            _permissionStore.Create(obj);
+            return IdentityResult.Success;
+        }
+
+        public async Task<Permission> FindByIdAsync(string id)
+        {
+            return await _permissionStore.FindByIdAsync(id);
+        }
+
+
+        public Permission FindById(string id)
+        {
+            return _permissionStore.FindById(id);
+        }
+
+
+        public IdentityResult SetPermissionRoles(string permissionId, params string[] roleNames)
+        {
+            // Clear all the roles associated with this group:
+            var _permission = this.FindById(permissionId);
+            _permission.PermissionRoles.Clear();
+            _db.SaveChanges();
+
+            // Add the new roles passed in:
+            var newRoles = _roleManager.Roles.Where(r => roleNames.Any(n => n == r.Name));
+            foreach (var role in newRoles)
+            {
+                _permission.PermissionRoles.Add(new PermissionRole
+                {
+                    PermissionId = permissionId,
+                    RoleId = role.Id
+                });
+            }
+            _db.SaveChanges();
+            return IdentityResult.Success;
+        }
+    }
+}

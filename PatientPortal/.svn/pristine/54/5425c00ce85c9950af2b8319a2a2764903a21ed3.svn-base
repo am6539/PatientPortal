@@ -1,0 +1,34 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+using ProtoBuf;
+
+namespace PatientPortal.PatientServices.Models.Article
+{
+    [ProtoContract]
+    public class ArticleCommentViewModel
+    {
+        [ProtoMember(1)]
+        public short Id { get; set; }
+
+        [ProtoMember(2)]
+        public int ArticleId { get; set; }
+
+        [ProtoMember(3)]
+        [DataType(DataType.Date)]
+        [Display(Name = "Ngày")]
+        public DateTime Date { get; set; }
+
+        [ProtoMember(4)]
+        [Display(Name = "Nội dung")]
+        public string Detail { get; set; }
+
+        [ProtoMember(5)]
+        public int CreatedUser { get; set; }
+
+        [ProtoMember(6)]
+        public byte Status { get; set; }
+    }
+}

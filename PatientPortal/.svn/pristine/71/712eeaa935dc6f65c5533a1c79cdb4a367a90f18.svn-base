@@ -1,0 +1,96 @@
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PatientPortal.Domain.Models.CORE;
+using PatientPortal.DataAccess.CORE;
+using PatientPortal.IDataAccess.CORE;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.UnitTest.Core
+{
+    [TestClass]
+    public class RoleUnitTest
+    {
+        public IRole _roleImpl;
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            _roleImpl = new RoleImpl();
+        }
+
+        [TestMethod]
+        public void RoleGetAll()
+        {
+            var count = _roleImpl.GetAll().Count;
+            Assert.IsTrue(count >= 0);
+        }
+
+        [TestMethod]
+        public void RoleInsert()
+        {
+            var list = new List<Role>()
+            {
+                new Role
+                {
+                    Name = "role 1"
+                }
+            };
+            var flag = _roleImpl.RoleTransaction(list, 'I');
+            Assert.IsTrue(flag);
+        }
+
+        [TestMethod]
+        public void RoleUpdate()
+        {
+            var listRole = _roleImpl.GetAll();
+            var list = new List<Role>();
+            if (listRole.Count > 0)
+            {
+                list.Add(listRole.LastOrDefault());
+            }
+            else
+            {
+                var listInsert = new List<Role>()
+                {
+                    new Role
+                    {
+                        Name = "role 1"
+                    }
+                };
+                _roleImpl.RoleTransaction(listInsert, 'I');
+                listRole = _roleImpl.GetAll();
+                list.Add(listRole.LastOrDefault());
+            }
+            var flag = _roleImpl.RoleTransaction(list, 'U');
+            Assert.IsTrue(flag);
+        }
+
+        [TestMethod]
+        public void RoleDelete()
+        {
+            var listRole = _roleImpl.GetAll();
+            var list = new List<Role>();
+            if (listRole.Count > 0)
+            {
+                list.Add(listRole.LastOrDefault());
+            }
+            else
+            {
+                var listInsert = new List<Role>()
+                {
+                    new Role
+                    {
+                        Name = "role 1"
+                    }
+                };
+                _roleImpl.RoleTransaction(listInsert, 'I');
+                listRole = _roleImpl.GetAll();
+                list.Add(listRole.LastOrDefault());
+            }
+            var flag = _roleImpl.RoleTransaction(list, 'D');
+            Assert.IsTrue(flag);
+        }
+    }
+}

@@ -1,0 +1,119 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.CMS.Models.DepartmentViewModel
+@{
+    ViewBag.Title = "Chuyên khoa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    <link href="~/Content/checkbox-radio-build.css" rel="stylesheet" />
+    <link href="~/Libs/jstree/dist/themes/default/style.min.css" rel="stylesheet" />
+}
+<div class="card">
+    @Html.Raw(TempData["Alert"])
+    
+    <div class="card-title">@Html.ITitle("Chuyên khoa", TitleBar.Edit)</div>
+    <div class="card-content">
+        @using (Html.IBeginForm("Edit", "Department"))
+            {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            @Html.IGroupSubmitButton("Cập nhật thông tin", true, true, null, null, 3, Url.Action("Index"))
+            @Html.HiddenFor(m => m.Id)
+            @Html.IGroupTextBoxFor(m => m.Name, true, "Tên chuyên khoa", null, 12)
+            @Html.IGroupTextAreaFor(m => m.Description, true, 5, "Nội dung hiển thị", null, 12)
+            <div class="form-group">
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-sm btn-primary" style="width:100%" id="btnBrowser"><i class="fa fa-folder-open-o"></i> Chọn thư mục</button>
+                    @Html.ITextBoxFor(m => m.Handler)
+                </div>
+            </div>
+            @Html.IGroupTextBoxFor(m => m.Sort, true, null, new { @type = "number" }, 12)
+            @Html.IGroupCheckBoxFor(m => m.IsUsed, false, "IsUsed", 12, "Chọn để sử dụng")
+        }
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Chọn thư mục</h4>
+            </div>
+            <div class="modal-body">
+                <div id="container">
+                    <div id="MainTree">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnSelFolder" class="btn btn-success btn-sm"><i class="fa fa-check" aria-hidden="true"></i> Chọn</button>
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><i class="fa fa-long-arrow-right"></i>Hủy</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+<script src="~/Libs/jstree/dist/jstree.js"></script>
+
+    <script>
+
+        $(function () {
+            $("#txtUrl").hide();
+            var url = '';
+
+            $('#myModal').on('show.bs.modal', function () {
+                $.ajax({
+                    type: "GET",
+                    url: "/Department/GetTreeData",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        createJSTrees(data);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                        alert(thrownError);
+                    }
+                });
+            });
+
+            function createJSTrees(jsonData) {
+                $('#MainTree').jstree({
+                    'core': {
+                        'data': jsonData,
+                        'check_callback': true,
+                        'themes': { "stripes": true },
+                    },
+                    "plugins": ["themes", "dnd", "contextmenu", "ui", "crrm"]
+                });
+            }
+
+            $('#MainTree')
+                .on('changed.jstree', function (e, data) {
+                    var i, j, r = [];
+                    for (i = 0, j = data.selected.length; i < j; i++) {
+                        r.push(data.instance.get_node(data.selected[i]).id);
+                    }
+
+                    url = r.join(', ');
+                })
+
+            $(document).on("click", "#btnSelFolder", function (e) {
+                $('#myModal').modal('hide');
+                $('#txtUrl').show("slow");
+                $('#txtUrl').val('~' + url);
+            });
+
+            $(document).on("click", "#btnBrowser", function (e) {
+                $('#myModal').modal('show');
+                $('#txtUrl').hide("slow");
+                $('#txtUrl').val('');
+            });
+        });
+    </script>
+}

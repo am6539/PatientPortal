@@ -1,0 +1,29 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.CMS.Models.FeatureModel
+@{
+    ViewBag.Title = "DỊCH VỤ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+
+<link href="~/Content/checkbox-radio-build.css" rel="stylesheet" />
+}
+<div class="card">
+    @Html.Raw(TempData["Alert"])
+    <div class="card-title">@Html.ITitle("Dịch vụ", "mixcloud")</div>
+    <div class="card-content">
+        <div class="col-md-5">
+            <div id="panelAdd">
+                @Html.Partial("_Create", Model.FeatureViewModel)
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div id="panelList">
+                @Html.Partial("_List", Model.lstFeatureViewModel)
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}

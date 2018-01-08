@@ -1,0 +1,93 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model List<PatientPortal.Internal.Models.Account.UserProfileViewModel>
+@{
+    ViewBag.Title = "Cài đặt tài khoản bác sĩ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <link href="~/Libs/Chosen/css/chosen.css" rel="stylesheet" />
+    <link href="~/Content/user-list.css" rel="stylesheet" />
+    <link href="~/Libs/DataTable/jquery.dataTables.css" rel="stylesheet" />
+}
+
+<div class="card">
+    <div class="card-title">@Html.ITitle("Cài đặt tài khoản bác sĩ", "address-card-o")</div>
+
+    <div class="card-actionbar">
+        <div class="col-md-12 filter-drop-categories">
+            @Html.IButton(@Url.Action("Create", "UserProfile"), ActionButton.Create, "Thêm hồ sơ")
+            <div class="form-group">
+                <label class="col-md-2 control-label">Người dùng</label>
+                <div class="col-md-6">
+                    @Html.DropDownList("UserId", new SelectList(ViewBag.User, "Id", "Name"), "--Chọn người dùng--", new { @class = "chosen-select", @data_placeholder = "--Chọn người dùng--" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-content">
+        <div class="bootstrap snippet">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="main-box no-header clearfix">
+                        <div class="main-box-body clearfix">
+                            <div class="table-responsive">
+                                <table class="table user-list" id="tblUser">
+                                    <thead>
+                                        <tr>
+                                            <th>@Html.HiddenFor(m => m.FirstOrDefault().UserId)</th>
+                                            <th><span>@Html.LabelFor(m => m.FirstOrDefault().TabCode)</span></th>
+                                            <th><span>@Html.LabelFor(m => m.FirstOrDefault().Description)</span></th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td></td>
+                                                <td>@item.TabCode</td>
+                                                <td>@item.Description.Substring(0, 20)</td>
+                                                <td style="width: 20%;">
+                                                    @Html.IGridButton("", ActionButton.View)
+                                                    @Html.IGridButton(@Url.Action("Edit", new { id = item.UserId, tabCode = item.TabCode }), ActionButton.Edit)
+                                                    @Html.IGridButton(@Url.Action("Delete", new { id = item.UserId, tabCode = item.TabCode }), ActionButton.Delete)
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section scripts{
+    <script src="~/Libs/Chosen/js/chosen.jquery.min.js"></script>
+    <script src="~/Libs/DataTable/jquery.dataTables.js"></script>
+    <script type="text/javascript">
+                var config = {
+                  '.chosen-select'           : {}
+                }
+                for (var selector in config) {
+                  $(selector).chosen(config[selector]);
+                }
+    </script>
+    <script type="text/javascript">
+                $(document).ready(function () {
+                    $('#tblUser').DataTable({
+                        "language": {
+                            url: '/Libs/Datatable/Vietnamese.json'
+                        }
+                    });
+                });
+    </script>
+}

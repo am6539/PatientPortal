@@ -1,0 +1,14 @@
+﻿detailModule.controller('detailController', ['$scope', 'PostService', function ($scope, PostService) {
+    $scope.Post = new Object();
+    var Id = 1;
+    //get post
+    $scope.query = function () {
+        $scope.Post = PostService.query({ Id: Id }, function (data) {
+            alert("Successfully");
+            $scope.addMode = false;
+            $scope.fetchAllBooks();
+        });
+    };
+
+    $scope.query();
+}]);

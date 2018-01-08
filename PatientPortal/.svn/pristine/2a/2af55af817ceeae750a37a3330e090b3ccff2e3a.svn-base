@@ -1,0 +1,124 @@
+﻿using PatientPortal.CMS.Common;
+using PatientPortal.CMS.Models;
+using PatientPortal.CMS.Utility;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.CMS.Controllers
+{
+    public class ApprovePostController : Controller
+    {
+        // GET: ApprovePost
+        public ActionResult Index(PostFilterViewModel param)
+        {
+            try
+            {
+                param.LanguageCode = ConfigurationManager.AppSettings["AdminLanguageCode"];
+                if (param.WorkflowStateId == 0)
+                    param.WorkflowStateId = ValueConstant.WORK_STATE_ID_DRAFF;
+                var listCatg = APIHelper.Get<List<CategoryViewModel>>($"api/Category");
+                if (listCatg.Count > 0)
+                    ViewBag.CategoryId = listCatg;
+
+                var lstWorkState = APIHelper.Get<List<WorkflowStateViewModel>>($"api/WorkflowState");
+                if (lstWorkState.Count > 0)
+                    ViewBag.WorkStateId = lstWorkState;
+
+                var results = APIHelper.Get<List<PostListViewModel>>($"api/Post/GetAll/?" + APIHelper.GetQueryString(param));
+                if (results == null)
+                    results = new List<PostListViewModel>();
+                param.PostListViewModel = results;
+
+                return View(param);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog("Error get all Post" + ex.Message);
+                throw;
+            }
+        }
+
+        #region Detail
+        // GET: ApprovePost/Details/5
+        public ActionResult Details(int id)
+        {
+            try
+            {
+                var listPri = new InitPriority();
+                ViewBag.Priorities = listPri.InitItemPriority();
+                var model = APIHelper.Get<PostViewModel>($"api/Post?PostId={id}");
+                if (string.IsNullOrEmpty(model.Image))
+                {
+                    model.Image = ValueConstant.IMAGE_PATH + ValueConstant.IMAGE_POST_PATH + ValueConstant.IMAGE_DEFAULT;
+                }
+                var data = APIHelper.Get<List<CategoryViewModel>>($"api/Category");
+                if (data != null)
+                    ViewBag.Categories = data;
+
+                if (model.Tag != string.Empty)
+                    ViewBag.Tags = model.Tag;
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        #endregion
+
+        #region Approve
+        public async Task<ActionResult> Approve(PostStateHistoryViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    model.UserId = ValueConstant.TEMP_USERID;
+
+                    var result = await APIHelper.TransactionAsyncResult<PostStateHistoryViewModel>(model, $"api/Post/Approve?action={ ValueConstant.ACTION_UPDATE }");
+                    if (result == true)
+                    {
+                        TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.SUCCESS));
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.FAIL));
+                        return RedirectToAction("Index");
+                    }
+                }
+                catch
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.ERROR, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.ERROR));
+                    return RedirectToAction("Index");
+                }
+            }
+            else
+            {
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.FAIL));
+                return RedirectToAction("Index");
+            }
+        }
+
+        public ActionResult ConfirmApprove(int id)
+        {
+            try
+            {
+                var model = new PostStateHistoryViewModel();
+                model.PostId = id;
+                return PartialView("_Approve", model);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        #endregion
+    }
+}

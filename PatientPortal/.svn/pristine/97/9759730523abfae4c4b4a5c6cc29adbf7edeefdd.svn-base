@@ -1,0 +1,8 @@
+﻿'use strict';
+
+angular.module('spaApp', [
+    'ngRoute',
+    'core',
+    'homePage',
+    'about',
+]);

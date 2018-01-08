@@ -1,0 +1,15 @@
+﻿using PatientPortal.Domain.Models.CORE;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.DataAccess.Repo.CORE
+{
+    public interface IOfferAdvise
+    {
+        Task<List<OfferAdvise>> Query(Dictionary<string, object> param);
+        Task<bool> Transaction(OfferAdvise data, char action);
+    }
+}

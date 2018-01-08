@@ -1,0 +1,141 @@
+﻿@model PatientPortal.CMS.Models.AdvertiseViewModel
+@{
+    ViewBag.Title = "Cập nhật quảng cáo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (Model.Type != 0)
+    {
+        ViewBag.Image = Model.Resouce.Split('.')[0] + ".jpg";
+    }
+}
+@section styles{
+    <link href="~/Content/checkbox-radio-build.css" rel="stylesheet" />
+    <link href="~/Content/style-video.css" rel="stylesheet" />
+    <style>
+        
+    video::-internal-media-controls-download-button {
+    display:none;
+}
+
+video::-webkit-media-controls-enclosure {
+    overflow:hidden;
+}
+
+video::-webkit-media-controls-panel {
+    width: calc(100% + 30px); /* Adjust as needed */
+}
+    </style>
+}
+<div class="card">
+    @Html.Raw(TempData["Alert"])
+    <div class="card-title">@ViewBag.Title</div>
+    <div class="card-content">
+        @using (Html.BeginForm("Edit", "Advertise", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal" }))
+            {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            <div class="form-group" style="display: none">
+                @Html.HiddenFor(m => m.Id)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name, new { @class = "control-label col-md-3" })
+                <div class="col-md-6">
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @placeholder = "Nhập tiêu đề" })
+                    @Html.ValidationMessageFor(m => m.Name)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Description, new { @class = "control-label col-md-3" })
+                <div class="col-md-6">
+                    @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @placeholder = "Nhập nội dung", @row = "5" })
+                    @Html.ValidationMessageFor(m => m.Description)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Handler, new { @class = "control-label col-md-3" })
+                <div class="col-md-6">
+                    @Html.TextBoxFor(m => m.Handler, new { @class = "form-control", @placeholder = "Nhập tiêu đề" })
+                    @Html.ValidationMessageFor(m => m.Handler, null, new { @class = "field-validation-error" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Resouce, new { @class = "control-label col-md-3" })
+                @Html.HiddenFor(m => m.Resouce)
+                @Html.HiddenFor(m => m.Type)
+                <div class="col-md-6">
+                    @if (Model.Type == 0)
+                    {
+                        <img src="@Url.Content(Model.Resouce)" class="img-responsive" alt="Hình đại diện">
+                    }
+                    else
+                    {
+                        <div class="grid" style="height: auto">
+                            <a href="#" data-toggle="modal" data-target="#viewVideo">
+                                <img src="@Url.Content(ViewBag.Image)" data-source="@Url.Content(ViewBag.Image)">
+                            </a>
+                            <div class="grid-info">
+                                <div class="video-share">
+                                </div>
+                                <div class="video-watch">
+                                    @Html.ActionLink("Xem", "ViewVideo", "Advertise", Model, new { @class = "modal-link btn btn-sm", @style = "padding:1px 5px 1px 5px;" })
+                                    @*<a href="#" onclick="viewVideo(@Model)">Xem</a>*@
+                                </div>
+                                <div class="clear"> </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6 col-md-offset-3">
+                    <input type="file" name="fileUpload" accept="file_extension|audio/*|video/*|image/*|media_type" class="form-control">
+                    @Html.ValidationMessageFor(m => m.Resouce)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.IsUsed, new { @class = "control-label col-md-3" })
+                <div class="col-md-3">
+                    <div class="checkbox checkbox-info">
+                        @Html.CheckBoxFor(m => m.IsUsed, new { @class = "styled" })<label for="IsUsed"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.StartDate, new { @class = "control-label col-md-3" })
+                <div class="col-md-2">
+                    @Html.TextBoxFor(m => m.StartDate, new { @class = "form-control", @id = "StartDate" })
+                </div>
+                @Html.LabelFor(m => m.EndDate, new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
+                    @Html.TextBoxFor(m => m.EndDate, new { @class = "form-control", @id = "EndDate" })
+                    @Html.ValidationMessageFor(m => m.EndDate)
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3"></label>
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-success btn-sm" style="width:100%;"><i class="fa fa-check" aria-hidden="true"></i> Cập nhật quảng cáo</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section scripts{
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#StartDate").datetimepicker({
+                format: 'DD/MM/YYYY',
+                locale: 'vi'
+            });
+            $("#EndDate").datetimepicker({
+                format: 'DD/MM/YYYY',
+                locale: 'vi'
+            });
+
+            function viewVideo(item) {
+                $('#viewVideo').modal('toggle');
+            }
+        });
+    </script>
+}

@@ -1,0 +1,200 @@
+﻿<style>
+    body {
+        margin: 100px 0;
+        padding: 25px;
+    }
+
+    #footer {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 100px;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    video::-internal-media-controls-download-button {
+        display: none;
+    }
+
+    video::-webkit-media-controls-enclosure {
+        overflow: hidden;
+    }
+
+    video::-webkit-media-controls-panel {
+        width: calc(100% + 30px); /* Adjust as needed */
+    }
+</style>
+<div>
+
+    <header id="header">
+        <nav id="main-menu" class="navbar navbar-default navbar-fixed-top" role="banner">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" ng-href="/">
+                        <img src="../../../assets/images/logo.png" alt="Bệnh viện Phạm Ngọc Thạch" style="width:70%;" />
+                    </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right">
+                    <ul class="nav navbar-nav">
+                        <li><a ng-href="/">Trang chủ</a></li>
+                        <!--<li class="scroll"><a href="#features">Tin tức</a></li>-->
+                        <li><a ng-href="/index/services">Dịch vụ</a></li>
+                        <li><a ng-href="/index/portfolio">Chuyên khoa</a></li>
+                        <li><a ng-href="/index/about">Giới thiệu</a></li>
+                        <li><a ng-href="/index/blog">Tin tức</a></li>
+                        <li><a ng-href="/index/get-in-touch">Liên hệ</a></li>
+                        <li><a class="" style="padding-top:33px;" href="/appointment"> <span class="btn btn-success">Đặt lịch khám trực tuyến</span></a></li>
+                    </ul>
+                </div>
+            </div><!--/.container-->
+        </nav><!--/nav-->
+    </header><!--/header-->
+
+    <div class="container">
+        <div class="row">
+            <div class="post-7839 page type-page status-publish hentry">
+
+                <div style="border-bottom: 4px solid #45aed6;">
+                    <h3 style="margin-bottom: 0px!important; width: 600px!important; background-color: #45aed6;">
+                        <span style="color: white!important; font-family: Tahoma; width: 220px; ">THÔNG TIN TỪ SỞ Y TẾ TP. HỒ CHÍ MINH</span>
+                    </h3>
+                </div>
+                <div class="vc_row wpb_row vc_inner vc_row-fluid vc_custom_1496193399697">
+                <!-- Column văn bản-->
+                    <div class="wpb_column vc_column_container vc_col-sm-4 vc_custom_1496194984446">
+                        <div class="wpb_wrapper">
+                            <div class="wpb_text_column wpb_content_element ">
+                                <div class="wpb_wrapper">
+                                    <h2>
+                                        <strong>
+                                            <a class="rss_title" href="">Văn bản từ sở</a>
+                                        </strong>
+                                    </h2>
+                                    <div class="feedzy-rss">
+                                        <ul ng-repeat="vb in rssVB">
+                                            <li style="padding: 15px 0 25px" class="rss_item">
+                                                <span class="title">
+                                                    <a href="{{vb.Link}}" target="_blank">
+                                                        {{vb.Title}}
+                                                    </a>
+                                                </span>
+                                                <div class="rss_content" style="">
+                                                    <small>
+                                                        {{vb.PublishDate}}
+                                                    </small>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <!--Column thông báo-->
+                <div class="wpb_column vc_column_container vc_col-sm-4 vc_custom_1496195004450">
+                        <div class="wpb_wrapper">
+                            <div class="wpb_text_column wpb_content_element ">
+                                <div class="wpb_wrapper">
+                                    <h2>
+                                        <strong>
+                                        <a class="rss_title" href="">Thông báo từ sở</a>
+                                        </strong>
+                                    </h2>
+                                    <div class="feedzy-rss">
+                                        <ul ng-repeat="tb in rssTB">
+                                            <li style="padding: 15px 0 25px" class="rss_item">
+                                                <span class="title">
+                                                    <a href="{{tb.Link}}" target="_blank">
+                                                        {{tb.Title}}
+                                                    </a>
+                                                </span>
+                                                <div class="rss_content" style="">
+                                                    <small>
+                                                        {{tb.PublishDate}}
+                                                    </small>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <!--Column Thư mời-->
+                <div class="wpb_column vc_column_container vc_col-sm-4 vc_custom_1496195017845">
+                        <div class="wpb_wrapper">
+                            <div class="wpb_text_column wpb_content_element ">
+                                <div class="wpb_wrapper">
+                                    <h2>
+                                        <strong>
+                                        <a class="rss_title" href="#">Thư mời từ sở</a>
+                                        </strong>
+                                    </h2>
+                                    <div class="feedzy-rss">
+                                        <ul ng-repeat="tm in rssTM">
+                                            <li style="padding: 15px 0 25px" class="rss_item">
+                                                <span class="title">
+                                                    <a href="{{tm.Link}}" target="_blank">
+                                                        {{tm.Title}}
+                                                    </a>
+                                                </span>
+                                                <div class="rss_content" style="">
+                                                    <small>
+                                                        {{tm.PublishDate}}
+                                                    </small>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="vc_row wpb_row vc_inner vc_row-fluid vc_custom_1496183090201">
+                    <div class="wpb_column vc_column_container vc_col-sm-6 vc_custom_1496183074666">
+                        <div class="wpb_wrapper">
+                            <div class="wpb_single_image wpb_content_element vc_custom_1496202454553 vc_align_left">
+                                <div class="wpb_wrapper">
+                                    <a href="https://pddt.medinet.org.vn" target="_blank">
+                                    <div class="vc_single_image-wrapper   vc_box_border_grey"></div></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div><div class="wpb_column vc_column_container vc_col-sm-6 vc_custom_1496183059615">
+                        <div class="wpb_wrapper">
+                            <div class="wpb_single_image wpb_content_element vc_custom_1496202475004 vc_align_left">
+                                <div class="wpb_wrapper">
+
+                                    <a href="https://lienthongvanban.tphcm.gov.vn" target="_blank">
+                                    <div class="vc_single_image-wrapper   vc_box_border_grey"></div></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><div class="mt_style_row " style=" text-align:left;"></div>
+                <div class="wpb_column vc_column_container vc_col-sm-12"><div class="wpb_wrapper"></div></div>
+                <div class="wpb_text_column wpb_content_element ">
+                    <div class="wpb_wrapper">
+
+                    </div>
+                </div>
+                <div class="sharedaddy sd-sharing-enabled">
+                <div class="clear"></div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script src="../../../assets/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="../../../assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>

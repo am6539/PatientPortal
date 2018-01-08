@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4D35BEF1-25E2-4B4B-A593-518228A6B316}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PatientPortal.Repositoty</RootNamespace>
+    <AssemblyName>PatientPortal.Repositoty</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CMS\AdvertiseRepoImpl.cs" />
+    <Compile Include="CMS\ConfigurationRepoImpl.cs" />
+    <Compile Include="CMS\Gallery\GalleryStoreRepoImpl.cs" />
+    <Compile Include="CMS\Gallery\GalleryRepoImpl.cs" />
+    <Compile Include="CMS\SliderRepoImpl.cs" />
+    <Compile Include="CMS\FeatureRepoImpl.cs" />
+    <Compile Include="CMS\CategoryRepoImpl.cs" />
+    <Compile Include="CMS\LinkBuildingRepoImpl.cs" />
+    <Compile Include="CMS\LanguageRepoImpl.cs" />
+    <Compile Include="CMS\Workflow\WorkflowNavigationRepoImpl.cs" />
+    <Compile Include="CMS\PostRepoImpl.cs" />
+    <Compile Include="CMS\Workflow\WorkflowRepoImpl.cs" />
+    <Compile Include="CMS\Workflow\WorkflowStateRepoImpl.cs" />
+    <Compile Include="CORE\AppointmentLogRepoImpl.cs" />
+    <Compile Include="CORE\AppointmentRepoImpl.cs" />
+    <Compile Include="CORE\DepartmentServicesRepoImpl.cs" />
+    <Compile Include="CORE\DepartmentRepoImpl.cs" />
+    <Compile Include="CORE\EmailMarketingRepoImpl.cs" />
+    <Compile Include="CORE\ModuleRepoImpl.cs" />
+    <Compile Include="CORE\SurveyRepoImpl.cs" />
+    <Compile Include="CORE\SettingRepoImpl.cs" />
+    <Compile Include="CORE\ArticleCommentRepoImpl.cs" />
+    <Compile Include="CORE\ArticleRepoImpl.cs" />
+    <Compile Include="CORE\OfferAdviseRepoImpl.cs" />
+    <Compile Include="CORE\ScheduleRepoImpl.cs" />
+    <Compile Include="CORE\DoctorProfileRepoImpl.cs" />
+    <Compile Include="CORE\UserRepoImpl.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SPA\AdvertiseRepoImpl.cs" />
+    <Compile Include="SPA\AppointmentLogRepoImpl.cs" />
+    <Compile Include="SPA\CategoryRepoImpl.cs" />
+    <Compile Include="SPA\ConfigurationRepoImpl.cs" />
+    <Compile Include="SPA\DepartmentRepoImpl.cs" />
+    <Compile Include="SPA\DepartmentServicesRepoImpl.cs" />
+    <Compile Include="SPA\FeatureRepoImpl.cs" />
+    <Compile Include="SPA\GalleryRepoImpl.cs" />
+    <Compile Include="SPA\PostRepoImpl.cs" />
+    <Compile Include="SPA\ScheduleRepoImpl.cs" />
+    <Compile Include="SPA\SliderRepoImpl.cs" />
+    <Compile Include="SPA\UserRepoImpl.cs" />
+    <Compile Include="Wraper\AdapterPatternRepoImpl.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PatientPortal.Core\PatientPortal.Domain.csproj">
+      <Project>{c41a8925-72eb-438d-a822-c4607f240236}</Project>
+      <Name>PatientPortal.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PatientPortal.IDataAccess\PatientPortal.DataAccess.Repo.csproj">
+      <Project>{031115f1-a7ad-4967-ae15-6e72bd2b415f}</Project>
+      <Name>PatientPortal.DataAccess.Repo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PatientPortal.IRepository\PatientPortal.IRepository.csproj">
+      <Project>{6c71ef08-6031-42eb-8270-a2e5c64b7893}</Project>
+      <Name>PatientPortal.IRepository</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

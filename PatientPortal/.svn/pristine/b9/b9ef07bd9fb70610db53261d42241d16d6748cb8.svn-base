@@ -1,0 +1,23 @@
+﻿using PatientPortal.PatientServices.Models;
+using PatientPortal.PatientServices.Utility;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.PatientServices.Controllers
+{
+    public class ScheduleController : Controller
+    {
+        // GET: Schedule
+        public ActionResult Index()
+        {
+            var schedule = APIHelper.Get<List<ScheduleViewModel>>(ApiUrlConstant.GET_SCHEDULE);
+            if (schedule == null)
+                schedule = new List<ScheduleViewModel>();
+
+            return View(schedule);
+        }
+    }
+}

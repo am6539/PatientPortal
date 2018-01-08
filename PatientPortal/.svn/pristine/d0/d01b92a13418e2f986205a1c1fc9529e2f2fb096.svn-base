@@ -1,0 +1,140 @@
+﻿using PatientPortal.CMS.Common;
+using PatientPortal.CMS.Models;
+using PatientPortal.CMS.Utility;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.CMS.Controllers
+{
+    public class LanguageController : Controller
+    {
+        // GET: Languages
+        public ActionResult Index()
+        {
+            var results = new LanguagesModel();
+            try
+            {
+                var list = APIHelper.Get<List<LanguageViewModel>>($"api/language");
+                if(list == null) list = ApplicationHelper.GetObject<List<LanguageViewModel>>();
+                var language = new LanguageViewModel();
+                results.LanguageViewModels = list;
+                results.LanguageViewModel = language;
+                TempData["Languages"] = list;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return View(results);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Create(LanguageViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                LanguageViewModel language = await SaveLanguage(model, ValueConstant.ACTION_INSERT);
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, "Thêm thành công");
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var languages = new LanguagesModel();
+                languages.LanguageViewModels = (List<LanguageViewModel>)TempData["Languages"];
+                if (languages.LanguageViewModels == null) languages.LanguageViewModels = ApplicationHelper.GetObject<List<LanguageViewModel>>();
+                languages.LanguageViewModel = model;
+                
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, "Thêm không thành công");
+                return View("Index", languages);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult Edit(byte id)
+        {
+            var data = new LanguageViewModel();
+            try
+            {
+                data = APIHelper.Get<LanguageViewModel>($"api/Category/" + id);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return View(data);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Edit(LanguageViewModel model, HttpPostedFileBase fileUpload)
+        {
+            if (model == null)
+            {
+                return null;
+            }
+            if (ModelState.IsValid)
+            {
+                LanguageViewModel cate = await SaveLanguage(model, ValueConstant.ACTION_UPDATE);
+                TempData["Result"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, "Thêm thành công");
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Result"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, "Cập nhật không thành công");
+                return View();
+            }
+        }
+
+        public ActionResult ViewConfirmDelete(LanguageViewModel model)
+        {
+            return PartialView("_ConfirmDelete", model);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult CheckExist(string name, byte id)
+        {
+
+            var isExist = APIHelper.Get<bool>($"api/Language/" + id + "?name=" + name);
+
+            return Json(!isExist, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Delete(byte id)
+        {
+            try
+            {
+                var model = new LanguageViewModel();
+                model.Id = id;
+                var result = await SaveLanguage(model, ValueConstant.ACTION_DELETE);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
+        }
+
+        private async Task<LanguageViewModel> SaveLanguage(LanguageViewModel language, string action)
+        {
+            var result = new LanguageViewModel();
+            try
+            {
+                result = await APIHelper.TransactionAsync<LanguageViewModel>(language, "api/Language?action=" + action + "");
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("", e.Message);
+            }
+            return result;
+        }
+    }
+}

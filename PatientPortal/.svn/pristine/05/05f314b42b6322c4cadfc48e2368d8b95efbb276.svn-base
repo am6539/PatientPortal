@@ -1,0 +1,90 @@
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Web;
+// <copyright file="CookieStore.cs" company="FIS" department="R&D">
+// Copyright (c) 2017 All Rights Reserved
+// </copyright>
+// <author>LinhNT76</author>
+// <date></date>
+// <summary>Cookies</summary>
+namespace PatientPortal.Provider.Models
+{
+    public static class CookieStore
+    {
+        public static void Create(string name, object data, HttpContext context, string domain = "", double days = 12)
+        {
+            var dataParse = JsonConvert.SerializeObject(data);
+            if(dataParse.Length > 0)
+            {
+                //Remove
+                Remove(name, context);
+
+                //Value
+                var val = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(data, Formatting.Indented)));
+
+                //Create new
+                HttpCookie cookie = new HttpCookie(name) {
+                    Secure = false, HttpOnly = true, Value = val
+                };
+                cookie.Expires.AddDays(days);
+                if(domain.Length > 0) cookie.Domain = domain;
+                try
+                {
+                    context.Response.Cookies.Add(cookie);
+                }
+                catch (Exception ex )
+                {
+
+                    throw;
+                }
+               
+            }
+        }
+
+        public static void Remove(string name, HttpContext context)
+        {
+            //Remove
+            if (context.Request.Cookies[name] != null)
+            {
+                HttpCookie cookie = new HttpCookie(name);
+                cookie.Expires = DateTime.Now.AddDays(-1);
+                context.Request.Cookies.Add(cookie);
+            }
+
+        }
+
+        public static HttpCookie Get(string name, HttpContext context)
+        {
+            //Remove
+            if (context.Request.Cookies[name] != null)
+            {
+                return context.Request.Cookies[name];
+            }
+            return null;
+        }
+
+        public static T Get<T>(string name, HttpContext context)
+        {
+            //Remove
+            if (context.Request.Cookies[name] != null)
+            {
+
+                try
+                {
+                    var val = Encoding.UTF8.GetString(Convert.FromBase64String(context.Request.Cookies[name].Value));
+                    var data = JsonConvert.DeserializeObject<T>(val, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All });
+                   // data = JsonConvert.DeserializeObject<T>(context.Request.Cookies[name].Value);
+                    return (data == null ? default(T) : data);
+                }
+                catch(Exception ex)
+                {
+                    return default(T);
+                }
+            }
+            return default(T);
+        }
+    }
+}

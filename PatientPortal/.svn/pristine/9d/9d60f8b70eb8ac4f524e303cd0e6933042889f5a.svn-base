@@ -1,0 +1,91 @@
+﻿@model PatientPortal.CMS.Models.ConfigurationViewModel
+@{
+    ViewBag.Title = "Cài đặt hệ thống";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    <link href="~/Content/checkbox.css" rel="stylesheet" />
+    <link href="~/Content/checkbox-radio-build.css" rel="stylesheet" />
+}
+<div class="card">
+    @Html.Raw(TempData["Alert"])
+    <div class="card-title">@ViewBag.Title</div>
+    <div class="card-content">
+       @using (Html.BeginForm("Edit", "Configuration", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal" }))
+            {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <div class="form-group" style="display: none">
+            @Html.LabelFor(m => m.Id, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.TextBoxFor(m => m.Id, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Name, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @placeholder = "Tên bệnh viện" })
+                @Html.ValidationMessageFor(model => model.Name, null, new { @class = "field-validation-error" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Address, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.TextBoxFor(m => m.Address, new { @class = "form-control", @placeholder = "Thông tin địa chỉ" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Phone, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.TextBoxFor(m => m.Phone, new { @class = "form-control", @placeholder = "Số điện thoại" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Fax, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.TextBoxFor(m => m.Fax, new { @class = "form-control", @placeholder = "Số FAX" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Hotline, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.TextBoxFor(m => m.Hotline, new { @class = "form-control", @placeholder = "Số đường dây nóng" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.GoogleMap, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.TextAreaFor(m => m.GoogleMap, new { @class = "form-control", @rows="5" })
+                @Html.ValidationMessageFor(model => model.GoogleMap)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.GoogleEngineScript, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.TextAreaFor(m => m.GoogleEngineScript, new { @class = "form-control", @rows = "5" })
+                @Html.ValidationMessageFor(model => model.GoogleEngineScript)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.IsSendEmailWF, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                <div class="checkbox checkbox-info">
+                    @Html.CheckBoxFor(m => m.IsSendEmailWF, new { @class = "styled", @checked = "checked" })<label for="IsSendEmailWF"></label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3"></label>
+            <div class="col-md-9">
+                <button type="submit" class="btn btn-success btn-sm" style="width:100%;"><i class="fa fa-check" aria-hidden="true"></i> Cập nhật thông tin</button>
+            </div>
+        </div>
+       }
+    </div>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Libs/ckeditor/ckeditor.js"></script>
+}

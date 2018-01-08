@@ -1,0 +1,39 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.Internal.Models.DepartmentServicesModel
+@{
+    ViewBag.Title = "Bảng giá dịch vụ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    <link href="~/Content/checkbox-radio-build.css" rel="stylesheet" />
+    <link href="~/Libs/Chosen/css/chosen.css" rel="stylesheet" />
+}
+<div class="card">
+    @Html.Raw(TempData["Alert"])
+    <div class="card-title">@Html.ITitle("Bảng giá dịch vụ", "h-square")</div>
+    <div class="card-content">
+        <div class="col-md-5">
+            <div id="panelAdd">
+                @Html.Partial("_ServicesCreate", Model.Services)
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div id="panelList">
+                @Html.Partial("_ServicesList", Model.lstServices)
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <!--Chosen-->
+    <script src="~/Libs/Chosen/js/chosen.jquery.min.js"></script>
+    <script type="text/javascript">
+    var config = {
+      '.chosen-select'           : {}
+    }
+    for (var selector in config) {
+        $(selector).chosen(config[selector]);
+    }
+    </script>
+}

@@ -1,0 +1,43 @@
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PatientPortal.Domain.Models.CORE;
+using PatientPortal.IRepository.CORE;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.UnitTest.Core
+{
+    [TestClass]
+    public class ScheduleTest
+    {
+        public IScheduleRepo _scheduleRepo;
+        [TestInitialize]
+        public void TestInitialize(IScheduleRepo scheduleRepo)
+        {
+            this._scheduleRepo = scheduleRepo;
+        }
+
+        [TestMethod]
+        public void InsertSchedule()
+        {
+            var model = new Schedule()
+            {
+                Title = "Họp giao ban",
+                Priority = 1,
+                Detail = "Họp giao ban hàng tuần về công việc",
+                IsAlarm = true,
+                DateFrom = DateTime.Now,
+                DateTo = DateTime.Now,
+                TimeFrom = (int)DateTime.Now.TimeOfDay.Ticks,
+                TimeTo = (int)DateTime.Now.TimeOfDay.Ticks,
+                Color = "RED",
+                IsExamine = true,
+                UserId = 1
+            };
+            _scheduleRepo.Transaction(model, 'I');
+            //Assert.IsInstanceOfType(flag, Type.);
+        }
+    }
+}

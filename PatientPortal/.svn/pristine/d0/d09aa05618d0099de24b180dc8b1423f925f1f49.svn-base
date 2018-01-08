@@ -1,0 +1,19 @@
+﻿using PatientPortal.IRepository.SPA;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.Repositoty.SPA
+{
+    public class PostRepoImpl : IPostRepo
+    {
+        private IPostRepo IPost;
+
+        public PostRepoImpl(IPostRepo IPost)
+        {
+            this.IPost = IPost;
+        }
+    }
+}

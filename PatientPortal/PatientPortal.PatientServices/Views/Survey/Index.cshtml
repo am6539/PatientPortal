@@ -1,0 +1,87 @@
+﻿@using PatientPortal.Provider.Helpers
+@model PatientPortal.PatientServices.Models.Survey.SurveyModel
+@{
+    ViewBag.Title = "KHẢO SÁT " + ViewBag.SurveyTitle;
+}
+
+<div class="card">
+    <div class="card-title">@ViewBag.Title</div>
+    <div class="card-content">
+        @using (Html.BeginForm("Send", "Survey", FormMethod.Post, new {@enctype = "multipart/form-data", @class = "form-horizontal", @id = "form-data"}))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            <div class="control-group">
+                @if (Model.SurveyQuestionsModel != null)
+                {
+                    var index1 = 0;
+                    foreach (var question in Model.SurveyQuestionsModel)
+                    {
+                        var isValidation = question.IsRequired;
+
+                        <h3 style="margin-top: 50px;">@question.Question @if (isValidation) { <span> *</span> }</h3>
+                        if (question.SurveyAnswersModel != null)
+                        {
+                            var index2 = 0;
+                            var answers = question.SurveyAnswersModel;
+                            foreach (var answer in answers)
+                            {
+                                if (question.Type == 1)
+                                {
+                                    @Html.IGroupTextAreaFor(m => answer.Answer, isValidation, 5, "", null, 12)
+                                }
+                                if (question.Type == 2)
+                                {
+                                    @Html.IGroupTextBoxFor(m => answer.Answer, isValidation, "", null, 12)
+                                }
+                                if (question.Type == 3)
+                                {
+                                    var radioId = "SurveyQuestionsModel_" + index1 + "_SurveyAnswersModel_" + index2 + "__Id";
+                                    <div class="col-md-12">
+                                        @Html.IRadioButtonFor(m => answer.Id, radioId, answer.Answer)
+                                    </div><div class="clearfix"></div>
+                                }
+                                if (question.Type == 4)
+                                {
+                                    var checkId = "SurveyQuestionsModel_" + index1 + "__SurveyAnswersModel_" + index2 + "__IsCheck";
+                                    var index3 = index1;
+                                    var index4 = index2;
+                                    <div class="col-md-12">
+                                        @Html.ICheckBoxFor(m => Model.SurveyQuestionsModel[index3].SurveyAnswersModel[index4].IsCheck, checkId, answer.Answer)
+                                    </div>
+                                    <div class="clearfix"></div>
+                                }
+                                if (question.Type == 5)
+                                {
+                                    <div id="nps" class="text-center">
+                                        <span id="1">1</span>
+                                        <span id="2">2</span>
+                                        <span id="3">3</span>
+                                        <span id="4">4</span>
+                                        <span id="5">5</span>
+                                        <span id="6">6</span>
+                                        <span id="7">7</span>
+                                        <span id="8">8</span>
+                                        <span id="9">9</span>
+                                        <span id="10">10</span>
+                                    </div>
+                                    <div style="float: left; padding: 10px 17px; text-align: left;">
+                                        <b>@answer.LowScore</b>
+                                    </div>
+                                    <div style="float: right; padding: 10px 17px; text-align: right;">
+                                        <b>@answer.HightScore</b>
+                                    </div>
+                                }
+                                index2++;
+                            }
+                        }
+                        index1++;
+                    }
+                }
+            </div>
+            <div class="control-group text-center">
+                @Html.ISubmitButton("Gửi")
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,87 @@
+﻿@model  List<PatientPortal.Internal.Models.OfferAdviseViewModel>
+@{
+    ViewBag.Title = "Ý KIẾN XÂY DỰNG";
+}
+@section styles{
+    <link href="~/Libs/DataTable/jquery.dataTables.css" rel="stylesheet" />
+    <link href="~/Libs/DatePicker/src/daterangepicker.css" rel="stylesheet" />
+    <link href="~/Libs/jquery-ui/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Libs/TagIt/css/jquery.tagit.css" rel="stylesheet" />
+}
+<div class="card">
+    @Html.Raw(TempData["Alert"])
+    <div class="card-title">@ViewBag.Title</div>
+    <div class="card-content">
+        <div class="col-md-12">
+            <table id="table_id" class="table table-striped table-bordered dataTable no-footer" cellspacing="0" role="grid" aria-describedby="example_info" style="width: 100%;">
+                <thead>
+                    <tr role="row">
+                        <th aria-sort="ascending">STT</th>
+                        <th style="display: none">Id</th>
+                        <th>Ngày</th>
+                        <th>Ý kiến đóng góp</th>
+                        <th style="width: 17%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ var i = 1; }
+                    @foreach (var item in Model)
+                    {
+                        <tr role="row">
+                            <td class="sorting_1">@i</td>
+                            <td style="display: none">@item.Id</td>
+                            <td align="center" valign="middle">@Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.Date))</td>
+                            <td class="text-overflow-ellipsis">@item.Detail</td>
+                            <td>
+                                <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-sm btn-view btn-warning" title="Cập nhật" style="padding:1px 5px 1px 5px;"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                @Html.ActionLink("Xóa", "Delete", "OfferAdvise", new { id = item.Id }, new { @class = "modal-link btn btn-sm btn-delete btn-danger", @style = "padding:1px 5px 1px 5px;", @title = "Xóa" })
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Libs/DataTable/jquery.dataTables.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //Pick Date
+            var d = new Date();
+            var month = d.getMonth() + 1;
+            var day = d.getDate();
+            var output = (day < 10 ? '0' : '') + day + '/'
+                + (month < 10 ? '0' : '') + month+ '/' +
+                + d.getFullYear();
+            $("#Date").datetimepicker({
+                format: 'DD/MM/YYYY',
+                locale: 'vi'
+            });
+            $("#Date").val(output);
+
+            //Type tags
+            $("#myTags").tagit();
+            $("#myTags").focusout(function () {
+                var arrayTag = $("#myTags").tagit("assignedTags");
+                var tags = "";
+                for (var index = 0; index < arrayTag.length; ++index) {
+                    tags = tags + (tags == "" ? "" : ";") + arrayTag[index];
+                }
+                $("#Tag").val(tags);
+                return true;
+            });
+
+            //Setting table
+            $('#table_id').DataTable({
+                "language": {
+                    url: '/Libs/Datatable/Vietnamese.json'
+                }
+            });
+        });
+    </script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Libs/TagIt/js/tag-it.js"></script>
+}

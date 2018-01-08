@@ -1,0 +1,199 @@
+﻿using PatientPortal.CMS.Common;
+using PatientPortal.CMS.Models;
+using PatientPortal.CMS.Utility;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.CMS.Controllers
+{
+    public class SliderController : Controller
+    {
+        private string apiUrl = $"api/slider";
+
+        #region Get List
+        // GET: Feature
+        public ActionResult Index()
+        {
+            var results = new SliderModel();
+            try
+            {
+                var list = APIHelper.Get<List<SliderViewModel>>(apiUrl);
+                if (list == null) list = ApplicationHelper.GetObject<List<SliderViewModel>>();
+
+                var model = new SliderViewModel();
+
+                results.lstSliderViewModel = list;
+                results.SliderViewModel = model;
+
+                TempData["Data"] = list;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(ex.Message);
+                throw ex;
+            }
+            return View(results);
+        }
+        #endregion
+
+        #region Create
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Create(SliderViewModel model, HttpPostedFileBase fileUpload)
+        {
+            if (fileUpload == null)
+            {
+                ModelState.AddModelError("Image", "Vui lòng chọn hình");
+            }
+            if (ModelState.IsValid)
+            {
+                if (fileUpload != null)
+                {
+                    model.Image = fileUpload.FileName;
+                    string imgName = "";
+                    WebImageHelper.UploadImage(fileUpload, ValueConstant.IMAGE_SLIDER_PATH, ref imgName);
+                }
+
+                bool result = await Save(model, ValueConstant.ACTION_INSERT);
+                if(result)
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var slider = new SliderModel();
+                slider.lstSliderViewModel = (List<SliderViewModel>)TempData["Data"];
+
+                if (slider.lstSliderViewModel == null) slider.lstSliderViewModel = ApplicationHelper.GetObject<List<SliderViewModel>>();
+                slider.SliderViewModel = model;
+                
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_INSERT, RenderMessage.TypeResult.FAIL));
+                return View("Index", slider);
+            }
+        }
+        #endregion
+
+        #region Edit
+
+        [HttpGet]
+        public ActionResult Edit(short id)
+        {
+            var model = new SliderViewModel();
+            try
+            {
+                model = APIHelper.Get<SliderViewModel>(apiUrl + "/" + id);
+                if (!string.IsNullOrEmpty(model.Image) && !model.Image.Contains(ValueConstant.IMAGE_SLIDER_PATH))
+                {
+                    model.Image = ValueConstant.IMAGE_SLIDER_PATH + "/" + model.Image;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(ex.Message);
+                throw ex;
+            }
+            return View(model);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Edit(SliderViewModel model, HttpPostedFileBase fileUpload)
+        {
+            if (fileUpload == null && String.IsNullOrEmpty(model.Image))
+            {
+                ModelState.AddModelError("Image", "Vui lòng chọn hình");
+            }
+
+            if (ModelState.IsValid)
+            {
+                if (fileUpload != null)
+                {
+                    model.Image = fileUpload.FileName;
+                    string imgName = "";
+                    WebImageHelper.UploadImage(fileUpload, ValueConstant.IMAGE_SLIDER_PATH, ref imgName);
+                }
+
+                bool result = await Save(model, ValueConstant.ACTION_UPDATE);
+                if (result)
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.SUCCESS, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Alert"] = RenderMessage.RenderResult(RenderMessage.TypeResult.FAIL, ApplicationHelper.GeneralActionMessage(ValueConstant.ACTION_UPDATE, RenderMessage.TypeResult.FAIL));
+                return View();
+            }
+        }
+        #endregion
+
+        #region Delete
+        public ActionResult ViewConfirmDelete(SliderViewModel model)
+        {
+            return PartialView("_Delete", model);
+        }
+        [HttpPost]
+        public async Task<ActionResult> Delete(byte id)
+        {
+            try
+            {
+                var model = APIHelper.Get<SliderViewModel>(apiUrl + "/" + id);
+                model.Id = id;
+                var result = await Save(model, ValueConstant.ACTION_DELETE);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(ex.Message);
+                return View();
+            }
+        }
+
+        #endregion
+
+        #region Check exist
+        //[HttpPost]
+        //[AllowAnonymous]
+        //public JsonResult CheckExist(string title, byte id)
+        //{
+
+        //    var isExist = APIHelper.Get<bool>(apiUrl + "/" + id + "?title=" + title);
+
+        //    return Json(!isExist, JsonRequestBehavior.AllowGet);
+        //}
+        #endregion
+
+        #region API Transaction
+        private async Task<bool> Save(SliderViewModel model, string action)
+        {
+            var result = false;
+            try
+            {
+                result = await APIHelper.TransactionAsyncResult<SliderViewModel>(model, apiUrl + "?action=" + action + "");
+            }
+            catch (Exception e)
+            {
+                LogHelper.WriteLog(e.Message);
+                ModelState.AddModelError("", e.Message);
+            }
+            return result;
+        }
+        #endregion
+    }
+}

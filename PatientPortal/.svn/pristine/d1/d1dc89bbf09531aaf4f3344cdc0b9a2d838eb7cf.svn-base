@@ -1,0 +1,69 @@
+﻿using PatientPortal.IDataAccess.CORE;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PatientPortal.Domain.Models.CORE;
+using System.Transactions;
+using PatientPortal.DataAccess.Dapper;
+using Dapper;
+using PatientPortal.Domain.Utilities;
+
+namespace PatientPortal.DataAccess.CORE
+{
+    public class ArticleImpl : IArticle
+    {
+        public bool ArticalTransaction(List<Article> data, char action)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    var val = new Lib.DataGenerator().CommitData<Article>(data, "usp_Article_Transaction", action, 2);
+                    scope.Complete();
+                    return val;
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Appointment Transaction: " + ex.Message);
+                    return false;
+                }
+            }
+        }
+
+        public List<Article> GetAll()
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    DapperConfiguration.OpenConnection(2);
+
+                    var data = DapperConfiguration.db.Query<Article>("usp_Article", commandType: System.Data.CommandType.StoredProcedure).ToList();
+
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("Execute Appointment get data: " + ex.Message);
+                    return null;
+                }
+            }
+        }
+
+        public Article GetById(int Id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Article> GetListByStatus(byte status)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

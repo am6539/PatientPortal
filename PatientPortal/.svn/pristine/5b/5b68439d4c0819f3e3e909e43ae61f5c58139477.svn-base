@@ -1,0 +1,9 @@
+﻿'use strict';
+
+// Register `homePage` component, along with its associated controller and template
+angular.
+  module('about').
+  component('about', {
+      templateUrl: 'app/about/about.template.html',
+      controller: ['$scope', HomePageController]
+  });

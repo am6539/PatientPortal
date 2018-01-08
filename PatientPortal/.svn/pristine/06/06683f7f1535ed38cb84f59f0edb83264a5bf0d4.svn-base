@@ -1,0 +1,89 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model List<PatientPortal.Internal.Models.Account.UserListViewModel>
+@{
+    ViewBag.Title = "DANH MỤC NGƯỜI DÙNG";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <link href="~/Content/user-list.css" rel="stylesheet" />
+    <link href="~/Libs/DataTable/jquery.dataTables.css" rel="stylesheet" />
+}
+
+<div class="card">
+    <div class="card-title">@ViewBag.Title</div>
+
+    <div class="card-actionbar">
+        @*<a href="@Url.Action("Create", "Account")" class="btn btn-default"><i class="fa fa-plus-circle" aria-hidden="true"> Thêm user</i></a>*@
+        @Html.IButton(@Url.Action("Create", "Account"), ActionButton.Create, "Thêm user")
+    </div>
+
+    <div class="card-content">
+        <div class="bootstrap snippet">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="main-box no-header clearfix">
+                        <div class="main-box-body clearfix">
+                            <div class="table-responsive">
+                                <table class="table user-list" id="tblUser">
+                                    <thead>
+                                        <tr>
+                                            <th>@Html.HiddenFor(m => m.FirstOrDefault().Id)</th>
+                                            <th><span>@Html.LabelFor(m => m.FirstOrDefault().Name)</span></th>
+                                            <th><span>@Html.LabelFor(m => m.FirstOrDefault().UserName)</span></th>
+                                            <th class="text-center"><span>Trạng thái</span></th>
+                                            <th><span>@Html.LabelFor(m => m.FirstOrDefault().Email)</span></th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    <img src="http://bootdey.com/img/Content/user_1.jpg" alt="">
+                                                    <a href="#" class="user-link">@item.Name</a>
+                                                    <span class="user-subhead">Member</span>
+                                                </td>
+                                                <td>@item.UserName</td>
+                                                <td class="text-center">
+                                                    <span class="label label-default">đã duyệt</span>
+                                                </td>
+                                                <td>
+                                                    <a href="#">@item.Email</a>
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    @Html.IGridButton("", ActionButton.View)
+                                                    @Html.IGridButton(@Url.Action("Edit", new { id = item.Id }), ActionButton.Edit)
+                                                    @Html.IGridButton(@Url.Action("Delete", new { id = item.Id }), ActionButton.Delete)
+                                                </td>
+                                            </tr>
+                                        }
+                                                                                
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section scripts{
+    <script src="~/Libs/DataTable/jquery.dataTables.js"></script>
+
+    <script type="text/javascript">
+            $(document).ready(function () {
+                $('#tblUser').DataTable({
+                    "language": {
+                        url: '/Libs/Datatable/Vietnamese.json'
+                    }
+                });
+            });
+    </script>
+}

@@ -1,0 +1,14 @@
+﻿CREATE PROCEDURE [dbo].[usp_Category_CheckHasChildOrPost]
+	@Id TINYINT
+AS
+BEGIN
+	declare @RETURN bit = 0;
+	declare @countCate tinyint = (SELECT TOP 1 1 FROM [dbo].[Category] WHERE [Id] = @Id);
+	declare @countCatePost tinyint = (SELECT TOP 1 1 FROM [dbo].[Post] WHERE [CategoryId] = @Id);
+	
+	IF (@countCate =1 or @countCatePost = 1)
+	BEGIN
+		SET @return = 1
+	END
+	SELECT @return
+END

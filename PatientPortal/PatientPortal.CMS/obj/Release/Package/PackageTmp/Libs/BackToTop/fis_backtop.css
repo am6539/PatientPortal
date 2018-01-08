@@ -1,0 +1,16 @@
+﻿.fis_backtop {
+    position: fixed;
+    right: 20px;
+    bottom: 45px;
+    width: 40px;
+    height: 40px;
+    display: block;
+    cursor: pointer;
+    background-color: #394263;
+    color: white;
+    text-align: center;
+    line-height: 40px;
+    display: block;
+    visibility: hidden;
+}
+.fis_backtop:hover{color:#169F85;}

@@ -1,0 +1,16 @@
+﻿'use strict';
+
+angular.
+module('spaPHCN').controller('AppController', ['$scope', "Params", 'ContactService', '$location',
+    function MainController($scope, Params, ContactService, $location) {
+        ContactService.get(function (data) {
+            $scope.contact = data;
+        });
+
+        $scope.search = function () {
+            if ($scope.searchText != undefined) {
+                $location.url('/search/' + $scope.searchText);
+            }
+        }
+    }
+]);

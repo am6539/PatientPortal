@@ -1,0 +1,18 @@
+﻿using PatientPortal.Domain.Models.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.IRepository.CMS
+{
+    public interface IWorkflowRepo
+    {
+        List<Workflow> GetAll();
+        bool Transaction(List<Workflow> data, char action);
+        bool CheckExist(string name, byte id);
+        Workflow GetById(byte Id);
+        bool CheckIsUsed(byte id);
+    }
+}

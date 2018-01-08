@@ -1,0 +1,23 @@
+﻿'use strict';
+
+angular.module('spaPHCN').factory('MetaFaceService', function () {
+    var og_url = '';
+    var og_type = '';
+    var og_title = '';
+    var og_description = '';
+    var og_image = '';
+    return {
+        set: function (newog_url, newog_type, newog_title, newog_description, newog_image) {
+            og_url = newog_url;
+            og_type = newog_type;
+            og_title = newog_title;
+            og_description = newog_description;
+            og_image = newog_image;
+        },
+        metaog_url: function () { return og_url; },
+        metaog_type: function () { return og_type; },
+        metaog_title: function () { return og_title; },
+        metaog_description: function () { return og_description; },
+        metaog_image: function () { return og_image; }
+    }
+});

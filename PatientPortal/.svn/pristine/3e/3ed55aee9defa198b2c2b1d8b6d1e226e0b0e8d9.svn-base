@@ -1,0 +1,68 @@
+﻿using Dapper;
+using PatientPortal.DataAccess.Dapper;
+using PatientPortal.Domain.Models.SPA;
+using PatientPortal.Domain.Utilities;
+using PatientPortal.DataAccess.Repo.SPA;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Transactions;
+using System.Data;
+using PatientPortal.Domain.LogManager;
+
+namespace PatientPortal.DataAccess.SPA
+{
+    public class PostImpl: IPost
+    {
+        public Post Get(int Id)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    DapperConfiguration.OpenConnection(1);
+
+                    var data = DapperConfiguration.db.Query<Post>("usp_spa_Post_ById",
+                        new { Id = Id },
+                        commandType: System.Data.CommandType.StoredProcedure).FirstOrDefault();
+
+                    DapperConfiguration.CloseConnection();
+
+                    scope.Complete();
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogError(ex);
+                    return null;
+                }
+            }
+        }
+        
+        public async Task<List<PostList>> GetAll(string languageCode, int categoryId, string numTop)
+        {
+            try
+            {
+                //DapperConfiguration.OpenConnection(1);
+                using (IDbConnection dapper = DapperConfiguration.Open(1))
+                {
+                    var data = await dapper.QueryAsync<PostList>("usp_spa_Post",
+                        new { languageCode = languageCode, categoryId = categoryId, numTop = numTop },
+                        commandType: System.Data.CommandType.StoredProcedure);
+                    return data.ToList();
+                }
+
+               // DapperConfiguration.CloseConnection();
+
+                
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                return null;
+            }
+        }
+    }
+}

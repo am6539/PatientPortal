@@ -1,0 +1,200 @@
+﻿<!doctype html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#5373F4">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#5373F4">
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="#5373F4">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+    @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+
+    @RenderSection("styles", required: false)
+
+    <title>Patient Services - FIS Medical Center</title>
+</head>
+<body>
+    <header class="cd-main-header">
+        <a href="@Url.Action("Index", "Home")" class="cd-logo">
+            <span class="fa fa-gg fa-2x"></span> PATIENTS
+        </a>
+        <div class="navicon">
+            <span class="navicon-breadcrumb">DASHBOARD</span>
+        </div>
+        <div class="cd-search is-hidden">
+            <form action="#0">
+                <input type="search" placeholder="Tìm kiếm...">
+            </form>
+        </div> <!-- cd-search -->
+        <a href="#0" class="cd-nav-trigger"><span></span></a>
+        <nav class="cd-nav">
+            <ul class="cd-top-nav">
+                <li>
+                    @*@Html.Action("_Notification", "Home")*@
+                </li>
+                <li><a href="#0"><span class="fa fa-envelope-o"></span></a></li>
+                <li class="has-children account">
+                    @*@Html.Action("_NavAccount", "Account")*@
+                    <ul>
+                        <li>
+                            <a href="@Url.Action("Profile", "Account")"><i class="fa fa-info-circle" aria-hidden="true"> Thông tin cá nhân</i></a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("LogOff", "Account")"><i class="fa fa-sign-out" aria-hidden="true"> Đăng xuất</i></a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header> <!-- .cd-main-header -->
+    <main class="cd-main-content">
+        <nav class="cd-side-nav">
+            <div class="wrapper-user">
+                <div class="icon-user">
+                    <div class="box">
+                        @Html.Action("_NavSideAccount", "Account")
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="welcome-note">
+                </div>
+            </div>
+            @Html.Action("_Nav", "Module")
+            @*<ul>
+                <li class="cd-label">Main</li>
+                <li class="has-children overview">
+                    <a href="@Url.Action("Index","Home")">Dashboard</a>
+                </li>
+
+                <li class="has-children insurance">
+                    <a href="#">Bảo hiểm</a>
+                </li>
+                <li class="has-children health-result">
+                    <a href="@Url.Action("Index","PHR")"><span>Hồ sơ y tế</span></a>
+                </li>
+                <li class="has-children health-result">
+                    <a href="#"><span>Tổng quan <i class="pull-right fa fa-angle-down"></i></span></a>
+                    <ul>
+                        <li><a href="#">Kết quả xét nghiệm (LAB)</a></li>
+                        <li><a href="#">Kết quả tổng quát (Vitals)</a></li>
+                        <li><a href="#">Tiêm chủng (Immunization)</a></li>
+                        <li><a href="#">Dị ứng (Allergies)</a></li>
+                        <li><a href="#">Lịch sử khám bệnh (Histories)</a></li>
+                    </ul>
+
+                </li>
+                <li class="has-children payment">
+                    <a href="#">Thanh toán</a>
+                </li>
+            </ul>
+            <ul>
+                <li class="cd-label">COMUNICATION</li>
+
+                <li class="has-children message-box">
+                    <a href="#">Hộp thư</a>
+                </li>
+                <li class="has-children question">
+                    <a href="@Url.Action("Index","Article")"><span>Hỏi đáp y tế</span></a>
+                </li>
+                <li class="has-children offder-advise">
+                    <a href="@Url.Action("Index","OfferAdvise")">Góp ý xây dựng</a>
+                </li>
+            </ul>*@
+            <ul>
+                <li class="cd-label">Action</li>
+                <li class="action-btn"><a href="@Url.Action("Make", "Appointment")">Đặt lịch hẹn</a></li>
+            </ul>
+        </nav>
+        <div class="content-wrapper">
+            <div class="content-render">
+                @RenderBody()
+            </div>
+        </div> <!-- .content-wrapper -->
+    </main> <!-- .cd-main-content -->
+    <!--Back to top-->
+    <div class="fis_backtop"><i class="fa fa-chevron-up"></i></div>
+    <!--Modal confirm-->
+    <div id="modal-container" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+    @*<script src="~/Scripts/jquery-3.1.1.min.js"></script>*@
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+        @Scripts.Render("~/bundles/app")
+
+    @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+        $(function () {
+            $('body').on('click', '.modal-link', function (e) {
+                e.preventDefault();
+                $(this).attr('data-target', '#modal-container');
+                $(this).attr('data-toggle', 'modal');
+            });
+            // Attach listener to .modal-close-btn's so that when the button is pressed the modal dialog disappears
+            $('body').on('click', '.modal-close-btn', function () {
+                $('#modal-container').modal('hide');
+            });
+            //clear modal cache, so that new content can be loaded
+            $('#modal-container').on('hidden.bs.modal', function () {
+                $(this).removeData('bs.modal');
+            });
+            $('#CancelModal').on('click', function () {
+                return false;
+            });
+        });
+    </script>
+    <script type="text/javascript">
+$(document).ready(function()
+{
+$("#notificationLink").click(function()
+{
+$("#notificationContainer").fadeToggle(300);
+$("#notification_count").fadeOut("slow");
+return false;
+});
+
+//Document Click
+$(document).click(function()
+{
+$("#notificationContainer").hide();
+});
+//Popup Click
+$("#notificationContainer").click(function()
+{
+return false
+});
+
+});
+function updateNoti() {
+    var ids = [];
+    $('#notificationsBody ul li').each(function () {
+        if ($(this).find('span').text() == "False")
+        {
+            ids.push($(this).find('span').attr('id'));
+        }
+    });
+    
+    if (ids.length > 0) {
+        $.ajax({
+            async: true,
+            type: "POST",
+            datatype: "json",
+            url: "/UserNotification/UpdateStatus",
+            data: JSON.stringify(ids),
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                $('#numberNoti').fadeOut();
+            }
+        });
+    }
+}
+    </script>
+</body>
+</html>

@@ -1,0 +1,241 @@
+﻿using PatientPortal.CMS.Common;
+using PatientPortal.CMS.Models;
+using PatientPortal.CMS.Utility;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using PatientPortal.Utility.Files;
+using PatientPortal.Utility.Application;
+
+namespace PatientPortal.CMS.Controllers
+{
+    public class CategoryController : Controller
+    {
+        private static string controllerName = string.Empty;
+
+        #region Get All
+        public async Task<ActionResult> Index()
+        {
+            TempData["Alert"] = null;
+
+            var model = new CategoriesModel();
+            try
+            {
+                //Call API Provider
+                controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                var list = await APIProvider.Get<List<CategoryViewModel>>(controllerName);
+
+                model.lstCategoryViewModel = list.OrderBy(x => x.ParentId).ToList();
+                model.CategoryViewModel = new CategoryViewModel();
+
+                ///Category List
+                ViewBag.Categories = list;
+                TempData["Data"] = list;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(ex.Message);
+                throw ex;
+            }
+            return View(model);
+        }
+
+        public ActionResult CategoryList()
+        {
+            return PartialView("_List");
+        }
+        #endregion
+
+        #region Create
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Create(CategoryViewModel model, HttpPostedFileBase fileUpload)
+        {
+            ModelState["ParentId"].Errors.Clear();
+            model.Handler = "Category";
+
+            if (ModelState.IsValid)
+            {
+                if (fileUpload != null)
+                {
+                    model.Image = fileUpload.FileName;
+                    string imgName = "";
+                    FileManagement.UploadImage(fileUpload, ValueConstant.IMAGE_CATEGORY_PATH, ref imgName);
+                }
+
+                //Call API Provider
+                string strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_INSERT);
+                var result = await APIProvider.DynamicTransaction<CategoryViewModel, bool>(model, strUrl);
+
+                if (result)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var categories = new CategoriesModel();
+                if(TempData["Data"] != null)
+                {
+                    categories.lstCategoryViewModel = (List<CategoryViewModel>)TempData["Data"];
+                }
+                else
+                {
+                    var list = await APIProvider.Get<List<CategoryViewModel>>(controllerName);
+                    categories.lstCategoryViewModel = list;
+                }
+                categories.CategoryViewModel = model;
+
+                ViewBag.Categories = categories.lstCategoryViewModel;
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                return View("Index", categories);
+            }
+
+        }
+        #endregion
+
+        #region Edit
+        [HttpGet]
+        public async Task<ActionResult> Edit(byte id)
+        {
+            var model = new CategoryViewModel();
+            try
+            {
+                //Call API Provider
+                var list = await APIProvider.Get<List<CategoryViewModel>>(controllerName);
+                string strUrl = controllerName + APIProvider.APIGenerator(this, this.RouteData.Values["action"].ToString(), id);
+                model = await APIProvider.Get<CategoryViewModel>(strUrl, APIConstant.API_Resource_CMS);
+
+
+                if (!string.IsNullOrEmpty(model.Image) && !model.Image.Contains(ValueConstant.IMAGE_CATEGORY_PATH))
+                {
+                    model.Image = ValueConstant.IMAGE_CATEGORY_PATH + "/" + model.Image;
+                }
+                ViewBag.Categories = list;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(ex.Message);
+                throw ex;
+            }
+            return View(model);
+        }
+
+        /// <summary>
+        /// Save change category
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="fileUpload"></param>
+        /// <returns></returns>
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Edit(CategoryViewModel model, HttpPostedFileBase fileUpload)
+        {
+            //Ignored
+            ModelState["ParentId"].Errors.Clear();
+
+            if (ModelState.IsValid)
+            {
+                if (fileUpload != null)
+                {
+                    model.Image = fileUpload.FileName;
+                    string name = "";
+                    FileManagement.UploadImage(fileUpload, ValueConstant.IMAGE_CATEGORY_PATH, ref name);
+                }
+
+                //Call API Provider 
+                string strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_UPDATE);
+                var result = await APIProvider.DynamicTransaction<CategoryViewModel, bool>(model, strUrl);
+
+                if (result)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.FAIL));
+                }
+            }
+            else
+            {
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ERROR, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.ERROR));
+            }
+            return RedirectToAction("Edit", model.Id);
+        }
+
+        #endregion
+
+        #region Delete
+        /// <summary>
+        /// Delete Category
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public ActionResult ViewConfirmDelete(CategoryViewModel model)
+        {
+            return PartialView("_Delete", model);
+        }
+
+        /// <summary>
+        /// Delete an object category
+        /// </summary>
+        /// <param name="model">object of category</param>
+        /// <returns>Success: return index category - Fail: return Edit</returns>
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Delete(CategoryViewModel model)
+        {
+            //Check is used
+            string strUrl = controllerName + "/CheckIsUsed/" + model.Id;
+            var checkIsUsed = await APIProvider.Get<bool>(strUrl);
+
+            if (!checkIsUsed)
+            {
+                //Call API Provider - Transaction
+                string apiUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_DELETE);
+                var result = await APIProvider.DynamicTransaction<CategoryViewModel, bool>(model, apiUrl);
+
+                if (result)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, "Xóa thành công");
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, "Xóa không thành công");
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var list = await APIProvider.Get<List<CategoryViewModel>>(controllerName);
+                ViewBag.Categories = list.Where(x => x.Id != model.ParentId);
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, "Xóa không thành công");
+                return View("Edit", model);
+            }
+        }
+        #endregion
+
+        #region Check Exist
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<JsonResult> CheckExist(string name, byte id)
+        {
+            //Call API Provider - Get data
+            string apiUrl = APIProvider.APIGenerator(controllerName,new List<string> {nameof(id), nameof(name)}, id, name);
+            var isExist = await APIProvider.Get<bool>(apiUrl);
+
+            return Json(!isExist, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+    }
+}

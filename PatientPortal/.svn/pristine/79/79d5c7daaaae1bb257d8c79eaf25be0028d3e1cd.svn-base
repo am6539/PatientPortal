@@ -1,0 +1,144 @@
+﻿@using PatientPortal.Domain.Models.CORE.Enum
+@model PatientPortal.Internal.Models.EmailMarketingViewModel
+@{
+    ViewBag.Title = "EMAIL MARKETING";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <link href="~/Libs/Chosen/css/chosen.css" rel="stylesheet" />
+    <link href="~/Libs/jquery-ui/jquery-ui.css" rel="stylesheet" />
+    <style>
+        .bootstrap-switch-large {
+            width: 200px;
+        }
+    </style>
+}
+<div class="card">
+    @using (Html.BeginForm("Process", "EmailMarketing", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal", @id = "form-data" }))
+    {
+        @Html.Raw(TempData["Alert"])
+
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="card-title">
+            <label><i class="fa fa-file-text-o"></i> @ViewBag.Title</label>
+        </div>
+
+        <div class="card-content">
+            <div>
+                <button type="submit" class="btn btn-success"><i class="fa fa-check" id="btnSend"> Gửi email</i></button>
+                <button type="submit" class="btn btn-default"><i class="fa fa-floppy-o" id="btnSave"> Lưu mẫu tin</i></button>
+                @*<a href="@Url.Action("Send", "EmailMarketing")" class="btn btn-default">
+                    <i class="fa fa-floppy-o"> Lưu mẫu tin</i>
+                </a>*@
+            </div>
+            <div>
+                @Html.HiddenFor(model => model.Id)
+                @Html.HiddenFor(model => model.Type)
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.DropDownListFor(model => model.EmailGroupType, new SelectList(new[]
+                        {
+                            new SelectListItem {Text = "Bệnh nhân", Value = EnumEmailGroupType.BenhNhan.ToString()},
+                            new SelectListItem {Text = "Bác sĩ", Value = EnumEmailGroupType.BacSi.ToString()},
+                            new SelectListItem {Text = "Nội bộ", Value = EnumEmailGroupType.NoiBo.ToString()},
+                            new SelectListItem {Text = "Tất cả", Value = EnumEmailGroupType.TatCa.ToString()}
+                        }, "Value", "Text"), new { @class = "chosen-select", @data_placeholder = "Nhóm tài khoản nhận email" })
+                        @Html.ValidationMessageFor(model => model.EmailGroupType, null, new { @class = "field-validation-error" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.Name, null, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tiêu đề" } })
+                        @Html.ValidationMessageFor(model => model.Name, null, new { @class = "field-validation-error" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.TextAreaFor(model => model.Detail, new { @class = "form-control", @name = "editor3", @id = "editor3", @placeholder = "Nội dung" })
+                        @Html.ValidationMessageFor(model => model.Detail, null, new { @class = "field-validation-error" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.DropDownListFor(model => model.Id, new SelectList(ViewBag.Templates, "Id", "Name"), "---- Chọn mẫu tin có sẵn ----", new { @class = "chosen-select", @data_placeholder = "Chọn mẫu tin có sẵn", @onchange = "loadTemplate(this.value)" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section scripts{
+    <script src="~/Libs/Chosen/js/chosen.jquery.min.js"></script>
+    <script type="text/javascript">
+        var config = {
+            '.chosen-select': {},
+            '.chosen-select-deselect': { allow_single_deselect: true },
+            '.chosen-select-no-single': { disable_search_threshold: 10 },
+            '.chosen-select-no-results': { no_results_text: 'Không tìm thấy thông tin!' },
+            '.chosen-select-width': { width: "95%" }
+        }
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
+    </script>
+    <script src="~/Libs/ckeditor/ckeditor.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script>
+        CKEDITOR.replace('editor3',
+        {
+            filebrowserImageBrowseUrl: '/Library/UploadPartial?folder=' + '',
+            filebrowserImageUploadUrl: '/Library/UploadNow?folder=' + ''
+        });
+
+        function updateValue(id, value) {
+            // this gets called from the popup window and updates the field with a new value
+            document.getElementById(id).value = value;
+            document
+                .getElementById("cke_70_previewLink")
+                .innerHTML = '<img id="cke_71_previewImage" alt="" src="' +
+                value +
+                '" style="width: 300px; height: 200px;">';
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            //1: Send | 2: Save
+            $("#btnSend").click(function () {
+                $("#Type").val("1");
+                $("#form-data").submit();
+            });
+            $("#btnSave").click(function () {
+                $("#Type").val("2");
+                $("#form-data").submit();
+            });
+        });
+        function loadTemplate(value) {
+            if (value != null) {
+                $.ajax({
+                    async: true,
+                    type: "GET",
+                    url: "/EmailMarketing/LoadTemplate",
+                    data: { id: value },
+                    contentType: "application/json; charset=utf-8",
+                    success: function(response) {
+                        if (response != null) {
+                            $("#selectTemplate").val(response.Id);
+                            $("#Name").val(response.Name);
+                            CKEDITOR.instances['editor3'].setData(response.Detail);
+                        }
+                    },
+                    failure: function(response) {
+                        alert(response.responseText);
+                    },
+                    error: function(response) {
+                        alert(response.responseText);
+                    }
+                });
+            }
+        }
+    </script>
+}

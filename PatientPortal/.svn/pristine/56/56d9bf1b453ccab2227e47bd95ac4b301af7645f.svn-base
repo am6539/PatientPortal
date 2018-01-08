@@ -1,0 +1,547 @@
+﻿
+<link href="assets/css/site/menuPage.css" rel="stylesheet" />
+
+<div class="brd-wrap" ng-include="'app/shared/template-include/submenu.template.html'">
+</div>
+<div class="top-content">
+</div>
+
+<div class="content container">
+    <div class="row">
+        <div class="content-bg">
+            <div id="ctl00_divCenter" class="col-left">
+                <div class="content-bg2">
+                    <div class='Module Module-532'>
+                        <div class="banner">
+                            <img src="assets/images/media/5/banner/banner_tuyendung2.jpg" alt="">
+                        </div>
+                    </div>
+                    <div class='Module Module-533'>
+                        <div id="ctl00_mainContent_ctl01_NewsView1_pnlInnerWrap">
+                            <div class="news">
+                                <h1 class="postdt-title">Trưởng phòng Hành chánh </h1>
+                                <div class="postdt-date">
+                                    (13/06/2017)
+                                </div>
+                                <div class="intro-text">
+                                    <p>Số lượng: 01</p>
+                                    <p>Mô tả công việc:</p>
+                                    <p>
+                                        <span style="text-decoration: underline; font-family: Arial, sans-serif;">
+                                            1.1
+                                            Quản lý công tác hành chánh của bệnh viện
+                                        </span>
+                                    </p>
+                                    <p>
+                                    </p>
+                                    <p class="MsoNormal">
+                                        <span style="font-family: Arial, sans-serif;">
+                                            - Đảm bảo
+                                            công tác lưu trữ văn thư hành chánh
+                                        </span>
+                                    </p>
+                                    <p>
+                                    </p>
+                                    <p class="MsoNormal">
+                                        <span style="font-family: Arial, sans-serif;">
+                                            - Cung cấp đầy
+                                            đủ mọi tiện nghi phục vụ cho việc hoạt động của các khoa phòng bao gồm: văn
+                                            phòng phẩm, ấn phẩm, vật tư tiêu hao và thiết bị phòng bảo trì.
+                                        </span>
+                                    </p>
+                                    <p>
+                                    </p>
+                                    <p class="MsoNormal">
+                                        <span style="font-family: Arial, sans-serif;">
+                                            - Duy trì
+                                            nhân lực phòng hành chánh thông&nbsp; qua việc
+                                            tuyển dụng, lựa chọn, hướng dẫn và đào tạo nhân viên.
+                                        </span>
+                                    </p>
+                                    <p>
+                                    </p>
+                                    <p class="MsoNormal">
+                                        <span style="font-family: Arial, sans-serif;">
+                                            - Duy trì môi
+                                            trường làm việc an toàn và đáng tin cậy, tạo điều kiện phát triển cá nhân.
+                                        </span>
+                                    </p>
+                                    <p>
+                                    </p>
+                                    <p class="MsoNormal">
+                                        <span style="font-family: Arial, sans-serif;">
+                                            - Đạt chỉ
+                                            tiêu ngân sách bằng cách dự trù các yêu cầu, gửi thông tin cho việc lập ngân
+                                            sách, phân bổ chi phí và quản lý chi phí.
+                                        </span>
+                                    </p>
+                                    <p>
+                                        <span style="font-size: 11pt; line-height: 115%; font-family: Arial, sans-serif;">
+                                            - Cải tiến chất lượng
+                                            dịch vụ bằng cách nâng&nbsp;<span style="font-size: 14.6667px; font-family: Arial, sans-serif;">
+                                                cấp quy trình
+                                                và đánh giá kết quả với người sử dụng
+                                            </span>
+                                        </span>
+                                    </p>
+                                    <p><span style="font-size: 11pt; line-height: 115%; font-family: Arial, sans-serif;"></span></p>
+                                    <p class="MsoNormal">
+                                        <span style="font-family: Arial, sans-serif;">
+                                            -<span style="color: black;">
+                                                Thực hiện các báo cáo cho các kỳ kiểm định bệnh viện (báo
+                                                cáo vệ sinh môi trường, báo cáo chất thải rắn và chất thải y tế, báo cáo quản
+                                                lý chất thải nguy hại và sổ chủ nguồn thải)
+                                            </span>
+                                        </span>
+                                    </p>
+                                    <p>
+                                    </p>
+                                    <p class="MsoNormal">
+                                        <span style="font-family: Arial, sans-serif; color: black;">
+                                            -
+                                            Điều phối xe đảm bảo việc đưa rước bệnh nhân kịp thời, an toàn khi có nhu cầu.
+                                        </span>
+                                    </p>
+                                    <p>
+                                        <span style="font-size: 11pt; line-height: 115%; font-family: Arial, sans-serif; color: black;">
+                                            - Đảm
+                                            bảo phương tiện đưa đón BGĐ, nhân viên các Khoa/Phòng khi có nhu cầu
+                                        </span>
+                                    </p>
+                                    <p>
+                                        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+                                        <meta name="ProgId" content="Word.Document" />
+                                        <meta name="Generator" content="Microsoft Word 12" />
+                                        <meta name="Originator" content="Microsoft Word 12" />
+                                    </p>
+                                    <p class="MsoNormal">
+                                        <span style="text-decoration: underline; font-family: Arial, sans-serif;">
+                                            1.2 Quản
+                                            lý các dịch vụ hỗ trợ
+                                        </span>
+                                    </p>
+                                    <p>
+                                    </p>
+                                    <p class="MsoNormal">
+                                        <span style="font-size: 14.6667px; font-family: Arial, sans-serif;">
+                                            - Dịch vụ bảo
+                                            vệ
+                                        </span>
+                                    </p>
+                                    <p>
+                                    </p>
+                                    <p class="MsoNormal">
+                                        <span style="font-family: Arial, sans-serif;">
+                                            &nbsp;&nbsp;&nbsp;&nbsp; + Đảm bảo nhân lực bảo vệ hoạt động trong
+                                            toàn bệnh viện
+                                        </span>
+                                    </p>
+                                    <p>
+                                    </p>
+                                    <p class="MsoNormal">
+                                        <span style="font-family: Arial, sans-serif;">
+                                            &nbsp;&nbsp;&nbsp;&nbsp; + Duy trì an ninh và giải quyết sự cố một
+                                            cách hiệu quả và thỏa đáng
+                                        </span>
+                                    </p>
+                                    <p>
+                                    </p>
+                                    <p class="MsoNormal">
+                                        <span style="font-family: Arial, sans-serif;">
+                                            &nbsp;&nbsp;&nbsp;&nbsp; + Đảm bảo quy trình báo cáo về hoạt động
+                                            an ninh của công ty bảo vệ cho bệnh viện.
+                                        </span>
+                                    </p>
+                                    <p>
+                                    </p>
+                                    <p class="MsoNormal">
+                                        <span style="font-size: 14.6667px; font-family: Arial, sans-serif;">
+                                            - Dịch vụ vệ
+                                            sinh
+                                        </span>
+                                    </p>
+                                    <p>
+                                    </p>
+                                    <p class="MsoNormal">
+                                        <span style="font-family: Arial, sans-serif;">
+                                            &nbsp;&nbsp;&nbsp;&nbsp; + Kiểm tra chất lượng dịch vụ vệ sinh hàng
+                                            ngày
+                                        </span>
+                                    </p>
+                                    <p>
+                                    </p>
+                                    <p class="MsoNormal">
+                                        <span style="font-family: Arial, sans-serif;">
+                                            &nbsp;&nbsp;&nbsp;&nbsp; + Giải quyết và điều phối mọi than phiền
+                                            liên quan đến vệ sinh bệnh viện.
+                                        </span>
+                                    </p>
+                                    <p>
+                                    </p>
+                                    <p class="MsoNormal">
+                                        <span style="font-size: 14.6667px; font-family: Arial, sans-serif;">
+                                            - Dịch vụ giữ
+                                            xe
+                                        </span>
+                                    </p>
+                                    <p>
+                                    </p>
+                                    <p class="MsoNormal">
+                                        <span style="font-family: Arial, sans-serif;">
+                                            &nbsp;&nbsp;&nbsp;&nbsp; + Kiểm tra chất lượng dịch vụ và doanh thu
+                                            hàng ngày
+                                        </span>
+                                    </p>
+                                    <p>
+                                    </p>
+                                    <p class="MsoNormal">
+                                        <span style="font-family: Arial, sans-serif;">
+                                            &nbsp;&nbsp;&nbsp;&nbsp; + Kiểm tra an toàn phòng cháy chữa cháy của
+                                            bãi xe
+                                        </span>
+                                    </p>
+                                    <p>
+                                    </p>
+                                    <p class="MsoNormal">
+                                        <span style="font-family: Arial, sans-serif;">
+                                            &nbsp;&nbsp;&nbsp;&nbsp; + Duy trì việc tận dụng tối đa bãi giữ xe
+                                            để đáp ứng nhu cầu giữ xe cho khách hàng và nhân viên
+                                        </span>
+                                    </p>
+                                    <p>
+                                    </p>
+                                    <p class="MsoNormal">
+                                        <span style="font-size: 14.6667px; font-family: Arial, sans-serif;">
+                                            - Dịch vụ giặt
+                                            ủi &amp; đồ vải
+                                        </span>
+                                    </p>
+                                    <p>
+                                    </p>
+                                    <p class="MsoNormal">
+                                        <span style="font-family: Arial, sans-serif;">
+                                            &nbsp;&nbsp;&nbsp;&nbsp; + Lập dự trù đồ vải và đảm bảo cung cấp đầy
+                                            đủ đồ vải cho bệnh viện
+                                        </span>
+                                    </p>
+                                    <p>
+                                    </p>
+                                    <p class="MsoNormal">
+                                        <span style="font-family: Arial, sans-serif;">
+                                            &nbsp;&nbsp;&nbsp;&nbsp; + Kiểm tra chất lượng nhà giặt và chất lượng
+                                            đồ vải
+                                        </span>
+                                    </p>
+                                    <p>
+                                    </p>
+                                    <p class="MsoNormal">
+                                        <span style="font-family: Arial, sans-serif;">
+                                            &nbsp;&nbsp;&nbsp;&nbsp; + Giải quyết mọi nhu cầu đột xuất về đồ vải
+                                            cho các khoa phòng.
+                                        </span>
+                                    </p>
+                                    <p>
+                                    </p>
+                                    <p class="MsoNormal">
+                                        <span style="font-size: 14.6667px; font-family: Arial, sans-serif;">- Dịch vụ </span>
+                                        <span style="font-size: 14.6667px; font-family: Arial, sans-serif;">&nbsp;</span>
+                                        <span style="font-size: 14.6667px; font-family: Arial, sans-serif;">nhà hàng và cửa hàng tiện ích</span>
+                                    </p>
+                                    <p>
+                                    </p>
+                                    <p class="MsoNormal">
+                                        <span style="font-family: Arial, sans-serif;">
+                                            &nbsp;&nbsp;&nbsp;&nbsp; + Đảm bảo an toàn vệ sinh thực phẩm và chất
+                                            lượng phục vụ thức ăn
+                                        </span>
+                                    </p>
+                                    <p>
+                                    </p>
+                                    <p class="MsoNormal">
+                                        <span style="font-family: Arial, sans-serif;">
+                                            &nbsp;&nbsp;&nbsp;&nbsp; + Kiểm tra doanh thu của nhà hàng và cửa
+                                            hàng tiện ích
+                                        </span>
+                                    </p>
+                                    <p>
+                                    </p>
+                                    <p class="MsoNormal">
+                                        <span style="font-size: 14.6667px; font-family: Arial, sans-serif;">
+                                            - Dịch vụ thu
+                                            gom rác (nguy hại, y tế, sinh hoạt)
+                                        </span>
+                                    </p>
+                                    <p>
+                                    </p>
+                                    <p class="MsoNormal">
+                                        <span style="font-family: Arial, sans-serif;">
+                                            &nbsp;&nbsp;&nbsp;&nbsp; + Kiểm tra số lượng , phí dịch vụ và doanh
+                                            thu rác tái chế.
+                                        </span>
+                                    </p>
+                                    <p>
+                                    </p>
+                                    <p class="MsoNormal">
+                                        <span style="font-family: Arial, sans-serif;">
+                                            &nbsp;&nbsp; + Kiểm tra kho chứa rác để đảm bảo an toàn vệ
+                                            sinh bệnh viện.
+                                        </span>
+                                    </p>
+                                    <p>
+                                    </p>
+                                    <p class="MsoNormal">
+                                        <span style="font-family: Arial, sans-serif;">
+                                            -Dịch vụ bảo
+                                            dưỡng cây cảnh
+                                        </span>
+                                    </p>
+                                    <p>
+                                        <span style="font-size: 11pt; line-height: 115%; font-family: Arial, sans-serif;">&nbsp;&nbsp;&nbsp;&nbsp; + Theo dõi chất lượng</span>
+                                    </p>
+                                    <p>
+                                        <span style="line-height: 115%;">
+                                            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+                                            <meta name="ProgId" content="Word.Document" />
+                                            <meta name="Generator" content="Microsoft Word 12" />
+                                            <meta name="Originator" content="Microsoft Word 12" />
+                                        </span>
+                                    </p>
+                                    <p class="MsoNormal" style="font-family: Arial, sans-serif; font-size: 11pt;">
+                                        <span style="font-family: Arial, sans-serif;">
+                                            -Dịch vụ kiểm
+                                            soát côn trùng
+                                        </span>
+                                    </p>
+                                    <p>
+                                    </p>
+                                    <p class="MsoNormal" style="font-family: Arial, sans-serif; font-size: 11pt;"><span style="font-family: Arial, sans-serif;">&nbsp;&nbsp;&nbsp;&nbsp; + Theo dõi chất lượng </span></p>
+                                    <p class="MsoNormal" style="font-family: Arial, sans-serif; font-size: 11pt;"><span style="font-family: Arial, sans-serif;">Yêu cầu:&nbsp;</span></p>
+                                    <p class="MsoNormal" style="font-family: Arial, sans-serif; font-size: 11pt;"><span style="font-family: Arial, sans-serif;">- Nam, Tốt nghiệp đại học trở lên chuyên ngành quản trị kinh doanh, quản trị bệnh viện hoặc ngành tương đương</span></p>
+                                    <p class="MsoNormal" style="font-family: Arial, sans-serif; font-size: 11pt;">
+                                        <span style="font-size: 14.6667px; text-indent: -0.25in; font-family: Arial, sans-serif;">-<span style="font-variant-numeric: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
+                                        <span style="font-size: 14.6667px; text-indent: -0.25in; font-family: Arial, sans-serif;">
+                                            Am hiểu về hoạt động của bệnh viện, có ít nhất 3 năm kinh nghiệm trong
+                                            môi trường bệnh viện
+                                        </span>
+                                    </p>
+                                    <p style="text-indent: -24px;">
+                                        <span style="font-size: 14.6667px; text-indent: -0.25in; font-family: Arial, sans-serif;">-<span style="font-variant-numeric: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: 'Times New Roman';">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -&nbsp;</span></span>
+                                        <span style="font-size: 14.6667px; text-indent: -0.25in; font-family: Arial, sans-serif;">Giấy tờ thủ tục hành chánh của bệnh viện</span>
+                                    </p>
+                                    <p>
+                                        <span style="font-size: 11pt; font-family: Arial, sans-serif;">
+                                        </span>
+                                    </p>
+                                    <p class="MsoListParagraphCxSpLast" style="text-indent: -0.25in;">
+                                        <!--[if !supportLists]--><span>-<span style="font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: 'Times New Roman';">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -&nbsp;</span></span>
+                                        <span style="font-family: Arial, sans-serif;">Các hình thức dịch vụ hỗ trợ</span>
+                                    </p>
+
+                                </div>
+                                <div class="newstext">
+                                    <p></p>
+                                    <div class="intro-text" style="border: 0px; margin: 0px 0px 12px; padding: 0px; font-size: 15px; font-weight: bold; color: #666666; font-family: Arial, sans-serif; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: #ffffff; text-align: start;">
+                                        <p>&nbsp;</p>
+                                        <p style="border: 0px; margin: 0px 0px 0.8em; padding: 0px; font-size: 15px; background: white; font-weight: normal; letter-spacing: normal; text-align: start;"><span style="font-size: 15px;">. &nbsp; Mức lương: thỏa thuận&nbsp;</span></p>
+                                        <p style="border: 0px; margin: 0px 0px 0.8em; padding: 0px; font-size: 15px; font-style: normal; background: white; font-weight: normal; letter-spacing: normal; text-align: start;"><span style="border: 0px; margin: 0px; padding: 0px; font-family: Arial; font-size: 18px;"></span></p>
+                                        <p style="border: 0px; margin: 0px 0px 0.8em; padding: 0px; font-size: 11pt; font-style: normal; background: white; font-weight: normal; letter-spacing: normal; text-align: start;"><span style="border: 0px; margin: 0px; padding: 0px; font-size: 13px;">. &nbsp; Thưởng lễ, tết, đi du lịch hàng năm</span></p>
+                                        <p style="border: 0px; margin: 0px 0px 0.8em; padding: 0px; font-size: 11pt; font-style: normal; background: white; font-weight: normal; letter-spacing: normal; text-align: start;">
+                                            <span style="border: 0px; margin: 0px; padding: 0px; font-size: 13px;">
+                                                <span style="border: 0px; margin: 0px; padding: 0px; font-size: 18px;">
+                                                    . &nbsp;<span class="Apple-converted-space" style="border: 0px; margin: 0px; padding: 0px; font-size: 18px;">&nbsp;</span>
+                                                    <span style="border: 0px; margin: 0px; padding: 0px; font-size: 13px;">Tham gia BHXH và Bảo hiểm<span class="Apple-converted-space" style="border: 0px; margin: 0px; padding: 0px; font-size: 18px;">&nbsp;</span></span>
+                                                </span><span style="border: 0px; margin: 0px; padding: 0px; font-size: 13px;">
+                                                    <span style="border: 0px; margin: 0px; padding: 0px; font-size: 18px;">sức khỏe<span class="Apple-converted-space" style="border: 0px; margin: 0px; padding: 0px; font-size: 18px;">&nbsp;</span></span>
+                                                    <span style="border: 0px; margin: 0px; padding: 0px; font-size: 18px;">cho CBNV hàng năm</span>
+                                                </span>
+                                            </span>
+                                        </p>
+                                        <p style="border: 0px; margin: 0px 0px 0.8em; padding: 0px; font-size: 11pt; font-style: normal; background: white; font-weight: normal; letter-spacing: normal; text-align: start;"><span style="border: 0px; margin: 0px; padding: 0px; font-size: 13px;">. &nbsp; &nbsp;Được đào tạo trong và ngoài nước</span></p>
+                                        <p style="border: 0px; margin: 0px 0px 0.8em; padding: 0px; font-size: 15px; font-style: normal;"><em style="border: 0px; margin: 0px; padding: 0px; font-size: 18px; font-style: italic; font-weight: normal;"><span style="border: 0px; margin: 0px; padding: 0px; font-size: 13px;">Hồ sơ dự tuyển bao gồm:</span></em></p>
+
+                                    </div>
+                                    <div class="newstext" style="border: 0px; margin: 0px; padding: 0px; font-size: 15px; color: #666666; font-family: Arial, sans-serif; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: #ffffff; text-align: start;">
+                                        <p>&nbsp;</p>
+                                        <p style="border: 0px; margin: 0px 0px 0.8em; padding: 0px; font-size: 15px;">
+                                            <span style="border: 0px; margin: 0px; padding: 0px; font-size: 13px;">
+                                                <span style="border: 0px; margin: 0px; padding: 0px; font-stretch: normal; font-size: 18px;">. &nbsp;<span class="Apple-converted-space" style="border: 0px; margin: 0px; padding: 0px; font-size: 18px;">&nbsp;</span></span>
+                                                <span style="border: 0px; margin: 0px; padding: 0px; font-size: 18px;">Phiếu thông tin ứng viên (theo mẫu bệnh viện) Ứng viên<strong style="border: 0px; margin: 0px; padding: 0px; font-size: 18.6667px; font-weight: bold;">&nbsp;</strong></span>
+                                                <span style="border: 0px; margin: 0px; padding: 0px; font-size: 18px;">
+                                                    <a href="https://manage.hoanmy.com/Data/Sites/5/userfiles/49/003_Application%20Form.docx"
+                                                       style="border: 0px; margin: 0px; padding: 0px; font-size: 14.6667px; text-decoration: none; outline: 0px; color: #1b7b57;"><span style="border: 1pt none windowtext; margin: 0px; padding: 0in; font-size: 18px;"></span></a>
+                                                    <span style="border: 1pt none windowtext; margin: 0px; padding: 0in; font-size: 18px;">
+                                                        <a href="https://manage.hoanmy.com/Data/Sites/5/userfiles/49/003_Application%20Form.docx"
+                                                           style="border: 0px; margin: 0px; padding: 0px; font-size: 18px; text-decoration: none; outline: 0px; color: #1b7b57;"><strong style="border: 0px; margin: 0px; padding: 0px; font-size: 18.6667px; font-weight: bold;"></strong></a>
+                                                        <strong style="border: 0px; margin: 0px; padding: 0px; font-size: 18.6667px; font-weight: bold;">
+                                                            <a href="http://www.hoanmy.com/Data/Sites/5/userfiles/49/003_Application%20Form.docx"
+                                                               style="border: 0px; margin: 0px; padding: 0px; font-size: 18.6667px; text-decoration: none; outline: 0px; color: #1b7b57;">download tại đây&nbsp;</a>
+                                                        </strong>
+                                                    </span>&nbsp;.
+                                                </span>
+                                                <span style="border: 0px; margin: 0px; padding: 0px; font-size: 18px;">&nbsp;&nbsp;</span>
+                                                <span style="border: 0px; margin: 0px; padding: 0px; font-size: 18px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span>
+                                            </span>
+                                        </p>
+                                        <p style="border: 0px; margin: 0px 0px 0.8em; padding: 0px; font-size: 15px; background: white; font-weight: normal; font-style: normal; letter-spacing: normal; text-align: start;">
+                                            <span style="border: 0px; margin: 0px; padding: 0px; font-size: 13px;">
+                                                <span style="border: 0px; margin: 0px; padding: 0px; font-size: 18px;">. &nbsp;<span class="Apple-converted-space" style="border: 0px; margin: 0px; padding: 0px; font-size: 18px;">&nbsp;</span></span>
+                                                <span style="border: 0px; margin: 0px; padding: 0px; font-size: 18px;">
+                                                    Đối với ứng viên có kinh nghiệm có kèm chi tiết quá trình công tác
+                                                    (công việc, vị trí đảm nhiệm) theo trình tự thời gian.
+                                                </span>
+                                            </span>
+                                        </p>
+                                        <p style="border: 0px; margin: 0px 0px 0.8em; padding: 0px; font-size: 15px; background: white; font-weight: normal; font-style: normal; letter-spacing: normal; text-align: start;">
+                                            <span style="border: 0px; margin: 0px; padding: 0px; font-size: 13px;">
+                                                <span style="border: 0px; margin: 0px; padding: 0px; font-size: 18px;">. &nbsp;<span class="Apple-converted-space" style="border: 0px; margin: 0px; padding: 0px; font-size: 18px;">&nbsp;</span></span>
+                                                <span style="border: 0px; margin: 0px; padding: 0px; font-size: 18px;">Bằng tốt nghiệp và các văn bằng chứng chỉ có liên quan</span>
+                                            </span>
+                                        </p>
+                                        <p style="border: 0px; margin: 0px 0px 0.8em; padding: 0px; font-size: 15px; background: white; font-weight: normal; font-style: normal; letter-spacing: normal; text-align: start;">
+                                            <span style="border: 0px; margin: 0px; padding: 0px; font-family: Arial; font-size: 13px;">
+                                                <span style="border: 0px; margin: 0px; padding: 0px; font-size: 18px;">. &nbsp;</span>
+                                                <span style="border: 0px; margin: 0px; padding: 0px; font-size: 18px;">Ảnh chụp trong vòng 6 tháng gần nhất</span>
+                                            </span>
+                                        </p>
+                                        <p style="border: 0px; margin: 0px 0px 0.8em; padding: 0px; font-size: 15px; background: white; font-weight: normal; font-style: normal; letter-spacing: normal; text-align: start;"><span style="border: 0px; margin: 0px; padding: 0px; font-size: 13px;">Hồ sơ gửi về: Bệnh viện Hoàn Mỹ Sài Gòn</span></p>
+                                        <p style="border: 0px; margin: 0px 0px 0.8em; padding: 0px; font-size: 15px; background: white; font-weight: normal; font-style: normal; letter-spacing: normal; text-align: start;">
+                                            <span style="border: 0px; margin: 0px; padding: 0px; font-size: 13px;">
+                                                <span class="Apple-tab-span" style="border: 0px; margin: 0px; padding: 0px; white-space: pre; font-size: 18px;">		</span>60
+                                                - 60A Phan Xích Long, Phường 1, Q. Phú Nhuận, TPHCM (P. Nhân sự)
+                                            </span>
+                                        </p>
+                                        <p style="border: 0px; margin: 0px 0px 0.8em; padding: 0px; font-size: 15px; background: white; font-weight: normal; font-style: normal; letter-spacing: normal; text-align: start;"><span style="border: 0px; margin: 0px; padding: 0px; font-size: 13px;">hoặc email: tuyendung.hmsg@hoanmy.com/ tram.duong@hoanmy.com</span></p>
+                                        <p>&nbsp;</p>
+                                    </div>
+                                    <p>&nbsp;</p>
+                                </div>
+                            </div>
+                            <div class="bot-news">
+                                <div class="utilities-bar">
+                                    <ul class="cf nav">
+                                        <li>
+                                            <a class='fb-like' data-href='http://www.hoanmy.com/Saigon/truong-phong-hanh-chanh'
+                                               data-send='false' data-layout='button_count' data-width='100' data-show-faces='false'></a>
+                                        </li>
+                                        <li class="print">
+                                            <a href='/saigon/thong-tin-tuyen-dung?skin=printerfriendly' target='_blank'
+                                               title='In' rel='nofollow'><span>In</span></a>
+                                        </li>
+                                        <li class="email">
+                                            <a href='http://www.hoanmy.com/Saigon/News/EmailSubjectDialog.aspx?u=http://www.hoanmy.com/Saigon/truong-phong-hanh-chanh'
+                                               class='cb-email-link' target='_blank' title='Gửi bạn bè' rel='nofollow'><span>Gửi bạn bè</span></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="clear">
+                                </div>
+                                <div class="other-news">
+                                    <h4>Các tin khác</h4>
+                                    <ul class="noli">
+                                        <li>
+                                            <a target="_self" href="http://www.hoanmy.com/Saigon/nhan-vien-kinh-doanh-kham-suc-khoe-cong-ty" title="Nhân viên kinh doanh khám sức khỏe công ty">
+                                                Nhân viên kinh doanh khám sức khỏe công ty<span>
+                                                    (11/05/2017)
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a target="_self" href="http://www.hoanmy.com/Saigon/bac-si-san-phu-khoa" title="Bác sĩ Sản Phụ khoa">
+                                                Bác sĩ Sản Phụ khoa<span>
+                                                    (03/04/2017)
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a target="_self" href="http://www.hoanmy.com/Saigon/bac-si-da-lieu" title="Bác sĩ da liễu">
+                                                Bác sĩ da liễu<span>
+                                                    (03/04/2017)
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a target="_self" href="http://www.hoanmy.com/Saigon/thu-ky-y-khoa" title="Thư ký y khoa">
+                                                Thư ký y khoa<span>
+                                                    (13/03/2017)
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a target="_self" href="http://www.hoanmy.com/Saigon/ky-thuat-vien-gay-me" title="Kỹ thuật viên Gây mê">
+                                                Kỹ thuật viên Gây mê<span>
+                                                    (20/02/2017)
+                                                </span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div id="ctl00_mainContent_ctl01_NewsView1_divPager" class="pages">
+                                <div class='modulepager'>
+                                    <span class="PageInfo">Trang 1 / 4</span> <span class="SelectedPage" title="Đến trang 1">1</span>                                                <a class='ModulePager' href="/saigon/thong-tin-tuyen-dung?pagenumber=2" title="Đến trang 2">2</a>                                                <a class='ModulePager' href="/saigon/thong-tin-tuyen-dung?pagenumber=3" title="Đến trang 3">3</a>                                                <a class='ModulePager' href="/saigon/thong-tin-tuyen-dung?pagenumber=4" title="Đến trang 4">4</a>                                                <a class='ModulePager NextPage' href="/saigon/thong-tin-tuyen-dung?pagenumber=2"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           title="Chuyển đến trang 2">&rsaquo;</a> <a class='ModulePager LastPage' href="/saigon/thong-tin-tuyen-dung?pagenumber=4"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      title="Trang cuối">&raquo;</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="ctl00_divRight" class="col-right cmszone">
+                <div class='Module Module-288'>
+                    <div class="left-menu">
+                        <ul class="noli">
+                            <li class="active"><a class="active" href="/career" target="_self" title="Thông tin tuyển dụng">Thông tin tuyển dụng</a></li>
+                            <li><a href="/Saigon/tuyen-dung-khac" target="_self" title="Khác">Khác</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class='Module Module-258'>
+                    <div class="fb-page" data-href="https://www.facebook.com/hoanmysaigon" data-tabs="Facebook" data-width="231" data-small-header="false"
+                         data-adapt-container-width="false" data-hide-cover="false" data-show-facepile="true">
+                        <div class="fb-xfbml-parse-ignore">
+                            <blockquote cite="https://www.facebook.com/hoanmysaigon"><a href="https://www.facebook.com/hoanmysaigon">BV Hoàn Mỹ Sài Gòn</a></blockquote>
+                        </div>
+                    </div>
+                    <div class="emhotline">
+                        Cấp cứu<span>(08) 3995 9860</span>
+                    </div>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSemdqrYVGswrTxbQGKUwPzImgqXa6DMt5D_wBdiPKvhbyq2FA/viewform?c=0&amp;w=1"
+                       target="_blank"><img src="http://hoanmy.com/Data/Sites/1/userfiles/56/KS-ngoai-tru.png" alt="Khao-sat-ngoai-tru" /></a>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdGUagF2UaZ2U0QkNWDXj46q8fND-aIz46VN_9tZCQCezfSEw/viewform?c=0&amp;w=1"
+                       target="_blank"><img src="http://hoanmy.com/Data/Sites/1/userfiles/56/KS-noi-tru.png" alt="Khao-sat-noi-tru" /></a>
+                </div>
+                <div class='Module Module-795'>
+                    <div class="cc-wrap">
+                        <h4>
+                            <a href="/saigon/cau-chuyen-benh-nhan">Câu chuyện bệnh nhân</a>
+                        </h4>
+                        <table></table>
+                    </div>
+                </div>
+                <!--<div class='cn-wrap Module Module-796'>
+                    <div class="cc-wrap">
+                        <h4>
+                            <a href="/saigon/cam-nhan-benh-nhan">Cảm nhận bệnh nhân</a>
+                        </h4>
+                        <section class="bg-cn">
+                            <div class="cn-slide">
+                            </div>
+                            <div class="pagination" id="foo2_pag">
+                            </div>
+                        </section>
+                    </div>
+                </div>-->
+                <div class='Module Module-577'>
+                    <div>
+                        <img alt="" src="images/media/5/banner/Banner_GIF.gif" /><span style="font-size: 0px;">
+                            <br />
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+    </div>
+</div>

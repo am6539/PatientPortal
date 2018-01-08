@@ -1,0 +1,16 @@
+﻿'use strict';
+
+angular.module('spaApp')
+    .controller("DoctorsController", [
+    "$scope", "$location", "$route", "Params", "DoctorsServices", "LoadJsService",
+    function ($scope, $location, $route, Params, DoctorsServices, LoadJsService) {
+        var getDoctorList = function (search) {
+            DoctorsServices.getDoctorList({ search: search }, function (data) {
+                $scope.doctors = data;
+
+                LoadJsService.callJqueryMain();
+            });
+        }
+
+        getDoctorList();
+    }]);

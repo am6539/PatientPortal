@@ -1,0 +1,8 @@
+﻿'use strict';
+
+angular.module('spaPHCN')
+    .controller("ContactController", [
+    "$scope", "$location", "$route", "Params", "ContactServices",
+    function ($scope, $location, $route, Params, ContactServices) {
+
+    }]);

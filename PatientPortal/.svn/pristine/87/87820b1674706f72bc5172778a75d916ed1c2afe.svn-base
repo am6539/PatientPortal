@@ -1,0 +1,26 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.CMS.Models
+{
+    public class JsTreeModel
+    {
+        public string text;
+        public JsTreeAttribute attr;
+        public StateNode state;
+        public List<JsTreeModel> children;
+    }
+
+    public class JsTreeAttribute
+    {
+        public string id;
+    }
+
+    public class StateNode
+    {
+        public bool opened;
+        public bool selected;
+    }
+}

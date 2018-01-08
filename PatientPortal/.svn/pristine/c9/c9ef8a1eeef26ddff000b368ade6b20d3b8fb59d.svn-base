@@ -1,0 +1,6 @@
+﻿appManagement.controller("indexController", [
+    "$scope", "$rootScope", "$location", function ($scope, indexServices, $rootScope, $location) {
+        $rootScope.title = "Trang chủ";
+
+    }
+]);

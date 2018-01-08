@@ -1,0 +1,277 @@
+﻿using PatientPortal.CMS.Common;
+using PatientPortal.CMS.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using PatientPortal.Provider.Models;
+using PatientPortal.Provider.Common;
+using PatientPortal.Utility.Files;
+using PatientPortal.Utility.Application;
+using PatientPortal.Domain.LogManager;
+using PatientPortal.Domain.Models.AUTHEN;
+using Microsoft.Owin.Security;
+
+namespace PatientPortal.CMS.Controllers
+{
+    [Authorize]
+    public class AdvertiseController : Controller
+    {
+        private static string controllerName = string.Empty;
+
+        #region Authentication Manager
+        private readonly IUserSession _userSession;
+        private IAuthenticationManager AuthenticationManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().Authentication;
+            }
+        }
+
+        public AdvertiseController(IUserSession userSession)
+        {
+            _userSession = userSession;
+        }
+        #endregion
+
+        // GET: Advertise
+        public async Task<ActionResult> Index()
+        {
+            var model = new AdvertisesModel();
+            try
+            {
+                //Call API Provider
+                controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                var list = await APIProvider.Authorize_Get<List<AdvertiseViewModel>>(_userSession.BearerToken, controllerName, APIConstant.API_Resource_CORE, ARS.Get);
+
+                model.lstAdvertiseViewModel = list.OrderBy(x => x.Id).ToList();
+                model.AdvertiseViewModel = new AdvertiseViewModel() { IsUsed = true };
+
+                ///Category List
+                ViewBag.Categories = list;
+                TempData["Data"] = list;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw ex;
+            }
+            return View(model);
+        }
+
+        #region Create
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Create(AdvertiseViewModel model, HttpPostedFileBase fileUpload)
+        {
+            var token = _userSession.BearerToken;
+
+            if (fileUpload == null)
+            {
+                ModelState.AddModelError("Resouce", "Vui lòng chọn video hoặc hình ảnh");
+            }
+            if (ModelState.IsValid)
+            {
+                if (fileUpload != null)
+                {
+                    string name = "";
+                    if (fileUpload.ContentType.Contains("image"))
+                    {
+                        FileManagement.UploadImage(fileUpload, ValueConstant.IMAGE_ADVERTISE_PATH, ref name);
+                        model.Type = (Byte)ValueConstant.MEDIA_TYPE.IMAGE;
+                        model.Resouce = name;
+                    }
+                    else
+                    {
+                        FileManagement.UploadFile(fileUpload, ValueConstant.IMAGE_ADVERTISE_PATH, ref name);
+                        string pathVideo = Server.MapPath(name);
+                        model.Type = (byte)ValueConstant.MEDIA_TYPE.VIDEO;
+
+                        UploadVideo(fileUpload, pathVideo);
+                        model.Resouce = name;
+                    }
+                }
+
+                //Call API Provider
+                string strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_INSERT);
+                var result = await APIProvider.Authorize_DynamicTransaction<AdvertiseViewModel, bool>(model, token, strUrl, APIConstant.API_Resource_CMS, ARS.Insert);
+
+                if (result)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var slider = new AdvertisesModel();
+                slider.lstAdvertiseViewModel = await APIProvider.Get<List<AdvertiseViewModel>>(controllerName, APIConstant.API_Resource_CMS);
+                   
+                slider.AdvertiseViewModel = model;
+
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                return View("Index", slider);
+            }
+        }
+        #endregion
+
+        private string[] UploadVideo(HttpPostedFileBase fileUpload, string pathVideo)
+        {
+            string pathThumbnail = Server.MapPath(ValueConstant.IMAGE_ADVERTISE_PATH);
+            var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
+            string[] arrTemp = fileUpload.FileName.Split('.');
+            string fileName = pathThumbnail + "/" + arrTemp[0] + ".jpg";
+            ffMpeg.GetVideoThumbnail(pathVideo, fileName, 10.0f);
+            return arrTemp;
+        }
+
+        #region Edit
+        [HttpGet]
+        public async Task<ActionResult> Edit(short id)
+        {
+            var model = new AdvertiseViewModel();
+            try
+            {
+                //Call API Provider
+                string strUrl = APIProvider.APIGenerator(this, this.RouteData.Values["action"].ToString(), id);
+                model = await APIProvider.Get<AdvertiseViewModel>(controllerName + strUrl);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw ex;
+            }
+            return View(model);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Edit(AdvertiseViewModel model, HttpPostedFileBase fileUpload)
+        {
+            var token = _userSession.BearerToken;
+
+            if (fileUpload == null && String.IsNullOrEmpty(model.Resouce))
+            {
+                ModelState.AddModelError("Resouce", "Vui lòng chọn hình");
+            }
+
+            if (ModelState.IsValid)
+            {
+                if (fileUpload != null)
+                {
+                     string name = "";
+                    if (fileUpload.ContentType.Contains("image"))
+                    {
+                        FileManagement.UploadImage(fileUpload, ValueConstant.IMAGE_ADVERTISE_PATH, ref name);
+                        model.Type = (byte)ValueConstant.MEDIA_TYPE.IMAGE;
+                        model.Resouce = name;
+                    }
+                    else
+                    {
+                        FileManagement.UploadFile(fileUpload, ValueConstant.IMAGE_ADVERTISE_PATH, ref name);
+                        string pathVideo = Server.MapPath(name);
+                        model.Type = (byte)ValueConstant.MEDIA_TYPE.VIDEO;
+
+                        string pathThumbnail = Server.MapPath(ValueConstant.IMAGE_ADVERTISE_PATH);
+                        var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
+                        string[] arrTemp = fileUpload.FileName.Split('.');
+                        string fileName = pathThumbnail + "/" +arrTemp[0] + ".jpg";
+                        ffMpeg.GetVideoThumbnail(pathVideo, fileName, 10.0f);
+                        model.Resouce = name.Replace(fileUpload.FileName, arrTemp[0] + ".jpg");
+                    }
+                }
+
+                //Call API Provider 
+                string strUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_UPDATE);
+                var result = await APIProvider.Authorize_DynamicTransaction<AdvertiseViewModel, bool>(model, token, strUrl, APIConstant.API_Resource_CMS, ARS.IgnoredARS);
+
+
+                if (result)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_UPDATE, ApplicationGenerator.TypeResult.FAIL));
+                return View(model);
+            }
+        }
+        #endregion
+
+        #region Delete
+        public ActionResult Delete(AdvertiseViewModel model)
+        {
+            return PartialView("_Delete", model);
+        }
+        [HttpPost]
+        public async Task<ActionResult> Delete(byte id)
+        {
+            try
+            {
+                //Call API Provider - Get data
+                string apiUrl = APIProvider.APIGenerator(this, this.RouteData.Values["action"].ToString(), id);
+                var model = await APIProvider.Get<AdvertiseViewModel>(controllerName + apiUrl);
+
+                if(model == null)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_DELETE, ApplicationGenerator.TypeResult.FAIL));
+                    RedirectToAction("Index");
+                }
+
+                //Call API Provider - Transaction
+                apiUrl = APIProvider.APIGenerator(controllerName, APIConstant.ACTION_DELETE);
+                var result = await APIProvider.DynamicTransaction<AdvertiseViewModel, bool>(model, apiUrl);
+                
+                if (result)
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_DELETE, ApplicationGenerator.TypeResult.SUCCESS));
+                }
+                else
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_DELETE, ApplicationGenerator.TypeResult.FAIL));
+                }
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                return View();
+            }
+        }
+
+        public ActionResult ViewVideo(AdvertiseViewModel model)
+        {
+            model.Resouce = model.Resouce.Replace(@"\", @"/");
+            return PartialView("_ViewVideo", model);
+        }
+
+        #endregion
+
+        #region Check exist
+        //[HttpPost]
+        //[AllowAnonymous]
+        public async Task<JsonResult> CheckExist(string name, byte id)
+        {
+
+            //Call API Provider - Get data
+            string apiUrl = APIProvider.APIGenerator(controllerName, new List <string> { nameof(id), nameof(name) }, false, id, name.Trim());
+            var isExist = await APIProvider.Get<bool>(apiUrl);
+
+            return Json(!isExist, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+    }
+}

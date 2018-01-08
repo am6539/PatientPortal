@@ -1,0 +1,22 @@
+﻿using PatientPortal.DataAccess.Repo.SPA;
+using PatientPortal.Domain.Models.SPA;
+using PatientPortal.IRepository.SPA;
+using System.Collections.Generic;
+
+namespace PatientPortal.Repositoty.SPA
+{
+    public class SliderRepoImpl : ISliderRepo
+    {
+        private ISlider _iSlider;
+
+        public SliderRepoImpl(ISlider iSlider)
+        {
+            this._iSlider = iSlider;
+        }
+
+        public List<Slider> GetAll()
+        {
+            return _iSlider.GetAll();
+        }
+    }
+}

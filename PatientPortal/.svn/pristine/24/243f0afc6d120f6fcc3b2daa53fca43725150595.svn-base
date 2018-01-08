@@ -1,0 +1,74 @@
+﻿using AutoMapper;
+using PatientPortal.API.CMS.ViewModels;
+using PatientPortal.IRepository.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+
+namespace PatientPortal.API.CMS.Controllers
+{
+    public class WorkflowController : ApiController
+    {
+        /// <summary>
+        /// Declare variable
+        /// </summary>
+        private readonly IWorkflowRepo _workflow;
+        
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="workflow"></param>
+        public WorkflowController(IWorkflowRepo workflow)
+        {
+            this._workflow = workflow;
+        }
+
+        #region API function
+
+        /// <summary>
+        /// Get all workflow
+        /// </summary>
+        /// <returns>List of WorkflowViewModel</returns>
+        public List<WorkflowViewModel> GetAll()
+        {
+            var source = _workflow.GetAll();
+            List<WorkflowViewModel> dest = Mapper.Map<List<WorkflowViewModel>>(source);
+
+            return dest;
+        }
+
+        /// <summary>
+        /// Action: Insert/Update/Delete workflow
+        /// </summary>
+        /// <param name="workflowModel">object "WorkflowViewModel"</param>
+        /// <param name="action">Action: 'I' - Insert; 'U'- Update; 'D'- Delete</param>
+        /// <returns>Result: Success- true; Fail- false</returns>
+        [HttpPost]
+        public bool WorkflowTransaction(WorkflowViewModel workflowModel, char action)
+        {
+            var workflow = Mapper.Map<Domain.Models.CMS.Workflow>(workflowModel);
+            var data = new List<Domain.Models.CMS.Workflow>();
+            data.Add(workflow);
+            return _workflow.WorkflowTransaction(data, action);
+        }
+        #endregion
+
+        [HttpGet]
+        public bool CheckExistName(string name, byte id)
+        {
+            return _workflow.CheckExistName(name, id);
+        }
+
+        public WorkflowViewModel GetById(byte Id)
+        {
+            var source = _workflow.GetById(Id);
+            WorkflowViewModel dest = Mapper.Map<WorkflowViewModel>(source);
+
+            return dest;
+        }
+    }
+}

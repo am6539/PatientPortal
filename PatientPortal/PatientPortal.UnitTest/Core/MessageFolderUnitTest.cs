@@ -1,0 +1,40 @@
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PatientPortal.Domain.Models.CORE;
+using PatientPortal.DataAccess.CORE;
+using System.Collections.Generic;
+using PatientPortal.DataAccess.Repo.CORE;
+
+namespace PatientPortal.UnitTest.Core
+{
+    [TestClass]
+    public class MessageFolderUnitTest
+    {
+        public IMessageFolder _messageFolderImpl;
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            //_messageFolderImpl = new MessageFolderImpl();
+        }
+
+        //[TestMethod]
+        //public void MessageFolderGetAll()
+        //{
+        //    var count = _messageFolderImpl.Query().Count;
+        //    Assert.IsTrue(count > 0);
+        //}
+
+        //[TestMethod]
+        //public void MessageFolderInsert()
+        //{
+        //    var list = new List<MessageFolder>()
+        //    {
+        //        new MessageFolder {
+        //            Name = "Folder",
+        //            Path = "Path"
+        //        }
+        //    };
+        //    var flag = _messageFolderImpl.Transaction(list, 'I');
+        //    Assert.IsTrue(flag);
+        //}
+    }
+}

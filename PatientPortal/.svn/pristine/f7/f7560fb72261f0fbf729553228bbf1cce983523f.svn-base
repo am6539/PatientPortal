@@ -1,0 +1,12 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.PatientServices.Models.OfferAdviseViewModel
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    @Html.ITitle("Góp ý xây dựng", TitleBar.Delete)
+</div>
+@using (Html.IBeginForm("Delete", "OfferAdvise"))
+{
+    @Html.HiddenFor(model => model.Id)
+    @Html.IGroupModalMessage()
+    @Html.IGroupModalSubmitButton("Xóa dữ liệu")
+}

@@ -1,0 +1,98 @@
+﻿using AutoMapper;
+using PatientPortal.API.CMS.ViewModels;
+using PatientPortal.Domain.Models.CMS;
+using PatientPortal.IRepository.CMS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+
+namespace PatientPortal.API.CMS.Controllers
+{
+    public class WorkflowStateController : ApiController
+    {
+        /// <summary>
+        /// Declare variable
+        /// </summary>
+        private readonly IWorkflowStateRepo _workflowStateRepo;
+
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="IWorkflowStateRepo"></param>
+        public WorkflowStateController(IWorkflowStateRepo workflowStateRepo)
+        {
+            this._workflowStateRepo = workflowStateRepo;
+        }
+
+        #region API function
+
+        /// <summary>
+        /// get all WorkflowState
+        /// </summary>
+        /// <returns>list of WorkflowState</returns>
+        public List<WorkflowStateViewModel> GetAll()
+        {
+            var source = _workflowStateRepo.GetAll();
+            List<WorkflowStateViewModel> dest = Mapper.Map<List<WorkflowStateViewModel>>(source);
+
+            return dest;
+        }
+
+        /// <summary>
+        /// Get workflowstates by workflowId
+        /// </summary>
+        /// <param name="workflowId">workflowId</param>
+        /// <returns>list of WorkflowState</returns>
+        /// 
+        [HttpGet]
+        [Route("api/WorkflowState/GetByWorkflowId")]
+        public List<WorkflowStateViewModel> GetByWorkflowId(byte workflowId)
+        {
+            var source = _workflowStateRepo.GetByWorkflowId(workflowId);
+            List<WorkflowStateViewModel> dest = Mapper.Map<List<WorkflowStateViewModel>>(source);
+
+            return dest;
+        }
+
+        /// <summary>
+        /// Action: Insert/Update/Delete workflow
+        /// </summary>
+        /// <param name="workflowSateModel">object "WorkflowStateViewModel"</param>
+        /// <param name="action">Action: 'I' - Insert; 'U'- Update; 'D'- Delete</param>
+        /// <returns>Result: Success- true; Fail- false</returns>
+        [HttpPost]
+        public bool WorkflowStateTransaction(WorkflowStateViewModel workflowSateModel, char action)
+        {
+            var workflowState = Mapper.Map<WorkflowStateEdit>(workflowSateModel);
+            var data = new List<WorkflowStateEdit>();
+            data.Add(workflowState);
+            return _workflowStateRepo.WorkflowStateTransaction(data, action);
+        }
+
+        [HttpPost]
+        public bool CheckExistName(string Name, short Id, byte WorkflowId)
+        {
+            return _workflowStateRepo.CheckExistName(Name, Id, WorkflowId);
+        }
+
+        [HttpGet]
+        [Route("api/WorkflowState/CheckIsActive/{Id}")]
+        public bool CheckIsActive(short Id)
+        {
+            return _workflowStateRepo.WorkflowStateCheckIsActive(Id);
+        }
+
+        public WorkflowStateViewModel GetById(byte Id)
+        {
+            var source = _workflowStateRepo.GetById(Id);
+            WorkflowStateViewModel dest = Mapper.Map<WorkflowStateViewModel>(source);
+
+            return dest;
+        }
+        #endregion
+    }
+}

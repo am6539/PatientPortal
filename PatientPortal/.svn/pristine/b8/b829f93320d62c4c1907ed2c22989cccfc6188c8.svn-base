@@ -1,0 +1,62 @@
+﻿using Autofac;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Web;
+using PatientPortal.IRepository.CMS;
+using PatientPortal.Repositoty.CMS;
+using PatientPortal.DataAccess.CMS;
+using PatientPortal.DataAccess.Repo.CMS;
+using Autofac.Integration.WebApi;
+
+namespace PatientPortal.API.CMS
+{
+    public class AutofacConfig
+    {
+        public static void RegisterDependencies()
+        {
+            var builder = new ContainerBuilder();
+
+            // Get your HttpConfiguration.
+            var config = System.Web.Http.GlobalConfiguration.Configuration;
+
+            // Register your Web API controllers
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+
+            // OPTIONAL: Register the Autofac filter provider.
+            //builder.RegisterWebApiFilterProvider(config);
+            builder.RegisterType<CategoryRepoImpl>().As<ICategoryRepo>().InstancePerRequest();
+            builder.RegisterType<CategoryImpl>().As<ICategory>().InstancePerRequest();
+
+            //Workflow
+            builder.RegisterType<WorkflowRepoImpl>().As<IWorkflowRepo>().InstancePerRequest();
+            builder.RegisterType<WorkflowImpl>().As<IWorkflow>().InstancePerRequest();
+
+            //Language
+            builder.RegisterType<LanguageRepoImpl>().As<ILanguageRepo>().InstancePerRequest();
+            builder.RegisterType<LanguageImpl>().As<ILanguage>().InstancePerRequest();
+
+            //WorkflowState
+            builder.RegisterType<WorkflowStateRepoImpl>().As<IWorkflowStateRepo>().InstancePerRequest();
+            builder.RegisterType<WorkflowStateImpl>().As<IWorkflowState>().InstancePerRequest();
+
+            //WorkflowState
+            builder.RegisterType<WorkflowNavigationRepoImpl>().As<IWorkflowNavigationRepo>().InstancePerRequest();
+            builder.RegisterType<WorkflowNavigationImpl>().As<IWorkflowNavigation>().InstancePerRequest();
+
+            // Post
+            builder.RegisterType<PostRepoImpl>().As<IPostRepo>().InstancePerRequest();
+            builder.RegisterType<PostImpl>().As<IPost>().InstancePerRequest();
+
+            // Links
+            builder.RegisterType<LinkBuildingRepoImpl>().As<ILinkBuildingRepo>().InstancePerRequest();
+            builder.RegisterType<LinkBuildingImpl>().As<ILinkBuilding>().InstancePerRequest();
+
+            // Set the dependency resolver to be Autofac.
+            var container = builder.Build();
+            config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+        }
+    }
+
+}

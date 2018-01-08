@@ -1,0 +1,7 @@
+﻿'use strict';
+
+angular.
+module('spaPHCN').controller('AppController', ['$scope', "Params",
+    function MainController($scope, Params) {
+    }
+]);

@@ -1,0 +1,29 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.Domain.Utilities
+{
+    public static class Helper
+    {
+        public static object GetStringOrDBNull(this string obj)
+        {
+            return string.IsNullOrEmpty(obj) ? "" : (object)obj;
+        }
+        public static object GetDefault(Type type)
+        {
+            if (type.IsValueType)
+            {
+                return Activator.CreateInstance(type);
+            }
+            return null;
+        }
+
+        public static string GetClassName<T>()
+        {
+            return typeof(T).Name;
+        }
+    }
+}

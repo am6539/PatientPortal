@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace PatientPortal.SPA.CMS.Common
+{
+    public class ApiConstant
+    {
+        // Post url
+        public const string GET_POST_BY_CATEGORY = "";
+    }
+}

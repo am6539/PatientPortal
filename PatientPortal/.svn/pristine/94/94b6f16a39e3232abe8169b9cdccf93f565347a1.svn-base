@@ -1,0 +1,132 @@
+﻿@using PatientPortal.Provider.Helpers
+@model PatientPortal.Internal.Models.Survey.SurveyModel
+@{
+    ViewBag.Title = "CẬP NHẬT KHẢO SÁT";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    <link href="~/Content/checkbox-radio-build.css" rel="stylesheet" />
+    <link href="~/Content/checkbox.css" rel="stylesheet" />
+    <link href="~/Libs/Chosen/css/chosen.css" rel="stylesheet" />
+    <style>
+        .box-area {
+            border: solid 1px #ccc;
+            border-radius: 2px;
+            box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            padding-top: 10px;
+        }
+
+        #controlBottom {
+            background: #f7f7f7 none repeat scroll 0 0;
+            display: block;
+            height: 75px;
+            margin-top: 10px;
+        }
+
+        .answer {
+            margin-top: 10px;
+        }
+
+        .btn-answer {
+            margin-top: 10px;
+        }
+
+        .btn-answer:hover {
+            color: #535d81;
+        }
+
+        .btn-answer:focus {
+            color: #535d81;
+        }
+
+        #nps span {
+            background: white none repeat scroll 0 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: 0 0 3px 1px #000000;
+            box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.12);
+            cursor: pointer;
+            display: inline-block;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 4px 2px;
+            margin: 0 5px;
+            text-align: center;
+            vertical-align: middle;
+            width: 32px;
+            height: 32px;
+        }
+
+        #nps span:hover {
+            border-color: #8d8d8d;
+        }
+
+        #nps span.active, #nps span.active:hover {
+            background: #42ca49 none repeat scroll 0 0;
+            border: 1px solid #3cba43;
+            color: white;
+        }
+    </style>
+}
+<div class="card">
+    @using (Html.BeginForm("Edit", "Survey", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal", @id = "form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="card-title">@Html.ITitle("CẬP NHẬT KHẢO SÁT", "file-text-o")</div>
+        <div class="card-content">
+            <div class="col-md-6">
+                @Html.Partial("_EditSurvey", Model)
+                @Html.ISubmitButton("Cập nhật")
+                @Html.IButton(null, ActionButton.View, false, "Xem trước", true, new { @class = "modal-link btn btn-info" }, "btnPreview")
+            </div>
+            <div class="col-md-6">@Html.Partial("_EditQuestion", Model)</div>
+        </div>
+    }
+</div>
+
+@section scripts{
+    <script src="~/Libs/Chosen/js/chosen.jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            for (var i = 1; i <= 10; i++) {
+                $("#nps span#" + i).click(function () {
+                    $("#nps span").removeClass("active");
+                    $(this).addClass("active");
+                });
+            }
+
+            $("#btnPreview").click(function () {
+                var __this = $("#form-data");
+                $.ajax({
+                    url: '@Url.Action("PreviewSurvey", "Survey")',
+                    data: __this.serialize(),
+                    success: function(result) {
+                        $('.modal-content').html(result);
+                    }
+                });
+            });
+
+            $("#btnSendSurvey").click(function () {
+                ////Khai báo form cần lấy model data
+                //var __this = $("#form-data");
+                $.ajax({
+                    url: '@Url.Action("ThankSurvey", "Survey")',
+                    ////Send model data to controller
+                    //data: __this.serialize(),
+                    success: function (result) {
+                        $('.modal-content').html(result);
+                    }
+                });
+            });
+        });
+        var config = {
+            '.chosen-select': {}
+        }
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
+    </script>
+    <script src="~/Libs/Survey/surveygeneration.js"></script>
+}

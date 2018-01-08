@@ -1,0 +1,107 @@
+﻿CREATE PROCEDURE [dbo].[usp_spa_Post_Paging]
+	@languageCode CHAR(3) = 'vi',
+	@categoryId TINYINT = 0,
+	@priority TINYINT = 1, 
+	@pageIndex TINYINT = 1, 
+	@numberInPage TINYINT = 10, 
+	@Search nvarchar(250) = '',
+	@totalItem int out
+AS BEGIN
+	BEGIN TRY
+	SET NOCOUNT ON
+		SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+
+		IF @languageCode != '' AND @categoryId > 0
+			IF @priority = 3
+			BEGIN	----get new posts
+				SELECT  *, ROW_NUMBER() OVER (ORDER BY PublishDate) AS RowNum INTO #tmpPost FROM (
+					
+				SELECT 
+					p.Id, 
+					p.CategoryId,
+					p.PublishDate,
+					P.[Image],
+					P.Author,
+					t.Title as TitleTran,
+					t.Detail,
+					t.[Description] as DescriptionTrans,
+					c.Name AS CategoryName, 
+					ws.Id AS WorkflowStateId,
+					ws.Name AS WorkflowStateName,
+					p.[Priority]
+				FROM 
+					[dbo].Post p, 
+					[dbo].PostTrans t, 
+					[dbo].Category c, 
+					WorkflowState ws
+				WHERE 
+					p.Id = t.PostId
+					AND p.CategoryId = c.Id
+					AND p.WorkflowStateId = ws.Id
+					AND WorkflowStateId = 3
+					AND p.CategoryId = @categoryId
+					AND (t.Title like '%' + @Search + '%' OR @Search is null)
+					AND (P.Author like '%' + @Search + '%' OR @Search is null)
+
+				) as tmp
+				
+
+				set @totalItem = (SELECT count(*) FROM #tmpPost)
+				SELECT  *
+				FROM	#tmpPost
+				WHERE   RowNum BETWEEN (@PageIndex - 1) * @numberInPage + 1
+						AND @PageIndex * @numberInPage ;
+			END
+			ELSE	--- get posts order by priority
+			BEGIN
+				SELECT  *, ROW_NUMBER() OVER (ORDER BY PublishDate) AS RowNum INTO #tmppriorityPost FROM (
+				SELECT 
+					p.Id, 
+					p.CategoryId,
+					p.PublishDate,
+					P.[Image],
+					P.Author,
+					t.Title as TitleTran,
+					t.Detail,
+					t.[Description] as DescriptionTrans,
+					c.Name AS CategoryName, 
+					ws.Id AS WorkflowStateId,
+					ws.Name AS WorkflowStateName,
+					p.[Priority]
+				FROM 
+					[dbo].Post p, 
+					[dbo].PostTrans t, 
+					[dbo].Category c, 
+					WorkflowState ws
+				WHERE 
+					p.Id = t.PostId
+					AND p.CategoryId = c.Id
+					AND p.WorkflowStateId = ws.Id
+					AND WorkflowStateId = 3
+					AND p.CategoryId = @categoryId
+					AND p.[Priority] = @priority
+					AND (t.Title like '%' + @Search + '%' OR @Search is null)
+					AND (P.Author like '%' + @Search + '%' OR @Search is null)
+				) as tmppriority
+				set @totalItem = (SELECT count(*) FROM #tmppriorityPost)
+				SELECT  *
+				FROM	#tmppriorityPost
+				WHERE   RowNum BETWEEN (@PageIndex - 1) * @numberInPage + 1
+						AND @PageIndex * @numberInPage ;
+			END
+		ELSE
+			RETURN NULL
+
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT <> 0
+			BEGIN
+				RETURN NULL
+			END
+	END CATCH
+END
+
+
+GO
+
+

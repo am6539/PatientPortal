@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.Domain.Models.CORE
+{
+    public class Module
+    {
+        public short Id { get; set; }
+        public string Title { get; set; }
+        public string Handler { get; set; }
+        public byte Sort { get; set; }
+        public short ParentId { get; set; }
+        public string Group { get; set; }
+        public string ClassName { get; set; }
+    }
+}

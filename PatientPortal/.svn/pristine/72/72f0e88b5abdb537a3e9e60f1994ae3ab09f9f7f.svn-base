@@ -1,0 +1,30 @@
+﻿@model PatientPortal.CMS.Models.PostListViewModel
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3>Bài viết: @Html.DisplayFor(model => model.Title)</h3>
+    </div>
+
+    @using (Html.BeginForm("Delete", "CMSPost", FormMethod.Post, new { @class = "modal-form form-horizontal" }))
+    {
+        @Html.ValidationSummary()
+        @Html.HiddenFor(model => model.Id)
+        <div class="modal-body">
+            <div class="row-fluid">
+                <div class="control-group">
+                    Bạn có thực sự muốn xóa ?
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-danger" type="submit"><i class="fa fa-trash"> Xóa dữ liệu</i></button>
+        <button class="btn" type="button" id="btn-dismiss" data-dismiss="modal" aria-hidden="true"><i class="fa fa-long-arrow-right"></i> Hủy bỏ</button>
+    }
+
+<script type="text/javascript">
+    $(function () {
+        $('#btn-dismiss').click(function () {
+            $('#modal-container').modal('hide');
+        });
+    });
+</script>

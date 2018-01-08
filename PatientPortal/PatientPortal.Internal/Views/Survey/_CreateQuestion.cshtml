@@ -1,0 +1,23 @@
+﻿@model PatientPortal.Internal.Models.Survey.SurveyModel
+
+<div class="card">
+    <div class="card-content">
+        <div id="fields"></div>
+        <div class="clearfix"></div>
+        <!-- Single button -->
+        <div class="col-md-12 text-center">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Thêm câu hỏi <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a onclick="addQuestion('textArea')">Long text answer</a></li>
+                    <li><a onclick="addQuestion('textBox')">Short text answer</a></li>
+                    <li><a onclick="addQuestion('radioButton')">Radio buttons</a></li>
+                    <li><a onclick="addQuestion('checkBox')">Checkboxes</a></li>
+                    <li><a onclick="addQuestion('NPS')">Net promoter score</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

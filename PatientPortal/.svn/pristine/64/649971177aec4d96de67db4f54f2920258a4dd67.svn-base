@@ -1,0 +1,24 @@
+﻿appManagement.factory("indexServices", ["$resource", 'Params',
+    function ($resource, Params) {
+        return $resource(Params.rootUrl + "SPAPost", {},
+        {
+            query: {
+                method: "GET",
+                isArray: true,
+                url: Params.rootUrl + "SPAPost/GetListPost?languageCode=:languageCode",
+                params : { languageCode: '@languageCode' }
+            },
+            getAbout: {
+                method: "GET",
+                isArray: true,
+                url: Params.rootUrl + "SPAPost/GetPostAbout?languageCode=:languageCode",
+                params: { languageCode: '@languageCode' }
+            },
+            getSlider: {
+                method: "GET",
+                isArray: true,
+                url: Params.rootUrl + "Slider/Get",
+            }
+        });
+    }
+]);

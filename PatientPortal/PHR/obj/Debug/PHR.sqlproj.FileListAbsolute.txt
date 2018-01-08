@@ -1,0 +1,9 @@
+D:\ProjectsFIS\PatientPortal\PHR\bin\Debug\PHR.dacpac
+D:\ProjectsFIS\PatientPortal\PHR\bin\Debug\PHR.dll
+D:\ProjectsFIS\PatientPortal\PHR\bin\Debug\PHR.pdb
+D:\ProjectsFIS\PatientPortal\PHR\obj\Debug\Model.xml
+D:\ProjectsFIS\PatientPortal\PHR\obj\Debug\refactor.xml
+D:\ProjectsFIS\PatientPortal\PHR\obj\Debug\postdeploy.sql
+D:\ProjectsFIS\PatientPortal\PHR\obj\Debug\predeploy.sql
+D:\ProjectsFIS\PatientPortal\PHR\obj\Debug\PHR.dll
+D:\ProjectsFIS\PatientPortal\PHR\obj\Debug\PHR.pdb

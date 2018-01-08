@@ -1,0 +1,58 @@
+﻿@model PatientPortal.PatientServices.Models.UserViewModel
+
+<div class="form-horizontal">
+    <div class="form-group">
+        <label class="col-md-2 col-sm-3 col-xs-4">Họ tên: <span class="red">*</span></label>
+        <div class="col-md-6 col-sm-9 col-xs-8">
+            <input type="text" class="form-control" value="@Model.Name" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 col-sm-3 col-xs-4">Ngày sinh: </label>
+        <div class="col-md-6 col-sm-9 col-xs-8">
+            @Html.TextBoxFor(m => m.DateOfBirth, new { @class = "form-control", @id = "dateNgaySinh" })
+            @*<input type="text" class="form-control" id="dateNgaySinh" />*@
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 col-sm-3 col-xs-4">Giới tính: </label>
+        <div class="col-md-6 col-sm-9 col-xs-8">
+            @if (Model.Gender == 1)
+            {
+                <label class="radio-inline">
+                    <input type="radio" name="genderOptRadio" checked="checked">Nam
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="genderOptRadio">Nữ
+                </label>
+            }
+            else
+            {
+                <label class="radio-inline">
+                    <input type="radio" name="genderOptRadio">Nam
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="genderOptRadio" checked="checked">Nữ
+                </label>
+            }
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 col-sm-3 col-xs-4">Email: </label>
+        <div class="col-md-6 col-sm-9 col-xs-8">
+            <input type="email" class="form-control" value="@Model.Email" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 col-sm-3 col-xs-4">Số điện thoại: </label>
+        <div class="col-md-6 col-sm-9 col-xs-8">
+            <input type="text" class="form-control" value="@Model.PhoneNumber" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 col-sm-3 col-xs-4"></label>
+        <div class="col-md-6 col-sm-9 col-xs-8">
+            <button class="btn btn-success" onclick="registerInfo()">Đăng ký và tiếp tục</button>
+        </div>
+    </div>
+</div>

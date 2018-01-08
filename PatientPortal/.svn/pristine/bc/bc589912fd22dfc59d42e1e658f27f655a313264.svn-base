@@ -1,0 +1,26 @@
+﻿'use strict';
+
+angular.module('spaApp').controller("HomePageController", [
+    "$scope", "$location", "$route", "Params", "HomePageServices",
+    function ($scope, $location, $route, Params, HomePageServices) {
+
+        // get danh muc Slider
+    $scope.getSlider = function () {
+        $scope.tinhs = null;
+        HomePageServices.getSlider(function (data) {
+            $scope.sliders = data;
+        })
+    };
+
+    //$scope.loadData = function() {
+    //    //$scope.menus = HomePageServices.getListMenu();
+    //    //$scope.about = HomePageServices.getAbout(Params.languageCode);
+    //    $scope.getSlider();
+    //    //$scope.departments = HomePageServices.getDepartment(0);
+    //    //$scope.features = HomePageServices.getFeature();
+    //    //$scope.contact = HomePageServices.getContact();
+    //    //$scope.firstPost = HomePageServices.getListPost(Params.languageCode);
+    //}
+
+    $scope.getSlider();
+}]);

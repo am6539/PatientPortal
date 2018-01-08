@@ -1,0 +1,13 @@
+﻿CREATE TABLE [dbo].[Module] (
+    [Id]       SMALLINT       IDENTITY (1, 1) NOT NULL,
+    [Title]    NVARCHAR (128) NOT NULL,
+    [Handler]  NVARCHAR (256) NOT NULL,
+    [Sort]     TINYINT        NOT NULL,
+    [ParentId] SMALLINT       NOT NULL,
+    [GroupId] TINYINT NOT NULL, 
+    CONSTRAINT [PK_Module] PRIMARY KEY CLUSTERED ([Id] ASC),
+	CONSTRAINT [FK_Module_Module] FOREIGN KEY ([ParentId]) REFERENCES [dbo].[Module] ([Id])
+);
+GO
+CREATE NONCLUSTERED INDEX [idxModuleGroup]
+    ON [dbo].[Module]([GroupId] ASC);

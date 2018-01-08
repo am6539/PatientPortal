@@ -1,0 +1,6 @@
+﻿angular.module('spaPHCN')
+    .controller('AnswerQuestionController', ['$scope', 'Params', 'AnswerQuestionService', '$route',
+        function AnswerQuestionController($scope, Params, AnswerQuestionService, $route) {
+
+        }
+    ]);

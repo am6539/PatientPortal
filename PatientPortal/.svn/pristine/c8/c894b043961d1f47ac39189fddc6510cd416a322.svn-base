@@ -1,0 +1,70 @@
+﻿@model  List<PatientPortal.Domain.Models.CMS.Report.DashboardCounter>
+@using PatientPortal.Provider.Helpers;
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        @Html.ITitle("Dashboard", "dashboard")
+        <p>Chào mừng bạn đến hệ thống quản trị CMS - @DateTime.Now.ToString()</p>
+    </div>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-content">
+                <div class="col-md-6">
+                    <p><label>Get Start</label></p>
+                    @Html.ICustomButton("Cấu hình hệ thống", Url.Action("Index", "Configuration"), null, new { @class = "btn-primary" })
+                </div>
+                <div class="col-md-6">
+                    <label>Next Steps</label>
+                    <div>
+                        <ul>
+                            <li style="padding-bottom:5px;"><a href="@Url.Action("Create", "CMSPost")"><i class="fa fa-file-text-o"></i> Soạn thảo bài viết mới</a></li>
+                            <li style="padding-bottom:5px;"><a href="@Url.Action("Index", "Category")"><i class="fa fa-th-list"></i> Cài đặt chuyên mục</a></li>
+                            <li><a href="@PatientPortal.Provider.Common.AppConfig.HostAddress_SPA"><i class="fa fa-globe"></i> Xem website của bạn</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("_Counter", Model);
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-title">
+                <label>Bài viết được quan tâm</label>
+                <div class="pull-right">
+                </div>
+            </div>
+            <div class="card-content text-center">
+                
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-title">
+                <label>Thông báo</label>
+                <div class="pull-right">
+                </div>
+            </div>
+            <div class="card-content text-center">
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-title">
+                <label>Logs</label>
+                <div class="pull-right">
+                </div>
+            </div>
+            <div class="card-content text-center">
+
+            </div>
+        </div>
+    </div>
+</div>

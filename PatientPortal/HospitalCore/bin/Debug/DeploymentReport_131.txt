@@ -1,0 +1,31 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       [dbo].[SurveyAnswers]
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Drop
+       unnamed constraint on [dbo].[SurveyAnswers] (Default Constraint)
+       unnamed constraint on [dbo].[SurveyAnswers] (Default Constraint)
+     Table rebuild
+       [dbo].[SurveyAnswers] (Table)
+     Create
+       [dbo].[PatientProfile] (Table)
+     Alter
+       [dbo].[usp_SurveyAnswers_Transaction] (Procedure)
+       [dbo].[usp_User_HasScheduleExamine] (Procedure)
+
+** Supporting actions
+     Drop
+       [dbo].[FK_SurveyAnswers_SurveyQuestions] (Foreign Key)
+     Create
+       [dbo].[SurveyAnswers].[IX_SurveyAnswers_QuestionId] (Index)
+       [dbo].[FK_SurveyAnswers_SurveyQuestions] (Foreign Key)
+     Refresh
+       [dbo].[usp_Survey_Transaction] (Procedure)
+       [dbo].[usp_SurveyAnswers] (Procedure)

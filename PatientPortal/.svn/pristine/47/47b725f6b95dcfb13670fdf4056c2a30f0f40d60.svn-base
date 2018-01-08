@@ -1,0 +1,24 @@
+﻿
+@model PatientPortal.Domain.Models.SYSTEM.ModuleShared
+@if(Model.lstModuleParent != null)
+{ 
+    foreach (var parent in Model.lstModuleParent)
+    {
+        <ul>
+            <li class="cd-label">@parent.Title</li>
+            @foreach (var item in Model.lstModuleItem.Where(x => x.ParentId == parent.Id))
+            {
+                <li class="has-children @item.ClassName">
+                    @if (@item.Handler == "#")
+                    {
+                        <a href="#">@item.Title</a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Index",@item.Handler)">@item.Title</a>
+                    }
+                </li>
+            }
+        </ul>
+    }
+}

@@ -1,0 +1,367 @@
+﻿@using PatientPortal.Provider.Helpers;
+@model PatientPortal.Internal.Models.Schedule.ScheduleMultipleViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <link href="~/Libs/fullcalendar-3.3.1/css/fullcalendar.css" rel="stylesheet" />
+    <link href="~/Libs/Chosen/css/chosen.css" rel="stylesheet" />
+}
+<div class="card">
+    <div class="card-title">
+        <p>LỊCH LÀM VIỆC</p>
+    </div>
+
+    @Html.Raw(TempData["Alert"])
+
+    @using (Html.BeginForm("Index", "Schedule", FormMethod.Get, new { @enctype = "multipart/form-data", @class = "form-horizontal" }))
+    {
+        <div class="card-actionbar">
+            <div class="col-md-3 filter-drop-categories">
+                @Html.IDropDownListFor(model => model.ScheduleFilter.UserId, new SelectList(ViewBag.Users, "Id", "Name"), "Chọn tài khoản")
+            </div>
+            <div class="col-md-3 filter-drop-categories">
+                @Html.ITextBoxFor(model => model.ScheduleFilter.Start, "Ngày bắt đầu")
+            </div>
+            <div class="col-md-3 filter-drop-categories">
+                @Html.ITextBoxFor(model => model.ScheduleFilter.End, "Ngày kết thúc")
+            </div>
+            <div class="col-md-3 filter-drop-categories">
+                <button type="submit" class="btn btn-default"><i class="fa fa-search" fa-search" aria-hidden="true"> Tìm kiếm</i></button>
+            </div>
+        </div>
+    }
+
+    <div class="card-content">
+        <div class="panel panel-info">
+            <div class="panel-heading"></div>
+            <div class="panel-body">
+
+                <div id='calendar'></div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal Show Detail schedule -->
+<div class="modal" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalDetail" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="text-danger fa fa-times"></i></button>
+                <h4 id="modalTitle" class="modal-title"><i class="text-muted fa fa-info-circle"></i></h4>
+            </div>
+            <div id="modalBody" class="modal-body"></div>
+
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-dismiss="modal" onclick="editSchedule()"><i class="fa fa-long-arrow-left" aria-hidden="true"> Sửa</i></button>
+                <button class="btn btn-danger" data-dismiss="modal"><i class="fa fa-long-arrow-right" aria-hidden="true"> Đóng</i></button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Show Detail schedule-->
+
+@using (Html.IBeginForm("Create", "Schedule", FormMethod.Post))
+{
+    <div class="modal" id="modalCreate" tabindex="-1" role="dialog" aria-labelledby="modalCreate" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="text-danger fa fa-times"></i></button>
+                    <h4 id="modalTitle" class="modal-title">
+                        <i class="text-muted fa fa-info-circle"> Tạo lịch</i>
+                    </h4>
+                </div>
+                
+                <div id="modalBody">
+                    @Html.HiddenFor(m => m.CreateScheduleViewModel.StartDate, new { @id = "startDate" })
+                    <div class="form-horizontal">
+                        <div class="col-md-12 form-group">
+                            @Html.ILabelFor(m => m.CreateScheduleViewModel.UserId, 3)
+                            <div class="col-md-6 col-sm-6 col-xs-5">
+                                @Html.IDropDownListFor(model => model.CreateScheduleViewModel.UserId, new SelectList(ViewBag.Users, "Id", "Name"), "Chọn tài khoản")
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            @Html.ILabelFor(m => m.CreateScheduleViewModel.Title, 3)
+                            <div class="col-md-6 col-sm-6 col-xs-5">
+                                @Html.ITextBoxFor(m => m.CreateScheduleViewModel.Title, "Tiêu đề")
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            @Html.ILabelFor(m => m.CreateScheduleViewModel.Detail, 3)
+                            <div class="col-md-6 col-sm-6 col-xs-5">
+                                @Html.ITextAreaFor(m => m.CreateScheduleViewModel.Detail, 5, "Nội dung")
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            @Html.ILabelFor(m => m.CreateScheduleViewModel.Start, 3)
+                            <div class="col-md-6 col-sm-6 col-xs-5">
+                                @Html.ITextBoxFor(model => model.CreateScheduleViewModel.StartTime, "Thời gian bắt đầu", new { @id = "startTime" })
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            @Html.ILabelFor(m => m.CreateScheduleViewModel.End, 3)
+                            <div class="col-md-6 col-sm-6 col-xs-5">
+                                @Html.ITextBoxFor(model => model.CreateScheduleViewModel.EndTime, "Thời gian kết thúc", new { @id = "endTime" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-success" type="submit"><i class="fa fa-long-arrow-left" aria-hidden="true"> Lưu</i></button>
+                    <button class="btn btn-danger" data-dismiss="modal"><i class="fa fa-long-arrow-right" aria-hidden="true"> Đóng</i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.IBeginForm("Edit", "Schedule", FormMethod.Post))
+{
+    <div class="modal" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="modalEdit" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="text-danger fa fa-times"></i></button>
+                    <h4 id="modalTitle" class="modal-title">
+                        <i class="text-muted fa fa-info-circle"> Cập nhật lịch</i>
+                    </h4>
+                </div>
+
+                <div id="modalBody">
+                    @Html.HiddenFor(m => m.CreateScheduleViewModel.StartDate, new { @id = "startDate" })
+                    <div class="form-horizontal">
+                        <div class="col-md-12 form-group">
+                            @Html.ILabelFor(m => m.CreateScheduleViewModel.UserId, 3)
+                            <div class="col-md-6 col-sm-6 col-xs-5">
+                                @Html.IDropDownListFor(model => model.CreateScheduleViewModel.UserId, new SelectList(ViewBag.Users, "Id", "Name"), "Chọn tài khoản")
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            @Html.ILabelFor(m => m.CreateScheduleViewModel.Title, 3)
+                            <div class="col-md-6 col-sm-6 col-xs-5">
+                                @Html.ITextBoxFor(m => m.CreateScheduleViewModel.Title, "Tiêu đề", new { @id = "editTitle" })
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            @Html.ILabelFor(m => m.CreateScheduleViewModel.Detail, 3)
+                            <div class="col-md-6 col-sm-6 col-xs-5">
+                                @Html.ITextAreaFor(m => m.CreateScheduleViewModel.Detail, 5, "Nội dung", new { @id = "editDescription" })
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            @Html.ILabelFor(m => m.CreateScheduleViewModel.Start, 3)
+                            <div class="col-md-6 col-sm-6 col-xs-5">
+                                @Html.ITextBoxFor(model => model.CreateScheduleViewModel.StartTime, "Thời gian bắt đầu", new { @id = "editStartTime" })
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            @Html.ILabelFor(m => m.CreateScheduleViewModel.End, 3)
+                            <div class="col-md-6 col-sm-6 col-xs-5">
+                                @Html.ITextBoxFor(model => model.CreateScheduleViewModel.EndTime, "Thời gian kết thúc", new { @id = "editEndTime" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-success" type="submit"><i class="fa fa-long-arrow-left" aria-hidden="true"> Cập nhật</i></button>
+                    <button class="btn btn-danger" data-dismiss="modal"><i class="fa fa-long-arrow-right" aria-hidden="true"> Đóng</i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@section scripts{
+    <script src="~/Libs/fullcalendar-3.3.1/lib/moment.min.js"></script>
+    <script src="~/Libs/fullcalendar-3.3.1/lib/jquery-ui.min.js"></script>
+    <script src="~/Libs/fullcalendar-3.3.1/js/fullcalendar.js"></script>
+    <script src="~/Libs/fullcalendar-3.3.1/js/locale-all.js"></script>
+    <script src="~/Libs/Chosen/js/chosen.jquery.min.js"></script>
+    <script type="text/javascript">
+        var config = {
+          '.chosen-select'           : {}
+        }
+        for (var selector in config) {
+          $(selector).chosen(config[selector]);
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            var d = new Date();
+
+            var month = d.getMonth() + 1;
+            var day = d.getDate();
+
+            var output = (day < 10 ? '0' : '') + day + '/'
+                + (month < 10 ? '0' : '') + month + '/' +
+                +d.getFullYear();
+
+            $("#ScheduleFilter_Start").datetimepicker({
+                format: 'DD/MM/YYYY',
+                locale: 'vi',
+                //minDate: Date.now(),
+            });
+
+            $("#ScheduleFilter_End").datetimepicker({
+                format: 'DD/MM/YYYY',
+                locale: 'vi',
+                //minDate: Date.now(),
+            });
+            $("#startTime").datetimepicker({
+                format: 'hh:mm',
+                locale: 'vi',
+            });
+            $("#endTime").datetimepicker({
+                format: 'hh:mm',
+                locale: 'vi',
+            });
+            $("#editStartTime").datetimepicker({
+                format: 'hh:mm',
+                locale: 'vi',
+            });
+            $("#editEndTime").datetimepicker({
+                format: 'hh:mm',
+                locale: 'vi',
+            });
+
+            $("#ScheduleFilter_Start").val(output);
+            $("#ScheduleFilter_End").val(output);
+
+            var languageCode = 'vi';
+            var schedules = [];
+            var schedule = {
+                id : 0,
+                title : "",
+                start : "",
+                end : "",
+                description: ""
+            };
+            var userId = 1;
+
+            function parseJsonDate(jsonDate) {
+
+                var str = jsonDate.replace(/\/Date\((-?\d+)\)\//, '$1');
+                var fullDate = new Date(parseInt(str));
+
+                return fullDate;
+            };
+
+            function formatDateTime(date) {
+                //var twoDigitMonth = (date._d.getMonth() + 1) + "";
+                //if (twoDigitMonth.length == 1) twoDigitMonth = "0" + twoDigitMonth;
+
+                //var twoDigitDate = date._d.getDate() + "";
+                //if (twoDigitDate.length == 1) twoDigitDate = "0" + twoDigitDate;
+                var twoDigitHours = date._d.getHours();
+                if(twoDigitHours.length == 1) 
+                    twoDigitHours = "0" + twoDigitHours;
+
+                var twoDigitMinutes = date._d.getMinutes();
+                if(twoDigitMinutes.length == 1) 
+                    twoDigitMinutes = "0" + twoDigitMinutes;
+                var currentDate = twoDigitHours + ":" + twoDigitMinutes;// + " - Ngày: " + twoDigitDate + "-" + twoDigitMonth + "-" + date._d.getFullYear();
+
+                return currentDate;
+            };
+
+            // Load Schedule
+            var model = @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(ViewBag.Schedule)));
+            
+            if(model.length > 0){
+                d = parseJsonDate(model[0].End);
+                for (i = 0; i < model.length; i++) {
+                    schedule = {
+                        id: 0,
+                        title: "",
+                        start: "",
+                        end: "",
+                        description: ""
+                    };
+                    schedule.id = model[i].Id;
+                    schedule.title = model[i].Title;
+                    schedule.start = parseJsonDate(model[i].Start);
+                    schedule.end = parseJsonDate(model[i].End);
+                    schedule.description = model[i].Detail;
+
+                    schedules.push(schedule);
+                }
+            }
+
+            // load calender
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay,listMonth'
+                },
+                defaultDate: d,
+                locale: languageCode,
+                buttonIcons: false, // show the prev/next text
+                weekNumbers: true,
+                addEvent: true,
+                navLinks: true, // can click day/week names to navigate views
+                editable: false, // disable drag and drop
+                eventLimit: true, // allow "more" link when too many events
+                eventSources: [{
+                    events: schedules
+                }],
+                eventClick: function (calEvent, jsEvent, view) {
+                    $('#modalTitle').html('<i class="text-muted fa fa fa-info-circle"></i> <strong>' + calEvent.id + '</strong> - ' + calEvent.title);
+                    $('#modalBody').html('<table class="table pull-left col-md-8 ">'
+                         + '<tbody>'
+                         + '<tr class="info">'
+                         + '<td class="h6"><strong>Tiêu đề:</strong></td>'
+                         + '<td> </td>'
+                         + '<td class="h5", id="detailTitle">' + calEvent.title + '</td>'
+                         + '</tr>'
+                         + '<tr class="success">'
+                         + '<td class="h6"><strong>Thời gian bắt đầu:</strong></td>'
+                         + '<td> </td>'
+                         + '<td class="h5", id="detailStartTime">' + formatDateTime(calEvent.start) + '</td>'
+                         + '</tr>'
+                         + '<tr class="danger">'
+                         + '<td class="h6"><strong>Thời gian kết thúc:</strong></td>'
+                         + '<td> </td>'
+                         + '<td class="h5", id="detailEndTime">' + formatDateTime(calEvent.end) + '</td>'
+                         + '</tr>'
+                         + '<tr class="info">'
+                         + '<td class="h6"><strong>Nội dung:</strong></td>'
+                         + '<td> </td>'
+                         + '<td class="h5", id="detailDesc">' + calEvent.description + '</td>'
+                         + '</tr>'
+                         + '</tbody>'
+                    + '</table>');
+                    $('#modalDetail').modal();
+                },
+                dayClick: function(date, jsEvent, view) {
+                    $('#startDate').val(date.format());
+                    $('#modalCreate').modal();
+                }
+            });
+        });
+
+        function editSchedule(){
+            var detailDesc = document.getElementById("detailDesc").innerHTML;
+            var detailStartTime = document.getElementById("detailStartTime").innerHTML;
+            var detailEndTime = document.getElementById("detailEndTime").innerHTML;
+            var detailTitle = document.getElementById("detailTitle").innerHTML;
+            $('#editTitle').val(detailDesc);
+            $('#editStartTime').val(detailStartTime);
+            $('#editEndTime').val(detailEndTime);
+            $('#editDescription').val(detailTitle);
+            $('#modalEdit').modal();
+        }
+    </script>
+}
+
+

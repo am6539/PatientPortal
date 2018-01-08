@@ -1,0 +1,38 @@
+﻿using AutoMapper;
+using PatientPortal.API.SPA.ViewModels;
+using PatientPortal.IRepository.SPA;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+
+namespace PatientPortal.API.SPA.Controllers
+{
+    public class SPAPostController : ApiController
+    {
+        private string NUM_TOP = ConfigurationManager.AppSettings["numbLoadPost"];
+        private readonly IPostRepo _iPostRepo;
+
+        public SPAPostController(IPostRepo iPostRepo)
+        {
+            this._iPostRepo = iPostRepo;
+        }
+
+        [HttpGet]
+        public HttpResponseMessage GetListPost(string languageCode, string numTop)
+        {
+            try
+            {
+                var data = _iPostRepo.GetAll(languageCode, numTop);
+                var results = Mapper.Map<List<PostListViewModel>>(data);
+                return Request.CreateResponse(HttpStatusCode.OK, results);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+    }
+}

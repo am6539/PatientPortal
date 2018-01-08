@@ -1,0 +1,221 @@
+﻿using ProtoBuf;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PatientPortal.Internal.Models
+{
+    public class InternalProfileBindingModel
+    {
+        public UserInfoBindingModel UserInfo { get; set; }
+        public DoctorProfileViewModel DoctorInfo { get; set; }
+    }
+    [ProtoContract]
+    public class RegisterBindingModel
+    {
+        public RegisterBindingModel()
+        {
+            Gender = 1;
+            Name = Email = Password = ConfirmPassword  = Tag = string.Empty;
+        }
+
+        [ProtoMember(1)]
+        [Required (ErrorMessage = "Địa chỉ email không được để trống.")]
+        [Display(Name = "Địa chỉ email")]
+        [EmailAddress(ErrorMessage = "Địa chỉ email không hợp lệ.")]
+        public string Email { get; set; }
+
+        [ProtoMember(2)]
+        [Required(ErrorMessage = "Mật khẩu không được để trống.")]
+        [StringLength(100, ErrorMessage = "Độ dài tối thiểu của {0} phải là {2} ký tự.", MinimumLength = 6)]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}", 
+            ErrorMessage = "Mật khẩu phải chứa ít nhất một ký tự hoa, một ký tự thường, một số và một ký tự đặc biệt.")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Mật khẩu")]
+        public string Password { get; set; }
+
+        [ProtoMember(3)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Xác nhận mật khẩu")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Mật khẩu và mật khẩu xác nhận không giống nhau.")]
+        public string ConfirmPassword { get; set; }
+
+        //Custom fields
+        [ProtoMember(4)]
+        [Required(ErrorMessage = "Bạn cần nhập tên tài khoản.")]
+        [StringLength(50, ErrorMessage = "Độ dài tối thiểu của {0} phải là {2} ký tự.", MinimumLength = 6)]
+        [Display(Name = "Tên tài khoản")]
+        public string Name { get; set; }
+
+        [ProtoMember(5)]
+        [StringLength(20, ErrorMessage = "Độ dài tối thiểu của {0} phải là {2} ký tự.", MinimumLength = 20)]
+        [Display(Name = "Mã bệnh nhân")]
+        public string PatientId { get; set; }
+
+        [ProtoMember(6)]
+        [Display(Name = "Ngày sinh")]
+        [DataType(DataType.Date)]
+        public DateTime DoB { get; set; }
+
+        [ProtoMember(7)]
+        [Display(Name = "Giới tính")]
+        public byte Gender { get; set; }
+
+        [ProtoMember(8)]
+        [Display(Name = "Hình đại diện")]
+        public string Image { get; set; }
+
+        [ProtoMember(9)]
+        [Display(Name = "Đơn vị")]
+        public int OrganizationId { get; set; }
+
+        [ProtoMember(10)]
+        [Display(Name = "Bác sĩ")]
+        public bool IsDoctor { get; set; }
+
+        [ProtoMember(11)]
+        [Display(Name = "Chỉ mục")]
+        public string Tag { get; set; }
+
+        [ProtoMember(12)]
+        [Display(Name = "Nhóm tài khoản")]
+        public string[] RoleName { get; set; }
+    }
+
+    [ProtoContract]
+    public class UserInfoBindingModel
+    {
+        [ProtoMember(1)]
+        public string Id { get; set; }
+
+        [ProtoMember(2)]
+        [Required(ErrorMessage = "Địa chỉ email không được để trống.")]
+        [Display(Name = "Địa chỉ email")]
+        [EmailAddress(ErrorMessage = "Địa chỉ email không hợp lệ")]
+        public string Email { get; set; }
+
+        //Custom fields
+        [Required(ErrorMessage = "Mật khẩu không được để trống.")]
+        [ProtoMember(3)]
+        [StringLength(50, ErrorMessage = "Độ dài tối thiểu của {0} phải là {2} ký tự.", MinimumLength = 5)]
+        [Display(Name = "Tên tài khoản")]
+        public string Name { get; set; }
+
+        [ProtoMember(4)]
+        [StringLength(20, ErrorMessage = "Độ dài tối thiểu của {0} phải là {2} ký tự.", MinimumLength = 20)]
+        [Display(Name = "Mã bệnh nhân")]
+        public string PatientId { get; set; }
+
+        [ProtoMember(5)]
+        [Display(Name = "Ngày sinh")]
+        [DataType(DataType.Date)]
+        public DateTime? DoB { get; set; }
+
+        [ProtoMember(6)]
+        [Display(Name = "Giới tính")]
+        public byte Gender { get; set; }
+
+        [ProtoMember(7)]
+        [Display(Name = "Hình đại diện")]
+        public byte[] Image { get; set; }
+
+        [ProtoMember(8)]
+        [Display(Name = "Đơn vị")]
+        public int OrganizationId { get; set; }
+
+        [ProtoMember(9)]
+        [Display(Name = "Bác sĩ")]
+        public bool IsDoctor { get; set; }
+
+        [ProtoMember(10)]
+        [Display(Name = "Chỉ mục")]
+        public string Tag { get; set; }
+
+        [ProtoMember(11)]
+        [Display(Name = "Nhóm tài khoản")]
+        public string[] RoleName { get; set; }
+        [ProtoMember(12)]
+        public string PhoneNumber { get; set; }
+        [ProtoMember(13)]
+        [Display(Name = "Địa chỉ")]
+        public string Address { get; set; }
+        [ProtoMember(14)]
+        [Display(Name = "Số CMND/Passport")]
+        public string PersonalId { get; set; }
+        [ProtoMember(15)]
+        [Display(Name = "Số thẻ BHYT")]
+        public string InsuranceId { get; set; }
+    }
+
+    [ProtoContract]
+    public class DeleteUserBindingModel
+    {
+        [ProtoMember(1)]
+        public string Id { get; set; }
+    }
+
+    [ProtoContract]
+    public class UserListViewModel
+    {
+        [ProtoMember(1)]
+        public string Id { get; set; }
+        [ProtoMember(2)]
+        [Display(Name ="Tên người dùng")]
+        public string Name { get; set; }
+        [ProtoMember(3)]
+        [Display(Name = "Tên đăng nhập")]
+        public string UserName { get; set; }
+        [ProtoMember(4)]
+        [Display(Name = "Email đăng ký")]
+        public string Email { get; set; }
+        [ProtoMember(5)]
+        [Display(Name = "Hình đại diện")]
+        public string Image { get; set; }
+        [ProtoMember(6)]
+        [Display(Name = "Loại tài khoản")]
+        public string GroupMember { get; set; }
+    }
+
+    public class ChangePasswordBindingModel
+    {
+        [Required(ErrorMessage = "Bạn chưa nhập mật khẩu cũ.")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Mật khẩu cũ")]
+        public string OldPassword { get; set; }
+
+        [Required(ErrorMessage = "Mật khẩu mới không được để trống.")]
+        [StringLength(100, ErrorMessage = "Độ dài tối thiểu của {0} phải là {2} ký tự.", MinimumLength = 6)]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}",
+            ErrorMessage = "Mật khẩu phải chứa ít nhất một ký tự hoa, một ký tự thường, một số và một ký tự đặc biệt.")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Mật khẩu mới")]
+        public string NewPassword { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Xác nhận lại mật khẩu mới")]
+        [System.ComponentModel.DataAnnotations.Compare("NewPassword", ErrorMessage = "Mật khẩu mới và mật khẩu mới nhập lại không giống nhau.")]
+        public string ConfirmPassword { get; set; }
+    }
+
+    [ProtoContract]
+    public class UserProfileViewModel
+    {
+        [ProtoMember(1)]
+        [Required(ErrorMessage = "Chưa chọn tài khoản cần cập nhật thông tin.")]
+        [Display(Name = "Tài khoản")]
+        public string UserId { get; set; }
+        [ProtoMember(2)]
+        [Required(ErrorMessage = "Bạn cần chọn mục tin hợp lệ.")]
+        [StringLength(10, ErrorMessage = "Độ dài tối thiểu của {0} phải là {2} ký tự.", MinimumLength = 2)]
+        [Display(Name ="Mục tin")]
+        public string TabCode { get; set; }
+        [ProtoMember(3)]
+        [Required(ErrorMessage = "Bạn chưa nhập nội dung mô tả thông tin.")]
+        [Display(Name = "Mô tả")]
+        [AllowHtml]
+        public string Description { get; set; }
+    }
+}

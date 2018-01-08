@@ -1,0 +1,21 @@
+﻿using PatientPortal.IRepository.SPA;
+using System.Collections.Generic;
+using PatientPortal.Domain.Models.SPA;
+
+namespace PatientPortal.Repositoty.SPA
+{
+    public class FeatureRepoImpl : IFeatureRepo
+    {
+        private IFeatureRepo _iFeatureRepo;
+
+        public FeatureRepoImpl(IFeatureRepo iFeatureRepo)
+        {
+            this._iFeatureRepo = iFeatureRepo;
+        }
+
+        public List<Feature> GetAll()
+        {
+            return _iFeatureRepo.GetAll();
+        }
+    }
+}

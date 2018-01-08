@@ -1,0 +1,38 @@
+﻿'use strict';
+
+angular.module('spaApp')
+    .controller("DoctorsController", [
+    "$scope", "$location", "$route", "Params", "DoctorsServices", "LoadJsService", "PagerService",
+    function ($scope, $location, $route, Params, DoctorsServices, LoadJsService, PagerService) {
+        $scope.profile = null;
+        $scope.pager = {};
+
+        $scope.setPage = function (page) {
+            var para = { pageIndex: page, numberInPage: Params.numberPerPage, search: $scope.searchValue };
+
+            DoctorsServices.getDoctorList(para, function (data) {
+                $scope.doctors = data.UserListViewModels;
+                $scope.totalItems = data.TotalItem;
+
+                if (page < 1 || (page > $scope.pager.totalPages && $scope.pager.totalPages != null)) {
+                    return;
+                }
+
+                // get pager object from service
+                $scope.pager = PagerService.GetPager($scope.totalItems, page, Params.numberPerPage);
+                $scope.pager.totalPages = $scope.pager.totalPages;
+
+                LoadJsService.callJqueryMain();
+            });
+        }
+        
+
+        $scope.getUserProfile = function (userId, tagId) {
+            DoctorsServices.getUserProfile({ userId: userId }, function (data) {
+                $scope.profile = data;
+                $scope.profile.tagId = tagId;
+            })
+        }
+
+        $scope.setPage(1);
+    }]);

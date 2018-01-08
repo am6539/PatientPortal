@@ -1,0 +1,46 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Create
+       [dbo].[EmailMarketing] (Table)
+       [dbo].[Permission] (Table)
+       [dbo].[Role] (Table)
+       [dbo].[Survey] (Table)
+       [dbo].[SurveyAnswers] (Table)
+       [dbo].[SurveyAnswers].[IX_SurveyAnswers_QuestionId] (Index)
+       [dbo].[SurveyQuestions] (Table)
+       [dbo].[UserGroup] (Table)
+       [dbo].[UserRole] (Table)
+       [dbo].[Users] (Table)
+       [dbo].[Users].[idxUserAccess] (Index)
+       [dbo].[OfferAdvise].[IX_OfferAdvise_PatientId] (Index)
+       Default Constraint: unnamed constraint on [dbo].[EmailMarketing] (Default Constraint)
+       Default Constraint: unnamed constraint on [dbo].[Survey] (Default Constraint)
+       Default Constraint: unnamed constraint on [dbo].[Survey] (Default Constraint)
+       Default Constraint: unnamed constraint on [dbo].[Survey] (Default Constraint)
+       Default Constraint: unnamed constraint on [dbo].[SurveyAnswers] (Default Constraint)
+       Default Constraint: unnamed constraint on [dbo].[SurveyAnswers] (Default Constraint)
+       [dbo].[FK_Permission_Module] (Foreign Key)
+       [dbo].[FK_SurveyAnswers_SurveyQuestions] (Foreign Key)
+       [dbo].[FK_SurveyQuestions_Survey] (Foreign Key)
+       [dbo].[FK_UserGroup_Group] (Foreign Key)
+       [dbo].[FK_UserGroup_Users] (Foreign Key)
+       [dbo].[FK_UserRole_Role] (Foreign Key)
+       [dbo].[FK_UserRole_Users] (Foreign Key)
+       [dbo].[FK_Users_Organization] (Foreign Key)
+     Alter
+       [dbo].[usp_AppointmentLog_Confirm] (Procedure)
+       [dbo].[usp_Article] (Procedure)
+       [dbo].[usp_Article_Transaction] (Procedure)
+       [dbo].[usp_ArticleComment] (Procedure)
+       [dbo].[usp_OfferAdvise] (Procedure)
+
+** Supporting actions

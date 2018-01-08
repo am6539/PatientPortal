@@ -1,0 +1,46 @@
+﻿@model PatientPortal.PatientServices.Models.OfferAdvise.OfferAdviseModel
+@{
+    ViewBag.Title = "Ý KIẾN XÂY DỰNG";
+}
+@section styles{
+
+    <link href="~/Libs/DatePicker/src/daterangepicker.css" rel="stylesheet" />
+}
+<div class="card">
+    @Html.Raw(TempData["Alert"])
+    <div class="card-title">@ViewBag.Title</div>
+    <div class="card-content">
+        <div class="col-md-5">
+            <div id="panelAddCategory">
+                @Html.Partial("_Create", Model.OfferAdviseViewModel)
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div id="panelCategoryList">
+                @Html.Partial("_List", Model.lstOfferAdviseViewModel)
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var d = new Date();
+
+            var month = d.getMonth() + 1;
+            var day = d.getDate();
+
+            var output = (day < 10 ? '0' : '') + day + '/'
+                + (month < 10 ? '0' : '') + month+ '/' +
+                + d.getFullYear();
+
+            $("#Date").datetimepicker({
+                format: 'DD/MM/YYYY',
+                locale: 'vi'
+            });
+            $("#Date").val(output);
+        });
+    </script>
+}

@@ -1,0 +1,12 @@
+﻿appManagement.factory("indexServices", ["$resource",
+    function ($resource) {
+        return $resource("http://localhost:9502/api/Post", {},
+        {
+            get: {
+                method: "GET",
+                url: "http://localhost:9502/api/Post?postId=:postId",
+                params: { postId: '@postId' },
+            }
+        });
+    }
+]);

@@ -1,0 +1,187 @@
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
+using ProtoBuf;
+
+namespace PatientPortal.API.Identity.Models
+{
+    // Models used as parameters to AccountController actions.
+
+    public class AddExternalLoginBindingModel
+    {
+        [Required]
+        [Display(Name = "External access token")]
+        public string ExternalAccessToken { get; set; }
+    }
+
+    public class ChangePasswordBindingModel
+    {
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Current password")]
+        public string OldPassword { get; set; }
+
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "New password")]
+        public string NewPassword { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm new password")]
+        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
+    }
+
+    [ProtoContract]
+    public class RegisterBindingModel
+    {
+        [ProtoMember(1)]
+        [Required]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [ProtoMember(2)]
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
+
+        [ProtoMember(3)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm password")]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
+
+        //Custom fields
+        [ProtoMember(4)]
+        [Required]
+        [StringLength(50, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [Display(Name = "Name")]
+        public string Name { get; set; }
+
+        [ProtoMember(5)]
+        [StringLength(20, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 20)]
+        [Display(Name = "Patient ID")]
+        public string PatientId { get; set; }
+
+        [ProtoMember(6)]
+        [Display(Name = "Date of Birth")]
+        [DataType(DataType.Date)]
+        public DateTime? DoB { get; set; }
+
+        [ProtoMember(7)]
+        [Display(Name = "Gender")]
+        public byte Gender { get; set; }
+
+        [ProtoMember(8)]
+        [Display(Name = "Image")]
+        public string Image { get; set; }
+
+        [ProtoMember(9)]
+        [Display(Name = "Organization")]
+        public int OrganizationId { get; set; }
+
+        [ProtoMember(10)]
+        [Display(Name = "Doctor Group")]
+        public bool IsDoctor { get; set; }
+
+        [ProtoMember(11)]
+        [Display(Name = "Tag")]
+        public string Tag { get; set; }
+
+        [ProtoMember(12)]
+        public string[] RoleName { get; set; }
+    }
+
+    public class RegisterExternalBindingModel
+    {
+        [Required]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+    }
+
+    public class RemoveLoginBindingModel
+    {
+        [Required]
+        [Display(Name = "Login provider")]
+        public string LoginProvider { get; set; }
+
+        [Required]
+        [Display(Name = "Provider key")]
+        public string ProviderKey { get; set; }
+    }
+
+    public class SetPasswordBindingModel
+    {
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "New password")]
+        public string NewPassword { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm new password")]
+        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
+    }
+
+    [ProtoContract]
+    public class UpdateUserInfoBindingModel
+    {
+        [Required]
+        [ProtoMember(1)]
+        public string Id { get; set; }
+        [ProtoMember(2)]
+        [Required]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Required]
+        [ProtoMember(5)]
+        [StringLength(50, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [Display(Name = "Name")]
+        public string Name { get; set; }
+
+        [ProtoMember(6)]
+        [StringLength(20, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 20)]
+        [Display(Name = "Patient ID")]
+        public string PatientId { get; set; }
+
+        [ProtoMember(7)]
+        [Display(Name = "Date of Birth")]
+        [DataType(DataType.Date)]
+        public DateTime? DoB { get; set; }
+
+        [ProtoMember(8)]
+        [Display(Name = "Gender")]
+        public byte Gender { get; set; }
+
+        [ProtoMember(9)]
+        [Display(Name = "Image")]
+        public string Image { get; set; }
+
+        [ProtoMember(10)]
+        [Display(Name = "Organization")]
+        public int OrganizationId { get; set; }
+
+        [ProtoMember(11)]
+        [Display(Name = "Doctor Group")]
+        public bool IsDoctor { get; set; }
+
+        [ProtoMember(12)]
+        [Display(Name = "Tag")]
+        public string Tag { get; set; }
+
+        [ProtoMember(13)]
+        public string[] RoleName { get; set; }
+    }
+
+    [ProtoContract]
+    public class DeleteUserBindingModel
+    {
+        [ProtoMember(1)]
+        public string Id { get; set; }
+    }
+}

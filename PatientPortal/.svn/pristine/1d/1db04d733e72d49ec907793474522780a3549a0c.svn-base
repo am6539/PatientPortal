@@ -1,0 +1,8 @@
+﻿'use strict';
+
+angular.
+module('spaApp').
+controller('MainController', ['$scope',
+    function($scope) {
+    }
+]);

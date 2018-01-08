@@ -1,0 +1,26 @@
+using System.Web.Http;
+using System.Web.Mvc;
+
+namespace PatientPortal.API.SPA.Areas.HelpPage
+{
+    public class HelpPageAreaRegistration : AreaRegistration
+    {
+        public override string AreaName
+        {
+            get
+            {
+                return "HelpPageSPA";
+            }
+        }
+
+        public override void RegisterArea(AreaRegistrationContext context)
+        {
+            context.MapRoute(
+                "HelpPageSPA_Default",
+                "HelpSPA/{action}/{apiId}",
+                new { controller = "HelpSPA", action = "Index", apiId = UrlParameter.Optional });
+
+            HelpPageConfig.Register(GlobalConfiguration.Configuration);
+        }
+    }
+}

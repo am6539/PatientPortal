@@ -1,0 +1,20 @@
+﻿using PatientPortal.Domain.Common;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatientPortal.IRepository.Wrapper
+{
+    public interface IAdapterPatternRepo
+    {
+        Task<Q> SingleTransaction<T, Q>(T obj, string proc, char action, byte instance = 1, string ignoreParas = "", DataConfiguration.DapperQueryOption queryOption = DataConfiguration.DapperQueryOption.FirstOrDefault);
+
+        Task<IEnumerable<Q>> Transaction<T, Q>(T obj, string proc, byte instance = 1, string ignoreParas = "");
+
+        Task<IEnumerable<T>> ExecuteQuery<T>(Dictionary<string, dynamic> obj, string proc, byte instance = 1);
+
+        Task<T> SingleExecuteQuery<T>(Dictionary<string, dynamic> obj, string proc, byte instance = 1, DataConfiguration.DapperQueryOption queryOption = DataConfiguration.DapperQueryOption.FirstOrDefault);
+    }
+}

@@ -1,0 +1,133 @@
+﻿using PatientPortal.CMS.Common;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Web;
+using System.Web.Helpers;
+
+namespace PatientPortal.CMS.Utility
+{
+    public static class WebImageHelper
+    {
+        #region [UPLOAD]
+        public static bool UploadImage(HttpPostedFileBase file, string folder, ref string savedFile)
+        {
+            //Check file name
+            if (file == null || file.FileName.Length < 1)
+            {
+                LogHelper.WriteLog("File doese not exist!");
+                return false;
+            }
+
+            //string _file = Path.Combine(folder);
+            string _path = HttpContext.Current.Server.MapPath(folder);
+
+            //Create folder
+            if (!Directory.Exists(_path))
+                Directory.CreateDirectory(_path);
+
+            folder = Path.Combine(folder, Path.GetFileName(file.FileName));
+            _path = Path.Combine(_path, Path.GetFileName(file.FileName));
+
+            if (!File.Exists(_path))
+            {
+                try
+                {
+                    WebImage image = new WebImage(file.InputStream);
+                    image.Save(_path);
+                    savedFile = folder;
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog(ex.Message);
+                    return false;
+                }
+            }
+            else
+            {
+                LogHelper.WriteLog("Duplicate File: " + folder);
+                savedFile = folder;
+            }
+
+            return true;
+        }
+        public static bool UploadImage(HttpPostedFileBase file, string folder, ref string savedFile, int width, int height, string WatermarkText = "")
+        {
+            //Check file name
+            if (file == null || file.FileName.Length < 1)
+            {
+                LogHelper.WriteLog("File doese not exist!");
+                return false;
+            }
+
+            string _file = Path.Combine(ValueConstant.IMAGE_PATH + folder);
+            string _path = HttpContext.Current.Server.MapPath(_file);
+
+            //Create folder
+            if (!Directory.Exists(_path))
+                Directory.CreateDirectory(_path);
+
+            _file = Path.Combine(_file, Path.GetFileName(file.FileName));
+            _path = Path.Combine(_path, Path.GetFileName(file.FileName));
+
+            if (!File.Exists(_path))
+            {
+                try
+                {
+                    WebImage image = new WebImage(file.InputStream);
+                    if (width > 0)
+                    {
+                        if (height == 0)
+                            height = width;
+                        image.Resize(width, height);
+                    }
+                    if (WatermarkText.Length > 0)
+                    {
+                        image.AddTextWatermark(WatermarkText);
+                    }
+                    image.Save(_path);
+
+                    savedFile = _file;
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog(ex.Message);
+                    return false;
+                }
+            }
+            else
+            {
+                LogHelper.WriteLog("Duplicate File: " + _file);
+                savedFile = _file;
+            }
+
+            return true;
+        }
+        #endregion
+
+        #region [DELETE]
+        public static bool DeleteImage(string file)
+        {
+            bool _ret = true;
+
+            if (file.Length < 1)
+                return _ret;
+            file = HttpContext.Current.Server.MapPath(file);
+            if (File.Exists(file))
+            {
+                try
+                {
+                    File.Delete(file);
+                }
+                catch (Exception ex)
+                {
+                    _ret = false;
+                    LogHelper.WriteLog(ex.Message);
+                }
+            }
+            return _ret;
+        }
+        #endregion
+    }
+}

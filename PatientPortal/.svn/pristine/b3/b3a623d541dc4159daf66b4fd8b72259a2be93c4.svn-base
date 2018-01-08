@@ -1,0 +1,165 @@
+﻿@model PatientPortal.Internal.Models.Account.UpdateUserInfoBindingModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <link href="~/Libs/fullcalendar-3.3.1/css/fullcalendar.css" rel="stylesheet" />
+    <link href="~/Libs/Chosen/css/chosen.css" rel="stylesheet" />
+}
+
+<div class="card">
+    @using (Html.BeginForm("Update", "Account", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal" }))
+    {
+        <div class="card-title">
+            <label><i class="fa fa-file-text-o"></i> @ViewBag.Title</label>
+        </div>
+
+        @Html.Raw(TempData["Alert"])
+
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <div class="col-md-8">
+            <div class="card-content">
+
+                <div class="form-group">
+                    <label for="country" class="col-sm-3 control-label">Role</label>
+                    <div class="col-sm-9">
+                        @Html.DropDownListFor(m => m.RoleName, new SelectList(ViewBag.Role, "Name", "Name"), "--Chọn nhóm người dùng--", new { @class = "chosen-select", @data_placeholder = "--Chọn nhóm người dùng--", @multiple = "", @tabindex = "4" })
+                    </div>
+                </div> <!-- /.form-group -->
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Name, new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.EditorFor(m => m.Name, null, new { htmlAttributes = new { @placeholder = "Họ tên", @class = "form-control", @autofocus = "" } })
+                        <span class="help-block">Điền đầy đủ họ tên người dùng, vd.: Trịnh Xuân Thạch</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Email, new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.EditorFor(m => m.Email, null, new { htmlAttributes = new { @type = "email", @placeholder = "Địa chỉ Email", @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password, new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.EditorFor(m => m.Password, null, new { htmlAttributes = new { @type = "password", @placeholder = "Mật khẩu", @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.EditorFor(m => m.ConfirmPassword, null, new { htmlAttributes = new { @type = "password", @placeholder = "Nhập lại mật khẩu", @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.DoB, new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(model => model.DoB, new { @class = "form-control", @placeholder = "Ngày sinh" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Gender, new { @class = "control-label col-sm-3" })
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label class="radio radio-success radio-inline">
+                                    @Html.RadioButtonFor(model => model.Gender, 1, new { @aria_label = "Nam", @id = "Nam" })
+                                    <label for="Nam">Nam</label>
+                                </label>
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="radio radio-success radio-inline">
+                                    @*@Html.RadioButton("Nu", 0, new { @aria_label = "Nu" })*@
+                                    @Html.RadioButtonFor(model => model.Gender, 0, new { @aria_label = "Nu", @id = "Nu" })
+                                    <label for="Nu">Nữ</label>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- /.form-group -->
+                <div class="form-group">
+                    @Html.LabelFor(m => m.IsDoctor, new { @class = "control-label col-sm-3" })
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label class="radio radio-success radio-inline">
+                                    @Html.RadioButtonFor(model => model.IsDoctor, false, new { @aria_label = "Khong", @id = "isDoctorRadio" })
+                                    <label for="isDoctorRadio">Không</label>
+                                </label>
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="radio radio-success radio-inline">
+                                    @*@Html.RadioButton("isNotDoctorRadio", 1, new { @aria_label = "Co" })*@
+                                    @Html.RadioButtonFor(model => model.IsDoctor, true, new { @aria_label = "Co", @id = "isNotDoctorRadio" })
+                                    <label for="isNotDoctorRadio">Có</label>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-4 col-md-offset-4">
+                        <div class="text-center">
+                            <img src="http://bootdey.com/img/Content/user_1.jpg" class="avatar img-circle" alt="Hình đại diện" style="width:100%; height:100%; max-width: 200px;">
+                            <div style="margin-top:10px;">
+                                <input type="file" name="fileUpload" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-9 col-sm-offset-3">
+                        <button type="submit" class="btn btn-primary btn-block">Tạo mới</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+    <!-- /form -->
+</div>
+
+@section scripts{
+    <script src="~/Libs/fullcalendar-3.3.1/lib/jquery-ui.min.js"></script>
+    <script src="~/Libs/fullcalendar-3.3.1/js/fullcalendar.js"></script>
+    <script src="~/Libs/fullcalendar-3.3.1/js/locale-all.js"></script>
+    <script src="~/Libs/Chosen/js/chosen.jquery.min.js"></script>
+    <script type="text/javascript">
+        var config = {
+          '.chosen-select'           : {}
+        }
+        for (var selector in config) {
+          $(selector).chosen(config[selector]);
+        }
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var d = new Date();
+
+            var month = d.getMonth() + 1;
+            var day = d.getDate();
+
+            var output = (day < 10 ? '0' : '') + day + '/'
+                + (month < 10 ? '0' : '') + month + '/' +
+                +d.getFullYear();
+
+            $("#DoB").datetimepicker({
+                format: 'DD/MM/YYYY',
+                locale: 'vi',
+                maxDate: Date.now(),
+            });
+
+            $("#DoB").val(output);
+        });
+    </script>
+}
+

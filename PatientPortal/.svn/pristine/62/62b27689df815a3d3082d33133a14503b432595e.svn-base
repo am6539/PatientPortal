@@ -1,0 +1,164 @@
+﻿using PatientPortal.CMS.Common;
+using PatientPortal.CMS.Models;
+using PatientPortal.Provider.Common;
+using PatientPortal.Provider.Models;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using PatientPortal.Utility.Application;
+using PatientPortal.Domain.LogManager;
+using PatientPortal.Domain.Models.AUTHEN;
+
+namespace PatientPortal.CMS.Controllers
+{
+    [Authorize]
+    public class PublishPostController : Controller
+    {
+        private static string controllerName = string.Empty;
+        private static string controllerPost = "Post";
+        private static string controllerCategory = "Category";
+        private static string controllerWorkflowState = "WorkflowState";
+        private readonly IUserSession _userSession;
+
+        public PublishPostController(IUserSession userSession)
+        {
+            _userSession = userSession;
+        }
+
+        // GET: PublishPost
+        public async Task<ActionResult> Index(PostFilterViewModel param)
+        {
+            try
+            {
+                param.LanguageCode = ConfigurationManager.AppSettings["AdminLanguageCode"];
+
+                controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+
+                if (param.WorkflowStateId == 0)
+                    param.WorkflowStateId = ValueConstant.WORK_STATE_ID_APPROVE;
+
+                //Category
+                var listCatg = await APIProvider.Authorize_Get<List<CategoryViewModel>>(_userSession.BearerToken, controllerCategory, APIConstant.API_Resource_CMS, ARS.Get);
+                ViewBag.CategoryList = listCatg;
+
+                //WorkflowState
+                var lstWorkState = await APIProvider.Authorize_Get<List<WorkflowStateViewModel>>(_userSession.BearerToken, controllerWorkflowState, APIConstant.API_Resource_CMS, ARS.Get);
+                ViewBag.WorkStateList = lstWorkState;
+
+                //Post
+                var lstPost = await APIProvider.Authorize_Get<List<PostListViewModel>>(_userSession.BearerToken, controllerPost, "GetAll", param, APIConstant.API_Resource_CMS, ARS.Get);
+                param.PostListViewModel = lstPost;
+
+                return View(param);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw;
+            }
+        }
+
+        #region View detail
+        // GET: PublishPost/Details/5
+        public async Task<ActionResult> Details(int id)
+        {
+            try
+            {
+                //Priority
+                var listPri = new InitPriority();
+                ViewBag.Priorities = listPri.InitItemPriority();
+
+                //Post
+                //string strUrl = APIProvider.APIGenerator(controllerPost, "Publish", new List<string> { nameof(id)}, id);
+                string strUrl = APIProvider.APIGenerator(this, this.RouteData.Values["action"].ToString(), id);
+                var model = await APIProvider.Get<PostViewModel>(controllerPost + strUrl);
+
+                if (string.IsNullOrEmpty(model.Image))
+                {
+                    model.Image = ValueConstant.IMAGE_PATH + ValueConstant.IMAGE_POST_PATH + ValueConstant.IMAGE_DEFAULT;
+                }
+                if (model.Tag != string.Empty) ViewBag.Tags = model.Tag;
+
+                //Category
+                var lstCategory = await APIProvider.Get<List<CategoryViewModel>>(controllerCategory);
+                ViewBag.Categories = lstCategory;
+
+                if (model.Tag != string.Empty)
+                    ViewBag.Tags = model.Tag;
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw;
+            }
+        }
+        #endregion
+
+        #region Publish post
+        [HttpPost]
+        public async Task<ActionResult> Publish(PostStateHistoryViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    model.UserId = ValueConstant.TEMP_USERID;
+
+                    //Call API Provider 
+                    string strUrl = APIProvider.APIGenerator(controllerPost,"Publish", APIConstant.ACTION_UPDATE);
+                    var result = await APIProvider.Authorize_DynamicTransaction<PostStateHistoryViewModel, bool>(model, _userSession.BearerToken, strUrl, APIConstant.API_Resource_CMS, ARS.Edit);
+
+                    if (result == true)
+                    {
+                        TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.SUCCESS, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.SUCCESS));
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                        return RedirectToAction("Index");
+                    }
+                }
+                catch
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.ERROR, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.ERROR));
+                    return RedirectToAction("Index");
+                }
+            }
+            else
+            {
+                TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.TypeResult.FAIL, ApplicationGenerator.GeneralActionMessage(ValueConstant.ACTION_INSERT, ApplicationGenerator.TypeResult.FAIL));
+                return RedirectToAction("Index");
+            }
+        }
+
+        public async Task<ActionResult> Publish(int id)
+        {
+            try
+            {
+                if (!await APIProvider.Authorization(_userSession.BearerToken, ARS.Delete))
+                {
+                    TempData["Alert"] = ApplicationGenerator.RenderResult(ApplicationGenerator.FuntionType.Article, APIConstant.ACTION_DELETE);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    var model = new PostStateHistoryViewModel();
+                    model.PostId = id;
+                    model.WorkflowStateId = 3;
+                    return PartialView("_Publish", model);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw;
+            }
+        }
+        #endregion
+    }
+}

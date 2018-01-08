@@ -1,0 +1,19 @@
+﻿'use strict';
+
+angular.
+module('spaApp')
+    .config(['$routeProvider', '$locationProvider',
+    function ($routeProvider, $locationProvider) {
+        $locationProvider.html5Mode(true).hashPrefix('!'); //the hashPrefix is for SEO
+        $routeProvider
+            .when('/', {
+                templateUrl: "app/components/home-page/home-page.template.html",
+                controller: "HomePageController"
+            })
+            .when('/career', {
+                templateUrl: "app/components/career/career.template.html",
+                controller: "CareerController"
+            })
+            .otherwise('/');
+
+    }]);

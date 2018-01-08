@@ -1,0 +1,39 @@
+﻿'use strict';
+
+angular.module('spaPHCN')
+    .controller("CareerController", [
+    "$scope", "$location", "$route", "Params", 'PostListServices', 'PostDetailServices', 'PagerService',
+    function ($scope, $location, $route, Params, PostListServices, PostDetailServices, PagerService) {
+        $scope.pager = {};
+
+        $scope.subTitle = "Tuyển dụng";
+        $scope.setPage = function (page) {
+            $scope.activeValue = page;
+            var para = { languageCode: Params.languageCode, pageIndex: page, numberInPage: Params.numberPerPage, priority: Params.newpriority, categoryId: Params.careerParentCategoryId };
+
+            PostListServices.queryPostPaging(para, function (data) {
+                if (data !== null) {
+                    $scope.career = data.PostListViewModels[0];
+                    $scope.careers = data.PostListViewModels;
+                    $scope.totalItems = data.TotalItem;
+
+                    if (page < 1 || (page > $scope.pager.totalPages && $scope.pager.totalPages !== null)) {
+                        return;
+                    }
+
+                    // get pager object from service
+                    $scope.pager = PagerService.GetPager($scope.totalItems, page, Params.numberPerPage);
+                }
+
+            });
+        }
+
+        $scope.setPage(1);
+
+        $scope.viewDetail = function (Id) {
+            PostDetailServices.get({ Id: Id }, function (data) {
+                $scope.career = data;
+            })
+            
+        }
+    }]);

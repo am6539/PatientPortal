@@ -1,0 +1,198 @@
+﻿<style>
+    .homepage .brd-wrap {
+        display: block;
+    }
+
+    .homepage .hotlink {
+        position: unset;
+        bottom: -450px;
+        z-index: 2000;
+        right: 0;
+    }
+</style>
+<div class="brd-wrap" style="background: #73b844;">
+    <div class="container">
+        <div class="row">
+            <div class='hotlink Module Module-514'>
+                <a href="/saigon/cau-chuyen-benh-nhan">
+                    <img alt="" src="assets/images/media/3/img-4.png" />
+                </a>
+                <a href="/saigon/dat-lich-kham">
+                    <img alt="" src="assets/images/media/3/img1.png" />
+                </a>
+                <a href="/saigon/danh-sach-bac-si">
+                    <img alt="" src="assets/images/media/3/img2.png" />
+                </a>
+                <a href="/saigon/hoi-dap">
+                    <img alt="" src="assets/images/media/3/img3.png" />
+                </a>
+            </div>
+            <h2 class="crrpage-name">Dịch vụ</h2>
+        </div>
+    </div>
+</div>
+<div class="top-content">
+</div>
+<div class="content container">
+    <div class="row">
+        <div class="content-bg">
+            <div id="ctl00_divCenter" class="col-left">
+                <div class="content-bg2">
+                    <div class='Module Module-563'>
+                        <div class="ser-con">
+                            <div class="ser-item first">
+                                <h2><a class="title" href="/service/1" target="_self">Dịch vụ Ngoại trú</a></h2><a class="thumb" href="/service/1"
+                                                                                                                            target="_self"><img src="assets/images/media/services/hoanmy-sg-2-s.jpg" alt="Dịch vụ Ngoại trú"></a>
+                                <div class="item-post">
+                                    <div class="ser-desc">
+                                        Không ngừng cải tiến để mang đến cho khách hàng sự tiện nghi, thoải mái, khoa Ngoại trú Bệnh viện Hoàn Mỹ Sài
+                                        Gòn được đầu tư trang thiết bị...
+                                    </div><a class="ser-more" href="/service/1" target="_self" title="Dịch vụ Ngoại trú">
+                                        Xem thêm
+                                    </a>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="ser-item">
+                                <h2><a class="title" href="/service/1" target="_self">Dịch vụ Nội trú</a></h2><a class="thumb" href="/service/1"
+                                                                                                                              target="_self"><img src="assets/images/media/services/noi-tru.jpg" alt="Dịch vụ Nội trú"></a>
+                                <div class="item-post">
+                                    <div class="ser-desc">
+                                        Dịch vụ Nội trú với hệ thống phòng bệnh tiện nghi và sạch sẽ cùng các dịch vụ y tế chăm sóc bệnh nhân toàn diện
+                                        và chu đáo, đảm bảo mang lại ...
+                                    </div><a class="ser-more" href="/service/1" target="_self" title="Dịch vụ Nội trú">
+                                        Xem thêm
+                                    </a>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="ser-item">
+                                <h2><a class="title" href="/department/1" target="_self">Dịch vụ Chẩn đoán hình ảnh</a></h2>
+                                <a class="thumb" href="/saigon/dich-vu-chan-doan-hinh-anh" target="_self"><img src="assets/images/media/services/chan-doan-hinh-ah-s.jpg" alt="Dịch vụ Chẩn đoán hình ảnh"></a>
+                                <div class="item-post">
+                                    <div class="ser-desc">
+                                        Hệ thống trang thiết bị chẩn đoán hình ảnh bao gồm đầy đủ các thiết bị cơ bản đến chuyên sâu kỹ thuật cao, tiên
+                                        tiến...
+                                    </div><a class="ser-more" href="/department/1" target="_self" title="Dịch vụ Chẩn đoán hình ảnh">
+                                        Xem thêm
+                                    </a>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="ser-item first">
+                                <h2><a class="title" href="/saigon/dich-vu-kiem-tra-suc-khoe-tong-quat" target="_self">Dịch vụ kiểm tra sức khỏe tổng quát</a></h2>
+                                <a class="thumb" href="/saigon/dich-vu-kiem-tra-suc-khoe-tong-quat" target="_self"><img src="assets/images/media/services/suc-khoe-tong-quat.jpg" alt="Dịch vụ kiểm tra sức khỏe tổng quát"></a>
+                                <div class="item-post">
+                                    <div class="ser-desc">
+                                        Chương trình kiểm tra sức khỏe tổng quát cung cấp nhiều gói khám sức khỏe, tầm soát bệnh phù hợp với từng độ
+                                        tuổi...
+                                    </div><a class="ser-more" href="/saigon/dich-vu-kiem-tra-suc-khoe-tong-quat" target="_self" title="Dịch vụ kiểm tra sức khỏe tổng quát">
+                                        Xem thêm
+                                    </a>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="ser-item">
+                                <h2><a class="title" href="/saigon/dich-vu-bao-lanh-vien-phi" target="_self">Dịch vụ Bảo lãnh viện phí</a></h2>
+                                <a class="thumb" href="/saigon/dich-vu-bao-lanh-vien-phi" target="_self"><img src="assets/images/media/services/bhsk-s.jpg" alt="Dịch vụ Bảo lãnh viện phí"></a>
+                                <div class="item-post">
+                                    <div class="ser-desc">
+                                        Bệnh viện Hoàn Mỹ Sài Gòn hợp tác với nhiều công ty bảo hiểm trong và ngoài nước nhằm cung cấp dịch vụ bảo lãnh
+                                        viện...
+                                    </div><a class="ser-more" href="/saigon/dich-vu-bao-lanh-vien-phi" target="_self" title="Dịch vụ Bảo lãnh viện phí">
+                                        Xem thêm
+                                    </a>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="ser-item">
+                                <h2><a class="title" href="/saigon/dich-vu-cap-cuu" target="_self">Dịch vụ cấp cứu</a></h2><a class="thumb" href="/saigon/dich-vu-cap-cuu"
+                                                                                                                              target="_self"><img src="assets/images/media/services/cap-cuu.jpg" alt="Dịch vụ cấp cứu"></a>
+                                <div class="item-post">
+                                    <div class="ser-desc">Dịch vụ cấp cứu ngoại viện của Bệnh viện Hoàn Mỹ Sài Gòn với hệ thống xe cấp cứu và trang thiết bị...</div>
+                                    <a class="ser-more" href="/saigon/dich-vu-cap-cuu" target="_self" title="Dịch vụ cấp cứu">
+                                        Xem thêm
+                                    </a>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="ser-item first">
+                                <h2><a class="title" href="/saigon/bang-gia-dich-vu" target="_self">Bảng giá dịch vụ</a></h2><a class="thumb" href="/saigon/bang-gia-dich-vu"
+                                                                                                                                target="_self"><img src="assets/images/media/services/bang-gia-dich-vu-hmsg.jpg" alt="Bảng giá dịch vụ"></a>
+                                <div class="item-post">
+                                    <div class="ser-desc">Bảng giá dịch vụ</div><a class="ser-more" href="/saigon/bang-gia-dich-vu" target="_self" title="Bảng giá dịch vụ">
+                                        Xem thêm
+                                    </a>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="ser-item">
+                                <h2><a class="title" href="/saigon/bang-gia-thuoc-vat-tu-y-te" target="_self">Bảng Giá Thuốc - Vật Tư Y tế</a></h2>
+                                <a class="thumb" href="/saigon/bang-gia-thuoc-vat-tu-y-te" target="_self"><img src="assets/images/media/services/bang-gia-dich-vu-hmsg.jpg" alt="Bảng Giá Thuốc - Vật Tư Y tế"></a>
+                                <div class="item-post">
+                                    <div class="ser-desc">Bảng Giá Thuốc - Vật Tư Y tế</div><a class="ser-more" href="/saigon/bang-gia-thuoc-vat-tu-y-te" target="_self"
+                                                                                               title="Bảng Giá Thuốc - Vật Tư Y tế">
+                                        Xem thêm
+                                    </a>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="ctl00_divRight" class="col-right cmszone">
+
+                <div class='Module Module-258'>
+                    <div class="fb-page" data-href="https://www.facebook.com/hoanmysaigon" data-tabs="Facebook" data-width="231" data-small-header="false"
+                         data-adapt-container-width="false" data-hide-cover="false" data-show-facepile="true">
+                        <div class="fb-xfbml-parse-ignore">
+                            <blockquote cite="https://www.facebook.com/hoanmysaigon"><a href="https://www.facebook.com/hoanmysaigon">BV Hoàn Mỹ Sài Gòn</a></blockquote>
+                        </div>
+                    </div>
+                    <div class="emhotline">
+                        Cấp cứu<span>(08) 3995 9860</span>
+                    </div>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSemdqrYVGswrTxbQGKUwPzImgqXa6DMt5D_wBdiPKvhbyq2FA/viewform?c=0&amp;w=1"
+                       target="_blank"><img src="http://hoanmy.com/Data/Sites/1/userfiles/56/KS-ngoai-tru.png" alt="Khao-sat-ngoai-tru" /></a>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdGUagF2UaZ2U0QkNWDXj46q8fND-aIz46VN_9tZCQCezfSEw/viewform?c=0&amp;w=1"
+                       target="_blank"><img src="http://hoanmy.com/Data/Sites/1/userfiles/56/KS-noi-tru.png" alt="Khao-sat-noi-tru" /></a>
+                </div>
+                <!--<div class='cn-wrap Module Module-796'>
+                    <div class="cc-wrap">
+                        <h4>
+                            <a href="/saigon/cam-nhan-benh-nhan">Cảm nhận bệnh nhân</a>
+                        </h4>
+                        <section class="bg-cn">
+                            <div class="cn-slide">
+                            </div>
+                            <div class="pagination" id="foo2_pag">
+                            </div>
+                        </section>
+                    </div>
+                </div>-->
+                <div class='Module Module-795'>
+                    <div class="cc-wrap">
+                        <h4>
+                            <a href="/saigon/cau-chuyen-benh-nhan">Câu chuyện bệnh nhân</a>
+                        </h4>
+                        <table></table>
+                    </div>
+                </div>
+                <div class='Module Module-577'>
+                    <div>
+                        <img alt="" src="images/media/5/banner/Banner_GIF.gif" /><span style="font-size: 0px;">
+                            <br />
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="clear">
+            </div>
+
+        </div>
+    </div>
+
+</div>

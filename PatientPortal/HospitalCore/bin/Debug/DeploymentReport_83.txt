@@ -1,0 +1,22 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       The type for column Office in table [dbo].[DoctorProfile] is currently  NVARCHAR (1000) NOT NULL but is being changed to
+          NVARCHAR (200) NOT NULL. Data loss could occur.
+
+** User actions
+     Alter
+       [dbo].[DoctorProfile] (Table)
+
+** Supporting actions
+     Refresh
+       [dbo].[usp_DoctorProfile] (Procedure)
+       [dbo].[usp_DoctorProfile_Transaction] (Procedure)
+
+The type for column Office in table [dbo].[DoctorProfile] is currently  NVARCHAR (1000) NOT NULL but is being changed to  NVARCHAR (200) NOT NULL. Data loss could occur.
+
